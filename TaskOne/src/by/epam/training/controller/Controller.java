@@ -24,15 +24,16 @@ public class Controller {
             // returns a list with all records of this type's appliance
             
             View.print("Searching all records of a certain type:");
-            searcher.findAppliance("Oven");
+            
+            searcher.findAppliance("Oven"); // user's input
             View.printList(searcher.showResults());
 
             // finding an appliance based on particular search criterion
             // returns a list with all records that match the criterion
-            //searcher.findAppliance("Oven", "weight", "12");
             
             View.print("\nSearching with a search criterion:");
-            searcher.findAppliance("Laptop", "os", "Linux");
+            
+            searcher.findAppliance("Laptop", "os", "Linux"); // user's input
             View.printList(searcher.showResults());
 
         } catch (TaskException e) {
