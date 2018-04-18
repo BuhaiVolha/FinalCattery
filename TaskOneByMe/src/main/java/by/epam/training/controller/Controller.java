@@ -1,3 +1,13 @@
+/**
+ * Thanks to Discord's code this code has been updated
+ * 
+ * Now not all the file is read, but a line
+ * Also ClassLoader is used when being read
+ * 
+ * Search system has been reworked
+ * Also you are able to search with multiply criteria from now on
+ */
+
 package by.epam.training.controller;
 
 import by.epam.training.exception.TaskException;
