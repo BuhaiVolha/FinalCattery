@@ -97,12 +97,12 @@ public class VacuumCleaner extends ElectricAppliance {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(GOODS_TYPE);
-        sb.append(": powerConsumption = ").append(powerConsumption);
-        sb.append(", filterType = ").append(filterType);
-        sb.append(", bagType = ").append(bagType);
-        sb.append(", wandType = ").append(wandType);
-        sb.append(", motorSpeedRegulation = ").append(motorSpeedRegulation);
-        sb.append(", cleaningWidth = ").append(cleaningWidth);
+        sb.append(": power consumption = ").append(powerConsumption);
+        sb.append(", filter type = ").append(filterType);
+        sb.append(", bag type = ").append(bagType);
+        sb.append(", wand type = ").append(wandType);
+        sb.append(", motor speed regulation = ").append(motorSpeedRegulation);
+        sb.append(", cleaning width = ").append(cleaningWidth);
         sb.append(';');
         return sb.toString();
     }

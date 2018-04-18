@@ -89,10 +89,10 @@ public class TabletPC extends ElectricAppliance {
     public String toString() {
         final StringBuilder sb = new StringBuilder(GOODS_TYPE);
 
-        sb.append(": batteryCapacity = ").append(batteryCapacity);
-        sb.append(", displayInches = ").append(displayInches);
+        sb.append(": battery capacity = ").append(batteryCapacity);
+        sb.append(", display inches = ").append(displayInches);
         sb.append(", memoryROM = ").append(memoryRom);
-        sb.append(", flashMemoryCapacity = ").append(flashMemoryCapacity);
+        sb.append(", flash memory capacity = ").append(flashMemoryCapacity);
         sb.append(", color = ").append(color);
         sb.append(';');
         return new String(sb);

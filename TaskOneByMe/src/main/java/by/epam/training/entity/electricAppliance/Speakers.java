@@ -75,10 +75,10 @@ public class Speakers extends ElectricAppliance {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(GOODS_TYPE);
-        sb.append(": powerConsumption = ").append(powerConsumption);
-        sb.append(", numberOfSpeakers = ").append(numberOfSpeakers);
-        sb.append(", frequencyRange = ").append(frequencyRange);
-        sb.append(", cordLength = ").append(cordLength);
+        sb.append(": power consumption = ").append(powerConsumption);
+        sb.append(", number of speakers = ").append(numberOfSpeakers);
+        sb.append(", frequency range = ").append(frequencyRange);
+        sb.append(", cord length = ").append(cordLength);
         sb.append(';');
         return sb.toString();
     }

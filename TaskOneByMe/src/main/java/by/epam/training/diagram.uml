@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="344.0" y="245.0">by.epam.training.utils.GoodsType</node>
+    <node x="801.0" y="245.0">by.epam.training.model.Searcher</node>
+    <node x="334.89772727272725" y="0.0">by.epam.training.entity.Goods</node>
+    <node x="129.0" y="170.0">by.epam.training.entity.paperProduct.TextBook</node>
+    <node x="346.0" y="170.0">by.epam.training.entity.electricAppliance.Refrigerator</node>
+    <node x="478.0" y="170.0">by.epam.training.entity.electricAppliance.TabletPC</node>
+    <node x="857.0" y="170.0">by.epam.training.entity.electricAppliance.Speakers</node>
+    <node x="55.5" y="80.0">by.epam.training.entity.paperProduct.PaperProduct</node>
+    <node x="0.0" y="320.0">by.epam.training.model.Parser</node>
+    <node x="653.0" y="245.0">by.epam.training.controller.Controller</node>
+    <node x="127.0" y="320.0">by.epam.training.view.View</node>
+    <node x="248.0" y="170.0">by.epam.training.entity.electricAppliance.Oven</node>
+    <node x="499.0" y="245.0">by.epam.training.model.GoodsDAO</node>
+    <node x="750.0" y="170.0">by.epam.training.entity.electricAppliance.Laptop</node>
+    <node x="596.0" y="170.0">by.epam.training.entity.electricAppliance.VacuumCleaner</node>
+    <node x="524.5" y="80.0">by.epam.training.entity.electricAppliance.ElectricAppliance</node>
+    <node x="0.0" y="245.0">by.epam.training.model.SearchCriterion</node>
+    <node x="0.0" y="170.0">by.epam.training.entity.paperProduct.Newspaper</node>
+    <node x="176.0" y="245.0">by.epam.training.utils.GoodsCreator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="by.epam.training.entity.paperProduct.PaperProduct" target="by.epam.training.entity.Goods">
+      <point x="0.0" y="-15.0" />
+      <point x="116.5" y="55.0" />
+      <point x="355.89772727272725" y="55.0" />
+      <point x="-21.0" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.Laptop" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="793.5" y="140.0" />
+      <point x="630.25" y="140.0" />
+      <point x="35.25" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.ElectricAppliance" target="by.epam.training.entity.Goods">
+      <point x="0.0" y="-15.0" />
+      <point x="595.0" y="55.0" />
+      <point x="397.89772727272725" y="55.0" />
+      <point x="21.0" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.paperProduct.Newspaper" target="by.epam.training.entity.paperProduct.PaperProduct">
+      <point x="0.0" y="-15.0" />
+      <point x="54.5" y="150.0" />
+      <point x="86.0" y="150.0" />
+      <point x="-30.5" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.Refrigerator" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="402.0" y="140.0" />
+      <point x="559.75" y="140.0" />
+      <point x="-35.25" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.Speakers" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="905.0" y="130.0" />
+      <point x="653.75" y="130.0" />
+      <point x="58.75" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.Oven" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="287.0" y="130.0" />
+      <point x="536.25" y="130.0" />
+      <point x="-58.75" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.paperProduct.TextBook" target="by.epam.training.entity.paperProduct.PaperProduct">
+      <point x="0.0" y="-15.0" />
+      <point x="178.5" y="150.0" />
+      <point x="147.0" y="150.0" />
+      <point x="30.5" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.VacuumCleaner" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="663.0" y="150.0" />
+      <point x="606.75" y="150.0" />
+      <point x="11.75" y="15.0" />
+    </edge>
+    <edge source="by.epam.training.entity.electricAppliance.TabletPC" target="by.epam.training.entity.electricAppliance.ElectricAppliance">
+      <point x="0.0" y="-15.0" />
+      <point x="527.0" y="150.0" />
+      <point x="583.25" y="150.0" />
+      <point x="-11.75" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <SelectedNodes>
+    <node>by.epam.training.entity.electricAppliance.ElectricAppliance</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

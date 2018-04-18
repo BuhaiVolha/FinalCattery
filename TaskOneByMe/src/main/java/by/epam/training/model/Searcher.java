@@ -53,7 +53,7 @@ public class Searcher {
     }
 
 
-    public List<Goods> showResults() throws ItemNotFoundException {
+    public List<Goods> showResults() throws TaskException {
         if (goodsList.size() == 0) {
             throw new ItemNotFoundException("No such item");
         }

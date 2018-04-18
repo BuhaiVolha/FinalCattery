@@ -66,7 +66,7 @@ public class Newspaper extends PaperProduct {
         final StringBuilder sb = new StringBuilder(GOODS_TYPE);
         sb.append(": title = ").append(title);
         sb.append(", periodicity = ").append(periodicity);
-        sb.append(", paidOrFree = ").append(paidOrFree);
+        sb.append(", paid/free = ").append(paidOrFree);
         sb.append(';');
         return sb.toString();
     }

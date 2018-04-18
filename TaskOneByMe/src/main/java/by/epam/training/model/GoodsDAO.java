@@ -46,6 +46,7 @@ public class GoodsDAO {
              BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
             String line;
+            boolean typeNeededToBeFound = false;
 
             while ((line = reader.readLine()) != null) {
 
@@ -57,8 +58,23 @@ public class GoodsDAO {
                     // checking if a search criteria set is a subset of a parameters set
 
                     if (parametersMap.entrySet().containsAll(searchCriterionMap.entrySet())) {
+
+                        // if the type is ANY, the type of the goods with certain criteria
+                        // will be found
+
+                        if (goodsType == GoodsType.ANY) {
+                            goodsType = GoodsType.valueOf(parser.findType(line));
+                            typeNeededToBeFound = true;
+                        }
                         goodsList.add(goodsCreator.createGoods(goodsType, parametersMap));
                     }
+                }
+                // erasing the type if it was ANY
+                // because you need to find  more goods
+                // that match the criteria
+
+                if (typeNeededToBeFound) {
+                    goodsType = GoodsType.ANY;
                 }
             }
 

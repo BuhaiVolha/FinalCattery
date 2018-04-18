@@ -1,11 +1,13 @@
 /**
  * Thanks to Discord's code this code has been updated
- * 
+ *
  * Now not all the file is read, but a line
  * Also ClassLoader is used when being read
- * 
+ *
  * Search system has been reworked
  * Also you are able to search with multiply criteria from now on
+ *
+ * Added an option to search for any type with a certain criteria
  */
 
 package by.epam.training.controller;
@@ -30,6 +32,20 @@ public class Controller {
 
             searcher.findGoods();
             View.printList(searcher.showResults());
+
+            ///////////////////////////////////////////////////////////////////////////
+
+            // finding all appliances that has a certain search criterion
+            // no matter what type it is
+
+            View.print("\nSearching any type using criteria:");
+            searcher.addGoodsType("Any");
+            searcher.addSearchCriterion("width", "70");
+
+            searcher.findGoods();
+
+            View.printList(searcher.showResults());
+
 
             ///////////////////////////////////////////////////////////////////////////
 

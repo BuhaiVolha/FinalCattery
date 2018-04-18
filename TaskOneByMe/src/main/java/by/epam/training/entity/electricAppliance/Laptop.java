@@ -99,13 +99,13 @@ public class Laptop extends ElectricAppliance {
 
     @Override
     public String toString() {
-        return GOODS_TYPE + ": batteryCapacity = "
+        return GOODS_TYPE + ": battery capacity = "
                 + batteryCapacity
                 + ", os = " + os
                 + ", memoryROM = " + memoryRom
-                + ", systemMemory = " + systemMemory
+                + ", system memory = " + systemMemory
                 + ", cpu = " + cpu
-                + ", displayInches = "
+                + ", display inches = "
                 + displayInches
                 + ';';
     }

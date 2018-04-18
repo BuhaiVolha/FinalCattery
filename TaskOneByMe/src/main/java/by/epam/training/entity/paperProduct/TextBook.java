@@ -78,7 +78,7 @@ public class TextBook extends PaperProduct {
         sb.append(": title = ").append(title);
         sb.append(", subject = ").append(subject);
         sb.append(", author = ").append(author);
-        sb.append(", numberOfPages = ").append(numberOfPages);
+        sb.append(", number of pages = ").append(numberOfPages);
         sb.append(';');
         return sb.toString();
     }

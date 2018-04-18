@@ -97,12 +97,12 @@ public class Refrigerator extends ElectricAppliance {
 
     @Override
     public String toString() {
-        return GOODS_TYPE + ": powerConsumption = "
+        return GOODS_TYPE + ": power consumption = "
                 + powerConsumption
                 + ", weight = " + weight
-                + ", freezerCapacity = "
+                + ", freezer capacity = "
                 + freezerCapacity
-                + ", overallCapacity = "
+                + ", overall capacity = "
                 + overallCapacity
                 + ", height = " + height
                 + ", width = " + width
