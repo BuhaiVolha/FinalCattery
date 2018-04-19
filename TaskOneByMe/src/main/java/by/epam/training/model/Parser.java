@@ -42,23 +42,7 @@ public class Parser {
     // so it will return OVEN
 
     public String findType(String line) {
-        return line.substring(0, findIndexOfTypeEnding(line)).toUpperCase().trim();
-    }
-
-    // this method finds an index of : character
-    // to help findType method to parse a line
-
-    private int findIndexOfTypeEnding(String line) {
-        char[] arr = line.toCharArray();
-        int index = 0;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == ':') {
-                index = i;
-                break;
-            }
-        }
-        return index;
+        return line.split(":")[0].trim().toUpperCase();
     }
 
 
