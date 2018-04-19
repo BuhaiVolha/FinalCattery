@@ -2,7 +2,7 @@ package by.epam.training.utils;
 
 public enum GoodsType {
 
-    ANY(""),  ///00000000000000
+    ANY(""),
     LAPTOP("Laptop"),
     OVEN("Oven"),
     REFRIGERATOR("Refrigerator"),
