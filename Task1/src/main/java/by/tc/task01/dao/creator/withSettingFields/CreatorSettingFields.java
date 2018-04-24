@@ -13,7 +13,7 @@ public class CreatorSettingFields extends Creator {
         initTypeInstances();
     }
 
-    private void initTypeInstances(){
+    private void initTypeInstances() {
         typeBuilders.put("Oven", new OvenCreator());
         typeBuilders.put("Laptop", new LaptopCreator());
         typeBuilders.put("Refrigerator", new RefrigeratorCreator());

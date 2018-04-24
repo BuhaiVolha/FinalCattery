@@ -7,5 +7,5 @@ import by.tc.task01.exception.TaskException;
 import java.util.List;
 
 public interface GoodsService {
-	<E> List<Goods> find(Criteria<E> criteria) throws TaskException;
+    <E> List<Goods> find(Criteria<E> criteria) throws TaskException;
 }

@@ -3,18 +3,19 @@ package by.tc.task01.service;
 import by.tc.task01.service.impl.GoodsServiceImpl;
 
 public final class ServiceFactory {
-	private static final ServiceFactory instance = new ServiceFactory();
+    private static final ServiceFactory instance = new ServiceFactory();
 
-	private final GoodsService goodsService = new GoodsServiceImpl();
-	
-	private ServiceFactory() {}
+    private final GoodsService goodsService = new GoodsServiceImpl();
 
-	public GoodsService getGoodsService() {
-		return goodsService;
-	}
+    private ServiceFactory() {
+    }
 
-	public static ServiceFactory getInstance() {
-		return instance;
-	}
+    public GoodsService getGoodsService() {
+        return goodsService;
+    }
+
+    public static ServiceFactory getInstance() {
+        return instance;
+    }
 
 }

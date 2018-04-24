@@ -13,13 +13,13 @@ import java.util.List;
 
 public class GoodsServiceImpl implements GoodsService {
 
-	@Override
-	public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
-	    Validator.validateCriteria(criteria);
+    @Override
+    public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
+        Validator.validateCriteria(criteria);
 
-		DAOFactory factory = DAOFactory.getInstance();
-		GoodsDAO goodsDAO = factory.getGoodsDAO();
+        DAOFactory factory = DAOFactory.getInstance();
+        GoodsDAO goodsDAO = factory.getGoodsDAO();
 
-		return goodsDAO.find(criteria);
-	}
+        return goodsDAO.find(criteria);
+    }
 }

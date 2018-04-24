@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 
 public class CreatorWithReflection extends Creator {
 
-    public CreatorWithReflection() {}
+    public CreatorWithReflection() {
+    }
 
     public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) throws ItemCreationFailedException {
         Goods goods = null;

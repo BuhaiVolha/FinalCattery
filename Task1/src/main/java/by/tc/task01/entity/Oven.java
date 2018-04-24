@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Oven extends Appliance {
-	private static final String GOODS_TYPE = "Oven";
+    private static final String GOODS_TYPE = "Oven";
     private double powerConsumption;
     private double weight;
     private double capacity;
