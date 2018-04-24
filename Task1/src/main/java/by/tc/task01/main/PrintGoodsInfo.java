@@ -11,6 +11,7 @@ public class PrintGoodsInfo {
                 System.out.println(g);
             }
         } else {
+            System.out.println("55555");
             //throw new NoItemFoundException;
         }
 	}

@@ -19,7 +19,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
     public <E> List<Goods> find(Criteria<E> criteria) {
         ClassLoader classLoader = GoodsDAO.class.getClassLoader();
-        GoodsCreator goodsCreator = GoodsCreator.getInstance();
+        GoodsCreator goodsCreator = new GoodsCreator();
 
         String goodsType = criteria.getGoodsTypeString();
         List<Goods> foundGoods = new ArrayList<>();
@@ -46,7 +46,8 @@ public class GoodsDAOImpl implements GoodsDAO {
                                 goodsType = findType(lineFromText);
                                 typeNeededToBeFound = true;
                             }
-                            foundGoods.add(goodsCreator.createGoodsAndParameterize(goodsType, parametersParsedFromLine));
+                            Goods createdGoods = goodsCreator.createGoodsAndParameterize(goodsType, parametersParsedFromLine);
+                            foundGoods.add(createdGoods);
                         }
                     }
                 }
@@ -103,7 +104,8 @@ public class GoodsDAOImpl implements GoodsDAO {
                         break;
                     }
                 }
-                values.add(string.substring(substringStartIndex, substringEndIndex).trim());
+                String value = string.substring(substringStartIndex, substringEndIndex).trim();
+                values.add(value);
             }
         }
         return values;
@@ -129,7 +131,7 @@ public class GoodsDAOImpl implements GoodsDAO {
                         break;
                     }
                 }
-                String key = string.substring(firstIndex, endIndex).replaceAll("\\s+", "");
+                String key = string.substring(firstIndex, endIndex).trim();
 
                 keys.add(key);
             }
