@@ -18,45 +18,36 @@ public class Main {
             GoodsService service = factory.getGoodsService();
 
             //////////////////////////////////////////////////////////////////////////////
-
-            System.out.println("\nИщем определенный тип с критерием");
+	    // searching for a particular type with certain criteria
+		
             Criteria<GoodsType.Oven> criteriaOven = new Criteria<>(GoodsType.Oven.class);
-		    criteriaOven.add(GoodsType.Oven.CAPACITY, 33);
-		    criteriaOven.add(GoodsType.Oven.HEIGHT, 45);
+	    criteriaOven.add(GoodsType.Oven.CAPACITY, 33);
+	    criteriaOven.add(GoodsType.Oven.HEIGHT, 45);
 
             foundGoods = service.find(criteriaOven);
 
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-
-            System.out.println("\nИщем Любой тип с критерием");
+	    // searching for any type with certain criteria
+	    // for example, both Oven and Refrigerator have Width=70
+		
             Criteria<GoodsType.Any> criteriaAny = new Criteria<>(GoodsType.Any.class);
             criteriaAny.add(GoodsType.Any.WIDTH, 70);
 
-		    foundGoods = service.find(criteriaAny);
+	    foundGoods = service.find(criteriaAny);
 
-		    PrintGoodsInfo.print(foundGoods);
+	    PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-
-            System.out.println("\nИщем все");
+	    // searching for any type without any criteria
+	    // (it will find all goods from the file)
+		
             Criteria<GoodsType.Any> criteriaNone = new Criteria<>(GoodsType.Any.class);
 
             foundGoods = service.find(criteriaNone);
 
             PrintGoodsInfo.print(foundGoods);
-
-            //////////////////////////////////////////////////////////////////////////////
-
-            System.out.println("\nИщем все");
-            Criteria<GoodsType.Any> criteriaElse = new Criteria<>(GoodsType.Any.class);
-            criteriaElse.add(GoodsType.Any.POWER_CONSUMPTION, 20000);
-
-            foundGoods = service.find(criteriaElse);
-
-            PrintGoodsInfo.print(foundGoods);
-
 
         } catch (Exception e) {
             e.printStackTrace();
