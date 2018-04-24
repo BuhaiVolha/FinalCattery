@@ -1,17 +1,23 @@
-package by.tc.task01.dao.impl;
+package by.tc.task01.dao.creator.withReflection;
 
+import by.tc.task01.dao.creator.Creator;
 import by.tc.task01.entity.*;
+
+import by.tc.task01.exception.ItemCreationFailedException;
+
 import java.lang.reflect.Field;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GoodsCreator {
-    
-    GoodsCreator() {}
+public class CreatorWithReflection extends Creator {
 
-    public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) { //throws ItemCreationFailedException {
+    public CreatorWithReflection() {}
+
+    public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) throws ItemCreationFailedException {
         Goods goods = null;
 
         switch (type) {
@@ -41,27 +47,19 @@ public class GoodsCreator {
                 break;
         }
         parameterize(goods, parameters);
-        
+
         return goods;
     }
 
 
-    private void parameterize(Goods goods, Map<String, String> parameters) { //throws ItemCreationFailedException {
+    private void parameterize(Goods goods, Map<String, String> parameters) throws ItemCreationFailedException {
         parameters = makeKeysLookLikeFields(parameters);
 
         try {
-            for (String key : parameters.keySet()) {
-                Field field = goods.getClass().getDeclaredField(key);
-                field.setAccessible(true);
+            parameterizeUsingReflection(goods, parameters);
 
-                if (field.getType().getName().equals("double")) {
-                    field.set(goods, Double.valueOf(parameters.get(key)));
-                } else {
-                    field.set(goods, parameters.get(key));
-                }
-            }
         } catch (Exception e) {
-            //throw new ItemCreationFailedException(goods.getClass().getName() + " creation failed");
+            throw new ItemCreationFailedException(goods.getClass().getName() + " creation failed");
         }
     }
 
@@ -91,5 +89,26 @@ public class GoodsCreator {
         m.appendTail(sb);
 
         return new String(sb);
+    }
+
+
+    private void parameterizeUsingReflection(Goods goods, Map<String, String> parameters) throws ReflectiveOperationException {
+        for (String parameterName : parameters.keySet()) {
+            Field field = findField(goods, parameterName);
+
+            if (field.getType().getName().equals("double")) {
+                field.set(goods, Double.valueOf(parameters.get(parameterName)));
+            } else {
+                field.set(goods, parameters.get(parameterName));
+            }
+        }
+    }
+
+
+    private Field findField(Goods goods, String parameterName) throws NoSuchFieldException {
+        Field field = goods.getClass().getDeclaredField(parameterName);
+        field.setAccessible(true);
+
+        return field;
     }
 }

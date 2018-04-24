@@ -1,8 +1,14 @@
 package by.tc.task01.dao.impl;
 
 import by.tc.task01.dao.GoodsDAO;
+import by.tc.task01.dao.creator.Creator;
+import by.tc.task01.dao.creator.withReflection.CreatorWithReflection;
+import by.tc.task01.dao.creator.withSettingFields.CreatorSettingFields;
 import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.criteria.Criteria;
+
+import by.tc.task01.exception.FileNotFoundException;
+import by.tc.task01.exception.TaskException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,12 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 public class GoodsDAOImpl implements GoodsDAO {
+    private ClassLoader classLoader = GoodsDAO.class.getClassLoader();
     private static final String DATABASE_FILE_NAME = "appliances_db.txt";
 
-    public <E> List<Goods> find(Criteria<E> criteria) {
-        ClassLoader classLoader = GoodsDAO.class.getClassLoader();
-        GoodsCreator goodsCreator = new GoodsCreator();
+    // Two types of Creator are available!
 
+    private Creator goodsCreator = new CreatorWithReflection();
+    //private Creator goodsCreator = new CreatorSettingFields();
+
+
+    public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
         String goodsType = criteria.getGoodsTypeString();
         List<Goods> foundGoods = new ArrayList<>();
 
@@ -57,8 +67,7 @@ public class GoodsDAOImpl implements GoodsDAO {
             }
 
         } catch (IOException e) {
-            //throw new FileNotFoundException("File not found");
-            System.out.println("5555");
+            throw new FileNotFoundException("File not found");
         }
         return foundGoods;
     }
