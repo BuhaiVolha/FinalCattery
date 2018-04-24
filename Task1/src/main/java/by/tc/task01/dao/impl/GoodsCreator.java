@@ -8,26 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GoodsCreator {
-    private Map<String, Goods> typeInstances = new HashMap<>();
-
-    GoodsCreator() {
-        initTypeInstances();
-    }
-
-    private void initTypeInstances(){
-        typeInstances.put("Oven", new Oven());
-        typeInstances.put("Laptop", new Laptop());
-        typeInstances.put("Refrigerator", new Refrigerator());
-        typeInstances.put("TabletPC", new TabletPC());
-        typeInstances.put("VacuumCleaner", new VacuumCleaner());
-        typeInstances.put("Speakers", new Speakers());
-        typeInstances.put("TextBook", new TextBook());
-        typeInstances.put("Newspaper", new Newspaper());
-    }
-
+    
+    GoodsCreator() {}
 
     public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) { //throws ItemCreationFailedException {
-        //Goods goods = typeInstances.get(type);
         Goods goods = null;
 
         switch (type) {
@@ -56,10 +40,8 @@ public class GoodsCreator {
                 goods = new Newspaper();
                 break;
         }
-
         parameterize(goods, parameters);
-        initTypeInstances();
-
+        
         return goods;
     }
 
