@@ -61,7 +61,7 @@ public class Main {
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-
+            
             LOGGER.log(Level.INFO,"Searching for all items of a certain type");
 
             Criteria<GoodsType.Laptop> criteriaAllLaptops = new Criteria<>(GoodsType.Laptop.class);

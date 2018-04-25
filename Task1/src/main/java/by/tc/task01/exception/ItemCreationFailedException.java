@@ -6,6 +6,6 @@ public class ItemCreationFailedException extends TaskException {
     }
 
     public ItemCreationFailedException() {
-        
+
     }
 }

@@ -19,7 +19,7 @@ public class GoodsParser {
         return parser;
     }
 
-    
+
     // this method parses a line to find a type of goods
     // like Oven in "Oven: powerConsumption=1000, " etc
 
