@@ -4,10 +4,10 @@ import by.tc.task01.service.GoodsService;
 import by.tc.task01.service.ServiceFactory;
 import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.criteria.Criteria;
-
 import static by.tc.task01.entity.criteria.Parameters.*;
 
 import by.tc.task01.exception.TaskException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
