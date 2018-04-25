@@ -6,9 +6,9 @@ import by.tc.task01.entity.criteria.Parameters;
 
 import java.util.Map;
 
-public class RefrigeratorCreator implements Creatable {
+public class RefrigeratorCommand extends Command {
     @Override
-    public Goods parameterize(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         Refrigerator refrigerator = new Refrigerator();
 
         refrigerator.setFreezerCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.FREEZER_CAPACITY.toString())));

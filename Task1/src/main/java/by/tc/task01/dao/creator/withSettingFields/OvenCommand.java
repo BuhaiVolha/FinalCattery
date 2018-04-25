@@ -6,9 +6,9 @@ import by.tc.task01.entity.criteria.Parameters;
 
 import java.util.Map;
 
-public class OvenCreator implements Creatable {
+public class OvenCommand extends Command {
     @Override
-    public Goods parameterize(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         Oven oven = new Oven();
 
         oven.setCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.CAPACITY.toString())));

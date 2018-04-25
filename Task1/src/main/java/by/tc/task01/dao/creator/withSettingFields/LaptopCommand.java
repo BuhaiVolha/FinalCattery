@@ -6,10 +6,10 @@ import by.tc.task01.entity.criteria.Parameters;
 
 import java.util.Map;
 
-public class LaptopCreator implements Creatable {
+public class LaptopCommand extends Command {
 
     @Override
-    public Goods parameterize(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         Laptop laptop = new Laptop();
 
         laptop.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.BATTERY_CAPACITY.toString())));

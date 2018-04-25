@@ -6,9 +6,9 @@ import by.tc.task01.entity.criteria.Parameters;
 
 import java.util.Map;
 
-public class SpeakersCreator implements Creatable {
+public class SpeakersCommand extends Command {
     @Override
-    public Goods parameterize(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         Speakers speakers = new Speakers();
 
         speakers.setCordLength(Double.parseDouble(parameters.get(Parameters.GoodsType.Speakers.CORD_LENGTH.toString())));
