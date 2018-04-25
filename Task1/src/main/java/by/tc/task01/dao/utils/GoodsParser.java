@@ -19,6 +19,15 @@ public class GoodsParser {
         return parser;
     }
 
+    
+    // this method parses a line to find a type of goods
+    // like Oven in "Oven: powerConsumption=1000, " etc
+
+    public String findType(String line) {
+        return line.split(":")[0].trim();
+    }
+
+
     public Map<String, String> makeKeysLookLikeFields(Map<String, String> parameters) {
         Map<String, String> convertedParameters = new HashMap<>();
 
@@ -57,14 +66,6 @@ public class GoodsParser {
             parametersList.put(keys.get(i), values.get(i));
         }
         return parametersList;
-    }
-
-
-    // this method parses a line to find a type of goods
-    // like Oven in "Oven: powerConsumption=1000, " etc
-
-    public String findType(String line) {
-        return line.split(":")[0].trim();
     }
 
 
