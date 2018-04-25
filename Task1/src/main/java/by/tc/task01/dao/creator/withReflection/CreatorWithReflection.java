@@ -1,9 +1,13 @@
 package by.tc.task01.dao.creator.withReflection;
 
 import by.tc.task01.dao.creator.Creator;
-import by.tc.task01.entity.*;
 
+import by.tc.task01.entity.*;
 import by.tc.task01.exception.ItemCreationFailedException;
+import by.tc.task01.main.Main;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 
@@ -14,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CreatorWithReflection extends Creator {
+    private static final Logger LOGGER = LogManager.getLogger(CreatorWithReflection.class);
 
     public CreatorWithReflection() {
     }
@@ -60,7 +65,8 @@ public class CreatorWithReflection extends Creator {
             parameterizeUsingReflection(goods, parameters);
 
         } catch (Exception e) {
-            throw new ItemCreationFailedException(goods.getClass().getName() + " creation failed");
+            LOGGER.log(Level.ERROR, goods.getClass().getName() + " creation failed");
+            throw new ItemCreationFailedException();
         }
     }
 
