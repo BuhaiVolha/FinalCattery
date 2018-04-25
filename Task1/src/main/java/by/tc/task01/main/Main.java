@@ -39,7 +39,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            LOGGER.log(Level.INFO,"Searching for any type with certain criteria\n" +
+            LOGGER.log(Level.INFO,"Searching for any type with certain criteria, " +
                     "for example, both Oven and Refrigerator have Width=70");
 
             Criteria<GoodsType.Any> criteriaAny = new Criteria<>(GoodsType.Any.class);
@@ -51,7 +51,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            LOGGER.log(Level.INFO,"Searching for any type without any criteria\n" +
+            LOGGER.log(Level.INFO,"Searching for any type without any criteria" +
                     "(it will find all goods from the file)");
 
             Criteria<GoodsType.Any> criteriaNone = new Criteria<>(GoodsType.Any.class);
