@@ -29,11 +29,11 @@ public class Main {
 
             logger.log(Level.INFO,"Searching for a particular type with certain criteria");
 
-            Criteria<GoodsType.Oven> criteriaOven = new Criteria<>(GoodsType.Oven.class);
-            criteriaOven.add(GoodsType.Oven.CAPACITY, 33);
-            criteriaOven.add(GoodsType.Oven.HEIGHT, 45);
+            Criteria<GoodsType.Laptop> criteriaLaptop = new Criteria<>(GoodsType.Laptop.class);
+            criteriaLaptop.add(GoodsType.Laptop.OS, "Windows");
+            criteriaLaptop.add(GoodsType.Laptop.CPU, 1.2);
 
-            foundGoods = service.find(criteriaOven);
+            foundGoods = service.find(criteriaLaptop);
 
             PrintGoodsInfo.print(foundGoods);
 
@@ -62,12 +62,11 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            logger.log(Level.INFO,"Searching for a certain type with string criteria");
+            logger.log(Level.INFO,"Searching for all items of a certain type");
 
-            Criteria<GoodsType.Laptop> criteriaWithString = new Criteria<>(GoodsType.Laptop.class);
-            criteriaWithString.add(GoodsType.Laptop.OS, "Windows");
+            Criteria<GoodsType.Laptop> criteriaAllLaptops = new Criteria<>(GoodsType.Laptop.class);
 
-            foundGoods = service.find(criteriaWithString);
+            foundGoods = service.find(criteriaAllLaptops);
 
             PrintGoodsInfo.print(foundGoods);
 

@@ -1,7 +1,5 @@
 package by.tc.task01.entity.criteria;
 
-import by.tc.task01.exception.NullValueException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +22,9 @@ public class Criteria<E> {
         return goodsType.getSimpleName();
     }
 
-    public void add(E criterion, Object value) throws NullValueException {
+    public void add(E criterion, Object value) {
         if (value == null) {
-            throw new NullValueException("The input value is null");
+            value = "";
         }
         criteria.put(criterion.toString(), value.toString());
     }
