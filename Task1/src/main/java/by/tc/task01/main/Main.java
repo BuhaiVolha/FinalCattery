@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class Main {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
 
@@ -27,7 +27,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            logger.log(Level.INFO,"Searching for a particular type with certain criteria");
+            LOGGER.log(Level.INFO,"Searching for a particular type with certain criteria");
 
             Criteria<GoodsType.Laptop> criteriaLaptop = new Criteria<>(GoodsType.Laptop.class);
             criteriaLaptop.add(GoodsType.Laptop.OS, "Windows");
@@ -39,7 +39,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            logger.log(Level.INFO,"Searching for any type with certain criteria\n" +
+            LOGGER.log(Level.INFO,"Searching for any type with certain criteria\n" +
                     "for example, both Oven and Refrigerator have Width=70");
 
             Criteria<GoodsType.Any> criteriaAny = new Criteria<>(GoodsType.Any.class);
@@ -51,7 +51,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            logger.log(Level.INFO,"Searching for any type without any criteria\n" +
+            LOGGER.log(Level.INFO,"Searching for any type without any criteria\n" +
                     "(it will find all goods from the file)");
 
             Criteria<GoodsType.Any> criteriaNone = new Criteria<>(GoodsType.Any.class);
@@ -62,7 +62,7 @@ public class Main {
 
             //////////////////////////////////////////////////////////////////////////////
 
-            logger.log(Level.INFO,"Searching for all items of a certain type");
+            LOGGER.log(Level.INFO,"Searching for all items of a certain type");
 
             Criteria<GoodsType.Laptop> criteriaAllLaptops = new Criteria<>(GoodsType.Laptop.class);
 

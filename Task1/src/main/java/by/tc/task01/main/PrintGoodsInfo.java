@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class PrintGoodsInfo {
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(PrintGoodsInfo.class);
     private static final String NOT_FOUND_MESSAGE = "No items were found";
 
     public static void print(List<Goods> goods) {
@@ -17,7 +17,7 @@ public class PrintGoodsInfo {
                 System.out.println(g);
             }
         } else {
-            logger.log(Level.INFO, NOT_FOUND_MESSAGE);
+            LOGGER.log(Level.INFO, NOT_FOUND_MESSAGE);
         }
     }
 }
