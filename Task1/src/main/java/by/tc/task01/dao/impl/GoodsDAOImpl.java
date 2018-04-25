@@ -25,7 +25,7 @@ import java.util.Map;
 public class GoodsDAOImpl implements GoodsDAO {
     private static final Logger LOGGER = LogManager.getLogger(GoodsDAOImpl.class);
     private ClassLoader classLoader = GoodsDAO.class.getClassLoader();
-    private GoodsParser parser = new GoodsParser();
+    private GoodsParser parser = GoodsParser.getParser();
     private static final String DATABASE_FILE_NAME = "appliances_db.txt";
 
     /////////////// Two types of Creator are available! /////////////////////////////
