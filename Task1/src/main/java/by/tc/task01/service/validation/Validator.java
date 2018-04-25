@@ -16,7 +16,11 @@ public class Validator {
 
         for (Map.Entry<String, String> criterion : criteriaMap.entrySet()) {
 
-            if (checkIfCriterionWithoutStringValues(criterion.getKey())) {
+            if (checkIfValueIsEmpty(criterion.getValue())) {
+                return false;
+            }
+
+            if (checkIfValueMustBeNumber(criterion.getKey())) {
                 double mustBeNumber;
 
                 try {
@@ -24,6 +28,7 @@ public class Validator {
                 } catch (NumberFormatException e) {
                     return false;
                 }
+
                 if (checkIfNegative(mustBeNumber)) {
                     return false;
                 }
@@ -33,7 +38,12 @@ public class Validator {
     }
 
 
-    private static boolean checkIfCriterionWithoutStringValues(String parameter) {
+    private static boolean checkIfValueIsEmpty(String value) {
+        return value.isEmpty();
+    }
+
+
+    private static boolean checkIfValueMustBeNumber(String parameter) {
         return !STRING_VALUES.contains(parameter);
     }
 
