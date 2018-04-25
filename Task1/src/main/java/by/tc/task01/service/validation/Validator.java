@@ -2,7 +2,6 @@ package by.tc.task01.service.validation;
 
 import by.tc.task01.entity.criteria.Criteria;
 import by.tc.task01.exception.*;
-
 import java.util.Map;
 
 public class Validator {
@@ -14,25 +13,41 @@ public class Validator {
         if (criteria == null) {
             throw new NullCriteriaException("The criteria is null!");
         }
-        Map<String, String> parameters = criteria.getCriteria();
+        Map<String, String> criteriaMap = criteria.getCriteria();
 
-        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+        for (Map.Entry<String, String> criterion : criteriaMap.entrySet()) {
 
-            if (!STRING_VALUES.contains(parameter.getKey())) {
-                try {
-                    double numberValue = Double.parseDouble(parameter.getValue());
+            if (checkIfCriterionWithoutStringValues(criterion.getKey())) {
+                double number = convertIntoNumber(criterion.getValue());
 
-                    if (numberValue < 0) {
-                        throw new NegativeValueException("The value "
-                                + numberValue
-                                + " is negative!");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new NotNumberException("The value "
-                            + parameter.getValue()
-                            + " must be a number!");
-                }
+                checkIfNegative(number);
             }
+        }
+    }
+
+
+    private static boolean checkIfCriterionWithoutStringValues(String parameter) {
+        return !STRING_VALUES.contains(parameter);
+    }
+
+
+    private static double convertIntoNumber(String mustBeNumber) throws NotNumberException {
+        try {
+            return Double.parseDouble(mustBeNumber);
+
+        } catch (NumberFormatException e) {
+            throw new NotNumberException("The value "
+                    + mustBeNumber
+                    + " must be a number!");
+        }
+    }
+
+
+    private static void checkIfNegative(double number) throws NegativeValueException {
+        if (number < 0) {
+            throw new NegativeValueException("The value "
+                    + number
+                    + " is negative!");
         }
     }
 }
