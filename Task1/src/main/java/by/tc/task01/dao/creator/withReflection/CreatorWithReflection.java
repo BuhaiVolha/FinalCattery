@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 
 public class CreatorWithReflection extends Creator {
     private static final Logger LOGGER = LogManager.getLogger(CreatorWithReflection.class);
+    private static final String FIELD_TYPE_DOUBLE = "double";
 
     public CreatorWithReflection() {
     }
@@ -103,8 +104,8 @@ public class CreatorWithReflection extends Creator {
         for (String parameterName : parameters.keySet()) {
             Field field = findField(goods, parameterName);
 
-            if (field.getType().getName().equals("double")) {
-                field.set(goods, Double.valueOf(parameters.get(parameterName)));
+            if (field.getType().getName().equals(FIELD_TYPE_DOUBLE)) {
+                field.set(goods, Double.parseDouble(parameters.get(parameterName)));
             } else {
                 field.set(goods, parameters.get(parameterName));
             }
