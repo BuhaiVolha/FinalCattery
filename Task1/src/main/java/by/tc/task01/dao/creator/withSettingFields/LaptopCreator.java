@@ -12,11 +12,11 @@ public class LaptopCreator implements Creatable {
     public Goods parameterize(Map<String, String> parameters) {
         Laptop laptop = new Laptop();
 
-        laptop.setBatteryCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.Laptop.BATTERY_CAPACITY.toString())));
-        laptop.setCpu(Double.valueOf(parameters.get(Parameters.GoodsType.Laptop.CPU.toString())));
-        laptop.setDisplayInches(Double.valueOf(parameters.get(Parameters.GoodsType.Laptop.DISPLAY_INCHES.toString())));
-        laptop.setMemoryRom(Double.valueOf(parameters.get(Parameters.GoodsType.Laptop.MEMORY_ROM.toString())));
-        laptop.setSystemMemory(Double.valueOf(parameters.get(Parameters.GoodsType.Laptop.SYSTEM_MEMORY.toString())));
+        laptop.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.BATTERY_CAPACITY.toString())));
+        laptop.setCpu(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.CPU.toString())));
+        laptop.setDisplayInches(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.DISPLAY_INCHES.toString())));
+        laptop.setMemoryRom(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.MEMORY_ROM.toString())));
+        laptop.setSystemMemory(Double.parseDouble(parameters.get(Parameters.GoodsType.Laptop.SYSTEM_MEMORY.toString())));
         laptop.setOs(parameters.get(Parameters.GoodsType.Laptop.OS.toString()));
 
         return laptop;

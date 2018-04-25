@@ -12,7 +12,7 @@ public class TextBookCreator implements Creatable {
         TextBook textBook = new TextBook();
 
         textBook.setAuthor(parameters.get(Parameters.GoodsType.TextBook.AUTHOR.toString()));
-        textBook.setNumberOfPages(Double.valueOf(parameters.get(Parameters.GoodsType.TextBook.NUMBER_OF_PAGES.toString())));
+        textBook.setNumberOfPages(Double.parseDouble(parameters.get(Parameters.GoodsType.TextBook.NUMBER_OF_PAGES.toString())));
         textBook.setSubject(parameters.get(Parameters.GoodsType.TextBook.SUBJECT.toString()));
         textBook.setTitle(parameters.get(Parameters.GoodsType.TextBook.TITLE.toString()));
 

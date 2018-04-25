@@ -11,12 +11,12 @@ public class OvenCreator implements Creatable {
     public Goods parameterize(Map<String, String> parameters) {
         Oven oven = new Oven();
 
-        oven.setCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.CAPACITY.toString())));
-        oven.setDepth(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.DEPTH.toString())));
-        oven.setWeight(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.WEIGHT.toString())));
-        oven.setHeight(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.HEIGHT.toString())));
-        oven.setPowerConsumption(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.POWER_CONSUMPTION.toString())));
-        oven.setWidth(Double.valueOf(parameters.get(Parameters.GoodsType.Oven.WIDTH.toString())));
+        oven.setCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.CAPACITY.toString())));
+        oven.setDepth(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.DEPTH.toString())));
+        oven.setWeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.WEIGHT.toString())));
+        oven.setHeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.HEIGHT.toString())));
+        oven.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.POWER_CONSUMPTION.toString())));
+        oven.setWidth(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.WIDTH.toString())));
 
         return oven;
     }

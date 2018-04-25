@@ -11,10 +11,10 @@ public class SpeakersCreator implements Creatable {
     public Goods parameterize(Map<String, String> parameters) {
         Speakers speakers = new Speakers();
 
-        speakers.setCordLength(Double.valueOf(parameters.get(Parameters.GoodsType.Speakers.CORD_LENGTH.toString())));
+        speakers.setCordLength(Double.parseDouble(parameters.get(Parameters.GoodsType.Speakers.CORD_LENGTH.toString())));
         speakers.setFrequencyRange(parameters.get(Parameters.GoodsType.Speakers.FREQUENCY_RANGE.toString()));
-        speakers.setNumberOfSpeakers(Double.valueOf(parameters.get(Parameters.GoodsType.Speakers.NUMBER_OF_SPEAKERS.toString())));
-        speakers.setPowerConsumption(Double.valueOf(parameters.get(Parameters.GoodsType.Speakers.POWER_CONSUMPTION.toString())));
+        speakers.setNumberOfSpeakers(Double.parseDouble(parameters.get(Parameters.GoodsType.Speakers.NUMBER_OF_SPEAKERS.toString())));
+        speakers.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.Speakers.POWER_CONSUMPTION.toString())));
 
         return speakers;
     }

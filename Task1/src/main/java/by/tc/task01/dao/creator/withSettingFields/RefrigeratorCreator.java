@@ -11,12 +11,12 @@ public class RefrigeratorCreator implements Creatable {
     public Goods parameterize(Map<String, String> parameters) {
         Refrigerator refrigerator = new Refrigerator();
 
-        refrigerator.setFreezerCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.FREEZER_CAPACITY.toString())));
-        refrigerator.setOverallCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.OVERALL_CAPACITY.toString())));
-        refrigerator.setWeight(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.WEIGHT.toString())));
-        refrigerator.setHeight(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.HEIGHT.toString())));
-        refrigerator.setPowerConsumption(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.POWER_CONSUMPTION.toString())));
-        refrigerator.setWidth(Double.valueOf(parameters.get(Parameters.GoodsType.Refrigerator.WIDTH.toString())));
+        refrigerator.setFreezerCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.FREEZER_CAPACITY.toString())));
+        refrigerator.setOverallCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.OVERALL_CAPACITY.toString())));
+        refrigerator.setWeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.WEIGHT.toString())));
+        refrigerator.setHeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.HEIGHT.toString())));
+        refrigerator.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.POWER_CONSUMPTION.toString())));
+        refrigerator.setWidth(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.WIDTH.toString())));
 
         return refrigerator;
     }

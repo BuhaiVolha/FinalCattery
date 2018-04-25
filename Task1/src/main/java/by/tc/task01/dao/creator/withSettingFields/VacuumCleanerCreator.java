@@ -13,10 +13,10 @@ public class VacuumCleanerCreator implements Creatable {
         VacuumCleaner vacuumCleaner = new VacuumCleaner();
 
         vacuumCleaner.setBagType(parameters.get(Parameters.GoodsType.VacuumCleaner.BAG_TYPE.toString()));
-        vacuumCleaner.setCleaningWidth(Double.valueOf(parameters.get(Parameters.GoodsType.VacuumCleaner.CLEANING_WIDTH.toString())));
+        vacuumCleaner.setCleaningWidth(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.CLEANING_WIDTH.toString())));
         vacuumCleaner.setFilterType(parameters.get(Parameters.GoodsType.VacuumCleaner.FILTER_TYPE.toString()));
-        vacuumCleaner.setMotorSpeedRegulation(Double.valueOf(parameters.get(Parameters.GoodsType.VacuumCleaner.MOTOR_SPEED_REGULATION.toString())));
-        vacuumCleaner.setPowerConsumption(Double.valueOf(parameters.get(Parameters.GoodsType.VacuumCleaner.POWER_CONSUMPTION.toString())));
+        vacuumCleaner.setMotorSpeedRegulation(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.MOTOR_SPEED_REGULATION.toString())));
+        vacuumCleaner.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.POWER_CONSUMPTION.toString())));
         vacuumCleaner.setWandType(parameters.get(Parameters.GoodsType.VacuumCleaner.WAND_TYPE.toString()));
 
         return vacuumCleaner;

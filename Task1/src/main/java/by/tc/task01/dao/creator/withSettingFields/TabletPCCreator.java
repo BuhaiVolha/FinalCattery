@@ -12,11 +12,11 @@ public class TabletPCCreator implements Creatable {
     public Goods parameterize(Map<String, String> parameters) {
         TabletPC tabletPC = new TabletPC();
 
-        tabletPC.setBatteryCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.TabletPC.BATTERY_CAPACITY.toString())));
+        tabletPC.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.BATTERY_CAPACITY.toString())));
         tabletPC.setColor(parameters.get(Parameters.GoodsType.TabletPC.COLOR.toString()));
-        tabletPC.setDisplayInches(Double.valueOf(parameters.get(Parameters.GoodsType.TabletPC.DISPLAY_INCHES.toString())));
-        tabletPC.setFlashMemoryCapacity(Double.valueOf(parameters.get(Parameters.GoodsType.TabletPC.FLASH_MEMORY_CAPACITY.toString())));
-        tabletPC.setMemoryRom(Double.valueOf(parameters.get(Parameters.GoodsType.TabletPC.MEMORY_ROM.toString())));
+        tabletPC.setDisplayInches(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.DISPLAY_INCHES.toString())));
+        tabletPC.setFlashMemoryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.FLASH_MEMORY_CAPACITY.toString())));
+        tabletPC.setMemoryRom(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.MEMORY_ROM.toString())));
 
         return tabletPC;
     }
