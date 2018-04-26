@@ -8,7 +8,7 @@ import by.tc.task01.dao.utils.GoodsParser;
 import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.criteria.Criteria;
 
-import by.tc.task01.exception.FileNotFoundException;
+import by.tc.task01.exception.FileReadingFailedException;
 import by.tc.task01.exception.TaskException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
