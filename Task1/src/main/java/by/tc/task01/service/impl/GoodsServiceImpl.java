@@ -15,7 +15,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
         if (!Validator.validateCriteria(criteria)) {
-            return null;
+            return Collections.emptyList();
         }
 
         DAOFactory factory = DAOFactory.getInstance();
