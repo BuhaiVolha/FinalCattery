@@ -73,7 +73,7 @@ public class Main {
             //////////////////////////////////////////////////////////////////////////////
 
         } catch (TaskException e) {
-            LOGGER.log(Level.WARN, e.getMessage());
+            LOGGER.log(Level.WARN, e);
         }
     }
 }
