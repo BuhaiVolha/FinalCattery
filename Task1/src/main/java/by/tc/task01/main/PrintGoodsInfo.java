@@ -12,7 +12,7 @@ public class PrintGoodsInfo {
     private static final String NOT_FOUND_MESSAGE = "No items were found";
 
     public static void print(List<Goods> goods) {
-        if (goods != null && !goods.isEmpty()) {
+        if (!goods.isEmpty()) {
             for (Goods g : goods) {
                 System.out.println(g);
             }
