@@ -55,7 +55,7 @@ public class GoodsDAOImpl implements GoodsDAO {
                         if (parametersParsedFromLine.entrySet().containsAll(parametersToFind.entrySet())) {
 
                             if (goodsType.isEmpty()) {
-                                goodsType = parser.findType(lineFromText);
+                                goodsType = parser.findTypeIn(lineFromText);
                                 typeNeededToBeFound = true;
                             }
                             Goods createdGoods = goodsCreator.createGoodsAndParameterize(goodsType, parametersParsedFromLine);
