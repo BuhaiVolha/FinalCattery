@@ -23,7 +23,7 @@ public class GoodsParser {
     // this method parses a line to find a type of goods
     // like Oven in "Oven: powerConsumption=1000, " etc
 
-    public String findType(String line) {
+    public String findTypeIn(String line) {
         return line.split(":")[0].trim();
     }
 
