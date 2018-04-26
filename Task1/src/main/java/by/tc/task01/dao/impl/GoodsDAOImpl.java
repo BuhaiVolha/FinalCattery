@@ -70,7 +70,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
         } catch (Exception e) {
             LOGGER.log(Level.FATAL, "Reading file failed");
-            throw new FileNotFoundException();
+            throw new FileReadingFailedException();
         }
         return foundGoods;
     }
