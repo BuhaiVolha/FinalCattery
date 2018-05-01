@@ -57,6 +57,7 @@ fabric.properties
 
 *.iml
 .idea/*
+.lib/*
 #.idea/modules.xml
 #.idea/misc.xml
 #.idea/vcs.xml
