@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>by.tc.task01</groupId>
-    <artifactId>jwd-task01-template</artifactId>
+    <artifactId>Task1</artifactId>
     <version>0.0.1</version>
     <build>
         <plugins>
