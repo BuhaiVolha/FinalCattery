@@ -1,6 +1,6 @@
 package by.tc.task01.dao.creator.withSettingFields;
 
-import by.tc.task01.entity.Sellable;
+import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.Refrigerator;
 import by.tc.task01.entity.criteria.Parameters;
 
@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class RefrigeratorCommand extends Command {
     @Override
-    public Sellable createGoodsWith(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         Refrigerator refrigerator = new Refrigerator();
 
         refrigerator.setFreezerCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Refrigerator.FREEZER_CAPACITY.toString())));

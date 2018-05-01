@@ -1,6 +1,5 @@
 package by.tc.task01.dao.creator.withReflection;
 
-import by.tc.task01.entity.Laptop;
 import by.tc.task01.entity.criteria.Parameters;
 import by.tc.task01.exception.ItemCreationFailedException;
 import org.testng.annotations.*;
@@ -14,7 +13,7 @@ public class CreatorWithReflectionTest {
     CreatorWithReflection creator;
     String type;
     Map<String, String> criterion;
-    Laptop laptop;
+    by.tc.task01.entity.Laptop laptop;
 
     @BeforeClass
     public void setUp() {
@@ -38,7 +37,7 @@ public class CreatorWithReflectionTest {
         String value = "1.2";
         criterion.put(parameter, value);
 
-        laptop = (Laptop) creator.createGoodsAndParameterize(type, criterion);
+        laptop = (by.tc.task01.entity.Laptop) creator.createGoodsAndParameterize(type, criterion);
         double actual = laptop.getCpu();
         double expected = 1.2;
 
@@ -51,7 +50,7 @@ public class CreatorWithReflectionTest {
         String value = "Windows";
         criterion.put(parameter, value);
 
-        laptop = (Laptop) creator.createGoodsAndParameterize(type, criterion);
+        laptop = (by.tc.task01.entity.Laptop) creator.createGoodsAndParameterize(type, criterion);
         String actual = laptop.getOs();
         String expected = value;
 
@@ -64,7 +63,7 @@ public class CreatorWithReflectionTest {
         String value = "Windows";
         criterion.put(parameter, value);
 
-        laptop = (Laptop) creator.createGoodsAndParameterize(type, criterion);
+        laptop = (by.tc.task01.entity.Laptop) creator.createGoodsAndParameterize(type, criterion);
 
 
     }

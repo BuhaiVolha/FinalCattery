@@ -3,14 +3,21 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Laptop implements Sellable {
+import java.io.Serializable;
+
+public class Laptop extends Goods implements Serializable {
     private static final String GOODS_TYPE = "Laptop";
+    private static final long serialVersionUID = -1785902341881186193L;
     private double batteryCapacity;
     private String os;
     private double memoryRom;
     private double systemMemory;
     private double cpu;
     private double displayInches;
+
+    public String getGoodsType() {
+        return GOODS_TYPE;
+    }
 
     public double getBatteryCapacity() {
         return batteryCapacity;

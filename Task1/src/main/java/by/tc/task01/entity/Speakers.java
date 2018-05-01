@@ -3,8 +3,11 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Speakers implements Sellable {
+import java.io.Serializable;
+
+public class Speakers extends Goods implements Serializable {
     private static final String GOODS_TYPE = "Speakers";
+    private static final long serialVersionUID = 1075884970519572780L;
     private double powerConsumption;
     private double numberOfSpeakers;
     private String frequencyRange;

@@ -3,8 +3,11 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class VacuumCleaner implements Sellable {
+import java.io.Serializable;
+
+public class VacuumCleaner extends Goods implements Serializable {
     private static final String GOODS_TYPE = "Vacuum Cleaner";
+    private static final long serialVersionUID = -1099304924550580929L;
     private double powerConsumption;
     private String filterType;
     private String bagType;

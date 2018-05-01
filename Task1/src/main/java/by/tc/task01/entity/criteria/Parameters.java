@@ -40,6 +40,11 @@ public final class Parameters {
         public enum Newspaper {
             TITLE, PERIODICITY, PAID_OR_FREE
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 }
 

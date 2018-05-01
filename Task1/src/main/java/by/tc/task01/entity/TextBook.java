@@ -3,8 +3,11 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class TextBook implements Sellable {
+import java.io.Serializable;
+
+public class TextBook extends Goods implements Serializable {
     private static final String GOODS_TYPE = "TextBook";
+    private static final long serialVersionUID = -3343234038320373327L;
     private String title;
     private String subject;
     private String author;

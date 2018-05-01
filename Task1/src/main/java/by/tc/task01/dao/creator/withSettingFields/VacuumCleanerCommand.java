@@ -1,6 +1,6 @@
 package by.tc.task01.dao.creator.withSettingFields;
 
-import by.tc.task01.entity.Sellable;
+import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.VacuumCleaner;
 import by.tc.task01.entity.criteria.Parameters;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 public class VacuumCleanerCommand extends Command {
 
     @Override
-    public Sellable createGoodsWith(Map<String, String> parameters) {
+    public Goods createGoodsWith(Map<String, String> parameters) {
         VacuumCleaner vacuumCleaner = new VacuumCleaner();
 
         vacuumCleaner.setBagType(parameters.get(Parameters.GoodsType.VacuumCleaner.BAG_TYPE.toString()));

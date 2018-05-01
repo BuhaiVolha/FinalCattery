@@ -3,8 +3,11 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class TabletPC implements Sellable {
+import java.io.Serializable;
+
+public class TabletPC extends Goods implements Serializable {
     private static final String GOODS_TYPE = "TabletPC";
+    private static final long serialVersionUID = -2181213766636565288L;
     private double batteryCapacity;
     private double displayInches;
     private double memoryRom;

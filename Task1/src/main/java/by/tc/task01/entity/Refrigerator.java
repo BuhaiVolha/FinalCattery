@@ -3,14 +3,22 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Refrigerator implements Sellable {
+import java.io.Serializable;
+
+public class Refrigerator extends Goods implements Serializable {
     private static final String GOODS_TYPE = "Refrigerator";
+    private static final long serialVersionUID = -2938582087983645536L;
     private double powerConsumption;
     private double weight;
     private double freezerCapacity;
     private double overallCapacity;
     private double height;
     private double width;
+
+    @Override
+    public String getGoodsType() {
+        return GOODS_TYPE;
+    }
 
     public double getPowerConsumption() {
         return powerConsumption;

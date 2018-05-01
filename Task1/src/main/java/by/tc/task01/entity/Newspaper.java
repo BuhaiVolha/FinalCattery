@@ -3,13 +3,16 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Newspaper implements Sellable {
+import java.io.Serializable;
+
+public class Newspaper extends Goods implements Serializable {
     private static final String GOODS_TYPE = "Newspaper";
+    private static final long serialVersionUID = -5732431683444802303L;
     private String title;
     private String periodicity;
     private String paidOrFree;
 
-    public static String getGoodsType() {
+    public String getGoodsType() {
         return GOODS_TYPE;
     }
 
