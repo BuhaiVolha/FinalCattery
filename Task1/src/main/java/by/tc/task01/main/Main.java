@@ -72,7 +72,7 @@ public class Main {
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-            LOGGER.log(Level.INFO,"Searching for all items of a certain type");
+            LOGGER.log(Level.INFO,"Get parameter and value by index methods. Iterator");
 
             Criteria<GoodsType.Laptop> someCriteria = new Criteria<>(GoodsType.Laptop.class);
             someCriteria.add(GoodsType.Laptop.OS, "Windows");
