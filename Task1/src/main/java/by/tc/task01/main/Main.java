@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -71,6 +72,20 @@ public class Main {
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
+            LOGGER.log(Level.INFO,"Searching for all items of a certain type");
+
+            Criteria<GoodsType.Laptop> someCriteria = new Criteria<>(GoodsType.Laptop.class);
+            someCriteria.add(GoodsType.Laptop.OS, "Windows");
+            someCriteria.add(GoodsType.Laptop.CPU, 1.2);
+            someCriteria.add(GoodsType.Laptop.BATTERY_CAPACITY, 2000);
+
+            System.out.println(someCriteria.getParameterByIndex(1));
+            System.out.println(someCriteria.getValueByIndex(2));
+
+            Iterator iterator = someCriteria.iterator();
+            while (iterator.hasNext()) {
+                System.out.println(iterator.next());
+            }
 
         } catch (TaskException e) {
             LOGGER.log(Level.WARN, e);

@@ -33,7 +33,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
     public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
         List<Goods> foundGoods = new ArrayList<>();
-        String goodsType = criteria.getGoodsTypeString();
+        String goodsType = criteria.getGoodsType();
 
         Map<String, String> parametersParsedFromLine;
         Map<String, String> parametersToFind = criteria.getCriteria();
