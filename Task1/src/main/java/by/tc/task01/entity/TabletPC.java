@@ -3,7 +3,7 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class TabletPC extends Appliance {
+public class TabletPC implements Sellable {
     private static final String GOODS_TYPE = "TabletPC";
     private double batteryCapacity;
     private double displayInches;

@@ -1,7 +1,7 @@
 package by.tc.task01.dao.creator.withSettingFields;
 
 import by.tc.task01.dao.creator.Creator;
-import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.Sellable;
 import java.util.Map;
 
 public class CreatorSettingFields extends Creator {
@@ -11,7 +11,7 @@ public class CreatorSettingFields extends Creator {
     public CreatorSettingFields() {
     }
 
-    public Goods createGoodsAndParameterize(String goodsType, Map<String, String> parameters) {
+    public Sellable createGoodsAndParameterize(String goodsType, Map<String, String> parameters) {
         command = provider.getCommandFor(goodsType);
         return command.createGoodsWith(parameters);
     }

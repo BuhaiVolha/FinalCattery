@@ -1,6 +1,6 @@
 package by.tc.task01.dao.creator.withSettingFields;
 
-import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.Sellable;
 import by.tc.task01.entity.TabletPC;
 import by.tc.task01.entity.criteria.Parameters;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 public class TabletPCCommand extends Command {
 
     @Override
-    public Goods createGoodsWith(Map<String, String> parameters) {
+    public Sellable createGoodsWith(Map<String, String> parameters) {
         TabletPC tabletPC = new TabletPC();
 
         tabletPC.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.BATTERY_CAPACITY.toString())));

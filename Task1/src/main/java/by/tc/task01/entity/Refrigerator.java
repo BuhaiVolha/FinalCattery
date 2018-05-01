@@ -3,7 +3,7 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Refrigerator extends Appliance {
+public class Refrigerator implements Sellable {
     private static final String GOODS_TYPE = "Refrigerator";
     private double powerConsumption;
     private double weight;

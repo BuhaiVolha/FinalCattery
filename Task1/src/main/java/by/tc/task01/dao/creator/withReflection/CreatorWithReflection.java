@@ -22,69 +22,69 @@ public class CreatorWithReflection extends Creator {
     public CreatorWithReflection() {
     }
 
-    public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) throws ItemCreationFailedException {
-        Goods goods = null;
+    public Sellable createGoodsAndParameterize(String type, Map<String, String> parameters) throws ItemCreationFailedException {
+        Sellable sellable = null;
 
         switch (type) {
             case "Oven":
-                goods = new Oven();
+                sellable = new Oven();
                 break;
             case "Laptop":
-                goods = new Laptop();
+                sellable = new Laptop();
                 break;
             case "Refrigerator":
-                goods = new Refrigerator();
+                sellable = new Refrigerator();
                 break;
             case "TabletPC":
-                goods = new TabletPC();
+                sellable = new TabletPC();
                 break;
             case "VacuumCleaner":
-                goods = new VacuumCleaner();
+                sellable = new VacuumCleaner();
                 break;
             case "Speakers":
-                goods = new Speakers();
+                sellable = new Speakers();
                 break;
             case "TextBook":
-                goods = new TextBook();
+                sellable = new TextBook();
                 break;
             case "Newspaper":
-                goods = new Newspaper();
+                sellable = new Newspaper();
                 break;
         }
-        parameterize(goods, parameters);
+        parameterize(sellable, parameters);
 
-        return goods;
+        return sellable;
     }
 
 
-    private void parameterize(Goods goods, Map<String, String> parameters) throws ItemCreationFailedException {
+    private void parameterize(Sellable sellable, Map<String, String> parameters) throws ItemCreationFailedException {
         parameters = parser.makeKeysLookLikeFields(parameters);
 
         try {
-            parameterizeUsingReflection(goods, parameters);
+            parameterizeUsingReflection(sellable, parameters);
 
         } catch (Exception e) {
-            LOGGER.log(Level.ERROR, goods.getClass().getName() + " creation failed");
+            LOGGER.log(Level.ERROR, sellable.getClass().getName() + " creation failed");
             throw new ItemCreationFailedException();
         }
     }
 
 
-    private void parameterizeUsingReflection(Goods goods, Map<String, String> parameters) throws ReflectiveOperationException {
+    private void parameterizeUsingReflection(Sellable sellable, Map<String, String> parameters) throws ReflectiveOperationException {
         for (String parameterName : parameters.keySet()) {
-            Field field = findField(goods, parameterName);
+            Field field = findField(sellable, parameterName);
 
             if (field.getType().getName().equals(FIELD_TYPE_DOUBLE)) {
-                field.set(goods, Double.parseDouble(parameters.get(parameterName)));
+                field.set(sellable, Double.parseDouble(parameters.get(parameterName)));
             } else {
-                field.set(goods, parameters.get(parameterName));
+                field.set(sellable, parameters.get(parameterName));
             }
         }
     }
 
 
-    private Field findField(Goods goods, String parameterName) throws NoSuchFieldException {
-        Field field = goods.getClass().getDeclaredField(parameterName);
+    private Field findField(Sellable sellable, String parameterName) throws NoSuchFieldException {
+        Field field = sellable.getClass().getDeclaredField(parameterName);
         field.setAccessible(true);
 
         return field;

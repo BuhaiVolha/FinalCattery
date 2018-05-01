@@ -3,7 +3,7 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class TextBook extends PaperProduct {
+public class TextBook implements Sellable {
     private static final String GOODS_TYPE = "TextBook";
     private String title;
     private String subject;

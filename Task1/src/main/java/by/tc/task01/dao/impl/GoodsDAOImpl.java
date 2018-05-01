@@ -2,13 +2,12 @@ package by.tc.task01.dao.impl;
 
 import by.tc.task01.dao.GoodsDAO;
 import by.tc.task01.dao.creator.Creator;
-import by.tc.task01.dao.creator.withReflection.CreatorWithReflection;
 import by.tc.task01.dao.creator.withSettingFields.CreatorSettingFields;
 import by.tc.task01.dao.utils.GoodsParser;
-import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.Sellable;
 import by.tc.task01.entity.criteria.Criteria;
 
-import by.tc.task01.exception.FileReadingFailedException;
+import by.tc.task01.exception.FileNotFoundException;
 import by.tc.task01.exception.TaskException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -32,8 +31,8 @@ public class GoodsDAOImpl implements GoodsDAO {
     private Creator goodsCreator = new CreatorSettingFields();
     //private Creator goodsCreator = new CreatorWithReflection();
 
-    public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
-        List<Goods> foundGoods = new ArrayList<>();
+    public <E> List<Sellable> find(Criteria<E> criteria) throws TaskException {
+        List<Sellable> foundGoods = new ArrayList<>();
         String goodsType = criteria.getGoodsTypeString();
 
         Map<String, String> parametersParsedFromLine;
@@ -58,7 +57,7 @@ public class GoodsDAOImpl implements GoodsDAO {
                                 goodsType = parser.findTypeIn(lineFromText);
                                 typeNeededToBeFound = true;
                             }
-                            Goods createdGoods = goodsCreator.createGoodsAndParameterize(goodsType, parametersParsedFromLine);
+                            Sellable createdGoods = goodsCreator.createGoodsAndParameterize(goodsType, parametersParsedFromLine);
                             foundGoods.add(createdGoods);
                         }
                     }
@@ -70,7 +69,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
         } catch (Exception e) {
             LOGGER.log(Level.FATAL, "Reading file failed");
-            throw new FileReadingFailedException();
+            throw new FileNotFoundException();
         }
         return foundGoods;
     }

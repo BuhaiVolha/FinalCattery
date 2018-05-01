@@ -2,7 +2,7 @@ package by.tc.task01.main;
 
 import by.tc.task01.service.GoodsService;
 import by.tc.task01.service.ServiceFactory;
-import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.Sellable;
 import by.tc.task01.entity.criteria.Criteria;
 import static by.tc.task01.entity.criteria.Parameters.*;
 
@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            List<Goods> foundGoods;
+            List<Sellable> foundGoods;
 
             ServiceFactory factory = ServiceFactory.getInstance();
             GoodsService service = factory.getGoodsService();
@@ -61,7 +61,7 @@ public class Main {
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-            
+
             LOGGER.log(Level.INFO,"Searching for all items of a certain type");
 
             Criteria<GoodsType.Laptop> criteriaAllLaptops = new Criteria<>(GoodsType.Laptop.class);

@@ -3,7 +3,7 @@ package by.tc.task01.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class VacuumCleaner extends Appliance {
+public class VacuumCleaner implements Sellable {
     private static final String GOODS_TYPE = "Vacuum Cleaner";
     private double powerConsumption;
     private String filterType;

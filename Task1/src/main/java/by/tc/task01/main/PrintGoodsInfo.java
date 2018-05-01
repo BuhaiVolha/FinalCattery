@@ -1,6 +1,6 @@
 package by.tc.task01.main;
 
-import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.Sellable;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,9 +11,9 @@ public class PrintGoodsInfo {
     private static final Logger LOGGER = LogManager.getLogger(PrintGoodsInfo.class);
     private static final String NOT_FOUND_MESSAGE = "No items were found";
 
-    public static void print(List<Goods> goods) {
+    public static void print(List<Sellable> goods) {
         if (!goods.isEmpty()) {
-            for (Goods g : goods) {
+            for (Sellable g : goods) {
                 System.out.println(g);
             }
         } else {
