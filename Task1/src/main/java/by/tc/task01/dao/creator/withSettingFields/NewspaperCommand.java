@@ -11,9 +11,9 @@ public class NewspaperCommand extends Command {
     public Goods createGoodsWith(Map<String, String> parameters) {
         Newspaper newspaper = new Newspaper();
 
-        newspaper.setPaidOrFree(parameters.get(Parameters.GoodsType.Newspaper.PAID_OR_FREE.toString()));
-        newspaper.setPeriodicity(parameters.get(Parameters.GoodsType.Newspaper.PERIODICITY.toString()));
-        newspaper.setTitle(parameters.get(Parameters.GoodsType.Newspaper.TITLE.toString()));
+        newspaper.setPaidOrFree(parameters.get(Parameters.Newspaper.PAID_OR_FREE.toString()));
+        newspaper.setPeriodicity(parameters.get(Parameters.Newspaper.PERIODICITY.toString()));
+        newspaper.setTitle(parameters.get(Parameters.Newspaper.TITLE.toString()));
 
         return newspaper;
     }

@@ -12,12 +12,12 @@ public class VacuumCleanerCommand extends Command {
     public Goods createGoodsWith(Map<String, String> parameters) {
         VacuumCleaner vacuumCleaner = new VacuumCleaner();
 
-        vacuumCleaner.setBagType(parameters.get(Parameters.GoodsType.VacuumCleaner.BAG_TYPE.toString()));
-        vacuumCleaner.setCleaningWidth(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.CLEANING_WIDTH.toString())));
-        vacuumCleaner.setFilterType(parameters.get(Parameters.GoodsType.VacuumCleaner.FILTER_TYPE.toString()));
-        vacuumCleaner.setMotorSpeedRegulation(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.MOTOR_SPEED_REGULATION.toString())));
-        vacuumCleaner.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.VacuumCleaner.POWER_CONSUMPTION.toString())));
-        vacuumCleaner.setWandType(parameters.get(Parameters.GoodsType.VacuumCleaner.WAND_TYPE.toString()));
+        vacuumCleaner.setBagType(parameters.get(Parameters.VacuumCleaner.BAG_TYPE.toString()));
+        vacuumCleaner.setCleaningWidth(Double.parseDouble(parameters.get(Parameters.VacuumCleaner.CLEANING_WIDTH.toString())));
+        vacuumCleaner.setFilterType(parameters.get(Parameters.VacuumCleaner.FILTER_TYPE.toString()));
+        vacuumCleaner.setMotorSpeedRegulation(Double.parseDouble(parameters.get(Parameters.VacuumCleaner.MOTOR_SPEED_REGULATION.toString())));
+        vacuumCleaner.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.VacuumCleaner.POWER_CONSUMPTION.toString())));
+        vacuumCleaner.setWandType(parameters.get(Parameters.VacuumCleaner.WAND_TYPE.toString()));
 
         return vacuumCleaner;
     }

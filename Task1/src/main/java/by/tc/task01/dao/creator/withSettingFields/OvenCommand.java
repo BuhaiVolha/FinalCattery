@@ -11,12 +11,12 @@ public class OvenCommand extends Command {
     public Goods createGoodsWith(Map<String, String> parameters) {
         Oven oven = new Oven();
 
-        oven.setCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.CAPACITY.toString())));
-        oven.setDepth(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.DEPTH.toString())));
-        oven.setWeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.WEIGHT.toString())));
-        oven.setHeight(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.HEIGHT.toString())));
-        oven.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.POWER_CONSUMPTION.toString())));
-        oven.setWidth(Double.parseDouble(parameters.get(Parameters.GoodsType.Oven.WIDTH.toString())));
+        oven.setCapacity(Double.parseDouble(parameters.get(Parameters.Oven.CAPACITY.toString())));
+        oven.setDepth(Double.parseDouble(parameters.get(Parameters.Oven.DEPTH.toString())));
+        oven.setWeight(Double.parseDouble(parameters.get(Parameters.Oven.WEIGHT.toString())));
+        oven.setHeight(Double.parseDouble(parameters.get(Parameters.Oven.HEIGHT.toString())));
+        oven.setPowerConsumption(Double.parseDouble(parameters.get(Parameters.Oven.POWER_CONSUMPTION.toString())));
+        oven.setWidth(Double.parseDouble(parameters.get(Parameters.Oven.WIDTH.toString())));
 
         return oven;
     }

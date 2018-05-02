@@ -30,9 +30,9 @@ public class Main {
 
             LOGGER.log(Level.INFO,"Searching for a particular type with certain criteria");
 
-            Criteria<GoodsType.Laptop> criteriaLaptop = new Criteria<>(GoodsType.Laptop.class);
-            criteriaLaptop.add(GoodsType.Laptop.OS, "Windows");
-            criteriaLaptop.add(GoodsType.Laptop.CPU, 1.2);
+            Criteria<Laptop> criteriaLaptop = new Criteria<>(Laptop.class);
+            criteriaLaptop.add(Laptop.OS, "Windows");
+            criteriaLaptop.add(Laptop.CPU, 1.2);
 
             foundGoods = service.find(criteriaLaptop);
 
@@ -43,8 +43,8 @@ public class Main {
             LOGGER.log(Level.INFO,"Searching for any type with certain criteria, " +
                     "for example, both Oven and Refrigerator have Width=70");
 
-            Criteria<GoodsType.Any> criteriaAny = new Criteria<>(GoodsType.Any.class);
-            criteriaAny.add(GoodsType.Any.WIDTH, 70);
+            Criteria<Any> criteriaAny = new Criteria<>(Any.class);
+            criteriaAny.add(Any.WIDTH, 70);
 
             foundGoods = service.find(criteriaAny);
 
@@ -55,7 +55,7 @@ public class Main {
             LOGGER.log(Level.INFO,"Searching for any type without any criteria" +
                     "(it will find all goods from the file)");
 
-            Criteria<GoodsType.Any> criteriaNone = new Criteria<>(GoodsType.Any.class);
+            Criteria<Any> criteriaNone = new Criteria<>(Any.class);
 
             foundGoods = service.find(criteriaNone);
 
@@ -65,7 +65,7 @@ public class Main {
 
             LOGGER.log(Level.INFO,"Searching for all items of a certain type");
 
-            Criteria<GoodsType.Laptop> criteriaAllLaptops = new Criteria<>(GoodsType.Laptop.class);
+            Criteria<Laptop> criteriaAllLaptops = new Criteria<>(Laptop.class);
 
             foundGoods = service.find(criteriaAllLaptops);
 
@@ -74,10 +74,10 @@ public class Main {
             //////////////////////////////////////////////////////////////////////////////
             LOGGER.log(Level.INFO,"Get parameter and value by index methods. Iterator");
 
-            Criteria<GoodsType.Laptop> someCriteria = new Criteria<>(GoodsType.Laptop.class);
-            someCriteria.add(GoodsType.Laptop.OS, "Windows");
-            someCriteria.add(GoodsType.Laptop.CPU, 1.2);
-            someCriteria.add(GoodsType.Laptop.BATTERY_CAPACITY, 2000);
+            Criteria<Laptop> someCriteria = new Criteria<>(Laptop.class);
+            someCriteria.add(Laptop.OS, "Windows");
+            someCriteria.add(Laptop.CPU, 1.2);
+            someCriteria.add(Laptop.BATTERY_CAPACITY, 2000);
 
             System.out.println(someCriteria.getParameterByIndex(1));
             System.out.println(someCriteria.getValueByIndex(2));

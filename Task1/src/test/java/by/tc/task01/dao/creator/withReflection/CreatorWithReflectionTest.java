@@ -33,7 +33,7 @@ public class CreatorWithReflectionTest {
 
     @Test
     public void testCreateGoodsWithDoubleValue() throws Exception {
-        String parameter = Parameters.GoodsType.Laptop.CPU.toString();
+        String parameter = Parameters.Laptop.CPU.toString();
         String value = "1.2";
         criterion.put(parameter, value);
 
@@ -46,7 +46,7 @@ public class CreatorWithReflectionTest {
 
     @Test
     public void testCreateGoodsWithStringValue() throws Exception {
-        String parameter = Parameters.GoodsType.Laptop.OS.toString();
+        String parameter = Parameters.Laptop.OS.toString();
         String value = "Windows";
         criterion.put(parameter, value);
 

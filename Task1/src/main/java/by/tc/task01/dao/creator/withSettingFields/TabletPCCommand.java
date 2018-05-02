@@ -12,11 +12,11 @@ public class TabletPCCommand extends Command {
     public Goods createGoodsWith(Map<String, String> parameters) {
         TabletPC tabletPC = new TabletPC();
 
-        tabletPC.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.BATTERY_CAPACITY.toString())));
-        tabletPC.setColor(parameters.get(Parameters.GoodsType.TabletPC.COLOR.toString()));
-        tabletPC.setDisplayInches(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.DISPLAY_INCHES.toString())));
-        tabletPC.setFlashMemoryCapacity(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.FLASH_MEMORY_CAPACITY.toString())));
-        tabletPC.setMemoryRom(Double.parseDouble(parameters.get(Parameters.GoodsType.TabletPC.MEMORY_ROM.toString())));
+        tabletPC.setBatteryCapacity(Double.parseDouble(parameters.get(Parameters.TabletPC.BATTERY_CAPACITY.toString())));
+        tabletPC.setColor(parameters.get(Parameters.TabletPC.COLOR.toString()));
+        tabletPC.setDisplayInches(Double.parseDouble(parameters.get(Parameters.TabletPC.DISPLAY_INCHES.toString())));
+        tabletPC.setFlashMemoryCapacity(Double.parseDouble(parameters.get(Parameters.TabletPC.FLASH_MEMORY_CAPACITY.toString())));
+        tabletPC.setMemoryRom(Double.parseDouble(parameters.get(Parameters.TabletPC.MEMORY_ROM.toString())));
 
         return tabletPC;
     }
