@@ -11,8 +11,8 @@ public abstract class PassengerPlane extends Plane {
     }
 
     public PassengerPlane(PlaneTypes type, String name, Manufacturers manufacturer, int crew,
-                          int maxSpeedKmPerHour, double rangeKm,
-                          double fuelConsumptionLitersPerHour, int seatingCapacity) {
+                          int maxSpeedKmPerHour, int rangeKm,
+                          int fuelConsumptionLitersPerHour, int seatingCapacity) {
 
         super(type, name, manufacturer, crew, maxSpeedKmPerHour,
                 rangeKm, fuelConsumptionLitersPerHour);

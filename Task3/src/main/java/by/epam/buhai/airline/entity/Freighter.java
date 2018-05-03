@@ -8,16 +8,16 @@ import static by.epam.buhai.airline.entity.Specification.*;
 public class Freighter extends Plane implements Serializable {
     private static final long serialVersionUID = 1507391495003649859L;
     private CargoPlaneTypes cargoPlaneType;
-    private double cargoTones;
-    private double cargoVolumeSquareMeter;
+    private int cargoTones;
+    private int cargoVolumeSquareMeter;
 
 
     public Freighter() {
     }
 
     public Freighter(String name, Manufacturers manufacturer, int crew,
-                     int maxSpeedKmPerHour, double rangeKm, double fuelConsumptionLitersPerHour,
-                     CargoPlaneTypes cargoPlaneType, double cargoTones, double cargoVolumeSquareMeter) {
+                     int maxSpeedKmPerHour, int rangeKm, int fuelConsumptionLitersPerHour,
+                     CargoPlaneTypes cargoPlaneType, int cargoTones, int cargoVolumeSquareMeter) {
 
         super(PlaneTypes.FREIGHTER, name, manufacturer, crew, maxSpeedKmPerHour,
                 rangeKm, fuelConsumptionLitersPerHour);
@@ -34,19 +34,19 @@ public class Freighter extends Plane implements Serializable {
         this.cargoPlaneType = cargoPlaneType;
     }
 
-    public double getCargoTones() {
+    public int getCargoTones() {
         return cargoTones;
     }
 
-    public void setCargoTones(double cargoTones) {
+    public void setCargoTones(int cargoTones) {
         this.cargoTones = cargoTones;
     }
 
-    public double getCargoVolumeSquareMeter() {
+    public int getCargoVolumeSquareMeter() {
         return cargoVolumeSquareMeter;
     }
 
-    public void setCargoVolumeSquareMeter(double cargoVolumeSquareMeter) {
+    public void setCargoVolumeSquareMeter(int cargoVolumeSquareMeter) {
         this.cargoVolumeSquareMeter = cargoVolumeSquareMeter;
     }
 

@@ -1,8 +1,10 @@
 package by.epam.buhai.airline.service;
 
+import by.epam.buhai.airline.entity.Plane;
+
+import java.util.List;
+
 public interface AirlineService {
-    // int countTotalSeatingCapacity();
-    // double countTotalCargoCapacity();
-    // sortByFlightDistance();
-    // findPlaneByFuelConsumptionRange();
+    //<E> List<Goods> find(Criteria<E> criteria) throws TaskException;
+    List<Plane> createPlaneList();
 }

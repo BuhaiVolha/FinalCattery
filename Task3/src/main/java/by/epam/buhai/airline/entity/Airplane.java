@@ -17,7 +17,7 @@ public class Airplane extends PassengerPlane implements Serializable {
     }
 
     public Airplane(String name, Manufacturers manufacturer, int crew, int maxSpeedKmPerHour,
-                    double rangeKm, double fuelConsumptionLitersPerHour, int seatingCapacity,
+                    int rangeKm, int fuelConsumptionLitersPerHour, int seatingCapacity,
                     AirplaneTypes airplaneType, AirplaneBodyTypes airplaneBodyType,
                     AirplaneClassCabinsNumber airplaneClassCabinsNumber) {
 

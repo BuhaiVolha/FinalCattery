@@ -12,14 +12,14 @@ public abstract class Plane implements Serializable{
     private Manufacturers manufacturer;
     private int crew;
     private int maxSpeedKmPerHour;
-    private double rangeKm;
-    private double fuelConsumptionLitersPerHour;
+    private int rangeKm;
+    private int fuelConsumptionLitersPerHour;
 
     public Plane() {
     }
 
     public Plane(PlaneTypes type, String name, Manufacturers manufacturer, int crew,
-                 int maxSpeedKmPerHour, double rangeKm, double fuelConsumptionLitersPerHour) {
+                 int maxSpeedKmPerHour, int rangeKm, int fuelConsumptionLitersPerHour) {
         this.type = type;
         this.name = name;
         this.manufacturer = manufacturer;
@@ -62,19 +62,19 @@ public abstract class Plane implements Serializable{
         this.maxSpeedKmPerHour = maxSpeedKmPerHour;
     }
 
-    public double getRangeKm() {
+    public int getRangeKm() {
         return rangeKm;
     }
 
-    public void setRangeKm(double rangeKm) {
+    public void setRangeKm(int rangeKm) {
         this.rangeKm = rangeKm;
     }
 
-    public double getFuelConsumptionLitersPerHour() {
+    public int getFuelConsumptionLitersPerHour() {
         return fuelConsumptionLitersPerHour;
     }
 
-    public void setFuelConsumptionLitersPerHour(double fuelConsumptionLitersPerHour) {
+    public void setFuelConsumptionLitersPerHour(int fuelConsumptionLitersPerHour) {
         this.fuelConsumptionLitersPerHour = fuelConsumptionLitersPerHour;
     }
 
@@ -120,14 +120,13 @@ public abstract class Plane implements Serializable{
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Plane ");
-        sb.append("type='").append(type).append('\'');
-        sb.append(", manufacturer='").append(manufacturer).append('\'');
-        sb.append(", name='").append(name).append('\'');
+        final StringBuilder sb = new StringBuilder(type.toString()).append(":");
+        sb.append(" name=").append(name);
+        sb.append(", manufacturer=").append(manufacturer);
         sb.append(", crew=").append(crew);
         sb.append(", maxSpeedKmPerHour=").append(maxSpeedKmPerHour);
         sb.append(", rangeKm=").append(rangeKm);
-        sb.append(", fuelConsumption=").append(fuelConsumptionLitersPerHour);
+        sb.append(", fuelConsumptionLitersPerHour=").append(fuelConsumptionLitersPerHour);
         return sb.toString();
     }
 }

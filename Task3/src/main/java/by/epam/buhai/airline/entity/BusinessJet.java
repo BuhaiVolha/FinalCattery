@@ -16,8 +16,8 @@ public class BusinessJet extends PassengerPlane implements Serializable {
     }
 
     public BusinessJet(String name, Manufacturers manufacturer, int crew,
-                       int maxSpeedKmPerHour, double rangeKm,
-                       double fuelConsumptionLitersPerHour, int seatingCapacity, BusinessJetTypes businessJetType,
+                       int maxSpeedKmPerHour, int rangeKm,
+                       int fuelConsumptionLitersPerHour, int seatingCapacity, BusinessJetTypes businessJetType,
                        boolean hasConferenceArea, int cabinVolumeSquareMeter, int priceDollars) {
 
         super(PlaneTypes.BUSINESS_JET, name, manufacturer, crew, maxSpeedKmPerHour,
