@@ -35,6 +35,10 @@ public final class AirlineManager implements Serializable {
         planes = airline.getPlanes();
     }
 
+    public void addPlane(Plane plane) {
+        planes.add(plane);
+    }
+
     public String getInfoAboutAirline() {
         return airline.toString();
     }
