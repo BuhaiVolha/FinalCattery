@@ -12,6 +12,7 @@ public class CommandProvider {
         commands.put(Specification.PlaneTypes.FREIGHTER, new FreighterCommand());
         commands.put(Specification.PlaneTypes.AIRPLANE, new AirplaneCommand());
         commands.put(Specification.PlaneTypes.COMMERCIAL_SPACEPLANE, new SpaceplaneCommand());
+        commands.put(Specification.PlaneTypes.BUSINESS_JET, new BusinessJetCommand());
     }
 
     public Command getCommandFor(String planeType) {

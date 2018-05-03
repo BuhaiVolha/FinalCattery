@@ -7,6 +7,9 @@ public abstract class Specification {
 
     public enum Manufacturers {
         AIRBUS, ANTONOV, ATR, BOEING, COMAC, EMBRAER, DOUGLAS,  THE_SPACESHIP_COMPANY, CESSNA,
+        BEECHCRAFT, BOMBARDIER, DASSAULT_AVIATION, GULFSTREAM_AEROSPACE, LOCKHEED_MARTIN,
+        GE_AVIATION, UNITED_TECHNOLOGIES, NORTHROP_GRUMMAN, RAYTHEON, SAFRAN, BAE_SYSTEMS,
+        LEONARDO, ROLLS_ROYCE_HOLDINGS
     }
 
     public enum SpaceplaneTypes {
@@ -22,7 +25,7 @@ public abstract class Specification {
     }
 
     public enum AirplaneClassCabinsNumber {
-        ONE_CABIN_CLASS, TWO_CABIN_CLASSES, THREE_CABIN_CLASSES, FOUR_CABIN_CLASSES
+        ONE_CABIN_CLASS, TWO_CABIN_CLASS, THREE_CABIN_CLASS, FOUR_CABIN_CLASS
     }
 
     public enum BusinessJetTypes {
