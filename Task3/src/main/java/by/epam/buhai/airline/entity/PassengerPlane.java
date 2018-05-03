@@ -52,7 +52,7 @@ public abstract class PassengerPlane extends Plane {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("seatingCapacity=").append(seatingCapacity);
+        sb.append(", seatingCapacity=").append(seatingCapacity);
         return sb.toString();
     }
 }

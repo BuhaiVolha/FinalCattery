@@ -91,7 +91,7 @@ public class CommercialSpaceplane extends PassengerPlane implements Serializable
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("spaceplaneType=").append(spaceplaneType);
+        sb.append(", spaceplaneType=").append(spaceplaneType);
         sb.append(", ticketPriceDollars=").append(ticketPriceDollars);
         sb.append(", flightDurationHour=").append(flightDurationHour);
         sb.append(", minutesInMicrogravity=").append(minutesInMicrogravity);

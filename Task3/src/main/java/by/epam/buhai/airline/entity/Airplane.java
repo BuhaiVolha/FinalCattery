@@ -9,8 +9,8 @@ import static by.epam.buhai.airline.entity.Specification.*;
 
 public class Airplane extends PassengerPlane implements Serializable {
     private static final long serialVersionUID = 3384171766593245731L;
-    private AirplaneTypes airplaneTypes;
-    private AirplaneBodyTypes airplaneBodyTypes;
+    private AirplaneTypes airplaneType;
+    private AirplaneBodyTypes airplaneBodyType;
     private AirplaneClassCabinsNumber airplaneClassCabinsNumber;
 
     public Airplane() {
@@ -18,30 +18,30 @@ public class Airplane extends PassengerPlane implements Serializable {
 
     public Airplane(String name, Manufacturers manufacturer, int crew, int maxSpeedKmPerHour,
                     double rangeKm, double fuelConsumptionLitersPerHour, int seatingCapacity,
-                    AirplaneTypes airplaneTypes, AirplaneBodyTypes airplaneBodyTypes,
+                    AirplaneTypes airplaneType, AirplaneBodyTypes airplaneBodyType,
                     AirplaneClassCabinsNumber airplaneClassCabinsNumber) {
 
         super(PlaneTypes.AIRPLANE, name, manufacturer, crew, maxSpeedKmPerHour, rangeKm,
                 fuelConsumptionLitersPerHour, seatingCapacity);
-        this.airplaneTypes = airplaneTypes;
-        this.airplaneBodyTypes = airplaneBodyTypes;
+        this.airplaneType = airplaneType;
+        this.airplaneBodyType = airplaneBodyType;
         this.airplaneClassCabinsNumber = airplaneClassCabinsNumber;
     }
 
-    public AirplaneTypes getAirplaneTypes() {
-        return airplaneTypes;
+    public AirplaneTypes getAirplaneType() {
+        return airplaneType;
     }
 
-    public void setAirplaneTypes(AirplaneTypes airplaneTypes) {
-        this.airplaneTypes = airplaneTypes;
+    public void setAirplaneType(AirplaneTypes airplaneType) {
+        this.airplaneType = airplaneType;
     }
 
-    public AirplaneBodyTypes getAirplaneBodyTypes() {
-        return airplaneBodyTypes;
+    public AirplaneBodyTypes getAirplaneBodyType() {
+        return airplaneBodyType;
     }
 
-    public void setAirplaneBodyTypes(AirplaneBodyTypes airplaneBodyTypes) {
-        this.airplaneBodyTypes = airplaneBodyTypes;
+    public void setAirplaneBodyType(AirplaneBodyTypes airplaneBodyType) {
+        this.airplaneBodyType = airplaneBodyType;
     }
 
     public AirplaneClassCabinsNumber getAirplaneClassCabinsNumber() {
@@ -62,8 +62,8 @@ public class Airplane extends PassengerPlane implements Serializable {
 
         return new EqualsBuilder()
                 .appendSuper(super.equals(o))
-                .append(getAirplaneTypes(), airplane.getAirplaneTypes())
-                .append(getAirplaneBodyTypes(), airplane.getAirplaneBodyTypes())
+                .append(getAirplaneType(), airplane.getAirplaneType())
+                .append(getAirplaneBodyType(), airplane.getAirplaneBodyType())
                 .append(getAirplaneClassCabinsNumber(), airplane.getAirplaneClassCabinsNumber())
                 .isEquals();
     }
@@ -72,8 +72,8 @@ public class Airplane extends PassengerPlane implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .appendSuper(super.hashCode())
-                .append(getAirplaneTypes())
-                .append(getAirplaneBodyTypes())
+                .append(getAirplaneType())
+                .append(getAirplaneBodyType())
                 .append(getAirplaneClassCabinsNumber())
                 .toHashCode();
     }
@@ -81,8 +81,8 @@ public class Airplane extends PassengerPlane implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("airplaneTypes=").append(airplaneTypes);
-        sb.append(", airplaneBodyTypes=").append(airplaneBodyTypes);
+        sb.append(", airplaneType=").append(airplaneType);
+        sb.append(", airplaneBodyType=").append(airplaneBodyType);
         sb.append(", airplaneClassCabinsNumber=").append(airplaneClassCabinsNumber);
         sb.append('.');
         return sb.toString();

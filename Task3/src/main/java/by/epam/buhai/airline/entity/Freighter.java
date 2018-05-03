@@ -79,7 +79,7 @@ public class Freighter extends Plane implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("cargoPlaneType=").append(cargoPlaneType);
+        sb.append(", cargoPlaneType=").append(cargoPlaneType);
         sb.append(", cargoTones=").append(cargoTones);
         sb.append(", cargoVolumeSquareMeter=").append(cargoVolumeSquareMeter);
         sb.append('.');

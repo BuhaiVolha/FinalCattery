@@ -91,7 +91,7 @@ public class BusinessJet extends PassengerPlane implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(super.toString());
-        sb.append("businessJetType=").append(businessJetType);
+        sb.append(", businessJetType=").append(businessJetType);
         sb.append(", hasConferenceArea=").append(hasConferenceArea);
         sb.append(", cabinVolumeSquareMeter=").append(cabinVolumeSquareMeter);
         sb.append(", priceDollars=").append(priceDollars);
