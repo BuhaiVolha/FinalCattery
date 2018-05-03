@@ -9,7 +9,7 @@ import java.util.List;
 
 public final class PrintInfo {
     private static final Logger LOGGER = LogManager.getLogger(PrintInfo.class);
-    private static final String EMPTY_LIST_MESSAGE = "There are no planes";
+    private static final String EMPTY_LIST_MESSAGE = "No planes are found";
 
     public static void print(List<Plane> planes) {
         if ((planes != null) && (!planes.isEmpty())) {
