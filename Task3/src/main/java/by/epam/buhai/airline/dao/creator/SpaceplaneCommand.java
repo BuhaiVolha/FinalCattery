@@ -6,10 +6,10 @@ import by.epam.buhai.airline.entity.CommercialSpaceplane;
 import by.epam.buhai.airline.entity.Plane;
 import by.epam.buhai.airline.entity.Specification;
 
-public class SpaceplaneCommand extends Command {
+public final class SpaceplaneCommand extends Command {
 
     @Override
-    Plane createPlaneWith(DTO parameters) {
+    public Plane createPlaneWith(DTO parameters) {
         SpaceplaneCommandParameters s = (SpaceplaneCommandParameters) parameters;
         return new CommercialSpaceplane(s.getName(),
                 Specification.Manufacturers.valueOf(s.getManufacturer()),

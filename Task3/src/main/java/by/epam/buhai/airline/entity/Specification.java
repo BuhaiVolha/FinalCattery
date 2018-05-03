@@ -6,7 +6,7 @@ public abstract class Specification {
     }
 
     public enum Manufacturers {
-        AIRBUS, ANTONOV, ATR, BOEING, COMAC, EMBRAER, DOUGLAS,  THE_SPACESHIP_COMPANY
+        AIRBUS, ANTONOV, ATR, BOEING, COMAC, EMBRAER, DOUGLAS,  THE_SPACESHIP_COMPANY, CESSNA,
     }
 
     public enum SpaceplaneTypes {

@@ -4,5 +4,5 @@ import by.epam.buhai.airline.dao.dto.DTO;
 import by.epam.buhai.airline.entity.Plane;
 
 public abstract class Command {
-    abstract Plane createPlaneWith(DTO parameters);
+    public abstract Plane createPlaneWith(DTO parameters);
 }

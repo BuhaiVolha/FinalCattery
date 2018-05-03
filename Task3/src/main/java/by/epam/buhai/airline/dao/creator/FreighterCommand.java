@@ -6,9 +6,9 @@ import by.epam.buhai.airline.entity.Freighter;
 import by.epam.buhai.airline.entity.Plane;
 import by.epam.buhai.airline.entity.Specification;
 
-public class FreighterCommand extends Command {
+public final class FreighterCommand extends Command {
     @Override
-    Plane createPlaneWith(DTO parameters) {
+    public Plane createPlaneWith(DTO parameters) {
 
         FreighterCommandParameters f = (FreighterCommandParameters) parameters;
         return new Freighter(f.getName(),

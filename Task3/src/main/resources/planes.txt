@@ -1,0 +1,4 @@
+FREIGHTER:name=Boeing-747-200F,manufacturer=BOEING,crew=3,maxSpeedKmPerHour=955,rangeKm=9800,fuelConsumptionLitersPerHour=13733,cargoPlaneType=PASSENGER_AIRPLANES_DERIVATIVE,cargoTones=112,cargoVolumeSquareMeter=740;
+AIRPLANE: manufacturer=AIRBUS, name=Airbus A380, crew=2, maxSpeedKmPerHour=1020, rangeKm=15200, fuelConsumptionLitersPerHour=12000, seatingCapacity=525, airplaneType=LONG_HAUL, airplaneBodyType=WIDE_BODY, airplaneClassCabinsNumber=THREE_CABIN_CLASSES;
+COMMERCIAL_SPACEPLANE: name=SpaceShipTwo, manufacturer=THE_SPACESHIP_COMPANY, crew=2, maxSpeedKmPerHour=4000, rangeKm=130, fuelConsumptionLitersPerHour=16920, seatingCapacity=6, spaceplaneType=ROCKET_POWERED, minutesInMicrogravity=4, ticketPriceDollars=250000;
+BUSINESS_JET: crew=1, name=Cessna Citation Mustang, fuelConsumptionLitersPerHour=359, manufacturer=CESSNA, maxSpeedKmPerHour=777, rangeKm=2161, seatingCapacity=5, businessJetType=SUPER_LIGHT, hasConferenceArea=false, unitCostMlnDollars=3.35;

@@ -6,10 +6,10 @@ import by.epam.buhai.airline.entity.Airplane;
 import by.epam.buhai.airline.entity.Plane;
 import by.epam.buhai.airline.entity.Specification;
 
-public class AirplaneCommand extends Command {
+public final class AirplaneCommand extends Command {
 
     @Override
-    Plane createPlaneWith(DTO parameters) {
+    public Plane createPlaneWith(DTO parameters) {
         AirplaneCommandParameters a = (AirplaneCommandParameters) parameters;
         return new Airplane(a.getName(),
                 Specification.Manufacturers.valueOf(a.getManufacturer()),
