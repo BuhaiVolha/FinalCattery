@@ -53,8 +53,8 @@ public class AirlineDAOImpl implements AirlineDAO {
                 }
             }
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        } catch (IOException | NullPointerException e) {
+            LOGGER.error(e);
             LOGGER.log(Level.FATAL, "Reading file has failed");
         }
         return planes;
