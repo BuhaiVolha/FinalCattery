@@ -1,10 +1,10 @@
 package by.epam.buhai.airline.main;
 
 import by.epam.buhai.airline.entity.*;
+import by.epam.buhai.airline.entity.comparator.SortingParameters;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.Comparator;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
@@ -23,9 +23,7 @@ public class Main {
         LOGGER.log(Level.INFO, "totalPassengerCapacity=" + totalPassengerCapacity);
 
         LOGGER.log(Level.INFO,"Sorting by range:");
-        Comparator<Plane> comparatorByRange = Comparator.comparing(Plane::getRangeKm)
-                .thenComparing((o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
-        PrintInfo.print(manager.sort(comparatorByRange));
+        PrintInfo.print(manager.sort(SortingParameters.RANGE));
 
         LOGGER.log(Level.INFO, "Finding planes by fuel consumption diapason:");
         PrintInfo.print(manager.findPlaneByFuelConsumptionDiapason(1000, 1200));

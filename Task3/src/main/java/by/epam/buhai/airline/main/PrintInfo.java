@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
-
 public final class PrintInfo {
     private static final Logger LOGGER = LogManager.getLogger(PrintInfo.class);
     private static final String EMPTY_LIST_MESSAGE = "No planes are found";

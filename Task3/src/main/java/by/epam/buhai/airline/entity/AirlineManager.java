@@ -1,5 +1,7 @@
 package by.epam.buhai.airline.entity;
 
+import by.epam.buhai.airline.entity.comparator.PlaneComparator;
+import by.epam.buhai.airline.entity.comparator.SortingParameters;
 import by.epam.buhai.airline.entity.validation.Validator;
 import by.epam.buhai.airline.service.AirlineService;
 import by.epam.buhai.airline.service.ServiceFactory;
@@ -35,9 +37,11 @@ public final class AirlineManager implements Serializable {
         planes = airline.getPlanes();
     }
 
+
     public void addPlane(Plane plane) {
         planes.add(plane);
     }
+
 
     public String getInfoAboutAirline() {
         return airline.toString();
@@ -55,6 +59,7 @@ public final class AirlineManager implements Serializable {
         return result;
     }
 
+
     public int countTotalCargoCapacity() {
         int result = 0;
 
@@ -66,9 +71,10 @@ public final class AirlineManager implements Serializable {
         return result;
     }
 
-    public List<Plane> sort(Comparator<Plane> comparator) {
 
-        planes.sort(comparator);
+    public List<Plane> sort(SortingParameters parameters) {
+
+        planes.sort(PlaneComparator.getPlaneComparator(parameters));
         return planes;
     }
 
