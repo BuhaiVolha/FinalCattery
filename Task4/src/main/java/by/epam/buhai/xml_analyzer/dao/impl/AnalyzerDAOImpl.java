@@ -1,12 +1,12 @@
-package by.epam.buhai.xml_parser.dao.impl;
+package by.epam.buhai.xml_analyzer.dao.impl;
 
-import by.epam.buhai.xml_parser.dao.AnalyzerDAO;
-import by.epam.buhai.xml_parser.dao.creator.Creator;
-import by.epam.buhai.xml_parser.dao.creator.CreatorImpl;
-import by.epam.buhai.xml_parser.entity.Node;
+import by.epam.buhai.xml_analyzer.dao.AnalyzerDAO;
+import by.epam.buhai.xml_analyzer.dao.creator.Creator;
+import by.epam.buhai.xml_analyzer.dao.creator.CreatorImpl;
+import by.epam.buhai.xml_analyzer.entity.Node;
 
-import by.epam.buhai.xml_parser.exception.LoadingFileFailedException;
-import by.epam.buhai.xml_parser.exception.NodeCreationFailedException;
+import by.epam.buhai.xml_analyzer.exception.LoadingFileFailedException;
+import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

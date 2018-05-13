@@ -1,6 +1,6 @@
-package by.epam.buhai.xml_parser.dao;
+package by.epam.buhai.xml_analyzer.dao;
 
-import by.epam.buhai.xml_parser.dao.impl.AnalyzerDAOImpl;
+import by.epam.buhai.xml_analyzer.dao.impl.AnalyzerDAOImpl;
 
 public final class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();

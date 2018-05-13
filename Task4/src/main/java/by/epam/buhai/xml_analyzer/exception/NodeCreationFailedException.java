@@ -1,4 +1,4 @@
-package by.epam.buhai.xml_parser.exception;
+package by.epam.buhai.xml_analyzer.exception;
 
 public class NodeCreationFailedException extends Task4Exception {
     public NodeCreationFailedException() {}

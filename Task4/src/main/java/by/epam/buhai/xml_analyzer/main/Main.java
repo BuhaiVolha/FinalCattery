@@ -1,8 +1,8 @@
-package by.epam.buhai.xml_parser.main;
+package by.epam.buhai.xml_analyzer.main;
 
-import by.epam.buhai.xml_parser.exception.Task4Exception;
-import by.epam.buhai.xml_parser.service.AnalyzerService;
-import by.epam.buhai.xml_parser.service.ServiceFactory;
+import by.epam.buhai.xml_analyzer.exception.Task4Exception;
+import by.epam.buhai.xml_analyzer.service.AnalyzerService;
+import by.epam.buhai.xml_analyzer.service.ServiceFactory;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

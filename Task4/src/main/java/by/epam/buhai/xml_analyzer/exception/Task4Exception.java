@@ -1,4 +1,4 @@
-package by.epam.buhai.xml_parser.exception;
+package by.epam.buhai.xml_analyzer.exception;
 
 public class Task4Exception extends Exception {
     public Task4Exception() {}

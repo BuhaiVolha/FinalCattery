@@ -1,6 +1,6 @@
-package by.epam.buhai.xml_parser.service;
+package by.epam.buhai.xml_analyzer.service;
 
-import by.epam.buhai.xml_parser.service.impl.AnalyzerServiceImpl;
+import by.epam.buhai.xml_analyzer.service.impl.AnalyzerServiceImpl;
 
 public final class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();

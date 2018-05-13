@@ -1,7 +1,7 @@
-package by.epam.buhai.xml_parser.main;
+package by.epam.buhai.xml_analyzer.main;
 
-import by.epam.buhai.xml_parser.entity.Node;
-import by.epam.buhai.xml_parser.entity.NodeTypes;
+import by.epam.buhai.xml_analyzer.entity.Node;
+import by.epam.buhai.xml_analyzer.entity.NodeTypes;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

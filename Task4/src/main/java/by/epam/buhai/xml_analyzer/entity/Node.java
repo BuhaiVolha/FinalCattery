@@ -1,4 +1,4 @@
-package by.epam.buhai.xml_parser.entity;
+package by.epam.buhai.xml_analyzer.entity;
 
 public final class Node {
     private NodeTypes type;

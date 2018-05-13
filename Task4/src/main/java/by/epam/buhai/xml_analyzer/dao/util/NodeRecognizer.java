@@ -1,7 +1,7 @@
-package by.epam.buhai.xml_parser.dao.util;
+package by.epam.buhai.xml_analyzer.dao.util;
 
-import by.epam.buhai.xml_parser.entity.NodeTypes;
-import by.epam.buhai.xml_parser.exception.NodeCreationFailedException;
+import by.epam.buhai.xml_analyzer.entity.NodeTypes;
+import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
