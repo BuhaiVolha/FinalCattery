@@ -17,12 +17,8 @@ public final class CreatorImpl extends Creator {
         NodeRecognizer nodeRecognizer = NodeRecognizer.getNodeRecognizer();
 
         NodeTypes type = nodeRecognizer.findNodeType(line);
-        String content = line.replaceAll(XML_CHARACTERS, "");
+        String name = line.replaceAll(XML_CHARACTERS, "");
 
-        Node node = Node.getNode();
-        node.setName(content);
-        node.setType(type);
-
-        return node;
+        return new Node(type, name);
     }
 }
