@@ -54,7 +54,6 @@ public final class NodeRecognizer {
         } else if (withAttribute()){
             return NodeTypes.TAG_WITH_ATTRIBUTE;
         }
-        //throw new EnumConstantNotPresentException(NodeTypes.class,"Creating node has failed");
         throw new NodeCreationFailedException("Creating node has failed", new EnumConstantNotPresentException(NodeTypes.class, line));
     }
 
