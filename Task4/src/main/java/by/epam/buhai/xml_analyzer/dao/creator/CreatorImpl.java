@@ -20,7 +20,7 @@ public final class CreatorImpl extends Creator {
         String content = line.replaceAll(XML_CHARACTERS, "");
 
         Node node = Node.getNode();
-        node.setContent(content);
+        node.setName(content);
         node.setType(type);
 
         return node;

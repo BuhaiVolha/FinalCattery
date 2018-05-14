@@ -21,25 +21,25 @@ public final class PrintInfo {
             if (node.getType().equals(NodeTypes.TEXT_NODE)) {
                 System.out.println(node.getType().getDescription()
                         + " -> "
-                        + node.getContent());
+                        + node.getName());
 
             } else if (node.getType().equals(NodeTypes.CLOSING_TAG)) {
                 System.out.println(node.getType().getDescription()
                         + " -> "
-                        + XML_CLOSING_TAG_OPENER + node.getContent()+ XML_CLOSER);
+                        + XML_CLOSING_TAG_OPENER + node.getName()+ XML_CLOSER);
 
             } else if (node.getType().equals(NodeTypes.EMPTY_TAG)) {
                 System.out.println(node.getType().getDescription()
                         + " -> "
                         + XML_OPENING_TAG_OPENER
-                        + node.getContent()
+                        + node.getName()
                         + XML_EMPTY_TAG_CLOSER);
 
             } else {
                 System.out.println(node.getType().getDescription()
                         + " -> "
                         + XML_OPENING_TAG_OPENER
-                        + node.getContent()
+                        + node.getName()
                         + XML_CLOSER);
             }
         } else {
@@ -50,16 +50,16 @@ public final class PrintInfo {
     public static void printWithColumns(Node node) {
         if (node != null) {
             if (node.getType().equals(NodeTypes.TEXT_NODE)) {
-                System.out.printf("%-30s %s%n", node.getType().getDescription(), node.getContent());
+                System.out.printf("%-30s %s%n", node.getType().getDescription(), node.getName());
 
             } else if (node.getType().equals(NodeTypes.CLOSING_TAG)) {
-                System.out.printf("%-30s </%s>%n", node.getType().getDescription(), node.getContent());
+                System.out.printf("%-30s </%s>%n", node.getType().getDescription(), node.getName());
 
             } else if (node.getType().equals(NodeTypes.EMPTY_TAG)) {
-                System.out.printf("%-30s <%s/>%n", node.getType().getDescription(), node.getContent());
+                System.out.printf("%-30s <%s/>%n", node.getType().getDescription(), node.getName());
 
             } else {
-                System.out.printf("%-30s <%s>%n", node.getType().getDescription(), node.getContent());
+                System.out.printf("%-30s <%s>%n", node.getType().getDescription(), node.getName());
             }
         } else {
             LOGGER.log(Level.INFO, EMPTY_MESSAGE);

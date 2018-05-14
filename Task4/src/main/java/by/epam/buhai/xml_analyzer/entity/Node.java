@@ -2,7 +2,7 @@ package by.epam.buhai.xml_analyzer.entity;
 
 public final class Node {
     private NodeTypes type;
-    private String content;
+    private String name;
     private static Node node;
 
     private Node() {
@@ -27,13 +27,13 @@ public final class Node {
     }
 
 
-    public String getContent() {
-        return content;
+    public String getName() {
+        return name;
     }
 
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -41,7 +41,7 @@ public final class Node {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(type.getDescription());
-        sb.append("=").append(content);
+        sb.append("=").append(name);
         return sb.toString();
     }
 }
