@@ -16,21 +16,18 @@ public class Main {
         AnalyzerService reader = factory.getAnalyzerService();
 
         try {
-            reader.setPath("damagednotes.xml");
 
+            reader.setPath("damagednotes.xml");
             while (reader.hasNext()) {
                 PrintInfo.print(reader.findNode());
             }
-            reader.close();
 
             //////////////////////////////////////////////////////////////
 
             reader.setPath("breakfastMenu.xml");
-
             while (reader.hasNext()) {
                 PrintInfo.printWithColumns(reader.findNode());
             }
-            reader.close();
 
         } catch (ServiceException e) {
             LOGGER.log(Level.INFO, e.getCause());

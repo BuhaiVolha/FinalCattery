@@ -16,11 +16,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public final class AnalyzerDAOImpl implements AnalyzerDAO, AutoCloseable {
+public final class AnalyzerDAOImpl implements AnalyzerDAO {
     private static final Logger LOGGER = LogManager.getLogger(AnalyzerDAOImpl.class);
     private Scanner reader;
     private ClassLoader classLoader;
     private NodeCreator nodeCreator;
+
+    private static final String NODE_FINDING_REGEX = ">|<(?=/)|\\t+(?=<)";
+    private static final String DELETING_UNWANTED_WHITESPACES_REGEX = "(<?)\\s{2,}";
 
 
     public AnalyzerDAOImpl() {
@@ -46,18 +49,25 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO, AutoCloseable {
 
 
     public Node findNode() throws ReadingLineFailedException, NodeCreationFailedException {
+        String lineFromText = readLine();
+
+        return nodeCreator.createNode(lineFromText);
+    }
+
+
+    private String readLine() throws ReadingLineFailedException {
         String lineFromText;
 
         try {
 
             do {
-                lineFromText = reader.useDelimiter(">|<(?=/)|\\t+(?=<)").next();
+                lineFromText = reader.useDelimiter(NODE_FINDING_REGEX).next();
 
                 if ((lineFromText.contains("\n"))
                         || (lineFromText.contains("\r"))
                         || (lineFromText.contains("\t"))) {
 
-                    lineFromText = lineFromText.replaceAll("(<?)\\s{2,}", "$1");
+                    lineFromText = lineFromText.replaceAll(DELETING_UNWANTED_WHITESPACES_REGEX, "$1");
                 }
             } while (lineFromText.isEmpty());
 
@@ -66,9 +76,8 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO, AutoCloseable {
             throw new ReadingLineFailedException(e);
 
         }
-        return nodeCreator.createNode(lineFromText);
+        return lineFromText;
     }
-
 
 
     @Override

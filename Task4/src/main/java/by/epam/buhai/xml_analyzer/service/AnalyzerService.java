@@ -5,7 +5,6 @@ import by.epam.buhai.xml_analyzer.service.service_exception.FindingNodeFailedExc
 import by.epam.buhai.xml_analyzer.service.service_exception.InvalidPathException;
 
 public interface AnalyzerService {
-    void close();
     void setPath(String path) throws InvalidPathException;
     Node findNode() throws FindingNodeFailedException;
     boolean hasNext();

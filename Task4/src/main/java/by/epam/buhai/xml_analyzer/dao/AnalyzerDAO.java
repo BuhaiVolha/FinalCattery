@@ -5,7 +5,7 @@ import by.epam.buhai.xml_analyzer.dao.dao_exception.ReadingLineFailedException;
 import by.epam.buhai.xml_analyzer.entity.Node;
 import by.epam.buhai.xml_analyzer.dao.dao_exception.LoadingFileFailedException;
 
-public interface AnalyzerDAO {
+public interface AnalyzerDAO extends AutoCloseable {
     void setPath(String path) throws LoadingFileFailedException;
     Node findNode() throws ReadingLineFailedException, NodeCreationFailedException;
     void close();
