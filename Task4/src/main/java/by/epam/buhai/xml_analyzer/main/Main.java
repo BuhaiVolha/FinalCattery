@@ -1,8 +1,8 @@
 package by.epam.buhai.xml_analyzer.main;
 
-import by.epam.buhai.xml_analyzer.exception.Task4Exception;
 import by.epam.buhai.xml_analyzer.service.AnalyzerService;
 import by.epam.buhai.xml_analyzer.service.ServiceFactory;
+import by.epam.buhai.xml_analyzer.service.service_exception.ServiceException;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class Main {
             }
             reader.close();
 
-        } catch (Task4Exception e) {
+        } catch (ServiceException e) {
             LOGGER.log(Level.INFO, e.getCause());
         }
     }

@@ -2,8 +2,7 @@ package by.epam.buhai.xml_analyzer.dao.node_creator;
 
 import by.epam.buhai.xml_analyzer.entity.Node;
 import by.epam.buhai.xml_analyzer.entity.NodeTypes;
-
-import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
+import by.epam.buhai.xml_analyzer.dao.dao_exception.NodeCreationFailedException;
 
 public final class NodeCreatorImpl extends NodeCreator {
     private static final String XML_CHARACTERS = "[/<]";

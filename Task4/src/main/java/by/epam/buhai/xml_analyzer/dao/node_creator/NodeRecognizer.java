@@ -1,8 +1,7 @@
 package by.epam.buhai.xml_analyzer.dao.node_creator;
 
 import by.epam.buhai.xml_analyzer.entity.NodeTypes;
-import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
-
+import by.epam.buhai.xml_analyzer.dao.dao_exception.NodeCreationFailedException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,10 +50,11 @@ public final class NodeRecognizer {
         } else if (prolog()) {
             return NodeTypes.PROLOG;
 
-        } else if (withAttribute()){
+        } else if (withAttribute()) {
             return NodeTypes.TAG_WITH_ATTRIBUTE;
         }
-        throw new NodeCreationFailedException("Creating node has failed", new EnumConstantNotPresentException(NodeTypes.class, line));
+        throw new NodeCreationFailedException("Creating node has failed",
+                new EnumConstantNotPresentException(NodeTypes.class, line));
     }
 
 

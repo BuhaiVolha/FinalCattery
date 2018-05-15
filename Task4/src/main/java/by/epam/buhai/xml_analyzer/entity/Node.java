@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import java.io.Serializable;
 
-public final class Node implements Serializable {  // singleton?
+public final class Node implements Serializable {
     private NodeTypes type;
     private String name;
 
