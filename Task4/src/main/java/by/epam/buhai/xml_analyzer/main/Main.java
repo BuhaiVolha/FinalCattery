@@ -13,10 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
         ServiceFactory factory = ServiceFactory.getInstance();
-        AnalyzerService reader = factory.getAnalyzerService();
 
-        try {
-
+        try (AnalyzerService reader = factory.getAnalyzerService()) {
             reader.setPath("damagednotes.xml");
             while (reader.hasNext()) {
                 PrintInfo.print(reader.findNode());

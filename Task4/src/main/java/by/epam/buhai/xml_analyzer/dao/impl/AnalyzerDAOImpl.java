@@ -24,6 +24,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
 
     private static final String NODE_FINDING_REGEX = ">|<(?=/)|\\t+(?=<)";
     private static final String DELETING_UNWANTED_WHITESPACES_REGEX = "(<?)\\s{2,}";
+    private static final String GROUP_TO_REPLACE= "$1";
 
 
     public AnalyzerDAOImpl() {
@@ -67,7 +68,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
                         || (lineFromText.contains("\r"))
                         || (lineFromText.contains("\t"))) {
 
-                    lineFromText = lineFromText.replaceAll(DELETING_UNWANTED_WHITESPACES_REGEX, "$1");
+                    lineFromText = lineFromText.replaceAll(DELETING_UNWANTED_WHITESPACES_REGEX, GROUP_TO_REPLACE);
                 }
             } while (lineFromText.isEmpty());
 

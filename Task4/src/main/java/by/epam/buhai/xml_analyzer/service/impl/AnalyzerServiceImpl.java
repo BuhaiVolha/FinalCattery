@@ -17,14 +17,12 @@ public final class AnalyzerServiceImpl implements AnalyzerService {
     public Node findNode() throws FindingNodeFailedException {
         Node node;
 
-        try (AnalyzerDAO analyzerDAO = factory.getAnalyzerDAO()) {
+        try {
             node = analyzerDAO.findNode();
 
         } catch (final Throwable e) {
             throw new FindingNodeFailedException(e);
 
-        } finally {
-            analyzerDAO.close();
         }
         return node;
     }
@@ -41,5 +39,11 @@ public final class AnalyzerServiceImpl implements AnalyzerService {
         } catch (LoadingFileFailedException e) {
             throw new InvalidPathException(e);
         }
+    }
+
+
+    @Override
+    public void close() {
+        analyzerDAO.close();
     }
 }
