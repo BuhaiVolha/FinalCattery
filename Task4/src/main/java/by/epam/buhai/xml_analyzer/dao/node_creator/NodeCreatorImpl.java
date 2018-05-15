@@ -6,6 +6,7 @@ import by.epam.buhai.xml_analyzer.dao.dao_exception.NodeCreationFailedException;
 
 public final class NodeCreatorImpl extends NodeCreator {
     private static final String XML_CHARACTERS = "[/<]";
+    private static final String EMPTY_STRING = "";
 
     public NodeCreatorImpl() {
     }
@@ -15,7 +16,7 @@ public final class NodeCreatorImpl extends NodeCreator {
         NodeRecognizer nodeRecognizer = NodeRecognizer.getNodeRecognizer();
 
         NodeTypes type = nodeRecognizer.findNodeType(line);
-        String name = line.replaceAll(XML_CHARACTERS, "");
+        String name = line.replaceAll(XML_CHARACTERS, EMPTY_STRING);
 
         return new Node(type, name);
     }
