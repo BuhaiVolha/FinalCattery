@@ -1,15 +1,14 @@
-package by.epam.buhai.xml_analyzer.dao.creator;
+package by.epam.buhai.xml_analyzer.dao.node_creator;
 
-import by.epam.buhai.xml_analyzer.dao.util.NodeRecognizer;
 import by.epam.buhai.xml_analyzer.entity.Node;
 import by.epam.buhai.xml_analyzer.entity.NodeTypes;
 
 import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
 
-public final class CreatorImpl extends Creator {
+public final class NodeCreatorImpl extends NodeCreator {
     private static final String XML_CHARACTERS = "[/<]";
 
-    public CreatorImpl() {
+    public NodeCreatorImpl() {
     }
 
     @Override

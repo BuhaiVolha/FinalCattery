@@ -1,8 +1,8 @@
 package by.epam.buhai.xml_analyzer.dao.impl;
 
 import by.epam.buhai.xml_analyzer.dao.AnalyzerDAO;
-import by.epam.buhai.xml_analyzer.dao.creator.Creator;
-import by.epam.buhai.xml_analyzer.dao.creator.CreatorImpl;
+import by.epam.buhai.xml_analyzer.dao.node_creator.NodeCreator;
+import by.epam.buhai.xml_analyzer.dao.node_creator.NodeCreatorImpl;
 import by.epam.buhai.xml_analyzer.entity.Node;
 
 import by.epam.buhai.xml_analyzer.exception.LoadingFileFailedException;
@@ -18,12 +18,12 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
     private static final Logger LOGGER = LogManager.getLogger(AnalyzerDAOImpl.class);
     private Scanner reader;
     private ClassLoader classLoader;
-    private Creator creator;
+    private NodeCreator nodeCreator;
 
 
     public AnalyzerDAOImpl() {
         classLoader = AnalyzerDAO.class.getClassLoader();
-        creator = new CreatorImpl();
+        nodeCreator = new NodeCreatorImpl();
     }
 
 
@@ -62,7 +62,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
             LOGGER.log(Level.FATAL, "Reading a line has failed", e);
 
         }
-        return creator.createNode(lineFromText);
+        return nodeCreator.createNode(lineFromText);
     }
 
 

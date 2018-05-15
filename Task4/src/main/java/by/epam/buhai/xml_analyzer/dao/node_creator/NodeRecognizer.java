@@ -1,4 +1,4 @@
-package by.epam.buhai.xml_analyzer.dao.util;
+package by.epam.buhai.xml_analyzer.dao.node_creator;
 
 import by.epam.buhai.xml_analyzer.entity.NodeTypes;
 import by.epam.buhai.xml_analyzer.exception.NodeCreationFailedException;
