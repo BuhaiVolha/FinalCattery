@@ -2,7 +2,6 @@ package by.tc.task01.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.Serializable;
 
 public class TextBook extends Goods implements Serializable {

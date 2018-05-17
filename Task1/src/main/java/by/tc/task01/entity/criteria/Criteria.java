@@ -1,6 +1,6 @@
 package by.tc.task01.entity.criteria;
 
-import by.tc.task01.exception.CriteriaOutOfBoundsException;
+import by.tc.task01.service.service_exception.CriteriaOutOfBoundsException;
 
 import java.util.HashMap;
 import java.util.Iterator;

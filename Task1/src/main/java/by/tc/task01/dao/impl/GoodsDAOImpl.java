@@ -3,12 +3,11 @@ package by.tc.task01.dao.impl;
 import by.tc.task01.dao.GoodsDAO;
 import by.tc.task01.dao.creator.Creator;
 import by.tc.task01.dao.creator.withSettingFields.CreatorSettingFields;
+import by.tc.task01.dao.dao_exception.ReadingFileFailedException;
 import by.tc.task01.dao.utils.GoodsParser;
 import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.criteria.Criteria;
 
-import by.tc.task01.exception.FileNotFoundException;
-import by.tc.task01.exception.TaskException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,12 +25,13 @@ public class GoodsDAOImpl implements GoodsDAO {
     private ClassLoader classLoader = GoodsDAO.class.getClassLoader();
     private GoodsParser parser = GoodsParser.getParser();
     private static final String DATABASE_FILE_NAME = "appliances_db.txt";
+    private static final String UNKNOWN_TYPE = "";
 
     /////////////// Two types of Creator are available! /////////////////////////////
     private Creator goodsCreator = new CreatorSettingFields();
     //private Creator goodsCreator = new CreatorWithReflection();
 
-    public <E> List<Goods> find(Criteria<E> criteria) throws TaskException {
+    public <E> List<Goods> find(Criteria<E> criteria) throws ReadingFileFailedException {
         List<Goods> foundGoods = new ArrayList<>();
         String goodsType = criteria.getGoodsType();
 
@@ -63,13 +63,13 @@ public class GoodsDAOImpl implements GoodsDAO {
                     }
                 }
                 if (typeNeededToBeFound) {
-                    goodsType = "";
+                    goodsType = UNKNOWN_TYPE;
                 }
             }
 
         } catch (Exception e) {
             LOGGER.log(Level.FATAL, "Reading file failed");
-            throw new FileNotFoundException();
+            throw new ReadingFileFailedException(e);
         }
         return foundGoods;
     }

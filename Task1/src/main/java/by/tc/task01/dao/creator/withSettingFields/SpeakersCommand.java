@@ -3,7 +3,6 @@ package by.tc.task01.dao.creator.withSettingFields;
 import by.tc.task01.entity.Goods;
 import by.tc.task01.entity.Speakers;
 import by.tc.task01.entity.criteria.Parameters;
-
 import java.util.Map;
 
 public class SpeakersCommand extends Command {

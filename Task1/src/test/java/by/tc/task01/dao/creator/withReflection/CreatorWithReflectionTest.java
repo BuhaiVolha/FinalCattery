@@ -1,7 +1,7 @@
 package by.tc.task01.dao.creator.withReflection;
 
+import by.tc.task01.dao.dao_exception.GoodsCreationFailedException;
 import by.tc.task01.entity.criteria.Parameters;
-import by.tc.task01.exception.ItemCreationFailedException;
 import org.testng.annotations.*;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class CreatorWithReflectionTest {
         assertEquals(actual, expected);
     }
 
-    @Test(expectedExceptions = ItemCreationFailedException.class)
+    @Test(expectedExceptions = GoodsCreationFailedException.class)
     public void testCreateGoodsWithWrongType() throws Exception {
         String parameter = "SomethingWrong";
         String value = "Windows";

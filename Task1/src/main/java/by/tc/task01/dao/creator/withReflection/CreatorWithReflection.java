@@ -1,16 +1,13 @@
 package by.tc.task01.dao.creator.withReflection;
 
 import by.tc.task01.dao.creator.Creator;
-
+import by.tc.task01.dao.dao_exception.GoodsCreationFailedException;
 import by.tc.task01.dao.utils.GoodsParser;
 import by.tc.task01.entity.*;
-import by.tc.task01.exception.ItemCreationFailedException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.lang.reflect.Field;
-
 import java.util.Map;
 
 
@@ -22,7 +19,7 @@ public class CreatorWithReflection extends Creator {
     public CreatorWithReflection() {
     }
 
-    public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) throws ItemCreationFailedException {
+    public Goods createGoodsAndParameterize(String type, Map<String, String> parameters) throws GoodsCreationFailedException {
         Goods goods = null;
 
         switch (type) {
@@ -57,7 +54,7 @@ public class CreatorWithReflection extends Creator {
     }
 
 
-    private void parameterize(Goods goods, Map<String, String> parameters) throws ItemCreationFailedException {
+    private void parameterize(Goods goods, Map<String, String> parameters) throws GoodsCreationFailedException {
         parameters = parser.makeKeysLookLikeFields(parameters);
 
         try {
@@ -65,7 +62,7 @@ public class CreatorWithReflection extends Creator {
 
         } catch (Exception e) {
             LOGGER.log(Level.ERROR, goods.getClass().getName() + " creation failed");
-            throw new ItemCreationFailedException();
+            throw new GoodsCreationFailedException();
         }
     }
 
