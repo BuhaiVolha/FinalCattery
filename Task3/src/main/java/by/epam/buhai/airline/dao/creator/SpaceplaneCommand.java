@@ -31,7 +31,7 @@ public final class SpaceplaneCommand extends Command {
                     Integer.parseInt(s.getTicketPriceDollars()));
 
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.ERROR, "Spaceplane parsing has failed");
+            LOGGER.log(Level.ERROR, "Spaceplane creation has failed", e);
         }
         return spaceplane;
     }

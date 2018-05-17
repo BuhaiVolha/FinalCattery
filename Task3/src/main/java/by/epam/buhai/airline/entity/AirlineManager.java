@@ -5,6 +5,7 @@ import by.epam.buhai.airline.entity.comparator.SortingParameters;
 import by.epam.buhai.airline.entity.validation.Validator;
 import by.epam.buhai.airline.service.AirlineService;
 import by.epam.buhai.airline.service.ServiceFactory;
+import by.epam.buhai.airline.service.service_exception.PlaneListCreationFailedException;
 
 import java.io.Serializable;
 import java.util.*;
@@ -32,7 +33,7 @@ public final class AirlineManager implements Serializable {
     }
 
 
-    public void buyPlanes() {
+    public void buyPlanes() throws PlaneListCreationFailedException {
         airline.setPlanes(service.createPlaneList());
         planes = airline.getPlanes();
     }

@@ -29,7 +29,7 @@ public final class FreighterCommand extends Command {
                     Integer.parseInt(f.getCargoTones()),
                     Integer.parseInt(f.getCargoVolumeSquareMeter()));
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.ERROR, "Freighter parsing has failed");
+            LOGGER.log(Level.ERROR, "Freighter creation has failed", e);
         }
         return freighter;
     }

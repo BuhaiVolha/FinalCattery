@@ -31,7 +31,7 @@ public class BusinessJetCommand extends Command {
                     Double.parseDouble(b.getUnitCostMlnDollars()));
 
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.ERROR, "Business Jet parsing has failed");
+            LOGGER.log(Level.ERROR, "Business Jet creation has failed", e);
         }
         return businessJet;
     }

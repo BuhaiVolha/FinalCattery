@@ -3,6 +3,7 @@ package by.epam.buhai.airline.dao.impl;
 import by.epam.buhai.airline.dao.AirlineDAO;
 import by.epam.buhai.airline.dao.Creator;
 import by.epam.buhai.airline.dao.creator.CreatorWithCommand;
+import by.epam.buhai.airline.dao.dao_exception.ReadingFileFailedException;
 import by.epam.buhai.airline.dao.dto.DTO;
 import by.epam.buhai.airline.dao.utils.Parser;
 import by.epam.buhai.airline.entity.Plane;
@@ -26,7 +27,7 @@ public class AirlineDAOImpl implements AirlineDAO {
     private Parser parser = Parser.getParser();
     private Creator planeCreator = new CreatorWithCommand();
 
-    public List<Plane> createPlaneList() {
+    public List<Plane> createPlaneList() throws ReadingFileFailedException {
         List<Plane> planes = new ArrayList<>();
         Map<String, String> parametersParsedFromLine;
 
@@ -54,8 +55,8 @@ public class AirlineDAOImpl implements AirlineDAO {
             }
 
         } catch (IOException | NullPointerException e) {
-            LOGGER.error(e);
             LOGGER.log(Level.FATAL, "Reading file has failed");
+            throw new ReadingFileFailedException(e);
         }
         return planes;
     }

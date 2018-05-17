@@ -30,7 +30,7 @@ public final class AirplaneCommand extends Command {
                     Specification.AirplaneBodyTypes.valueOf(a.getAirplaneBodyType()),
                     Specification.AirplaneClassCabinsNumber.valueOf(a.getAirplaneClassCabinsNumber()));
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.ERROR, "Airplane parsing has failed");
+            LOGGER.log(Level.ERROR, "Airplane creation has failed");
         }
         return airplane;
     }
