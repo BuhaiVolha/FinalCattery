@@ -26,6 +26,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
     private static final String DELETING_UNWANTED_WHITESPACES_REGEX = "(<?)\\s{2,}";
     private static final String GROUP_TO_REPLACE = "$1";
     private static final String NEW_LINE = "\n";
+    private static final String ALL_WHITESPACES_LINE = "\\s+";
 
 
     public AnalyzerDAOImpl() {
@@ -69,7 +70,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
 
                     lineFromText = lineFromText.replaceAll(DELETING_UNWANTED_WHITESPACES_REGEX, GROUP_TO_REPLACE);
                 }
-            } while (lineFromText.isEmpty());
+            } while (checkIfUseless(lineFromText));
 
         } catch (Exception e) {
             LOGGER.log(Level.FATAL, "Reading a line has failed", e);
@@ -77,6 +78,12 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
 
         }
         return lineFromText;
+    }
+
+
+    private boolean checkIfUseless(String line) {
+        return line.isEmpty()
+                || line.matches(ALL_WHITESPACES_LINE);
     }
 
 

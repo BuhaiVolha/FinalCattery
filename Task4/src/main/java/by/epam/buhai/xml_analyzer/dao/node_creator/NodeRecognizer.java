@@ -2,14 +2,10 @@ package by.epam.buhai.xml_analyzer.dao.node_creator;
 
 import by.epam.buhai.xml_analyzer.entity.NodeTypes;
 import by.epam.buhai.xml_analyzer.dao.dao_exception.NodeCreationFailedException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class NodeRecognizer {
     private String line;
     private static NodeRecognizer nodeRecognizer;
-    private Pattern p;
-    private Matcher m;
 
     private static final String EMPTY_TAG_REGEX = "<\\w+/";
     private static final String PROLOG_REGEX = "<?";
@@ -59,35 +55,23 @@ public final class NodeRecognizer {
 
 
     private boolean openingTag() {
-        p = Pattern.compile(OPENING_TAG_REGEX);
-        m = p.matcher(line);
-
-        return (m.matches())
-                && (!line.contains(ATTRIBUTE_REGEX));
+        return line.matches(OPENING_TAG_REGEX)
+                && !line.contains(ATTRIBUTE_REGEX);
     }
 
 
     private boolean closingTag() {
-        p = Pattern.compile(CLOSING_TAG_REGEX);
-        m = p.matcher(line);
-
-        return m.matches();
+        return line.matches(CLOSING_TAG_REGEX);
     }
 
 
     private boolean textNode() {
-        p = Pattern.compile(TEXT_NODE_REGEX);
-        m = p.matcher(line);
-
-        return m.matches();
+        return line.matches(TEXT_NODE_REGEX);
     }
 
 
     private boolean emptyTag() {
-        p = Pattern.compile(EMPTY_TAG_REGEX);
-        m = p.matcher(line);
-
-        return m.matches();
+        return line.matches(EMPTY_TAG_REGEX);
     }
 
 
@@ -97,7 +81,7 @@ public final class NodeRecognizer {
 
 
     private boolean withAttribute() {
-        return (line.startsWith(XML_OPENER))
-                && (line.contains(EQUALS_SIGN));
+        return line.startsWith(XML_OPENER)
+                && line.contains(EQUALS_SIGN);
     }
 }
