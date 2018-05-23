@@ -22,9 +22,10 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
     private ClassLoader classLoader;
     private NodeCreator nodeCreator;
 
-    private static final String NODE_FINDING_REGEX = ">|<(?=/)|\\t+(?=<)";
+    private static final String NODE_FINDING_REGEX = ">|<(?=/)|(?=<)";
     private static final String DELETING_UNWANTED_WHITESPACES_REGEX = "(<?)\\s{2,}";
-    private static final String GROUP_TO_REPLACE= "$1";
+    private static final String GROUP_TO_REPLACE = "$1";
+    private static final String NEW_LINE = "\n";
 
 
     public AnalyzerDAOImpl() {
@@ -64,9 +65,7 @@ public final class AnalyzerDAOImpl implements AnalyzerDAO {
             do {
                 lineFromText = reader.useDelimiter(NODE_FINDING_REGEX).next();
 
-                if ((lineFromText.contains("\n"))
-                        || (lineFromText.contains("\r"))
-                        || (lineFromText.contains("\t"))) {
+                if (lineFromText.contains(NEW_LINE)) {
 
                     lineFromText = lineFromText.replaceAll(DELETING_UNWANTED_WHITESPACES_REGEX, GROUP_TO_REPLACE);
                 }
