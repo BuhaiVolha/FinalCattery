@@ -71,7 +71,7 @@ public class Main {
             PrintGoodsInfo.print(foundGoods);
 
             //////////////////////////////////////////////////////////////////////////////
-            LOGGER.log(Level.INFO,"Get parameter and value by index methods. Iterator");
+            LOGGER.log(Level.INFO,"Get parameter and value by index methods");
 
             Criteria<Laptop> someCriteria = new Criteria<>(Laptop.class);
             someCriteria.add(Laptop.OS, "Windows");
@@ -81,10 +81,9 @@ public class Main {
             System.out.println(someCriteria.getParameterByIndex(1));
             System.out.println(someCriteria.getValueByIndex(2));
 
-            Iterator iterator = someCriteria.iterator();
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
+            LOGGER.log(Level.INFO,"Iterate over criteria");
+            Iterator criteriaIterator = someCriteria.iterator();
+            PrintGoodsInfo.showCriteria(criteriaIterator);
 
         } catch (ServiceException e) {
             LOGGER.log(Level.WARN, e);

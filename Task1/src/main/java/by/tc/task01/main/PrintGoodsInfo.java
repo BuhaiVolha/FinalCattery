@@ -1,10 +1,12 @@
 package by.tc.task01.main;
 
 import by.tc.task01.entity.Goods;
+import by.tc.task01.entity.criteria.Criteria;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class PrintGoodsInfo {
@@ -18,6 +20,13 @@ public class PrintGoodsInfo {
             }
         } else {
             LOGGER.log(Level.INFO, NOT_FOUND_MESSAGE);
+        }
+    }
+
+
+    public static void showCriteria(Iterator iterator) {
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
         }
     }
 }
