@@ -13,7 +13,7 @@ public class Airline implements Serializable {
         this.name = name;
     }
 
-    public List<Plane> getPlanes() {
+    List<Plane> getPlanes() {
         if (planes == null) {
             return Collections.emptyList();
         }
@@ -24,12 +24,23 @@ public class Airline implements Serializable {
         this.planes = planes;
     }
 
-    public int NumberOfPlanes() {
+    private int NumberOfPlanes() {
         if (planes == null) {
             return 0;
         }
         return planes.size();
     }
+
+
+    void addPlane(Plane plane) {
+        planes.add(plane);
+    }
+
+
+    void removePlane(Plane plane) {
+        planes.remove(plane);
+    }
+
 
     @Override
     public String toString() {

@@ -18,7 +18,6 @@ public final class AirlineManager implements Serializable {
     private static AirlineManager manager;
     private Airline airline;
     private static final Airline DEFAULT_AIRLINE = new Airline("Nameless");
-    private List<Plane> planes;
 
     private AirlineManager(Airline airline) {
         this.airline = airline;
@@ -35,12 +34,16 @@ public final class AirlineManager implements Serializable {
 
     public void buyPlanes() throws PlaneListCreationFailedException {
         airline.setPlanes(service.createPlaneList());
-        planes = airline.getPlanes();
     }
 
 
     public void addPlane(Plane plane) {
-        planes.add(plane);
+        airline.addPlane(plane);
+    }
+
+
+    public void removePlane(Plane plane) {
+        airline.removePlane(plane);
     }
 
 
@@ -49,8 +52,14 @@ public final class AirlineManager implements Serializable {
     }
 
 
+    public List<Plane> getPlanes() {
+        return Collections.unmodifiableList(airline.getPlanes());
+    }
+
+
     public int countTotalPassengerCapacity() {
         int result = 0;
+        List<Plane> planes = airline.getPlanes();
 
         for (Plane p : planes) {
             if (p instanceof PassengerPlane) {
@@ -63,6 +72,7 @@ public final class AirlineManager implements Serializable {
 
     public int countTotalCargoCapacity() {
         int result = 0;
+        List<Plane> planes = airline.getPlanes();
 
         for (Plane p : planes) {
             if (p instanceof Freighter) {
@@ -74,12 +84,15 @@ public final class AirlineManager implements Serializable {
 
 
     public List<Plane> sort(SortingParameters parameters) {
+        List<Plane> planes = airline.getPlanes();
 
         planes.sort(PlaneComparator.getPlaneComparator(parameters));
-        return planes;
+        return Collections.unmodifiableList(planes);
     }
 
+
     public List<Plane> findPlaneByFuelConsumptionDiapason(int startLitersPerHour, int endLitersPerHour) {
+        List<Plane> planes = airline.getPlanes();
         List<Plane> planesByFuelConsumption = new ArrayList<>();
 
         if (Validator.checkDiapasonInvalid(startLitersPerHour, endLitersPerHour)) {
@@ -92,6 +105,6 @@ public final class AirlineManager implements Serializable {
                 }
             }
         }
-        return planesByFuelConsumption;
+        return Collections.unmodifiableList(planesByFuelConsumption);
     }
 }
