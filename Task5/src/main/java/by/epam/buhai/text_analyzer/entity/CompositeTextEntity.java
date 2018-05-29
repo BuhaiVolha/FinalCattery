@@ -7,11 +7,12 @@ import java.util.*;
 public class CompositeTextEntity extends TextComponent implements Iterable<TextComponent> {
     private List<TextComponent> childTextComponents;
     private TextComponentType type;
-    protected String content;
 
     private final static String SPACE = " ";
     private final static String NEW_LINE = "\n";
     private final static String TABULATION = "\t";
+    private final static String PUNCT_WITH_SPACE_BEFORE = "[({-]";
+    private final static String PUNCT_WITH_NO_SPACE_AFTER = "[({]";
 
     public CompositeTextEntity(TextComponentType type) {
         childTextComponents = new ArrayList<>();
@@ -124,7 +125,7 @@ public class CompositeTextEntity extends TextComponent implements Iterable<TextC
             switch (childTextComponent.getType()) {
                 case WORD:
                     if (i != top - 1) {
-                        if (i > 0 && childTextComponents.get(i-1).toString().matches("[({]")) {
+                        if (i > 0 && childTextComponents.get(i - 1).toString().matches(PUNCT_WITH_NO_SPACE_AFTER)) {
                             text.append(childTextComponent);
                         } else {
                             text.append(SPACE).append(childTextComponent);
@@ -143,7 +144,7 @@ public class CompositeTextEntity extends TextComponent implements Iterable<TextC
                 case TEXT:
                 case LETTER:
                 case PUNCTUATION_CHAR:
-                    if (childTextComponent.toString().matches("[({-]")) {
+                    if (childTextComponent.toString().matches(PUNCT_WITH_SPACE_BEFORE)) {
                         text.append(SPACE).append(childTextComponent);
                     } else {
                         text.append(childTextComponent);
