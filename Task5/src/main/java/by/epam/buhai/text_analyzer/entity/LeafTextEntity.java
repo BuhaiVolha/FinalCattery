@@ -2,6 +2,8 @@ package by.epam.buhai.text_analyzer.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.util.Iterator;
 import java.util.List;
 
 public class LeafTextEntity extends TextComponent {
@@ -45,6 +47,16 @@ public class LeafTextEntity extends TextComponent {
         return true;
     }
 
+    @Override
+    public Iterator<TextComponent> iterator() {
+       // return null;
+        return new TextComponentIterator(this);
+    }
+
+//    @Override
+//    public Iterator<TextComponent> getIterator() {
+//        return new TextComponentIterator(this);
+//    }
 
     @Override
     public void addChildTextComponent(TextComponent textComponent) {

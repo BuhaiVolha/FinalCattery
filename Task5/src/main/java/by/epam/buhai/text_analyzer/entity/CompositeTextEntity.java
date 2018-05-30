@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import java.util.*;
 
-public class CompositeTextEntity extends TextComponent implements Iterable<TextComponent> {
+public class CompositeTextEntity extends TextComponent {
     private List<TextComponent> childTextComponents;
     private TextComponentType type;
 
@@ -18,6 +18,10 @@ public class CompositeTextEntity extends TextComponent implements Iterable<TextC
         childTextComponents = new ArrayList<>();
         this.type = type;
     }
+
+//    public Iterator<TextComponent> getIterator() {
+//        return new TextComponentIterator(this);
+//    }
 
 
     public CompositeTextEntity(String content, TextComponentType type) {
@@ -45,7 +49,8 @@ public class CompositeTextEntity extends TextComponent implements Iterable<TextC
 
     @Override
     public Iterator<TextComponent> iterator() {
-        return childTextComponents.iterator();
+        //return childTextComponents.iterator();
+        return new TextComponentIterator(this);
     }
 
 

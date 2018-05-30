@@ -3,11 +3,12 @@ package by.epam.buhai.text_analyzer.main;
 import by.epam.buhai.text_analyzer.entity.*;
 import by.epam.buhai.text_analyzer.parser.BaseParser;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 public class Runner {
-    private static final String CONSONANTS = "bcdfghjklmnpqrtsvwxzI";
+    private static final String CONSONANTS = "bcdfghjklmnpqrtsvwxz";
     public static void main(String[] args) {
 
 
@@ -25,18 +26,35 @@ public class Runner {
                 "пределами досягаемости астрономических наблюдений, но это не делает нашего двойника менее реальным. " +
                 "\nПредположение основано на теории вероятности без привлечения представлений современной физики. " +
                 "Это предложение с палиндромом - допотопный. Принимается лишь допущение, что пространство бесконечно и заполнено материей.";
-
+        String sent = "i r.";
 
         TextComponent parsedText = BaseParser.parse(text2);
-        System.out.println(parsedText);
+        //System.out.println(parsedText);
+        Iterator<TextComponent> iterator = parsedText.iterator();
+        while (iterator.hasNext()) {
+            TextComponent c = iterator.next();
+            if (c.getType() == TextComponentType.SENTENCE) {
+                //if (!c.isLeafTextEntity()) {
+                    System.out.println(c);
+                //}
+            }
+        }
+
+
+        while (iterator.hasNext()) {
+            TextComponent c = iterator.next();
+            if (c.getType() == TextComponentType.LETTER) {
+                System.out.println(c);
+            }
+        }
 
 
         //System.out.println(swapWords(parsedText));
-        //System.out.println(removeWords(parsedText, 8));
+        //System.out.println(removeWords(parsedText, 2));
     }
 
 
-    public static TextComponent swapWords(TextComponent text) {
+    public static TextComponent swapWords(TextComponent text) { //если одно слово или предложение
         for (TextComponent p : text.getChildTextComponents()) {
             for (TextComponent s : p.getChildTextComponents()) {
                 TextComponent temp = s.getChildTextComponents().get(findLastWordPosition(s));
@@ -50,7 +68,7 @@ public class Runner {
     private static int findLastWordPosition(TextComponent sent) {
         int lastPos = sent.getChildTextComponents().size() - 1;
         int index = 0;
-        System.out.println(lastPos);
+
         for (int i = lastPos; i >= 0; i--) {
             if (sent.getChildTextComponents().get(i).getType() == TextComponentType.WORD) {
                 index = i;
@@ -125,7 +143,7 @@ public class Runner {
     }
 
 
-    public static CompositeTextEntity removeWords(CompositeTextEntity text, int wordLength) {
+    public static TextComponent removeWords(TextComponent text, int wordLength) {
         List<TextComponent> toRemove = new ArrayList<>();
 
         for (TextComponent p : text.getChildTextComponents()) {

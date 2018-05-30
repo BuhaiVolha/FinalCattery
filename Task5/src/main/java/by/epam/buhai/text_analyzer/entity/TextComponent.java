@@ -1,9 +1,10 @@
 package by.epam.buhai.text_analyzer.entity;
 
+import java.util.Iterator;
 import java.util.List;
 
-public abstract class TextComponent {
-    protected String content;
+public abstract class TextComponent implements Iterable<TextComponent> {
+    String content;
 
     public abstract TextComponentType getType();
     public abstract boolean isLeafTextEntity();
@@ -12,6 +13,7 @@ public abstract class TextComponent {
     public abstract List<TextComponent> getChildTextComponents();
     public abstract int size();
     public abstract void setType(TextComponentType type);
+    //public abstract Iterator<TextComponent> getIterator();
 
 
     @Override
