@@ -5,6 +5,7 @@ public enum TextComponentType {
     PARAGRAPH,
     SENTENCE,
     WORD,
+    NUMBER,
 
     LETTER,
     PUNCTUATION_CHAR,

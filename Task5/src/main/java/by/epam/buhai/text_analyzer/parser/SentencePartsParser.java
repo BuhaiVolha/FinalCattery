@@ -11,7 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SentencePartsParser extends TextParser {
-    private final static String SENTENCE_PARTS_REGEXP = "[А-Яа-яA-Za-z-']+|\\p{Punct}(?=\\s|\\p{Punct}|$|\\D)|[0-9.,]+";
+    private final static String SENTENCE_PARTS_REGEXP =
+            "[А-Яа-яA-Za-z-']+|\\p{Punct}(?=\\s|\\p{Punct}|$|\\D)|[0-9.,]+";
     private final static String PUNCT_REGEXP = "[\\p{Punct}]+";
 
 
@@ -29,7 +30,7 @@ public class SentencePartsParser extends TextParser {
             if (!sentencePart.matches(PUNCT_REGEXP)) {
                 parsedSentence.addChildTextComponent(nextParser.parse(sentencePart));
             } else {
-                parsedSentence.addChildTextComponent(new LeafTextEntity(sentencePart, TextComponentType.PUNCTUATION_CHAR));
+                parsedSentence.addChildTextComponent(new LeafTextEntity(sentencePart.charAt(0), TextComponentType.PUNCTUATION_CHAR));
             }
         }
         return parsedSentence;

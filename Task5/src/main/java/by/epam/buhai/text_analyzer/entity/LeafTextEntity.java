@@ -8,9 +8,10 @@ import java.util.List;
 
 public class LeafTextEntity extends TextComponent {
     private TextComponentType type;
+    private char value;
 
-    public LeafTextEntity(String content, TextComponentType type) {
-        this.content = content;
+    public LeafTextEntity(char value, TextComponentType type) {
+        this.value = value;
         this.type = type;
     }
 
@@ -19,15 +20,15 @@ public class LeafTextEntity extends TextComponent {
         return content;
     }
 
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
-    public void setType(TextComponentType type) {
-        this.type = type;
-    }
+//
+//    public void setContent(String content) {
+//        this.content = content;
+//    }
+//
+//
+//    public void setType(TextComponentType type) {
+//        this.type = type;
+//    }
 
 
     @Override
@@ -47,22 +48,27 @@ public class LeafTextEntity extends TextComponent {
         return true;
     }
 
+
     @Override
     public Iterator<TextComponent> iterator() {
-       // return null;
-        return new TextComponentIterator(this);
+        //return new TextComponentIterator(this);
+        return null;
     }
 
-//    @Override
-//    public Iterator<TextComponent> getIterator() {
-//        return new TextComponentIterator(this);
-//    }
+    public void accept(TextComponentVisitor visitor) {
+        visitor.visit(this);
+    }
 
     @Override
     public void addChildTextComponent(TextComponent textComponent) {
         System.out.println("usupported");
     }
 
+
+    @Override
+    public void setChildTextComponents(List<TextComponent> childTextComponents) {
+        System.out.println("usupported");
+    }
 
     @Override
     public void removeChildTextComponent(TextComponent textComponent) {
@@ -80,30 +86,32 @@ public class LeafTextEntity extends TextComponent {
     public boolean equals(Object o) {
         if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()){
-            return false;
-        }
+        if (o == null || getClass() != o.getClass()) return false;
 
         LeafTextEntity that = (LeafTextEntity) o;
 
         return new EqualsBuilder()
+                .append(value, that.value)
                 .append(getType(), that.getType())
-                .append(getContent(), that.getContent())
                 .isEquals();
     }
-
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getType())
-                .append(getContent())
+                .append(value)
                 .toHashCode();
     }
 
 
+//    @Override
+//    public String toString() {
+//        return content;
+//    }
+
     @Override
     public String toString() {
-        return content;
+        return Character.toString(value);
     }
 }
