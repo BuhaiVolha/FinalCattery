@@ -81,12 +81,13 @@ public class LeafTextEntity extends TextComponent {
         return null;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
 
         LeafTextEntity that = (LeafTextEntity) o;
 
@@ -105,7 +106,7 @@ public class LeafTextEntity extends TextComponent {
     }
 
 
-//    @Override
+    //    @Override
 //    public String toString() {
 //        return content;
 //    }

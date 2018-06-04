@@ -18,7 +18,7 @@ public interface TextAnalyzerService {
     List<String> sortVowelStartingWordsByFirstConsonant();
     List<String> sortWordsByCertainLetterRising(char letter); // if letter is the same - than alphabetically
 //    TextComponent sortWordsFromListByAppearingDescending();  //how many times occurs
-//    TextComponent deleteSubstringStartingAndEndingWith(char letter); //substring of max length
+    String deleteSubstringStartingAndEndingWith(char startSymbol, char endSymbol); //substring of max length
     TextComponent deleteCertainLengthWordsStartingWithConsonant(int length); //substring of max length
     List<String> sortWordsByCertainLetterDescending(char letter); //alphabetically - if equals
     String findMaxPalindromeSubstring(); // in words?? in sentence?

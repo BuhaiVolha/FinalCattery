@@ -44,10 +44,9 @@ public class Runner {
         TextAnalyzerService analyzer = service.getTextAnalyzerService();
 
         analyzer.setText(parsedText);
-        System.out.println(analyzer.deleteCertainLengthWordsStartingWithConsonant(5));
+        System.out.println(analyzer.sortWordsByCertainLetterDescending('а'));
 
-
-        //System.out.println(sortWordsByVowelToTotalLengthRatio(parsedText));
+        //System.out.println(deleteSubstringStartingAndEndingWith(parsedText, ',', 'в'));
 
 //        TextComponentVisitor visitor = new ReportVisitor();
 //        parsedText.accept(visitor);
@@ -71,31 +70,20 @@ public class Runner {
 //        }
     }
 
-    public static List<String> sortWordsByVowelToTotalLengthRatio(TextComponent text) {
-        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD);
-        List<String> allStringedWords = new ArrayList<>();
+    public static String deleteSubstringStartingAndEndingWith(TextComponent text, char startSymbol, char endSymbol) {
+        List<TextComponent> allSentences = getAllOfType(text, TextComponentType.SENTENCE);
+        StringBuilder textWithoutSubstrings = new StringBuilder();
+        String stringedSentence;
 
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString().toLowerCase());
+        for (int i = 0; i < allSentences.size(); i++) {
+            stringedSentence = allSentences.get(i).toString();
+            stringedSentence = stringedSentence.replaceAll("[" + startSymbol
+                    + Character.toUpperCase(startSymbol) + "]"  + ".*"
+                    + "[" + endSymbol + Character.toUpperCase(endSymbol) + "]", "");
+            textWithoutSubstrings.append(stringedSentence);
+
         }
-        //allStringedWords.sort(Comparator.comparing(Runner::findFirstConsonant).thenComparing(String::toString));
-        allStringedWords.sort(Comparator.comparing(Runner::findFirstConsonant));
-
-        return allStringedWords;
-    }
-
-    private static String findFirstConsonant(String word) {
-        String first = "";
-        if (word.matches("\\b[aioueyаяоэиеёыу].+")) {
-            System.out.println(word);
-            Pattern p = Pattern.compile(CONSONANTS);
-            Matcher m = p.matcher(word);
-
-            if (m.find()) {
-                first = m.group(1);
-            }
-        }
-        return first;
+        return new String(textWithoutSubstrings);
     }
 
 

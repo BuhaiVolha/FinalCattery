@@ -3,7 +3,6 @@ package by.epam.buhai.text_analyzer.service.impl;
 import by.epam.buhai.text_analyzer.entity.LeafTextEntity;
 import by.epam.buhai.text_analyzer.entity.TextComponent;
 import by.epam.buhai.text_analyzer.entity.TextComponentType;
-import by.epam.buhai.text_analyzer.main.Runner;
 import by.epam.buhai.text_analyzer.service.TextAnalyzerService;
 
 import java.util.*;
@@ -13,8 +12,8 @@ import java.util.regex.Pattern;
 public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // конструктор кула сетится текст
     private TextComponent text;
 
-    private static final String CONSONANTS = "([^aioueyаяоэиеёыу])";
-    private static final String VOWELS = "[aioueyаяоэиеёыу]";
+    private static final String CONSONANT = "([^aioueyаяоэиеёыу])";
+    private static final String VOWEL = "[aioueyаяоэиеёыу]";
     private static final String STARTING_WITH_VOWEL_WORD = "\\b[aioueyаяоэиеёыу].+";
 
     private static final String PALINDROME = "(?x)|(?:(.)add) + chk"
@@ -22,11 +21,15 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
             .replace("chk", assertEntirety("\\2"));
     private static final int MIN_PALINDROME_LENGTH = 3;
     private static final String PUNCTUATION_AND_SPACES = "[\\p{Punct}\\s]";
-    private static final String EMPTY = "";
 
     private static final String QUESTION_SENTENCE = "[.?=\\d+\\s\\wа-яА-Я-,:(){}]+[!?]{1,3}$";
     private static final String NEW_LINE = "\n";
     private static final String SPACE = " ";
+
+    private static final String OPENING_SQUARE_BRACKETS = "[";
+    private static final String CLOSING_SQUARE_BRACKETS = "]";
+    private static final String ANYTHING = ".*";
+    private static final String EMPTY = "";
 
 
     @Override
@@ -73,24 +76,20 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
 
     public Set<String> findFirstSentenceUniqueWord() {
         List<TextComponent> allSentences = getAllOfType(text, TextComponentType.SENTENCE);
-        Set<TextComponent> allWords = new HashSet<>(getAllOfType(text, TextComponentType.WORD));
+        Set<String> firstSentenceWords
+                = new HashSet<>(getAllStringsOfType(allSentences.get(0), TextComponentType.WORD));
 
-        Set<String> firstSentenceWords = new TreeSet<>(String::compareToIgnoreCase); // приходится сет стрингов делать Ловеркэйс
-        for (TextComponent word : allSentences.get(0).getChildTextComponents()) {
+        deleteFirstSentence();
 
-            if (word.getType() == TextComponentType.WORD) {
-                firstSentenceWords.add(word.toString());
-            }
-        }
-        text.getChildTextComponents().get(0).getChildTextComponents().remove(0);
-
-        Set<String> allStringedWords = new TreeSet<>(String::compareToIgnoreCase);
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString());
-        }
+        Set<String> allStringedWords = new HashSet<>(getAllStringsOfType(text, TextComponentType.WORD));
         firstSentenceWords.removeAll(allStringedWords);
 
         return firstSentenceWords;
+    }
+
+
+    private void deleteFirstSentence() {
+        text.getChildTextComponents().get(0).getChildTextComponents().remove(0);
     }
 
 
@@ -159,38 +158,50 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
         allWords.sort(Comparator.comparing(TextComponent -> TextComponent.toString().toLowerCase()));
         StringBuilder result = new StringBuilder();
 
-        for (int i = 1; i < allWords.size(); i++) {  //ИЗМЕНИТЬ ЧТОТОООООООООООООООООООО!!!!!!!!!!!!
+        for (int i = 1; i < allWords.size(); i++) {
 
-            if (allWords.get(i - 1).getChildTextComponents().get(0).toString().
-                    equalsIgnoreCase(allWords.get(i).getChildTextComponents().get(0).toString())) {
+            if (findFirstLetter(allWords.get(i - 1)).
+                    equalsIgnoreCase(findFirstLetter(allWords.get(i)))) {
                 result.append(allWords.get(i).toString());
             } else {
                 result.append(NEW_LINE).append(allWords.get(i).toString());
             }
-            result.append(SPACE); //КОНСТАНТЫ
+            result.append(SPACE);
         }
+
+//        List<String> allWords = getAllStringsOfType(text, TextComponentType.WORD);
+//        allWords.sort(Comparator.naturalOrder());
+//        StringBuilder result = new StringBuilder();
+//
+//        for (int i = 1; i < allWords.size(); i++) {  // ГЛЯНУТЬ ПОЗЖЕ РЕФАКТОРИНГ !1111
+//
+//            if (allWords.get(i - 1).charAt(0) == allWords.get(i).charAt(0)) {
+//                result.append(allWords.get(i));
+//            } else {
+//                result.append(NEW_LINE).append(allWords.get(i));
+//            }
+//            result.append(SPACE);
+//        }
         return new String(result);
+    }
+
+
+    private String findFirstLetter(TextComponent word) {
+        return word.getChildTextComponents().get(0).toString();
     }
 
 
     // 7
 
     public List<String> sortWordsByVowelToTotalLengthRatio() {
-        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD);
-        List<String> allStringedWords = new ArrayList<>();
 
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString().toLowerCase());
-        }
-        allStringedWords.sort(Comparator.comparingDouble(this::countRatio).thenComparing(String::toString));
-
-        return allStringedWords;
+        return getSortedWords(Comparator.comparingDouble(this::countRatio).thenComparing(String::toString));
     }
 
 
     private double countRatio(String word) {
         double count = 0;
-        Pattern p = Pattern.compile(VOWELS);
+        Pattern p = Pattern.compile(VOWEL);
         Matcher m = p.matcher(word);
 
         while (m.find()) {
@@ -203,23 +214,15 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
     // 8
 
     public List<String> sortVowelStartingWordsByFirstConsonant() {
-        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD);
-        List<String> allStringedWords = new ArrayList<>();
 
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString().toLowerCase());
-        }
-
-        allStringedWords.sort(Comparator.comparing(this::findFirstConsonant));
-
-        return allStringedWords;
+        return getSortedWords(Comparator.comparing(this::findFirstConsonant));
     }
 
 
     private String findFirstConsonant(String word) {
-        String first = "";
+        String first = EMPTY;
         if (word.matches(STARTING_WITH_VOWEL_WORD)) {
-            Pattern p = Pattern.compile(CONSONANTS);
+            Pattern p = Pattern.compile(CONSONANT);
             Matcher m = p.matcher(word);
 
             if (m.find()) {
@@ -233,20 +236,34 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
     // 9
 
     public List<String> sortWordsByCertainLetterRising(char symbol) { //может один метод но разные компараторы ??
-        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD); // приходится лист стрингов делать Ловеркэйс
-        List<String> allStringedWords = new ArrayList<>();
 
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString().toLowerCase());
+        return getSortedWords(Comparator.comparingInt((String o) -> countSymbol(o, symbol))
+                .thenComparing(String::toString));
+    }
+
+
+    // 11
+
+    public String deleteSubstringStartingAndEndingWith(char startSymbol, char endSymbol) {
+        List<TextComponent> allSentences = getAllOfType(text, TextComponentType.SENTENCE);
+        StringBuilder textWithoutSubstrings = new StringBuilder();
+        String stringedSentence;
+
+        for (TextComponent sentence : allSentences) {
+            stringedSentence = sentence.toString();
+            stringedSentence = stringedSentence
+                    .replaceAll(OPENING_SQUARE_BRACKETS
+                            + startSymbol
+                            + Character.toUpperCase(startSymbol)
+                            + CLOSING_SQUARE_BRACKETS
+                            + ANYTHING
+                            + OPENING_SQUARE_BRACKETS
+                            + endSymbol
+                            + Character.toUpperCase(endSymbol)
+                            + CLOSING_SQUARE_BRACKETS, EMPTY);
+            textWithoutSubstrings.append(stringedSentence);
         }
-
-        allStringedWords.sort(Comparator.comparingInt(o -> countSymbol(o.toString(), symbol))
-                .thenComparing(Object::toString));
-
-//            allWords.sort(Comparator.comparingInt(o -> -countSymbol(o.toString(), symbol))
-//                    .thenComparing(Object::toString));
-
-        return allStringedWords;
+        return new String(textWithoutSubstrings);
     }
 
 
@@ -262,7 +279,7 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
 
                 if ((word.getType() == TextComponentType.WORD)
                         && (word.size() == wordLength)
-                        && (!word.toString().startsWith(CONSONANTS))) {
+                        && (!word.toString().startsWith(CONSONANT))) {
 
                     toBeDeleted.add(word);
                 }
@@ -274,21 +291,10 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
 
     // 13
 
-    public List<String> sortWordsByCertainLetterDescending(char symbol) { //может один метод но разные компараторы ??
-        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD); // приходится лист стрингов делать Ловеркэйс
-        List<String> allStringedWords = new ArrayList<>();
+    public List<String> sortWordsByCertainLetterDescending(char symbol) {
 
-        for (TextComponent word : allWords) {
-            allStringedWords.add(word.toString().toLowerCase());
-        }
-
-        allStringedWords.sort(Comparator.comparingInt(o -> -countSymbol(o.toString(), symbol))
-                .thenComparing(Object::toString));
-
-//            allWords.sort(Comparator.comparingInt(o -> -countSymbol(o.toString(), symbol))
-//                    .thenComparing(Object::toString));
-
-        return allStringedWords;
+        return getSortedWords(Comparator.comparingInt((String o) -> -countSymbol(o, symbol))
+                .thenComparing(String::toString));
     }
 
 
@@ -396,12 +402,21 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
                 word.getChildTextComponents().clear();
 
                 for (char letter : substring.toCharArray()) {
-                    //word.addChildTextComponent(new LeafTextEntity(Character.toString(letter), TextComponentType.LETTER));
                     word.addChildTextComponent(new LeafTextEntity(letter, TextComponentType.LETTER));
                 }
             }
         }
         return text;
+    }
+
+
+    // вынести в отдельный класс,, !!
+
+    private List<String> getSortedWords(Comparator<String> comparator) {
+        List<String> allWords = getAllStringsOfType(text, TextComponentType.WORD);
+
+        allWords.sort(comparator);
+        return allWords;
     }
 
 
@@ -417,6 +432,17 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
             for (TextComponent child : textComponent) {
                 resultList.addAll(getAllOfType(child, type));
             }
+        }
+        return resultList;
+    }
+
+
+    private List<String> getAllStringsOfType(TextComponent textComponent, TextComponentType type) {
+        List<TextComponent> foundTextComponents = getAllOfType(textComponent, type);
+        List<String> resultList = new ArrayList<>();
+
+        for (TextComponent component : foundTextComponents) {
+            resultList.add(component.toString().toLowerCase());
         }
         return resultList;
     }
