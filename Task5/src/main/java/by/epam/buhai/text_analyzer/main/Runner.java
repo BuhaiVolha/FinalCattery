@@ -2,23 +2,13 @@ package by.epam.buhai.text_analyzer.main;
 
 import by.epam.buhai.text_analyzer.entity.*;
 import by.epam.buhai.text_analyzer.parser.BaseParser;
-import by.epam.buhai.text_analyzer.parser.LetterParser;
 import by.epam.buhai.text_analyzer.service.ServiceFactory;
 import by.epam.buhai.text_analyzer.service.TextAnalyzerService;
-import javafx.util.Pair;
-
-import javax.xml.soap.Text;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class Runner {
-    private static final String CONSONANTS = "([^aioueyаяоэиеёыу])";
 
     public static void main(String[] args) {
-
 
         String text2 = "\tInfinity is something which is not kit-kat (yet) perceivable to humans? It is beyond our " +
                 "understanding and we are not able to define it, " +
@@ -37,16 +27,15 @@ public class Runner {
                 "Это предложение с палиндромом - допотопный. Принимается только допущение, что пространство бесконечно и заполнено материей.";
         String sent = "Great cats live in flats.";
 
-        TextComponent parsedText = BaseParser.parse(s);
+        TextComponent parsedText = BaseParser.parse(text2);
         System.out.println(parsedText);
 
         ServiceFactory service = ServiceFactory.getServiceFactory();
         TextAnalyzerService analyzer = service.getTextAnalyzerService();
 
         analyzer.setText(parsedText);
-        System.out.println(analyzer.sortWordsByCertainLetterDescending('а'));
+        //System.out.println(analyzer.deleteSubstringStartingAndEndingWith('а', 'а'));
 
-        //System.out.println(deleteSubstringStartingAndEndingWith(parsedText, ',', 'в'));
 
 //        TextComponentVisitor visitor = new ReportVisitor();
 //        parsedText.accept(visitor);
@@ -68,40 +57,5 @@ public class Runner {
 //                //}
 //            }
 //        }
-    }
-
-    public static String deleteSubstringStartingAndEndingWith(TextComponent text, char startSymbol, char endSymbol) {
-        List<TextComponent> allSentences = getAllOfType(text, TextComponentType.SENTENCE);
-        StringBuilder textWithoutSubstrings = new StringBuilder();
-        String stringedSentence;
-
-        for (int i = 0; i < allSentences.size(); i++) {
-            stringedSentence = allSentences.get(i).toString();
-            stringedSentence = stringedSentence.replaceAll("[" + startSymbol
-                    + Character.toUpperCase(startSymbol) + "]"  + ".*"
-                    + "[" + endSymbol + Character.toUpperCase(endSymbol) + "]", "");
-            textWithoutSubstrings.append(stringedSentence);
-
-        }
-        return new String(textWithoutSubstrings);
-    }
-
-
-
-    public static List<TextComponent> getAllOfType(TextComponent textComponent, TextComponentType type) {
-        List<TextComponent> resultList = new ArrayList<>();
-
-        if (textComponent.getType() == type) {
-            resultList.add(textComponent);
-
-        } else if ((textComponent.getType() != TextComponentType.PUNCTUATION_CHAR)
-                && (textComponent.getType() != TextComponentType.LETTER)) {
-            //TextComponent compositeTextEntity = textComponent;
-
-            for (TextComponent child : textComponent) {
-                resultList.addAll(getAllOfType(child, type));
-            }
-        }
-        return resultList;
     }
 }

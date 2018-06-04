@@ -17,7 +17,7 @@ public interface TextAnalyzerService {
     List<String> sortWordsByVowelToTotalLengthRatio();
     List<String> sortVowelStartingWordsByFirstConsonant();
     List<String> sortWordsByCertainLetterRising(char letter); // if letter is the same - than alphabetically
-//    TextComponent sortWordsFromListByAppearingDescending();  //how many times occurs
+    String sortWordsFromListByAppearingDescending(List<String> wordsList);  //how many times occurs
     String deleteSubstringStartingAndEndingWith(char startSymbol, char endSymbol); //substring of max length
     TextComponent deleteCertainLengthWordsStartingWithConsonant(int length); //substring of max length
     List<String> sortWordsByCertainLetterDescending(char letter); //alphabetically - if equals

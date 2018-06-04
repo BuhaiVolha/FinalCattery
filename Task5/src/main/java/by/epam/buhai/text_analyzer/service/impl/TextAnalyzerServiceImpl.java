@@ -28,7 +28,7 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
 
     private static final String OPENING_SQUARE_BRACKETS = "[";
     private static final String CLOSING_SQUARE_BRACKETS = "]";
-    private static final String ANYTHING = ".*";
+    private static final String ANYTHING = ".+";
     private static final String EMPTY = "";
 
 
@@ -194,7 +194,6 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
     // 7
 
     public List<String> sortWordsByVowelToTotalLengthRatio() {
-
         return getSortedWords(Comparator.comparingDouble(this::countRatio).thenComparing(String::toString));
     }
 
@@ -214,13 +213,13 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
     // 8
 
     public List<String> sortVowelStartingWordsByFirstConsonant() {
-
         return getSortedWords(Comparator.comparing(this::findFirstConsonant));
     }
 
 
     private String findFirstConsonant(String word) {
         String first = EMPTY;
+
         if (word.matches(STARTING_WITH_VOWEL_WORD)) {
             Pattern p = Pattern.compile(CONSONANT);
             Matcher m = p.matcher(word);
@@ -239,6 +238,55 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
 
         return getSortedWords(Comparator.comparingInt((String o) -> countSymbol(o, symbol))
                 .thenComparing(String::toString));
+    }
+
+
+    // 10
+
+    public String sortWordsFromListByAppearingDescending(List<String> wordsList) {
+        List<TextComponent> allSentences = getAllOfType(text, TextComponentType.SENTENCE);
+        StringBuilder information = new StringBuilder();
+        int sentenceCount = 0;
+        int wordOccurrenceCount = 0;
+
+        for (String wordInList : wordsList) {
+
+            for (TextComponent sentence : allSentences) {
+                sentenceCount++;
+
+                for (TextComponent word : sentence) {
+
+                    if (word.toString().equalsIgnoreCase(wordInList)) {
+                        wordOccurrenceCount++;
+                    }
+                }
+                if (wordOccurrenceCount != 0) {
+                    information.append(wordInList).append(" happened ")
+                            .append(wordOccurrenceCount).append(" times in sentence № ")
+                            .append(sentenceCount).append("\n");
+                }
+                wordOccurrenceCount = 0;
+            }
+            sentenceCount = 0;
+        }
+        wordsList.sort(Comparator.comparingInt((String o) -> -countOccurrence(text, o))
+                .thenComparing(String::toString));
+        information.append(wordsList);
+
+        return new String(information).trim();
+    }
+
+
+    private int countOccurrence(TextComponent text, String wordInList) {
+        List<TextComponent> allWords = getAllOfType(text, TextComponentType.WORD);
+        int count = 0;
+
+        for (TextComponent word : allWords) {
+            if (word.toString().equalsIgnoreCase(wordInList)) {
+                count++;
+            }
+        }
+        return count;
     }
 
 
@@ -446,5 +494,4 @@ public class TextAnalyzerServiceImpl implements TextAnalyzerService {  // кон
         }
         return resultList;
     }
-
 }
