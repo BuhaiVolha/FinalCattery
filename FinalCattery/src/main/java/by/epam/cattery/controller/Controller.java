@@ -30,6 +30,7 @@ public class Controller extends HttpServlet {
         ActionCommand command = client.defineCommand(request);
 
         page = command.execute(request);
+        System.out.println(page);
 
         if (page != null) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);

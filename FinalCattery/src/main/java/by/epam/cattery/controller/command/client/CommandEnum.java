@@ -1,9 +1,6 @@
 package by.epam.cattery.controller.command.client;
 
-import by.epam.cattery.controller.command.LoginCommand;
-import by.epam.cattery.controller.command.RegistrationCommand;
-import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.LogoutCommand;
+import by.epam.cattery.controller.command.*;
 
 public enum CommandEnum {
     LOGIN {
@@ -14,6 +11,11 @@ public enum CommandEnum {
     LOGOUT {
         {
             this.command = new LogoutCommand();
+        }
+    },
+    CHANGE_LANG {
+        {
+            this.command = new LanguageCommand();
         }
     },
     REGISTRATION {

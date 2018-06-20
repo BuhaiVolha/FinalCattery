@@ -8,7 +8,7 @@
         <h4 class="text-center text-uppercase text-white">${user}, you are logged in!</h4>
         <div class="text-center mt-4">
 
-            <a class="btn btn-xl btn-outline-light" href="controller?<command=Logout">
+            <a class="btn btn-xl btn-outline-light" href="controller?command=Logout">
                 <i class="fa fa-truck mr-2"></i>
                 Logout
             </a>

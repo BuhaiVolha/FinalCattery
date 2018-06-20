@@ -1,8 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
 <head>
+    <fmt:setLocale value="${sessionScope.local}" />
+    <fmt:setBundle basename="local" var="loc" />
+    <fmt:message bundle="${loc}" key="local.message" var="message" />
+    <fmt:message bundle="${loc}" key="local.message2" var="message2" />
+    <fmt:message bundle="${loc}" key="local.locbutton.name.ru"
+                 var="ru_button" />
+    <fmt:message bundle="${loc}" key="local.locbutton.name.en"
+                 var="en_button" />
+
     <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,10 +45,20 @@
         <a class="navbar-brand js-scroll-trigger" href="#page-top">Cattery</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item mx-0 mx-lg-1">
-                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Ru</a>
+
+                <form action="/controller" method="post">
+                    <input type="hidden" name="command" value="CHANGE_LANG" />
+                    <input type="hidden" name="local" value="ru" /> <input type="submit"
+                                                                           value="${ru_button}" /><br />
+                </form>
             </li>
             <li class="nav-item mx-0 mx-lg-1">
-                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Eng</a>
+
+                <form action="/controller" method="post">
+                    <input type="hidden" name="command" value="CHANGE_LANG" />
+                    <input type="hidden" name="local" value="en" /> <input type="submit"
+                                                                           value="${en_button}" /><br />
+                </form>
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,13 +81,16 @@
     </div>
 </nav>
 
+
+<c:out value="${message}" />
+
 <!-- Header -->
 <header class="masthead bg-primary text-white text-center">
     <div class="container">
         <img class="img-fluid mb-5 d-block mx-auto" src="../static/img/profile.png" alt="">
-        <h1 class="text-uppercase mb-0">Tiny Maine-Coons</h1>
+        <h1 class="text-uppercase mb-0">${message}</h1>
         <hr class="star-light">
-        <h2 class="font-weight-light mb-0">Supposed to be huge, yet are tiny!</h2>
+        <h2 class="font-weight-light mb-0">${message2}</h2>
     </div>
 </header>
 

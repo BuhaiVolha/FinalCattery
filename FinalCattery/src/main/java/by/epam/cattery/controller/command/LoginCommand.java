@@ -1,7 +1,6 @@
 package by.epam.cattery.controller.command;
 
 import by.epam.cattery.entity.User;
-import by.epam.cattery.logic.LoginLogic;
 import by.epam.cattery.resource.ConfigurationManager;
 import by.epam.cattery.resource.MessageManager;
 import by.epam.cattery.service.ServiceFactory;
