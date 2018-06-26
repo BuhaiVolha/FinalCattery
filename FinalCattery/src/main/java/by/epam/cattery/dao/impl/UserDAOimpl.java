@@ -1,15 +1,22 @@
 package by.epam.cattery.dao.impl;
 
 import by.epam.cattery.dao.UserDAO;
-import by.epam.cattery.dao.connection.ConnectionProvider;
+import by.epam.cattery.dao.connection.ConnectionPool;
+import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.entity.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 
 public class UserDAOimpl implements UserDAO {
+    private final ConnectionPool connectionPool; // local var???????????/////
+
     private static final String ADD_USER = "INSERT INTO user (login, password) VALUES(?,?)";
     private static final String LOGIN_ALREADY_EXISTS = "SELECT EXISTS(SELECT 1 FROM user WHERE `login`=?)";
+
+    public UserDAOimpl(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
 
     @Override
     public int addUser(User user) {
@@ -19,7 +26,8 @@ public class UserDAOimpl implements UserDAO {
         int userId = -1;
 
         try {
-            con = ConnectionProvider.getCon();
+            //con = ConnectionProvider.getCon();
+            con = connectionPool.takeConnection();
 
             ps = con.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUserLogin());
@@ -30,13 +38,11 @@ public class UserDAOimpl implements UserDAO {
             rs.next();
             userId = rs.getInt(1);
 
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e) {
             System.err.println("error adding user in dao " + e);
 
         } finally {
-//            if (con != null) {
-//                ConnectionProvider.close(con, ps, rs);
-//            }
+            connectionPool.closeConnection(con, ps, rs);
         }
         return userId;
     }
@@ -50,7 +56,8 @@ public class UserDAOimpl implements UserDAO {
         boolean exists = false;
 
         try {
-            con = ConnectionProvider.getCon();
+            //con = ConnectionProvider.getCon();
+            con = connectionPool.takeConnection();
             ps = con.prepareStatement(LOGIN_ALREADY_EXISTS);
             ps.setString(1, user.getUserLogin());
 
@@ -58,12 +65,11 @@ public class UserDAOimpl implements UserDAO {
             rs.next();
             exists = rs.getBoolean(1);
 
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e) {
             System.err.println("error during checking whether login already exists");
+
         } finally {
-//            if (con != null) {
-//                ConnectionProvider.close(con, ps, rs);
-//            }
+            connectionPool.closeConnection(con, ps, rs);
         }
         return exists;
     }
@@ -77,7 +83,8 @@ public class UserDAOimpl implements UserDAO {
         User user = null;
 
         try {
-            con = ConnectionProvider.getCon();
+            //con = ConnectionProvider.getCon();
+            con = connectionPool.takeConnection();
             ps = con.prepareStatement("SELECT `user_id`, `login`, `password` FROM user WHERE `login`= ?;");
             ps.setString(1, login);
             rs = ps.executeQuery();
@@ -88,8 +95,11 @@ public class UserDAOimpl implements UserDAO {
                 user = createUser(rs);
             }
 
-        } catch (SQLException e) {
+        } catch (ConnectionPoolException | SQLException e) {
             System.err.println("error while finding user " + e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps, rs);
         }
         return user;
     }
