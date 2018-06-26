@@ -16,6 +16,9 @@
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
+                <br/>
+                ${errorLoginExistsMessage}
+                <br/>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
                         <label>Password</label>

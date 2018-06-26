@@ -2,6 +2,7 @@ package by.epam.cattery.controller.command;
 
 import by.epam.cattery.entity.User;
 import by.epam.cattery.resource.ConfigurationManager;
+import by.epam.cattery.resource.MessageManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +17,24 @@ public class RegistrationCommand implements ActionCommand {
         HttpSession session = request.getSession();
 
         try {
-
             UserService userService = ServiceFactory.getInstance().getUserService();
             int userId = userService.register(user);
 
-            session.setAttribute("userId", userId);
-            session.setAttribute("login", user.getUserLogin());
+            if (userId != -1) {
+                System.out.println("in");
 
-            request.setAttribute("user", user.getUserLogin());
-            page = ConfigurationManager.getProperty("path.page.successful-reg");
+                session.setAttribute("userId", userId);
+                session.setAttribute("login", user.getUserLogin());
+
+                request.setAttribute("user", user.getUserLogin());
+                page = ConfigurationManager.getProperty("path.page.successful-reg");
+
+            } else {
+                System.out.println("not in");
+                request.setAttribute("errorLoginExistsMessage",
+                        MessageManager.getProperty("message.loginexists"));
+                page = ConfigurationManager.getProperty("path.page.reg");
+            }
 
         } catch (Exception e) {
             System.out.println("error " + e);
