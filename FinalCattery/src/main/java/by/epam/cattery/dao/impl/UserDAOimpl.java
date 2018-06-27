@@ -75,7 +75,7 @@ public class UserDAOimpl implements UserDAO {
 
 
     @Override
-    public User findUser(String login, String password) {
+    public User findUser(String login, String password) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -94,7 +94,7 @@ public class UserDAOimpl implements UserDAO {
             }
 
         } catch (ConnectionPoolException | SQLException e) {
-            System.err.println("error while finding user " + e);
+            throw new DAOException("error while finding user in bd ", e);
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);

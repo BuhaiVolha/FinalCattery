@@ -13,7 +13,7 @@ public enum CommandEnum {
             this.command = new LogoutCommand();
         }
     },
-    CHANGE_LANG {
+    LANGUAGE {
         {
             this.command = new LanguageCommand();
         }

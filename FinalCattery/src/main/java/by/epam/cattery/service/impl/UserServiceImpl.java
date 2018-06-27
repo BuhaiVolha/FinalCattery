@@ -39,11 +39,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User logIn(String login, String password) {
+    public User logIn(String login, String password) throws ServiceException {
 //        if (!Validator.validateUserData(user)) {
 //            System.err.println("user data invalid!");
 //        }
 
-        return userDAO.findUser(login, password); // передвавать юхера просто?
+        try {
+            return userDAO.findUser(login, password); // передвавать юхера просто?
+        } catch (DAOException e) {
+            throw new ServiceException("error while logging in", e);
+        }
     }
 }

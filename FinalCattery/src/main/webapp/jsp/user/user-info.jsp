@@ -7,9 +7,7 @@
 <%@ include file = "../parts/header.jsp" %>
 <section class="bg-primary text-white mb-0" id="about">
     <div class="container">
-        <h2 class="text-center text-uppercase text-white"><%
-            out.print(request.getSession(true).getAttribute("login"));
-        %>,</h2>
+        <h2 class="text-center text-uppercase text-white">${login}</h2>
         <hr class="star-light mb-5">
         <h4 class="text-center text-uppercase text-white">you are still in!</h4>
         <div class="text-center mt-4">

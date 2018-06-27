@@ -6,5 +6,5 @@ import by.epam.cattery.service.exception.ValidationFailedException;
 
 public interface UserService {
     int register(User user) throws ServiceException, ValidationFailedException;
-    User logIn(String login, String password);
+    User logIn(String login, String password) throws ServiceException;
 }

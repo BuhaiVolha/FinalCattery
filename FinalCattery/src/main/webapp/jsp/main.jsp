@@ -1,18 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <fmt:setLocale value="${sessionScope.local}" />
-    <fmt:setBundle basename="local" var="loc" />
-    <fmt:message bundle="${loc}" key="local.message" var="message" />
-    <fmt:message bundle="${loc}" key="local.message2" var="message2" />
+    <fmt:setLocale value="${sessionScope.local}"/>
+    <fmt:setBundle basename="local" var="loc"/>
+    <fmt:message bundle="${loc}" key="local.message" var="message"/>
+    <fmt:message bundle="${loc}" key="local.message2" var="message2"/>
     <fmt:message bundle="${loc}" key="local.locbutton.name.ru"
-                 var="ru_button" />
+                 var="ru_button"/>
     <fmt:message bundle="${loc}" key="local.locbutton.name.en"
-                 var="en_button" />
+                 var="en_button"/>
+    <fmt:message bundle="${loc}" key="local.message.name" var="message_name"/>
+    <fmt:message bundle="${loc}" key="local.user.logged" var="user_logged"/>
+    <fmt:message bundle="${loc}" key="local.user.reg" var="user_reg"/>
+    <fmt:message bundle="${loc}" key="local.user.logIn" var="user_logIn"/>
+    <fmt:message bundle="${loc}" key="local.user.checkLogIn.info1" var="user_check1"/>
+    <fmt:message bundle="${loc}" key="local.user.checkLogIn.info2" var="user_check2"/>
+    <fmt:message bundle="${loc}" key="local.user.checkLogIn" var="user_check"/>
 
     <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
     <meta charset="utf-8">
@@ -28,7 +35,8 @@
     <!-- Custom fonts for this template -->
     <link href="../static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <!-- Plugin CSS -->
     <link href="../static/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
@@ -42,39 +50,44 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Cattery</a>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">${message_name}</a>
+
         <ul class="navbar-nav ml-auto">
             <li class="nav-item mx-0 mx-lg-1">
+                <ul class="navbar-nav ml-auto">
 
-                <form action="/controller" method="post">
-                    <input type="hidden" name="command" value="CHANGE_LANG" />
-                    <input type="hidden" name="local" value="ru" /> <input type="submit"
-                                                                           value="${ru_button}" /><br />
-                </form>
-            </li>
-            <li class="nav-item mx-0 mx-lg-1">
-
-                <form action="/controller" method="post">
-                    <input type="hidden" name="command" value="CHANGE_LANG" />
-                    <input type="hidden" name="local" value="en" /> <input type="submit"
-                                                                           value="${en_button}" /><br />
-                </form>
-            </li>
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                        <c:choose>
+                            <c:when test="${sessionScope.local == 'ru'}">
+                                <a href="/controller?command=language&from=${pageContext.request.requestURI}&local=en">${en_button}</a>
+                            </c:when>
+                            <c:when test="${sessionScope.local == 'en'}">
+                                <a href="/controller?command=language&from=${pageContext.request.requestURI}&local=ru">${ru_button}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/controller?command=language&from=${pageContext.request.requestURI}&local=en">${en_button}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                </ul>
         </ul>
-        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button"
+                data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fa fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Am I logged in?</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">${user_logged}</a>
                 </li>
                 <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="reg.jsp">Sign Up</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="reg.jsp">${user_reg}</a>
                 </li>
                 <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="login.jsp">Log In</a>
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="login.jsp">${user_logIn}</a>
                 </li>
             </ul>
         </div>
@@ -82,7 +95,7 @@
 </nav>
 
 
-<c:out value="${message}" />
+<c:out value="${message}"/>
 
 <!-- Header -->
 <header class="masthead bg-primary text-white text-center">
@@ -97,26 +110,26 @@
 <!-- About Section -->
 <section class="bg-primary text-white mb-0" id="about">
     <div class="container">
-        <h2 class="text-center text-uppercase text-white">Am I logged in?</h2>
+        <h2 class="text-center text-uppercase text-white">${user_logged}</h2>
         <hr class="star-light mb-5">
         <div class="row">
             <div class="col-lg-4 ml-auto">
-                <p class="lead">If you are redirected to main page, you are not logged in.</p>
+                <p class="lead">${user_check1}</p>
             </div>
             <div class="col-lg-4 mr-auto">
-                <p class="lead">If you see another page, you are logged in.</p>
+                <p class="lead">${user_check2}</p>
             </div>
         </div>
         <div class="text-center mt-4">
             <a class="btn btn-xl btn-outline-light" href="user/user-info.jsp">
                 <i class="fa fa-birthday-cake mr-2"></i>
-                Check!
+                ${user_check}
             </a>
         </div>
     </div>
 </section>
 
-<%@ include file = "parts/footer.jsp" %>
+<%@ include file="parts/footer.jsp" %>
 
 <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
 <div class="scroll-to-top d-lg-none position-fixed ">

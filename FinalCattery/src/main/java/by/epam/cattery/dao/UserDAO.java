@@ -6,5 +6,5 @@ import by.epam.cattery.entity.User;
 public interface UserDAO {
     int addUser(User user) throws DAOException;
     boolean loginAlreadyExists(User user) throws DAOException;
-    User findUser(String login, String password);
+    User findUser(String login, String password) throws DAOException;
 }

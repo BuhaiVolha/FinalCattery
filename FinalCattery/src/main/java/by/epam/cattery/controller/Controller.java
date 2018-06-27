@@ -29,18 +29,18 @@ public class Controller extends HttpServlet {
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
 
-        page = command.execute(request);
-        System.out.println(page);
+        //page = command.execute(request, response);
+        command.execute(request, response);
 
-        if (page != null) {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(request, response);
-
-        } else {
-            //page = ConfigurationManager.getProperty("path.page.index");
-            page = ConfigurationManager.getProperty("path.page.main");
-            request.getSession().setAttribute("nullpage", MessageManager.getProperty("message.nullpage"));
-            response.sendRedirect(request.getContextPath() + page);
-        }
+//        if (page != null) {
+//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+//            dispatcher.forward(request, response);
+//
+//        } else {
+//            //page = ConfigurationManager.getProperty("path.page.index");
+//            page = ConfigurationManager.getProperty("path.page.main");
+//            request.getSession().setAttribute("nullpage", MessageManager.getProperty("message.nullpage"));
+//            response.sendRedirect(request.getContextPath() + page);
+//        }
     }
 }
