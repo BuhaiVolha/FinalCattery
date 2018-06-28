@@ -8,11 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class EmptyCommand implements ActionCommand {
-    //public String execute(HttpServletRequest request, HttpServletResponse response) {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String page = ConfigurationManager.getProperty("path.page.login");
         request.getSession().invalidate(); //&?????????????????????????????????
-        //return page;
     }
 }

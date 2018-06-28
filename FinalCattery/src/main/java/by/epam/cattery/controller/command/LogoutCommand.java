@@ -10,20 +10,13 @@ import java.io.IOException;
 
 public class LogoutCommand implements ActionCommand {
 
-//    public void execute(HttpServletRequest request, HttpServletResponse response) {
-//    //public String execute(HttpServletRequest request, HttpServletResponse response) {
-//        String page = ConfigurationManager.getProperty("path.page.main");
-//        request.getSession().invalidate();
-//
-//        //return page;
-//    }
-
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         session.removeAttribute("userId");
         session.removeAttribute("login");
+        session.removeAttribute("role");
         session.invalidate();
 
-        response.sendRedirect(ConfigurationManager.getProperty("path.page.index"));
+        response.sendRedirect(ConfigurationManager.getProperty("path.page.main"));
     }
 }

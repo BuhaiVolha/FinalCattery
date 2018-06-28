@@ -5,7 +5,7 @@ import by.epam.cattery.dao.impl.UserDAOimpl;
 
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
-    //private static final UserDAO userDAO = new UserDAOimpl();
+
     private UserDAO userDAO;
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 

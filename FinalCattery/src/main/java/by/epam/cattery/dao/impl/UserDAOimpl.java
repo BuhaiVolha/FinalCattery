@@ -12,7 +12,8 @@ import java.sql.*;
 public class UserDAOimpl implements UserDAO {
     private final ConnectionPool connectionPool; // local var???????????/////
 
-    private static final String ADD_USER = "INSERT INTO user (login, password) VALUES(?,?)";
+    //private static final String ADD_USER = "INSERT INTO user (login, password) VALUES(?,?)";
+    private static final String ADD_USER = "INSERT INTO user (login, password, name, lastname, email) VALUES(?,?,?,?,?)";
     private static final String LOGIN_ALREADY_EXISTS = "SELECT EXISTS(SELECT 1 FROM user WHERE `login`=?)";
 
     public UserDAOimpl(ConnectionPool connectionPool) {
@@ -32,6 +33,11 @@ public class UserDAOimpl implements UserDAO {
             ps = con.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUserLogin());
             ps.setString(2, user.getUserPass());
+            //
+            ps.setString(3, user.getUserName());
+            ps.setString(4, user.getUserLastname());
+            ps.setString(5, user.getEmail());
+            //
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();

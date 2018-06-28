@@ -1,5 +1,5 @@
 package by.epam.cattery.entity;
 
 public enum Role {
-    USER, ADMINISTRATOR, EXPERT
+    USER, ADMINISTRATOR, EXPERT, GUEST
 }

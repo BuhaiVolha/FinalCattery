@@ -17,36 +17,6 @@ public class LoginCommand implements ActionCommand {
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
 
-    //public String execute(HttpServletRequest request, HttpServletResponse response) {
-//    public void execute(HttpServletRequest request, HttpServletResponse response) {
-//        String page = null;
-//
-//        String login = request.getParameter(PARAM_NAME_LOGIN);
-//        String password = request.getParameter(PARAM_NAME_PASSWORD);
-//
-//        try {
-//            UserService userService = ServiceFactory.getInstance().getUserService();
-//            User user = userService.logIn(login, password);
-//
-//            if (user != null) {
-//                HttpSession session = request.getSession();
-//                session.setAttribute("userId", user.getId());
-//                session.setAttribute("login", user.getUserLogin());
-//
-//                request.setAttribute("user", login);
-//                page = ConfigurationManager.getProperty("path.page.welcome");
-//
-//            } else {
-//                request.setAttribute("errorLoginPassMessage",
-//                        MessageManager.getProperty("message.loginerror"));
-//                page = ConfigurationManager.getProperty("path.page.login");
-//            }
-//        } catch (Exception e) {
-//
-//        }
-//        //return page;
-//    }
-
 
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -61,6 +31,7 @@ public class LoginCommand implements ActionCommand {
             if (user != null) {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("login", user.getUserLogin());
+                session.setAttribute("role", user.getUserRole());
 
                 response.sendRedirect(ConfigurationManager.getProperty("path.page.welcome"));
 

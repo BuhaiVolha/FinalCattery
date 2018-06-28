@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int register(User user) throws ServiceException, ValidationFailedException {
-        int userId = -1;
+        int userId = -1; // убрать возвращение кода. эксепшн или бул
 
         if (!Validator.validateUserData(user)) {
             throw new ValidationFailedException("user data invalid!");

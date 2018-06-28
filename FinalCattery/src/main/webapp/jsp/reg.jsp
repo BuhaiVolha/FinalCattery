@@ -11,18 +11,46 @@
                 <input type="hidden" name="command" value="Registration" />
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>Login</h4>
                         <label>Login</label>
                         <input type="text" name="login" value="" placeholder="login" required="required" data-validation-required-message="Please enter your name." />
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
-                <br/>
+
                 ${errorLoginExistsMessage}
-                <br/>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>Password</h4>
                         <label>Password</label>
                         <input type="password" name="password" placeholder="6+ symbols" required="required" value="" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>Name</h4>
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="" required="required" value="" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>Lastname</h4>
+                        <label>Lastname</label>
+                        <input type="text" name="lastname" placeholder="" required="required" value="" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>email</h4>
+                        <label>email</label>
+                        <input type="email" name="email" placeholder="" required="required" value="" />
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>

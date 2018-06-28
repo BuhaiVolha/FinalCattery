@@ -13,14 +13,14 @@ public interface TextAnalyzerService {
     Set<String> findFirstSentenceUniqueWord();
     Set<TextComponent> findCertainLengthWordsInQuestionSentences(int length);
     TextComponent replaceFirstAndLastWord();
-    String sortWordsAlphabetically(); //using first letter, new line for each word
+    String sortWordsAlphabetically();
     List<String> sortWordsByVowelToTotalLengthRatio();
     List<String> sortVowelStartingWordsByFirstConsonant();
-    List<String> sortWordsByCertainLetterRising(char letter); // if letter is the same - than alphabetically
-    String sortWordsFromListByAppearingDescending(List<String> wordsList);  //how many times occurs
-    String deleteSubstringStartingAndEndingWith(char startSymbol, char endSymbol); //substring of max length
-    TextComponent deleteCertainLengthWordsStartingWithConsonant(int length); //substring of max length
-    List<String> sortWordsByCertainLetterDescending(char letter); //alphabetically - if equals
+    List<String> sortWordsByCertainLetterRising(char letter);
+    String sortWordsFromListByAppearingDescending(List<String> wordsList);
+    String deleteSubstringStartingAndEndingWith(char startSymbol, char endSymbol);
+    TextComponent deleteCertainLengthWordsStartingWithConsonant(int length);
+    List<String> sortWordsByCertainLetterDescending(char letter);
     String findMaxPalindromeSubstring(); // in words?? in sentence?
     TextComponent deleteFromWordsFirstLetterEverywhere(); //or last
     TextComponent replaceCertainLengthWordsWithSubstring(int sentenceNumber, int wordToReplaceLength, String substring);
