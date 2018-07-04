@@ -32,6 +32,7 @@ public class LoginCommand implements ActionCommand {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("login", user.getUserLogin());
                 session.setAttribute("role", user.getUserRole());
+                System.out.println(user.getUserRole());
 
                 response.sendRedirect(ConfigurationManager.getProperty("path.page.welcome"));
 
@@ -40,6 +41,7 @@ public class LoginCommand implements ActionCommand {
                         MessageManager.getProperty("message.loginerror"));
                 request.getRequestDispatcher(ConfigurationManager
                         .getProperty("path.page.login")).forward(request, response);
+
             }
         } catch (ServiceException e) {
             request.getRequestDispatcher(ConfigurationManager

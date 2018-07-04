@@ -5,7 +5,7 @@
     <div class="container">
         <h2 class="text-center text-uppercase text-white">Registration completed!</h2>
         <hr class="star-light mb-5">
-        <h4 class="text-center text-uppercase text-white">${login}, hello!</h4>
+        <h4 class="text-center text-uppercase text-white">${login},${role}, hello!</h4>
         <div class="text-center mt-4">
 
             <a class="btn btn-xl btn-outline-light" href="../../jsp/main.jsp">

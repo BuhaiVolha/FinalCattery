@@ -4,6 +4,7 @@ import by.epam.cattery.dao.UserDAO;
 import by.epam.cattery.dao.connection.ConnectionPool;
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -89,17 +90,20 @@ public class UserDAOimpl implements UserDAO {
 
         try {
             con = connectionPool.takeConnection();
-            ps = con.prepareStatement("SELECT `user_id`, `login`, `password` FROM user WHERE `login`= ?;");
-            ps.setString(1, login);
+            //ps = con.prepareStatement("SELECT `user_id`, `login`, `password` FROM user WHERE `login`= ?;");
+            ps = con.prepareStatement("SELECT `user_id`, `login`, `password`, `role` FROM user " +
+                    "JOIN user_role ON (user.role_id = user_role.role_id) WHERE `login`= ?;");
+            ps.setString(1, login); //?????
             rs = ps.executeQuery();
             rs.next();
 
-            boolean correctPass = BCrypt.checkpw(password, rs.getString(3));
+            boolean correctPass = BCrypt.checkpw(password, rs.getString(3)); //nvarchar(120) ?
+
             if (correctPass) {
                 user = createUser(rs);
             }
 
-        } catch (ConnectionPoolException | SQLException e) {
+        } catch (ConnectionPoolException | SQLException | IllegalArgumentException e) {
             throw new DAOException("error while finding user in bd ", e);
 
         } finally {
@@ -113,6 +117,8 @@ public class UserDAOimpl implements UserDAO {
         User user = new User();
         user.setId(rs.getInt(1));
         user.setUserLogin(rs.getString(2));
+
+        user.setUserRole(Role.valueOf(rs.getString(4).toUpperCase()));
         return user;
     }
 }

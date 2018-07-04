@@ -7,6 +7,5 @@
   <body>
   <c:redirect url="jsp/main.jsp" />
   <%-- <jsp:forward page="main.jsp" /> --%>
-  <%--<a href="jsp/reg.jsp">Регистрация</a><a href="jsp/login.jsp">Войти</a>--%>
   </body>
 </html>

@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class RegistrationCommand implements ActionCommand {
-
+    // protected?
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         User user = createUser(request);
         HttpSession session = request.getSession();
@@ -35,6 +36,7 @@ public class RegistrationCommand implements ActionCommand {
             session.setAttribute("userId", userId);
             session.setAttribute("login", user.getUserLogin());
             session.setAttribute("role", Role.USER);
+            // oстальные?
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.successful-reg"));
 
@@ -54,6 +56,7 @@ public class RegistrationCommand implements ActionCommand {
         user.setUserName(request.getParameter("name"));
         user.setUserLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));
+        user.setUserRole(Role.USER);
         // роль
 
         return user;
