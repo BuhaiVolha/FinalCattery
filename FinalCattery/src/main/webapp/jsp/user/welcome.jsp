@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file = "/jsp/parts/header.jsp" %>
-<div id="header">
+
+<div id="user-welcome" class="header">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -17,5 +18,4 @@
     </div>
 </div>
 
-
-<%@ include file = "../parts/footer.jsp" %>
+<%@ include file = "/jsp/parts/footer.jsp" %>

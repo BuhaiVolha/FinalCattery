@@ -1,19 +1,22 @@
 <%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file = "../parts/header.jsp" %>
+<%@ include file = "/jsp/parts/header.jsp" %>
 
-<section class="bg-primary text-white mb-0" id="about">
+<div id="not-found" class="header">
     <div class="container">
-        <h2 class="text-center text-uppercase text-white">Error page!</h2>
-        <hr class="star-light mb-5">
-        <h4 class="text-center text-uppercase text-white">Something wrong!</h4>
-        <div class="text-center mt-4">
-            <img class="img-fluid mb-5 d-block mx-auto" src="../../static/img/error.png" alt="">
-            <a class="btn btn-xl btn-outline-light" href="../../jsp/main.jsp">
-                <i class="fa fa-frown-o mr-2 mr-2"></i>
-                Go to main page
-            </a>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="align-center">
+                    <h1>404 error!</h1>
+                    <h2 class="subtitle">Nunc velit risus, dapibus non interdum quis, suscipit nec dolor. Vivamus tempor tempus mauris vitae fermentum. In vitae nulla lacus. Sed sagittis tortor vel arcu sollicitudin nec tincidunt metus suscipit.Nunc velit risus, dapibus non interdum.Nunc velit risus, dapibus non interdum quis, suscipit nec dolor.</h2>
+                    <form class="form-inline signup" role="form">
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email address">
+                        </div>
+                        <button type="submit" class="btn btn-theme">Get it now</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-</section>
-
-<%@ include file = "../parts/footer.jsp" %>
+</div>
+<%@ include file = "/jsp/parts/footer.jsp" %>

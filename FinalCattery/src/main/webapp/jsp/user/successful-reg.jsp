@@ -1,19 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file = "../parts/header.jsp" %>
+<%@ include file = "/jsp/parts/header.jsp" %>
 
-<section class="bg-primary text-white mb-0" id="about">
+<div id="user-welcome" class="header">
     <div class="container">
-        <h2 class="text-center text-uppercase text-white">Registration completed!</h2>
-        <hr class="star-light mb-5">
-        <h4 class="text-center text-uppercase text-white">${login},${role}, hello!</h4>
-        <div class="text-center mt-4">
-
-            <a class="btn btn-xl btn-outline-light" href="../../jsp/main.jsp">
-                <i class="fa fa-taxi-o mr-2"></i>
-                Go to main page
-            </a>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="align-center">
+                    <h1>Registration completed!</h1>
+                    <h2 class="subtitle">${login}, ${role}, hello!</h2>
+                    <a class="btn btn-xl btn-outline-light" href="../../jsp/main.jsp">
+                        <i class="fa fa-truck mr-2"></i>
+                        Go to main page
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-</section>
-<%@ include file = "../parts/footer.jsp" %>
+</div>
+
+<%@ include file = "/jsp/parts/footer.jsp" %>
+
+
 

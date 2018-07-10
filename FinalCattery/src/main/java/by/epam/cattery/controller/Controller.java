@@ -1,6 +1,7 @@
 package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.CommandProvider;
 import by.epam.cattery.controller.command.factory.ActionFactory;
 import by.epam.cattery.resource.ConfigurationManager;
 import by.epam.cattery.resource.MessageManager;
@@ -25,12 +26,17 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page = null;
-        ActionFactory client = new ActionFactory();
-        ActionCommand command = client.defineCommand(request);
 
+        //ActionFactory client = new ActionFactory();
+        //ActionCommand command = client.defineCommand(request);
+        ActionCommand command = CommandProvider.defineCommand(request);
+
+        if (command != null) {
+            command.execute(request, response);
+        } else {
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+        }
         //page = command.execute(request, response);
-        command.execute(request, response);
 
 //        if (page != null) {
 //            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);

@@ -1,5 +1,6 @@
-package by.epam.cattery.controller.command;
+package by.epam.cattery.controller.command.impl;
 
+import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.resource.ConfigurationManager;
 
 import javax.servlet.ServletException;

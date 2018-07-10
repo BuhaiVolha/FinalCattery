@@ -2,12 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file = "parts/header.jsp" %>
-<div id="header">
+<div id="header-main" class="header">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
                 <div class="align-center">
-                    <h1>Welcome to Milacoon cattery!</h1>
+                    <h1>${welcome}</h1>
                     <h2 class="subtitle">Nunc velit risus, dapibus non interdum quis, suscipit nec dolor. Vivamus tempor tempus mauris vitae fermentum. In vitae nulla lacus. Sed sagittis tortor vel arcu sollicitudin nec tincidunt metus suscipit.Nunc velit risus, dapibus non interdum.Nunc velit risus, dapibus non interdum quis, suscipit nec dolor.</h2>
                     <form class="form-inline signup" role="form">
                         <div class="form-group">
@@ -30,7 +30,7 @@
             <div class="row results_section">
                 <div class="col-xm-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="left_results" data-uk-scrollspy="{cls:'uk-animation-slide-left', repeat: false,delay:0}">
-                        <a href="main.jsp" ><img src="assets/img/imac1.jpg" class="img-responsive" alt=""/></a>
+                        <a href="main.jsp" ><img src="/jsp/assets/img/imac1.jpg" class="img-responsive" alt="red cat"/></a>
                     </div>
                 </div>
                 <div class="col-xm-12 col-sm-6 col-md-6 col-lg-6">

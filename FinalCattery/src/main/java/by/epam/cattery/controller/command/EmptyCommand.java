@@ -10,7 +10,6 @@ import java.io.IOException;
 public class EmptyCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String page = ConfigurationManager.getProperty("path.page.login");
-        request.getSession().invalidate(); //&?????????????????????????????????
+        String page = ConfigurationManager.getProperty("path.page.error");
     }
 }

@@ -17,20 +17,17 @@
                     <div class="form-group">
                         <label class="image-replace email" for="signin-login1">Login</label>
                         <input class="form-control" name="login" id="signin-login1" type="text" placeholder="Login" required="required">
-                        ${errorLoginPassMessage}
                     </div>
 
                     <div class="form-group">
                         <label class="image-replace password" for="signin-password1">Password</label>
                         <input class="form-control"  name="password" id="signin-password1" type="password"  placeholder="Password" required="required">
                     </div>
+                    ${errorLoginPassMessage}
+                    <div id="signInError" class="error form-group"></div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block" value="log-in" id="sendMessageButton1">Log in</button>
                     </div>
-                    <c:if test="${not empty sessionScope.errorLoginPassMessage}">
-                        <p id="errorMessage">{sessionScope.errorMessage}</p>
-                        <c:remove var="errorMessage" scope="session" />
-                    </c:if>
                 </form>
             </div>
             <!-- footer (button) -->

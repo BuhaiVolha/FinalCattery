@@ -11,9 +11,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 
 public class UserDAOimpl implements UserDAO {
-    private final ConnectionPool connectionPool; // local var???????????/////
+    private final ConnectionPool connectionPool;
 
-    //private static final String ADD_USER = "INSERT INTO user (login, password) VALUES(?,?)";
     private static final String ADD_USER = "INSERT INTO user (login, password, name, lastname, email) VALUES(?,?,?,?,?)";
     private static final String LOGIN_ALREADY_EXISTS = "SELECT EXISTS(SELECT 1 FROM user WHERE `login`=?)";
 
@@ -22,11 +21,11 @@ public class UserDAOimpl implements UserDAO {
     }
 
     @Override
-    public int addUser(User user) throws DAOException {
+    public boolean addUser(User user) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        int userId = -1;
+        //int userId = -1;
 
         try {
             con = connectionPool.takeConnection();
@@ -34,24 +33,26 @@ public class UserDAOimpl implements UserDAO {
             ps = con.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUserLogin());
             ps.setString(2, user.getUserPass());
-            //
+
             ps.setString(3, user.getUserName());
             ps.setString(4, user.getUserLastname());
             ps.setString(5, user.getEmail());
-            //
+
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
-            rs.next();
-            userId = rs.getInt(1);
+//            //rs.next();
+//            userId = rs.getInt(1); если ид нужно будет возвращать
+
+            return rs.next();
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("error adding user in dao ", e);
+            throw new DAOException("error adding user in dao ", e);  // Отдельно каждый
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
-        return userId;
+        //return userId;
     }
 
 
@@ -90,8 +91,9 @@ public class UserDAOimpl implements UserDAO {
 
         try {
             con = connectionPool.takeConnection();
-            //ps = con.prepareStatement("SELECT `user_id`, `login`, `password` FROM user WHERE `login`= ?;");
-            ps = con.prepareStatement("SELECT `user_id`, `login`, `password`, `role` FROM user " +
+
+            ps = con.prepareStatement("SELECT `user_id`, `login`, `password`, `role`, `name`, `lastname`," +
+                    " `email`, `colour_preference`, `discount`, `flag_banned` FROM user " +
                     "JOIN user_role ON (user.role_id = user_role.role_id) WHERE `login`= ?;");
             ps.setString(1, login); //?????
             rs = ps.executeQuery();
@@ -104,7 +106,9 @@ public class UserDAOimpl implements UserDAO {
             }
 
         } catch (ConnectionPoolException | SQLException | IllegalArgumentException e) {
+            System.out.println(e);
             throw new DAOException("error while finding user in bd ", e);
+            // что если пользователя с таким логином тупо нет? проверить
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -117,8 +121,13 @@ public class UserDAOimpl implements UserDAO {
         User user = new User();
         user.setId(rs.getInt(1));
         user.setUserLogin(rs.getString(2));
-
         user.setUserRole(Role.valueOf(rs.getString(4).toUpperCase()));
+        user.setUserName(rs.getString(5));
+        user.setUserLastname(rs.getString(6));
+        user.setEmail(rs.getString(7));
+        user.setUserColorPreference(rs.getString(8));
+        user.setDiscount(rs.getInt(9));
+        user.setBanned(rs.getBoolean(10));
         return user;
     }
 }

@@ -6,6 +6,7 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.service.exception.UserAlreadyExistsException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.validation.Validator;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,23 +16,22 @@ public class UserServiceImpl implements UserService {
     private static UserDAO userDAO = daoFactory.getUserDAO();
 
     @Override
-    public int register(User user) throws ServiceException, ValidationFailedException {
-        int userId = -1; // убрать возвращение кода. эксепшн или бул
+    public boolean register(User user) throws ServiceException, ValidationFailedException {
+        //int userId = -1; // убрать возвращение кода. эксепшн или бул
 
         if (!Validator.validateUserData(user)) {
             throw new ValidationFailedException("user data invalid!");
         }
         try {
             if (userDAO.loginAlreadyExists(user)) {
-                //throw new ValidationFailedException("login already exists!");
-                return -1;
+                throw new UserAlreadyExistsException("User already exists");
             }
 
             String securePass = BCrypt.hashpw(user.getUserPass(), BCrypt.gensalt());
             user.setUserPass(securePass);
 
-            userId = userDAO.addUser(user);
-            return userId;
+            return userDAO.addUser(user);
+
         } catch (DAOException e) {
             throw new ServiceException("Registration failed", e);
         }
