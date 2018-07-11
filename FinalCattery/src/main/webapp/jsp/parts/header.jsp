@@ -86,7 +86,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/controller?command=cats">${goods}</a></li>
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
-                <li><a href="#">${reviews}</a></li>
+                <li><a href="/controller?command=approved_reviews">${reviews}</a></li>
 
                 <c:choose>
                 <c:when test="${sessionScope.role ne 'USER' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'EXPERT'}">
@@ -175,7 +175,7 @@
                     <label class="image-replace email" for="signin-login">Login</label>
                     <input class="full-width has-padding has-border" name="login" id="signin-login" type="text"
                            placeholder="Login">
-                    <span class="error-message"An account with this login address does not exist!</span>
+                    <span class="error-message">An account with this login address does not exist!</span>
                     ${errorLoginPassMessage}
                 </p>
 
@@ -239,8 +239,10 @@
                     <span class="error-message">Wrong email!</span>
                 </p>
                 <p class="fieldset">
-                    <input type="checkbox" id="accept-terms">
-                    <label for="accept-terms">I agree to the <a class="accept-terms" href="#0">Terms</a></label>
+                    <label class="image-replace glyphicon-phone" for="signup-phone">phone</label>
+                    <input class="full-width has-padding has-border" name="phone" id="signup-phone" type="text"
+                           placeholder="phone">
+                    <span class="error-message">Wrong phone!</span>
                 </p>
                 <p class="fieldset">
 

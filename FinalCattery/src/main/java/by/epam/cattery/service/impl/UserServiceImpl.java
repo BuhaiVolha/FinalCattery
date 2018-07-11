@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
             return userDAO.addUser(user);
 
         } catch (DAOException e) {
+            System.out.println(e);
             throw new ServiceException("Registration failed", e);
         }
     }

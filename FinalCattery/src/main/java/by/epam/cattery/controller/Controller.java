@@ -2,11 +2,8 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
-import by.epam.cattery.controller.command.factory.ActionFactory;
-import by.epam.cattery.resource.ConfigurationManager;
-import by.epam.cattery.resource.MessageManager;
+import by.epam.cattery.controller.util.ConfigurationManager;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

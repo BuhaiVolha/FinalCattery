@@ -5,20 +5,21 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class User extends Entity {
     private static final long serialVersionUID = 2798330215955662152L;
-    // private int id;
+    // phone number
     private String userLogin;
     private String userPass;
     private Role userRole;
     private String userName;
     private String userLastname;
     private String email;
+    private String phone;
     private String userColorPreference;
     private int discount;
     private boolean banned;
 
 
     public User(int id, String userLogin, String userPass, Role userRole, String userName, String userLastname,
-                String email, String userColorPreference, int discount, boolean banned) {
+                String email, String phone,  String userColorPreference, int discount, boolean banned) {
         super(id);
         this.userLogin = userLogin;
         this.userPass = userPass;   // массив символов?
@@ -26,6 +27,7 @@ public class User extends Entity {
         this.userName = userName;
         this.userLastname = userLastname;
         this.email = email;
+        this.phone = phone;
         this.userColorPreference = userColorPreference;
         this.discount = discount;
         this.banned = banned;
@@ -34,13 +36,6 @@ public class User extends Entity {
     public User() {
     }
 
-    //    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public String getUserLogin() {
         return userLogin;
@@ -90,6 +85,14 @@ public class User extends Entity {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getUserColorPreference() {
         return userColorPreference;
     }
@@ -130,6 +133,7 @@ public class User extends Entity {
                 .append(getUserName(), user.getUserName())
                 .append(getUserLastname(), user.getUserLastname())
                 .append(getEmail(), user.getEmail())
+                .append(getPhone(), user.getPhone())
                 .append(getUserColorPreference(), user.getUserColorPreference())
                 .append(getDiscount(), user.getDiscount())
                 .isEquals();
@@ -145,6 +149,7 @@ public class User extends Entity {
                 .append(getUserName())
                 .append(getUserLastname())
                 .append(getEmail())
+                .append(getPhone())
                 .append(getUserColorPreference())
                 .append(getDiscount())
                 .append(isBanned())

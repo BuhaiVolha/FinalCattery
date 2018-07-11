@@ -1,4 +1,4 @@
-package by.epam.cattery.resource;
+package by.epam.cattery.controller.util;
 
 import java.util.ResourceBundle;
 

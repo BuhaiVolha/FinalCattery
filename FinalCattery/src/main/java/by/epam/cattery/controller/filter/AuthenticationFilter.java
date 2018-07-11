@@ -1,7 +1,6 @@
 package by.epam.cattery.controller.filter;
 
-import by.epam.cattery.entity.User;
-import by.epam.cattery.resource.ConfigurationManager;
+import by.epam.cattery.controller.util.ConfigurationManager;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;

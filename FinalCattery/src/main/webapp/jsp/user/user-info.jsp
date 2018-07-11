@@ -18,7 +18,17 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
-                            <img alt="User Pic" src="/jsp/assets/img/user.png" class="img-responsive"> </div>
+                            <c:choose>
+                                <c:when test="${sessionScope.role eq 'USER'}">
+                                <img alt="User pic" src="/jsp/assets/img/user.png" class="img-responsive"> </div>
+                                </c:when>
+                                <c:when test="${sessionScope.role eq 'EXPERT'}">
+                        <img alt="Expert pic" src="/jsp/assets/img/expert.png" class="img-responsive"> </div>
+                                </c:when>
+                                <c:when test="${sessionScope.role eq 'ADMIN'}">
+                    <img alt="Admin pic" src="/jsp/assets/img/admin.png" class="img-responsive"> </div>
+                                </c:when>
+                            </c:choose>
 
                         <div class=" col-md-9 col-lg-9 ">
                             <table class="table table-user-information">
@@ -46,12 +56,12 @@
                                     <td>${sessionScope.colorPreference}</td>
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
+                                    <td>Email:</td>
                                     <td><a href="mailto:"${sessionScope.email}>${sessionScope.email}</a></td>
                                 </tr>
                                 <tr>
-                                <td>Phone Number</td>
-                                <td>123-4567-890(Landline)</td>
+                                <td>Phone Number:</td>
+                                <td>+375 ${sessionScope.phone}</td>
                                 </tr>
                                 <tr>
                                     <td>Banned</td>
@@ -60,9 +70,20 @@
 
                                 </tbody>
                             </table>
-
-                            <a href="#" class="btn btn-primary">My kittens</a>
-                            <a href="#" class="btn btn-primary">Something else</a>
+                            <c:choose>
+                                <c:when test="${sessionScope.role eq 'USER'}">
+                                    <a href="/jsp/user/kitten-offer.jsp" class="btn btn-primary">Offer a kitten</a>
+                                    <a href="/controller?command=all_offers" class="btn btn-primary">See offer status</a>
+                                </c:when>
+                                <c:when test="${sessionScope.role eq 'EXPERT'}">
+                                    <a href="/controller?command=offers_by_status&status=awaiting" class="btn btn-primary">Assess a kitten</a>
+                                </c:when>
+                                <c:when test="${sessionScope.role eq 'ADMIN'}">
+                                    <a href="#" class="btn btn-primary">Add a kitten</a>
+                                    <a href="#" class="btn btn-primary">Manage users</a>
+                                    <a href="#" class="btn btn-primary">See statistics</a>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                 </div>

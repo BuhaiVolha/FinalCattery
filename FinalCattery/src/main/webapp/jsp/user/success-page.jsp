@@ -4,14 +4,11 @@
 <div id="user-welcome" class="header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
                 <div class="align-center">
                     <h1>Success!</h1>
-                    <h2 class="subtitle">${login}, ${role}, you are logged in!</h2>
-                    <a class="btn btn-xl btn-outline-light" href="../../jsp/main.jsp">
-                        <i class="fa fa-truck mr-2"></i>
-                        Go to main page
-                    </a>
+                    <h2 class="subtitle">${login}, you've done it!</h2>
                 </div>
             </div>
         </div>

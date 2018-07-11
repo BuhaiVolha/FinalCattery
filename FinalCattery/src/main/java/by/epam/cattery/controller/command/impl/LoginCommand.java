@@ -2,8 +2,8 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.User;
-import by.epam.cattery.resource.ConfigurationManager;
-import by.epam.cattery.resource.MessageManager;
+import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.controller.util.MessageManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -39,11 +39,12 @@ public class LoginCommand implements ActionCommand {
                 session.setAttribute("name", user.getUserName());
                 session.setAttribute("lastname", user.getUserLastname());
                 session.setAttribute("email", user.getEmail());
+                session.setAttribute("phone", user.getPhone());
                 session.setAttribute("colorPreference", user.getUserColorPreference());
                 session.setAttribute("discount", user.getDiscount());
                 session.setAttribute("banned", user.isBanned());
 
-                response.sendRedirect(ConfigurationManager.getProperty("path.page.welcome"));
+                response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
             } else {
 //                request.setAttribute("errorLoginPassMessage",
@@ -68,14 +69,4 @@ public class LoginCommand implements ActionCommand {
         }
     }
 
-    private URI getUr(HttpServletRequest request) {
-        try {
-            String refererPage = request.getHeader("referer");
-            URI uriWithParam = new URIBuilder(refererPage).setParameter("message", "signInfailed").build();
-            return uriWithParam;
-        } catch (URISyntaxException e) {
-            System.out.println("except");
-            throw new RuntimeException(e);
-        }
-    }
 }

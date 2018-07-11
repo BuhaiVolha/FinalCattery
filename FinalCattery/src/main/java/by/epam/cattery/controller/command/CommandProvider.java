@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command;
 
 import by.epam.cattery.controller.command.impl.*;
-import by.epam.cattery.resource.MessageManager;
+import by.epam.cattery.controller.util.MessageManager;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.EnumMap;
@@ -29,6 +29,11 @@ public class CommandProvider {
         commands.put(Commands.LOGOUT, new LogoutCommand());
         commands.put(Commands.LANGUAGE, new LanguageCommand());
         commands.put(Commands.CATS, new CatCommand());  //дурацкое название
+        commands.put(Commands.APPROVED_REVIEWS, new ShowApprovedReviewsCommand());
+        commands.put(Commands.OFFER_KITTEN, new OfferKittenCommand());
+        commands.put(Commands.ALL_OFFERS, new ShowAllOffersCommand());
+        commands.put(Commands.OFFERS_BY_STATUS, new ShowOffersByStatusCommand());
+        commands.put(Commands.DECLINE_OFFER, new DeclineOfferCommand());
     }
 
 

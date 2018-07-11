@@ -3,8 +3,8 @@ package by.epam.cattery.controller.command.impl;
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
-import by.epam.cattery.resource.ConfigurationManager;
-import by.epam.cattery.resource.MessageManager;
+import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.controller.util.MessageManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 
@@ -36,9 +36,11 @@ public class RegistrationCommand implements ActionCommand {
             session.setAttribute("name", user.getUserName());
             session.setAttribute("lastname", user.getUserLastname());
             session.setAttribute("email", user.getEmail());
+            session.setAttribute("phone", user.getPhone());
             session.setAttribute("discount", user.getDiscount());
             session.setAttribute("banned", user.isBanned());
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.successful-reg"));
+
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ValidationFailedException e) {
             // заменить на бул?
@@ -52,7 +54,7 @@ public class RegistrationCommand implements ActionCommand {
                     getProperty("path.page.reg")).forward(request, response);
 
         } catch (ServiceException e) {
-            System.out.println("smth bad happened");
+            System.out.println("smth bad happened " + e);
 
         }
     }
@@ -65,7 +67,8 @@ public class RegistrationCommand implements ActionCommand {
         user.setUserName(request.getParameter("name"));
         user.setUserLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));
-        user.setDiscount(0);
+        user.setPhone(request.getParameter("phone"));
+        user.setDiscount(0); // ???????????????????????????/
         user.setBanned(false);
         user.setUserRole(Role.USER);
 

@@ -54,6 +54,14 @@
                         <p class="help-block text-danger"></p>
                     </div>
                 </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                        <h4>phone</h4>
+                        <label>phone</label>
+                        <input type="text" name="phone" placeholder="" required="required" value="" />
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
                 <br>
                 <div id="success"></div>
                 <div class="form-group">

@@ -21,6 +21,8 @@ public class CatDAOimpl implements CatDAO {
         this.connectionPool = connectionPool;
     }
 
+
+
     @Override
     public List<Cat> findAllCats() throws DAOException {
         List<Cat> cats = new ArrayList<>();
@@ -66,6 +68,7 @@ public class CatDAOimpl implements CatDAO {
         return cats;
     }
 
+    // util class Converter???
     private Gender convertToGender(boolean isFemale) {
         return (isFemale)? Gender.FEMALE : Gender.MALE;
     }
