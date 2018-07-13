@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CatDAO {
     List<Cat> findAllCats() throws DAOException;
+    void addUserCat(Cat cat, String offerId) throws DAOException;
 }

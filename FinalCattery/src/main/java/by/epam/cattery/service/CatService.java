@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CatService {
     List<Cat> showAllCats() throws ServiceException;
+    void addUserCat(Cat cat, String id) throws ServiceException;
 }

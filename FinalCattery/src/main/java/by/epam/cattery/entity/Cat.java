@@ -6,13 +6,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Cat extends Entity {
     private static final long serialVersionUID = 8277026855704434661L;
     private String name;
+    private int userMadeOfferId;
     private String lastname;
     private Gender gender;
-    private int ageMonth;
+    private String age;
     //photo
     private String description;
-    private String bodyColor;
-    private String eyesColor;
+    private String bodyColour;
+    private String eyesColour;
     private String femaleParent;
     private String maleParent;
     private double price; // ???
@@ -56,20 +57,20 @@ public class Cat extends Entity {
         this.description = description;
     }
 
-    public String getBodyColor() {
-        return bodyColor;
+    public String getBodyColour() {
+        return bodyColour;
     }
 
-    public void setBodyColor(String bodyColor) {
-        this.bodyColor = bodyColor;
+    public void setBodyColour(String bodyColour) {
+        this.bodyColour = bodyColour;
     }
 
-    public String getEyesColor() {
-        return eyesColor;
+    public String getEyesColour() {
+        return eyesColour;
     }
 
-    public void setEyesColor(String eyesColor) {
-        this.eyesColor = eyesColor;
+    public void setEyesColour(String eyesColour) {
+        this.eyesColour = eyesColour;
     }
 
     public String getFemaleParent() {
@@ -96,12 +97,20 @@ public class Cat extends Entity {
         this.price = price;
     }
 
-    public int getAgeMonth() {
-        return ageMonth;
+    public String getAge() {
+        return age;
     }
 
-    public void setAgeMonth(int ageMonth) {
-        this.ageMonth = ageMonth;
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public int getUserMadeOfferId() {
+        return userMadeOfferId;
+    }
+
+    public void setUserMadeOfferId(int userMadeOfferId) {
+        this.userMadeOfferId = userMadeOfferId;
     }
 
     @Override
@@ -118,11 +127,12 @@ public class Cat extends Entity {
                 .append(getLastname(), cat.getLastname())
                 .append(getGender(), cat.getGender())
                 .append(getDescription(), cat.getDescription())
-                .append(getBodyColor(), cat.getBodyColor())
-                .append(getEyesColor(), cat.getEyesColor())
+                .append(getBodyColour(), cat.getBodyColour())
+                .append(getEyesColour(), cat.getEyesColour())
                 .append(getFemaleParent(), cat.getFemaleParent())
                 .append(getMaleParent(), cat.getMaleParent())
-                .append(getAgeMonth(), cat.getAgeMonth())
+                .append(getAge(), cat.getAge())
+                .append(getUserMadeOfferId(), cat.getUserMadeOfferId())
                 .isEquals();
     }
 
@@ -134,12 +144,13 @@ public class Cat extends Entity {
                 .append(getLastname())
                 .append(getGender())
                 .append(getDescription())
-                .append(getBodyColor())
-                .append(getEyesColor())
+                .append(getBodyColour())
+                .append(getEyesColour())
                 .append(getFemaleParent())
                 .append(getMaleParent())
                 .append(getPrice())
-                .append(getAgeMonth())
+                .append(getAge())
+                .append(getUserMadeOfferId())
                 .toHashCode();
     }
 }

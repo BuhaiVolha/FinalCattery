@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
 
-            <c:forEach items="${awaitingKittenOffers}" var="kittensOffer" varStatus="row">
+            <c:forEach items="${catsByStatus}" var="catByStatus">
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
 
@@ -13,27 +13,27 @@
                         <div class="card-body">
                             <p class="card-text">
                             <h5>
-                                By: <c:out value="${kittensOffer.userMadeOfferName}" />
-                                <c:out value="${kittensOffer.userMadeOfferLastname}"/>
-                            ИД: <c:out value="${kittensOffer.id}" />
+                                By: <c:out value="${catByStatus.userMadeOfferName}" />
+                                <c:out value="${catByStatus.userMadeOfferLastname}"/>
+                            ИД: <c:out value="${catByStatus.id}" />
                             </h5>
                             <p class="card-text">
                             <h5>
-                                описание котенка: <c:out value="${kittensOffer.catDescription}" />
+                                описание котенка: <c:out value="${catByStatus.catDescription}" />
                             </h5>
                             <h5>
-                                желаемая цена: <c:out value="${kittensOffer.price}" /> долларов
+                                желаемая цена: <c:out value="${catByStatus.price}" /> долларов
                             </h5>
                             <h5>
-                                телефон: +375 <c:out value="${kittensOffer.userMadeOfferPhone}" />
+                                телефон: +375 <c:out value="${catByStatus.userMadeOfferPhone}" />
                             </h5>
                             <h5>
-                                статус: <c:out value="${kittensOffer.status}" />
+                                статус: <c:out value="${catByStatus.status}" />
                             </h5>
 
-                            <a href="/jsp/user/kitten-offer.jsp" class="btn btn-primary">Approve</a>
-                            <a href="/jsp/user/kitten-offer.jsp" class="btn btn-primary">Bargain</a>
-                            <a href="/jsp/expert/decline.jsp" class="btn btn-primary">Politely decline</a>
+                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=approve" class="btn btn-primary">Approve</a>
+                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=bargain" class="btn btn-primary">Bargain</a>
+                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=decline" class="btn btn-primary">Politely decline</a>
                         </div>
                     </div>
                 </div>

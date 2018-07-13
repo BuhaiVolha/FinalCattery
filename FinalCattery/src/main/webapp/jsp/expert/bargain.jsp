@@ -3,7 +3,7 @@
 <%@ include file="/jsp/parts/header.jsp" %>
 
 <div class="container">
-    <h2 class="text-center text-uppercase text-secondary mb-0">Decline a kitten</h2>
+    <h2 class="text-center text-uppercase text-secondary mb-0">Try to bargain</h2>
     <div class="row">
         <h3>Please, ${login}, fill in the form</h3>
     </div>
@@ -13,17 +13,16 @@
         <div class="col-md-6">
             <div class="widget-area no-padding blank">
                 <div class="status-upload">
-                    <form name="CatDeclineFrom" method="POST" action="/controller">
-                        <input type="hidden" name="command" value="decline_offer"/>
-                        <input type="hidden" name="offerId" value="${kittenId}"/>
-                        <textarea required="required" name="expertMessage" placeholder="Describe the reason for the decision" ></textarea>
+                    <form name="CatOfferFrom" method="POST" action="/controller">
+                        <input type="hidden" name="command" value="bargain"/>
+                        <textarea required="required" name="expertMessage" placeholder="Describe reasons for changing a price" ></textarea>
                         <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                         </button>
-
+                        <label>New price (in dollars)</label>
+                        <input type="text" name="price" placeholder="New price" required="required"/>
                     </form>
-
-                </div><!-- Status Upload  -->
-            </div><!-- Widget Area -->
+                </div>
+            </div>
         </div>
 
     </div>

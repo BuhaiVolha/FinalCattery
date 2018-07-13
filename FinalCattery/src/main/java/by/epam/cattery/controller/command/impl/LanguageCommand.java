@@ -12,7 +12,7 @@ public class LanguageCommand implements ActionCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getSession(true).setAttribute("local", request.getParameter("local"));
-        //response.sendRedirect(ConfigurationManager.getProperty("path.page.main"));
+
         String viewPath = request.getHeader("referer");
         response.sendRedirect(viewPath);
     }

@@ -13,10 +13,10 @@
         <div class="col-md-6">
             <div class="widget-area no-padding blank">
                 <div class="status-upload">
-                    <form name="KittenOfferFrom" method="POST" action="/controller">
-                        <input type="hidden" name="command" value="offer_kitten"/>
-                        <textarea required="required" name="catDescription" placeholder="Describe characteristics of your kitten, so it were easy for our expert to make a decision" ></textarea>
-                        <button type="submit" class="btn btn-primary btn-xl" value="log-in" id="sendMessageButton">Send
+                    <form name="CatOfferFrom" method="POST" action="/controller">
+                        <input type="hidden" name="command" value="offer_cat"/>
+                        <textarea required="required" name="catDescription" placeholder="Describe characteristics of your cat, so it were easy for our expert to make a decision" ></textarea>
+                        <button type="submit" class="btn btn-primary btn-xl"  id="sendMessageButton">Send
                         </button>
                         <label>Price (in dollars)</label>
                         <input type="text" name="price" placeholder="Price you want to ask" required="required"/>

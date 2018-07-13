@@ -1,31 +1,31 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
+import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class DeclineOfferCommand implements ActionCommand {
+public class ApproveOfferCommand implements ActionCommand {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("offerId") + "sess");
-        String id = request.getParameter("offerId");
-        System.out.println(id + " ID");
+        Offer offer = (Offer) session.getAttribute("singleOffer");
+        offer.setExpertMessageToAdmin(request.getParameter("expertMessageToAdmin"));
+        System.out.println(" from aprove command " + offer.getExpertMessageToAdmin());
 
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
-        try {
-            offerService.declineOffer(id, request.getParameter("expertMessage"), "REJECTED");
 
+        try {
+            offerService.answerToOffer(offer, OfferStatus.APRVD.toString(), true);
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 

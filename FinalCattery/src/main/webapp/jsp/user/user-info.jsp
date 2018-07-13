@@ -13,7 +13,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">${sessionScope.name} ${sessionScope.lastname}</h3>
+                    <h3 class="panel-title">${sessionScope.userName}  ${sessionScope.userLastname}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -72,16 +72,17 @@
                             </table>
                             <c:choose>
                                 <c:when test="${sessionScope.role eq 'USER'}">
-                                    <a href="/jsp/user/kitten-offer.jsp" class="btn btn-primary">Offer a kitten</a>
+                                    <a href="/jsp/user/cat-offer.jsp" class="btn btn-primary">Offer a cat</a>
                                     <a href="/controller?command=all_offers" class="btn btn-primary">See offer status</a>
                                 </c:when>
                                 <c:when test="${sessionScope.role eq 'EXPERT'}">
-                                    <a href="/controller?command=offers_by_status&status=awaiting" class="btn btn-primary">Assess a kitten</a>
+                                    <a href="#" class="btn btn-primary">See statistics</a>
+                                    <a href="/controller?command=offers_by_status&status=await&path=assessment" class="btn btn-primary">Assess cats</a>
                                 </c:when>
                                 <c:when test="${sessionScope.role eq 'ADMIN'}">
-                                    <a href="#" class="btn btn-primary">Add a kitten</a>
+                                    <a href="/jsp/admin/add-cat.jsp" class="btn btn-primary">Add a cat</a>
+                                    <a href="/controller?command=offers_by_status&status=aprvd&path=manage-offers" class="btn btn-primary">See offers</a>
                                     <a href="#" class="btn btn-primary">Manage users</a>
-                                    <a href="#" class="btn btn-primary">See statistics</a>
                                 </c:when>
                             </c:choose>
                         </div>

@@ -14,7 +14,7 @@ public class OfferServiceImpl implements OfferService {
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
     @Override
-    public boolean offerKitten(Offer offer) throws ServiceException {
+    public boolean offerCat(Offer offer) throws ServiceException {
 
         try {
             return offerDAO.makeOffer(offer);
@@ -49,14 +49,26 @@ public class OfferServiceImpl implements OfferService {
         }
     }
 
+
     @Override
-    public void declineOffer(String id, String expertMessage, String status) throws ServiceException  {
+    public void answerToOffer(Offer offer, String status, boolean forAdmin) throws ServiceException {
         try {
-            offerDAO.declineOffer(id, expertMessage, status); // Отдельный объект
+            offerDAO.changeOfferStatus(offer, status, forAdmin); // Отдельный объект DTO?
 
         } catch (DAOException e) {
             System.out.println(e);
-            throw new ServiceException("declineOffer failed in Service", e);
+            throw new ServiceException("answering to offer failed in Service", e);
+        }
+    }
+
+
+    @Override
+    public Offer showSingleOffer(String id) throws ServiceException {
+        try {
+            return offerDAO.findSingleOffer(id);
+
+        } catch (DAOException e) {
+            throw new ServiceException("error while showSingleOffer in service", e);
         }
     }
 }

@@ -36,8 +36,8 @@ public class LoginCommand implements ActionCommand {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("login", user.getUserLogin());
                 session.setAttribute("role", user.getUserRole());
-                session.setAttribute("name", user.getUserName());
-                session.setAttribute("lastname", user.getUserLastname());
+                session.setAttribute("userName", user.getUserName());
+                session.setAttribute("userLastname", user.getUserLastname());
                 session.setAttribute("email", user.getEmail());
                 session.setAttribute("phone", user.getPhone());
                 session.setAttribute("colorPreference", user.getUserColorPreference());

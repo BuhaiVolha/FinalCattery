@@ -30,4 +30,17 @@ public class CatServiceImpl implements CatService {
         }
         return cats;
     }
+
+
+    @Override
+    public void addUserCat(Cat cat, String id) throws ServiceException {
+
+        try {
+            catDAO.addUserCat(cat, id);
+
+        } catch (DAOException e) {
+            System.out.println(e);
+            throw new ServiceException("Error while adding cats", e);
+        }
+    }
 }

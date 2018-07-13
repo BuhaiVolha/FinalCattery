@@ -1,4 +1,4 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class OfferKittenCommand implements ActionCommand {
+public class OfferCatCommand implements ActionCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -24,7 +24,7 @@ public class OfferKittenCommand implements ActionCommand {
 
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
         try {
-            offerService.offerKitten(offer);
+            offerService.offerCat(offer);
             // а ид???
             session.setAttribute("userId", offer.getUserMadeOfferId());
             session.setAttribute("name", offer.getUserMadeOfferName());
@@ -54,7 +54,7 @@ public class OfferKittenCommand implements ActionCommand {
         offer.setUserMadeOfferPhone((String)session.getAttribute("phone"));
         offer.setCatDescription(request.getParameter("catDescription"));
         offer.setPrice(Double.parseDouble(request.getParameter("price")));
-        offer.setStatus(OfferStatus.AWAITING);
+        offer.setStatus(OfferStatus.AWAIT);
 
         return offer;
     }

@@ -9,5 +9,6 @@ public interface OfferDAO {
     boolean makeOffer(Offer offer) throws DAOException;
     List<Offer> findAllOffersByUserId(String id) throws DAOException;
     List<Offer> findAllOffersByStatus(String status) throws DAOException;
-    void declineOffer(String id, String expertMessage, String status) throws DAOException;
+    void changeOfferStatus(Offer offer, String status, boolean forAdmin) throws DAOException;
+    Offer findSingleOffer(String id) throws DAOException;
 }

@@ -1,9 +1,8 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
-import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -15,35 +14,24 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowOffersByStatusCommand implements ActionCommand {
+public class ShowAllOffersCommand implements ActionCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Offer> offers = null;
         HttpSession session = request.getSession();
-        String status = request.getParameter("status").toUpperCase();
-        String path = request.getParameter("path");
 
         try {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.showAllOffersByStatus(status);
+            offers = offerService.showAllOffersByUserId(session.getAttribute("userId").toString());
 
         } catch (ServiceException e) {
             //redirect
             System.out.println(e);
-            System.out.println("offers by status aren't here!");
+            System.out.println("offers aren't here");
         }
 
-        session.setAttribute("catsByStatus", offers); // изменить название
-        response.sendRedirect(ConfigurationManager.getProperty("path.page." + path)); //append
+        session.setAttribute("catOffers", offers);
+        response.sendRedirect(ConfigurationManager.getProperty("path.page.user-offers"));
     }
-
-
-//    private String definePage(String status) {
-//
-//        switch (status) {
-//            case OfferStatus.AWAITING:
-//                return "path.page.assessment"; break;
-//        }
-//    }
 }

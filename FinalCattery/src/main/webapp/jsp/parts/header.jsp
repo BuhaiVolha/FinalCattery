@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<jsp:useBean id="now" class="java.util.Date" />
+<%@ page trimDirectiveWhitespaces="true" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +35,7 @@
     <link href="/jsp/assets/css/bootstrap.css" rel="stylesheet">
     <link href="/jsp/assets/css/style.css" rel="stylesheet">
     <link href="/jsp/assets/css/bootstrap-theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     <!-- siimple style -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -84,7 +87,7 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/controller?command=cats">${goods}</a></li>
+                <li><a href="/controller?command=show_all_cats">${goods}</a></li>
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
                 <li><a href="/controller?command=approved_reviews">${reviews}</a></li>
 

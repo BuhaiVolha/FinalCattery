@@ -13,12 +13,14 @@ public class Offer extends Entity {
     private String catDescription; //kittenDescription
     //photo String?
     private double price;  //priceDollars ??? //kittenPrice
-    private OfferStatus status;  //priceDollars ??? //kittenPrice
-    private String expertMessage;  //priceDollars ??? //kittenPrice
+    private OfferStatus status;
+    private String expertMessage;
+    private String expertMessageToAdmin;
 
 
     public Offer(int id, int userMadeOfferId, String userMadeOfferName, String userMadeOfferLastname,
-                 String userMadeOfferPhone, String catDescription, double price, OfferStatus status, String expertMessage) {
+                 String userMadeOfferPhone, String catDescription, double price, OfferStatus status,
+                 String expertMessage, String expertMessageToAdmin) {
         super(id);
         this.userMadeOfferId = userMadeOfferId;
         this.userMadeOfferName = userMadeOfferName;
@@ -28,6 +30,7 @@ public class Offer extends Entity {
         this.price = price;
         this.status = status;
         this.expertMessage = expertMessage;
+        this.expertMessageToAdmin = expertMessageToAdmin;
     }
 
     public Offer() {
@@ -97,6 +100,14 @@ public class Offer extends Entity {
         this.expertMessage = expertMessage;
     }
 
+    public String getExpertMessageToAdmin() {
+        return expertMessageToAdmin;
+    }
+
+    public void setExpertMessageToAdmin(String expertMessageToAdmin) {
+        this.expertMessageToAdmin = expertMessageToAdmin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -114,6 +125,7 @@ public class Offer extends Entity {
                 .append(getCatDescription(), offer.getCatDescription())
                 .append(getStatus(), offer.getStatus())
                 .append(getExpertMessage(), offer.getExpertMessage())
+                .append(getExpertMessageToAdmin(), offer.getExpertMessageToAdmin())
                 .isEquals();
     }
 
@@ -129,6 +141,7 @@ public class Offer extends Entity {
                 .append(getPrice())
                 .append(getStatus())
                 .append(getExpertMessage())
+                .append(getExpertMessageToAdmin())
                 .toHashCode();
     }
 }

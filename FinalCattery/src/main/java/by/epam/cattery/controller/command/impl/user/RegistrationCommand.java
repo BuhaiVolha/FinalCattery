@@ -1,4 +1,4 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.Role;
