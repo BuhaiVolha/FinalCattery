@@ -19,7 +19,6 @@ public class ShowApprovedReviewsCommand implements ActionCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Review> reviews = null;
-        HttpSession session = request.getSession();
 
         try {
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
@@ -30,8 +29,11 @@ public class ShowApprovedReviewsCommand implements ActionCommand {
             System.out.println(e);
             System.out.println("reviews aren't here");
         }
-
-        session.setAttribute("approvedReviews", reviews);
-        response.sendRedirect(ConfigurationManager.getProperty("path.page.reviews"));
+//
+//        session.setAttribute("approvedReviews", reviews);
+//        response.sendRedirect(ConfigurationManager.getProperty("path.page.reviews"));
+//
+        request.setAttribute("approvedReviews", reviews);
+        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reviews")).forward(request, response);
     }
 }

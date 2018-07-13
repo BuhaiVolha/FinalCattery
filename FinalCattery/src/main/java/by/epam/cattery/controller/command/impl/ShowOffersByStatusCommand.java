@@ -20,7 +20,7 @@ public class ShowOffersByStatusCommand implements ActionCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Offer> offers = null;
-        HttpSession session = request.getSession();
+
         String status = request.getParameter("status").toUpperCase();
         String path = request.getParameter("path");
 
@@ -34,8 +34,9 @@ public class ShowOffersByStatusCommand implements ActionCommand {
             System.out.println("offers by status aren't here!");
         }
 
-        session.setAttribute("catsByStatus", offers); // изменить название
-        response.sendRedirect(ConfigurationManager.getProperty("path.page." + path)); //append
+        request.setAttribute("catsByStatus", offers);
+        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + path)).forward(request, response);
+
     }
 
 

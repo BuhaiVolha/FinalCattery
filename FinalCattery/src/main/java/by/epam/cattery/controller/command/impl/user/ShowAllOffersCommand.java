@@ -31,7 +31,8 @@ public class ShowAllOffersCommand implements ActionCommand {
             System.out.println("offers aren't here");
         }
 
-        session.setAttribute("catOffers", offers);
-        response.sendRedirect(ConfigurationManager.getProperty("path.page.user-offers"));
+        request.setAttribute("catOffers", offers);
+        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-offers")).forward(request, response);
+
     }
 }

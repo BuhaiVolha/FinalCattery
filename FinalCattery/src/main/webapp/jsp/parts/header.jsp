@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:useBean id="now" class="java.util.Date" />
-<%@ page trimDirectiveWhitespaces="true" %>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -20,12 +20,11 @@ public class AddUserCatCommand implements ActionCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Cat cat = createCat(request);
-        HttpSession session = request.getSession();
 
         CatService catService = ServiceFactory.getInstance().getCatService();
 
         try {
-            catService.addUserCat(cat, session.getAttribute("offerId").toString());
+            catService.addUserCat(cat, request.getAttribute("offerId").toString());
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {

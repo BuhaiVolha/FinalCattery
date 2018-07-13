@@ -30,9 +30,7 @@ public class ShowAllCatsCommand implements ActionCommand {
             System.out.println(e);
             System.out.println("cats aren't here");
         }
-//        request.setAttribute("cats", cats);
-//        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
-        session.setAttribute("cats", cats);
-        response.sendRedirect(ConfigurationManager.getProperty("path.page.cats"));
+        request.setAttribute("cats", cats);
+        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
     }
 }

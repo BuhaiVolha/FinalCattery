@@ -39,7 +39,6 @@ public class GoToSingleOfferCommand implements ActionCommand {
             System.out.println(e + "22222");
         }
 
-
         request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
     }
 }
