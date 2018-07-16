@@ -6,6 +6,7 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.service.exception.ValidationFailedException;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,6 @@ public class CatServiceImpl implements CatService {
                 return Collections.emptyList();
             }
         } catch (DAOException e) {
-            System.out.println(e);
             throw new ServiceException("Error while showing cats", e);
         }
         return cats;
@@ -33,14 +33,38 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public void addUserCat(Cat cat, String id) throws ServiceException {
+    public void addCat(Cat cat) throws ServiceException {
 
         try {
-            catDAO.addUserCat(cat, id);
+            catDAO.addCat(cat);
 
         } catch (DAOException e) {
-            System.out.println(e);
             throw new ServiceException("Error while adding cats", e);
+        }
+    }
+
+
+    @Override
+    public void catAlreadyAdded(int offerId) throws ServiceException, ValidationFailedException {
+        try {
+            if (catDAO.catAlreadyAdded(offerId)) {
+                throw new ValidationFailedException("Cat allready added");
+            }
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error while checking cat added", e);
+        }
+    }
+
+
+    @Override
+    public Cat showSingleCat(int catId) throws ServiceException {
+
+        try {
+            return catDAO.findSingleCat(catId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error while showing single cat", e);
         }
     }
 }

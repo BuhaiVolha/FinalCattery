@@ -1,8 +1,10 @@
-package by.epam.cattery.controller.command.impl.user;
+package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.impl.expert.ShowAwaitingOffersCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
+import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -13,28 +15,26 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowAllOffersCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(ShowAllOffersCommand.class);
+public class ShowApprovedOffersCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowApprovedOffersCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Offer> offers = null;
-        HttpSession session = request.getSession();
 
         try {
-            OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.showAllOffersByUserId(session.getAttribute("userId").toString());
+            List<Offer> offers = null;
 
-            request.setAttribute("catOffers", offers);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-offers")).forward(request, response);
+            OfferService offerService = ServiceFactory.getInstance().getOfferService();
+            offers = offerService.showAllOffersByStatus(OfferStatus.APRVD.toString());
+            request.setAttribute("catsByStatus", offers);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-offers")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect
-            logger.log(Level.ERROR, "Can't show offers: ", e);
+            logger.log(Level.ERROR, "Exception while showing approved offers for admin: ", e);
         }
     }
 }

@@ -7,6 +7,7 @@ public class Cat extends Entity {
     private static final long serialVersionUID = 8277026855704434661L;
     private String name;
     private int userMadeOfferId;
+    private int OfferMadeId;
     private String lastname;
     private Gender gender;
     private String age;
@@ -113,6 +114,14 @@ public class Cat extends Entity {
         this.userMadeOfferId = userMadeOfferId;
     }
 
+    public int getOfferMadeId() {
+        return OfferMadeId;
+    }
+
+    public void setOfferMadeId(int offerMadeId) {
+        OfferMadeId = offerMadeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -133,6 +142,7 @@ public class Cat extends Entity {
                 .append(getMaleParent(), cat.getMaleParent())
                 .append(getAge(), cat.getAge())
                 .append(getUserMadeOfferId(), cat.getUserMadeOfferId())
+                .append(getOfferMadeId(), cat.getOfferMadeId())
                 .isEquals();
     }
 
@@ -151,6 +161,7 @@ public class Cat extends Entity {
                 .append(getPrice())
                 .append(getAge())
                 .append(getUserMadeOfferId())
+                .append(getOfferMadeId())
                 .toHashCode();
     }
 }

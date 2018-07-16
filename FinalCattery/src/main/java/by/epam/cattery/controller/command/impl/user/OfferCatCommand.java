@@ -7,6 +7,9 @@ import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import javax.servlet.ServletException;
@@ -16,42 +19,32 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class OfferCatCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(OfferCatCommand.class);
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        Offer offer = createOffer(request, session);
+
+        Offer offer = createOffer(request);  // DTO?
+        offer.setUserMadeOfferId((int)(session.getAttribute("userId")));
 
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
+
         try {
             offerService.offerCat(offer);
-            // а ид???
-            session.setAttribute("userId", offer.getUserMadeOfferId());
-            session.setAttribute("name", offer.getUserMadeOfferName());
-            session.setAttribute("lastname", offer.getUserMadeOfferLastname());
-            session.setAttribute("catDescription", offer.getCatDescription());
-            session.setAttribute("price", offer.getPrice());
-            session.setAttribute("phone", offer.getUserMadeOfferPhone());
-            session.setAttribute("status", offer.getStatus());
-            // ExpertMessage?
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
         } catch (ServiceException e) {
-            System.out.println("smth bad happened " + e);
-
+            logger.log(Level.ERROR, "Offering cat failed: ", e);
         }
     }
 
-    private Offer createOffer(HttpServletRequest request, HttpSession session) {
-        Offer offer = new Offer();
-// offer id?????
 
-        offer.setUserMadeOfferId((int)(session.getAttribute("userId")));
-        offer.setUserMadeOfferName((String)session.getAttribute("name"));
-        offer.setUserMadeOfferLastname((String)session.getAttribute("lastname"));
-        offer.setUserMadeOfferPhone((String)session.getAttribute("phone"));
+    private Offer createOffer(HttpServletRequest request) {
+        Offer offer = new Offer();
+
         offer.setCatDescription(request.getParameter("catDescription"));
         offer.setPrice(Double.parseDouble(request.getParameter("price")));
         offer.setStatus(OfferStatus.AWAIT);

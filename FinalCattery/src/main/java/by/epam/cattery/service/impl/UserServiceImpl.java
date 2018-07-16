@@ -11,13 +11,16 @@ import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.validation.Validator;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
     private static UserDAO userDAO = daoFactory.getUserDAO();
 
     @Override
-    public boolean register(User user) throws ServiceException, ValidationFailedException {
-        //int userId = -1; // убрать возвращение кода. эксепшн или бул
+    public int register(User user) throws ServiceException, ValidationFailedException {
 
         if (!Validator.validateUserData(user)) {
             throw new ValidationFailedException("user data invalid!");
@@ -33,7 +36,6 @@ public class UserServiceImpl implements UserService {
             return userDAO.addUser(user);
 
         } catch (DAOException e) {
-            System.out.println(e);
             throw new ServiceException("Registration failed", e);
         }
     }
@@ -47,8 +49,121 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userDAO.findUser(login, password); // передвавать юхера просто?
+
         } catch (DAOException e) {
-            throw new ServiceException("error while logging in", e);
+            throw new ServiceException("Exception while logging in", e);
+        }
+    }
+
+
+    @Override
+    public User showUser(int userId) throws ServiceException {
+        try {
+            return userDAO.findUserInfo(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while finding user info", e);
+        }
+    }
+
+
+    @Override
+    public List<User> showAllUser() throws ServiceException {
+        List<User> users;
+
+        try {
+            users = userDAO.findAllUsers();
+
+            if (users.isEmpty()) {
+                return Collections.emptyList();
+            }
+            return users;
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while showing all users", e);
+        }
+    }
+
+
+    @Override
+    public void changeColourPreference(User user) throws ServiceException {
+        try {
+            userDAO.updateColourPreference(user);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while showing all users", e);
+        }
+    }
+
+
+    @Override
+    public String showStatistics() throws ServiceException {
+
+        try {
+            return userDAO.countStatistics();
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while showing statistics", e);
+        }
+    }
+
+
+    @Override
+    public void banUser(String userId) throws ServiceException {
+
+        try {
+            userDAO.reverseUserBannedFlag(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while banning user", e);
+        }
+    }
+
+
+    @Override
+    public void unbanUser(String userId) throws ServiceException {
+
+        try {
+            userDAO.reverseUserBannedFlag(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while unbanning user", e);
+        }
+    }
+
+
+    @Override
+    public void makeDiscount(User user) throws ServiceException {
+
+        try {
+            userDAO.setDiscount(user);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while making discount", e);
+        }
+    }
+
+
+    @Override
+    public void makeExpert(int userId) throws ServiceException {
+
+        try {
+            userDAO.reverseExpertRole(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while making user an expert", e);
+        }
+    }
+
+
+    @Override
+    public void unmakeExpert(int userId) throws ServiceException {
+
+        try {
+            userDAO.reverseExpertRole(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while unmaking user an expert", e);
         }
     }
 }

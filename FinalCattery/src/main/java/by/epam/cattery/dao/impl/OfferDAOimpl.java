@@ -17,17 +17,20 @@ public class OfferDAOimpl implements OfferDAO {
     private static final String ADD_OFFER = "INSERT INTO user_offer (user_made_offer_id, " +
             "cat_description, price) VALUES(?,?,?)";
 
-private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname, phone, " +
-        "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin FROM user_offer " +
-        "JOIN user ON (user_offer.user_made_offer_id = user.user_id) ";
+    private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname, phone, " +
+            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin FROM user_offer " +
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) ";
 
     private static final String SELECT_SINGLE_OFFER = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
             "JOIN user ON (user_offer.user_made_offer_id = user.user_id) ";
     private static final String UPDATE_OFFER_STATUS_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
             "expert_message`=? WHERE `offer_id` = ?;";
-    private static final String UPDATE_OFFER_STATUS_FOR_ADMIN = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
-            "expert_message_to_admin`=? WHERE `offer_id` = ?;";
+    private static final String UPDATE_OFFER_STATUS_FOR_ADMIN = "UPDATE user_offer SET user_offer_status_id=?, " +
+            "expert_message_to_admin=? WHERE offer_id = ?;";
+
+    private static final String UPDATE_OFFER_STATUS_AND_PRICE_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
+            "expert_message`=?, price=? WHERE `offer_id` = ?;";
 
     public OfferDAOimpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -61,7 +64,7 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
         }
     }
 
-// переделать как со статусом????
+    // переделать как со статусом????
     @Override
     public List<Offer> findAllOffersByUserId(String id) throws DAOException {
         List<Offer> offers = new ArrayList<>();
@@ -89,6 +92,7 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
 
                 offers.add(offer);
             }
+            return offers;
 
         } catch (ConnectionPoolException e) {
             throw new DAOException("error while connecting via pool", e);
@@ -97,8 +101,6 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
-
-        return offers;
     }
 
 
@@ -131,6 +133,7 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
 
                 offers.add(offer);
             }
+            return offers;
 
         } catch (ConnectionPoolException e) {
             throw new DAOException("error while connecting via pool", e);
@@ -139,16 +142,13 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
-
-        return offers;
     }
 
 
     @Override
-    public void changeOfferStatus(Offer offer, String status, boolean forAdmin) throws DAOException  {
+    public void changeOfferStatus(Offer offer, String status, boolean forAdmin) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
-        System.out.println(offer.getExpertMessageToAdmin() + " mess");
 
         try {
             con = connectionPool.takeConnection();
@@ -166,9 +166,40 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
             ps.executeUpdate();
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("error while connecting via pool", e);
+            throw new DAOException("Exception while connecting via pool", e);
+
         } catch (SQLException e) {
-            throw new DAOException("error during declining offers", e);
+            throw new DAOException("Exception during changing offer status", e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps);
+        }
+    }
+
+
+    @Override
+    public void changeOfferStatusAndPrice(Offer offer) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionPool.takeConnection();
+            ps = con.prepareStatement(UPDATE_OFFER_STATUS_AND_PRICE_FOR_USER); // разбить на фрагменты
+
+            ps.setString(1, OfferStatus.DISC.toString());
+            ps.setString(2, offer.getExpertMessage());
+            System.out.println(offer.getPrice());
+            ps.setDouble(3, offer.getPrice());
+            ps.setInt(4, offer.getId());
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception while connecting via pool", e);
+
+        } catch (SQLException e) {
+            throw new DAOException("Exception during changing offer's status and price", e);
+
         } finally {
             connectionPool.closeConnection(con, ps);
         }
@@ -204,14 +235,35 @@ private static final String SELECT_ALL_OFFERS = "SELECT offer_id, name, lastname
                 offer.setExpertMessageToAdmin(rs.getString(9));
                 offer.setUserMadeOfferId(rs.getInt(10));
             }
+            return offer;
 
-        } catch (ConnectionPoolException | SQLException | IllegalArgumentException e) {
+        } catch (ConnectionPoolException | SQLException e) {
 
             throw new DAOException("error while finding user in bd ", e);
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
-        return offer;
+    }
+
+
+    @Override
+    public void deleteOffer(int offerId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionPool.takeConnection();
+
+            ps = con.prepareStatement("DELETE FROM user_offer WHERE offer_id = ?;");
+            ps.setInt(1, offerId);
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("error while deleting offer from bd ", e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps);
+        }
     }
 }

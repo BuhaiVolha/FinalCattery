@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="shortcut icon" href="/jsp/assets/img/favicon1.ico" type="image/x-icon">
 
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="local" var="loc"/>
@@ -35,7 +36,6 @@
     <link href="/jsp/assets/css/style.css" rel="stylesheet">
     <link href="/jsp/assets/css/bootstrap-theme.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-    <!-- siimple style -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -51,11 +51,7 @@
 <%@ include file="/jsp/login-modal.jsp" %>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <div class="navbar-header">
-            <div class="navbar-collapse collapse">
-                <img src="/jsp/assets/img/logo.png">
-            </div>
-        </div>
+
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -94,8 +90,7 @@
                 <c:when test="${sessionScope.role ne 'USER' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'EXPERT'}">
 
                     <li><a class="main-nav" href="#" onclick="openLoginModal()">${logIn}</a></li>
-                    <li><a class="main-nav" href="/jsp/logReg.jsp">1page login\reg</a></li>
-                    <li class="main-nav"><a class="signin" href="#0">${reg}</a></li>
+                    <li><a class="main-nav" href="/jsp/login.jsp">1page</a></li>
                 </c:when>
                 <c:otherwise>
 
@@ -125,9 +120,9 @@
                             <a class="navbar-login">${sessionScope.login}</a>
                             <div class="dropdown-divider"></div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/jsp/user/user-info.jsp">You cabinet</a>
+                            <a class="dropdown-item" href="/controller?command=cabinet">You cabinet</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/controller?command=Logout">${logout}</a>
+                            <a class="dropdown-item" href="/controller?command=logout">${logout}</a>
                         </div>
                     </div>
                 </li>
@@ -162,117 +157,5 @@
 
         </div>
     </div>
-</div>
-<div class="user-modal">
-    <div class="user-modal-container">
-        <ul class="switcher">
-            <li><a href="#0">Sign in</a></li>
-            <li><a href="#0">New account</a></li>
-        </ul>
-        <div id="login">
-            <form class="form" method="POST" action="/controller">
-                <input type="hidden" name="command" value="Login"/>
 
-                <p class="fieldset">
-                    <label class="image-replace email" for="signin-login">Login</label>
-                    <input class="full-width has-padding has-border" name="login" id="signin-login" type="text"
-                           placeholder="Login">
-                    <span class="error-message">An account with this login address does not exist!</span>
-                    ${errorLoginPassMessage}
-                </p>
-
-                <p class="fieldset">
-                    <label class="image-replace password" for="signin-password">Password</label>
-                    <input class="full-width has-padding has-border" name="password" id="signin-password"
-                           type="password" placeholder="Password">
-                    <a href="#0" class="hide-password">Show</a>
-                    <span class="error-message">Wrong password! Try again.</span>
-                </p>
-                <p class="fieldset">
-                    <input type="checkbox" id="remember-me" checked>
-                    <label for="remember-me">Remember me</label>
-                </p>
-                <p class="fieldset">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-xl" value="log-in" id="sendMessageButton">Log in
-                    </button>
-                </div>
-                </p>
-                <div id="success"></div>
-
-            </form>
-
-            <p class="form-bottom-message"><a href="#0">Forgot your password?</a></p>
-            <!-- <a href="#0" class="close-form">Close</a> -->
-        </div>
-        <div id="signup">
-            <form class="form" method="POST" action="/controller">
-                <input type="hidden" name="command" value="Registration"/>
-                <p class="fieldset">
-                    <label class="image-replace login" for="signup-login">Login</label>
-                    <input class="full-width has-padding has-border" name="login" id="signup-login" type="text"
-                           placeholder="Username">
-                    <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
-                </p>
-                ${errorLoginExistsMessage}
-                <p class="fieldset">
-                    <label class="image-replace password" for="signup-password">Password</label>
-                    <input class="full-width has-padding has-border" name="password" id="signup-password"
-                           type="password" placeholder="Password">
-                    <a href="#0" class="hide-password">Show</a>
-                    <span class="error-message">Your password has to be at least 6 characters long!</span>
-                </p>
-                <p class="fieldset">
-                    <label class="image-replace name" for="signup-name">Name</label>
-                    <input class="full-width has-padding has-border" name="name" id="signup-name" type="text"
-                           placeholder="Name">
-                    <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
-                </p>
-                <p class="fieldset">
-                    <label class="image-replace lastname" for="signup-lastname">Lastname</label>
-                    <input class="full-width has-padding has-border" name="lastname" id="signup-lastname" type="text"
-                           placeholder="Lastname">
-                    <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
-                </p>
-                <p class="fieldset">
-                    <label class="image-replace email" for="signup-email">email</label>
-                    <input class="full-width has-padding has-border" name="email" id="signup-email" type="text"
-                           placeholder="email">
-                    <span class="error-message">Wrong email!</span>
-                </p>
-                <p class="fieldset">
-                    <label class="image-replace glyphicon-phone" for="signup-phone">phone</label>
-                    <input class="full-width has-padding has-border" name="phone" id="signup-phone" type="text"
-                           placeholder="phone">
-                    <span class="error-message">Wrong phone!</span>
-                </p>
-                <p class="fieldset">
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-xl" value="sign-up" id="sendMessageButton2">Sign
-                        up
-                    </button>
-                </div>
-                <input class="full-width has-padding" type="submit" value="Create account">
-                </p>
-            </form>
-            <!-- <a href="#0" class="cd-close-form">Close</a> -->
-        </div>
-        <div id="reset-password">
-            <p class="form-message">Lost your password? Please enter your email address.<br> You will receive a link to
-                create a new password.</p>
-            <form class="form">
-                <p class="fieldset">
-                    <label class="image-replace email" for="reset-email">E-mail</label>
-                    <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-                    <span class="error-message">An account with this email does not exist!</span>
-                </p>
-                <p class="fieldset">
-                    <input class="full-width has-padding" type="submit" value="Reset password">
-                </p>
-            </form>
-            <p class="form-bottom-message"><a href="#0">Back to log-in</a></p>
-        </div>
-        <a href="#0" class="close-form">Close</a>
-    </div>
 </div>

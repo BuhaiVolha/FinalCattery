@@ -2,41 +2,56 @@ package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Gender;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.service.exception.ValidationFailedException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-public class AddUserCatCommand implements ActionCommand {
+public class AddCatCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(AddCatCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cat cat = createCat(request);
-
         CatService catService = ServiceFactory.getInstance().getCatService();
 
         try {
-            catService.addUserCat(cat, request.getAttribute("offerId").toString());
+            Cat cat = createCat(request);
+            catService.addCat(cat);
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             System.out.println("smth bad happened " + e);
+        } catch (ValidationFailedException e) {
+            System.out.println("no more cats!");
         }
     }
 
-
-    private Cat createCat(HttpServletRequest request) {
+// впихнуть билдер сюда для юзерного и админного кота?
+    private Cat createCat(HttpServletRequest request) throws ServiceException, ValidationFailedException {
         Cat cat = new Cat();
-        HttpSession session = request.getSession();
+        CatService catService = ServiceFactory.getInstance().getCatService();
 
+        String offerId = request.getParameter("offerId");
+        String userMadeOfferId = request.getParameter("userMadeOfferId");
+
+        if (!(offerId.isEmpty() || userMadeOfferId.isEmpty())) {
+            catService.catAlreadyAdded(Integer.parseInt(offerId));
+            cat.setOfferMadeId(Integer.parseInt(request.getParameter("offerId")));
+            cat.setUserMadeOfferId(Integer.parseInt(request.getParameter("userMadeOfferId")));
+
+        } else {
+            cat.setOfferMadeId(1);
+            cat.setUserMadeOfferId(1);
+        }
         cat.setName(request.getParameter("name"));
         cat.setLastname(request.getParameter("lastname"));
         cat.setGender(Gender.valueOf(request.getParameter("gender")));
@@ -47,14 +62,6 @@ public class AddUserCatCommand implements ActionCommand {
         cat.setEyesColour(request.getParameter("eyesColour"));
         cat.setFemaleParent(request.getParameter("femaleParent"));
         cat.setMaleParent(request.getParameter("maleParent"));
-        cat.setUserMadeOfferId(Integer.parseInt(session.getAttribute("userMadeOfferId").toString()));
-
-//        if (session.getAttribute("userMadeOfferId") != null) {
-//            cat.setUserMadeOfferId(Integer.parseInt(session.getAttribute("userMadeOfferId").toString()));
-//        } else {
-//            cat.setUserMadeOfferId(1);
-//        }
-//        session.removeAttribute("userMadeOfferId");
 
         return cat;
     }

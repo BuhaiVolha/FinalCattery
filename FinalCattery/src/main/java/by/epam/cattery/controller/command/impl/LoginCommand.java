@@ -8,6 +8,9 @@ import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +21,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class LoginCommand implements ActionCommand {
-    private static final String PARAM_NAME_LOGIN = "login";
-    private static final String PARAM_NAME_PASSWORD = "password";
+    private static final Logger logger = LogManager.getLogger(LoginCommand.class);
+
+    private static final String LOGIN = "login";
+    private static final String PASSWORD = "password";
 
 
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
-        String login = request.getParameter(PARAM_NAME_LOGIN);
-        String password = request.getParameter(PARAM_NAME_PASSWORD);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String login = request.getParameter(LOGIN);
+        String password = request.getParameter(PASSWORD);
         HttpSession session = request.getSession();
 
         try {
@@ -36,13 +40,6 @@ public class LoginCommand implements ActionCommand {
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("login", user.getUserLogin());
                 session.setAttribute("role", user.getUserRole());
-                session.setAttribute("userName", user.getUserName());
-                session.setAttribute("userLastname", user.getUserLastname());
-                session.setAttribute("email", user.getEmail());
-                session.setAttribute("phone", user.getPhone());
-                session.setAttribute("colorPreference", user.getUserColorPreference());
-                session.setAttribute("discount", user.getDiscount());
-                session.setAttribute("banned", user.isBanned());
 
                 response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
@@ -61,10 +58,10 @@ public class LoginCommand implements ActionCommand {
 //                response.sendRedirect(viewPath.toString());
 
             }
+
         } catch (ServiceException e) {
-            System.out.println("errorrrrrrrr");
-//            request.getRequestDispatcher(ConfigurationManager
-//                    .getProperty("path.page.error")).forward(request, response);
+            logger.log(Level.ERROR, "Logging in failed: ", e);
+
             response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }

@@ -2,7 +2,6 @@ package by.epam.cattery.dao;
 
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.Offer;
-
 import java.util.List;
 
 public interface OfferDAO {
@@ -11,4 +10,6 @@ public interface OfferDAO {
     List<Offer> findAllOffersByStatus(String status) throws DAOException;
     void changeOfferStatus(Offer offer, String status, boolean forAdmin) throws DAOException;
     Offer findSingleOffer(String id) throws DAOException;
+    void changeOfferStatusAndPrice(Offer offer) throws DAOException;
+    void deleteOffer(int offerId) throws DAOException;
 }

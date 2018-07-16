@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/jsp/parts/header.jsp" %>
-<section id="aboutus" class="area_padding about_area">
+<section id="offer" class="area_padding about_area">
     <div class="container">
         <div class="row">
 
@@ -13,12 +13,6 @@
                         <div class="card-body">
                             <p class="card-text">
 
-                            <h5>
-                            <c:if test="${sessionScope.role eq 'EXPERT'}">
-                                <c:out value="${catOffer.userMadeOfferName}"/>
-                                <c:out value="${catOffer.userMadeOfferLastname}"/>
-                            </c:if>
-                            </h5>
                             <p class="card-text">
                             <h5>
                                 описание котенка: <c:out value="${catOffer.catDescription}"/>
@@ -39,9 +33,9 @@
                                 </h5>
                             </c:if>
                             <c:if test="${catOffer.status == 'DISC'}">
-                            <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
-                            </button>
+                                <a href="/controller?command=accept_price&offerId=${catOffer.id}" class="btn btn-primary">Accept</a>
                             </c:if>
+                            <a href="/controller?command=delete_offer&offerId=${catOffer.id}" class="btn btn-primary">Delete offer</a>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@
                 <div class="status-upload">
                     <form name="CatApproveFrom" method="POST" action="/controller">
                         <input type="hidden" name="command" value="approve"/>
-                        <input type="hidden" name="offerId" value="${kittenId}"/>
+                        <input type="hidden" name="offerId" value="${offerId}"/>
                         <textarea required="required" name="expertMessageToAdmin" placeholder="A note for admin" ></textarea>
                         <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                         </button>

@@ -2,7 +2,6 @@ package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -15,21 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MakeDiscountCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(BanCommand.class);
+public class UnmakeExpertCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(UnmakeExpertCommand.class);
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
-            int discount = Integer.parseInt(request.getParameter("discount")); // DTO ?
             int userId = Integer.parseInt(request.getParameter("userId"));
-            User user = new User();
-            user.setId(userId);
-            user.setDiscount(discount);
 
             UserService userService = ServiceFactory.getInstance().getUserService();
-            userService.makeDiscount(user);
+            userService.unmakeExpert(userId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 

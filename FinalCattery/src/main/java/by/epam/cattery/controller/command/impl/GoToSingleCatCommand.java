@@ -2,7 +2,9 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Offer;
+import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -14,35 +16,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
-public class GoToSingleOfferCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(GoToSingleOfferCommand.class);
+public class GoToSingleCatCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(GoToSingleCatCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String operation = request.getParameter("operation");
-
-        OfferService offerService = ServiceFactory.getInstance().getOfferService();
-        Offer offer;
 
         try {
-            String offerId = request.getParameter("offerId");
-            offer = offerService.showSingleOffer(offerId);
+            CatService catService = ServiceFactory.getInstance().getCatService();
 
-            if (offer != null) {
+            Cat cat;
+            int catId = Integer.parseInt(request.getParameter("catId"));
+            cat = catService.showSingleCat(catId);
 
-                request.setAttribute("offerId", offerId);
-                request.setAttribute("userMadeOfferId", offer.getUserMadeOfferId());
+            if (cat != null) {
+                request.setAttribute("singleCat", cat);
             }
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.single-cat")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to go to a single offer: ", e);
-            //redirect
         }
-
     }
 }

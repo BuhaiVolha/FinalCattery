@@ -32,7 +32,9 @@
             </div>
             <!-- footer (button) -->
             <div class="modal-footer">
-
+                <div class="text-center">
+                    <a href="/jsp/reg.jsp" tabindex="5" class="forgot-password">Don't have an account?</a>
+                </div>
             </div>
         </div>
     </div>

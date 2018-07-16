@@ -15,19 +15,6 @@
                             <h5>
                                 By: <c:out value="${catByStatus.userMadeOfferName}"/>
                                 <c:out value="${catByStatus.userMadeOfferLastname}"/>
-
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Make discount
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">5 %</a>
-                                        <a class="dropdown-item" href="#">10 %</a>
-                                        <a class="dropdown-item" href="#">15 %</a>
-                                    </div>
-                                </div>
                             </h5>
                             <p class="card-text">
                             <h5>
@@ -47,8 +34,6 @@
                                     статус: <c:out value="${catByStatus.expertMessageToAdmin}"/>
                                 </h5>
                             </c:if>
-                            <a href="/jsp/admin/form.jsp"
-                               class="btn btn-primary">Make a discount</a>
                             <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=add-cat"
                                class="btn btn-primary">Add</a>
                         </div>

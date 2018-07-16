@@ -5,7 +5,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class User extends Entity {
     private static final long serialVersionUID = 2798330215955662152L;
-    // phone number
+
     private String userLogin;
     private String userPass;
     private Role userRole;
@@ -16,10 +16,11 @@ public class User extends Entity {
     private String userColorPreference;
     private int discount;
     private boolean banned;
+    private boolean reviewLeft;
 
 
     public User(int id, String userLogin, String userPass, Role userRole, String userName, String userLastname,
-                String email, String phone,  String userColorPreference, int discount, boolean banned) {
+                String email, String phone, String userColorPreference, int discount, boolean banned, boolean reviewLeft) {
         super(id);
         this.userLogin = userLogin;
         this.userPass = userPass;   // массив символов?
@@ -31,6 +32,7 @@ public class User extends Entity {
         this.userColorPreference = userColorPreference;
         this.discount = discount;
         this.banned = banned;
+        this.reviewLeft = reviewLeft;
     }
 
     public User() {
@@ -117,6 +119,14 @@ public class User extends Entity {
         this.banned = banned;
     }
 
+    public boolean isReviewLeft() {
+        return reviewLeft;
+    }
+
+    public void setReviewLeft(boolean reviewLeft) {
+        this.reviewLeft = reviewLeft;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -136,6 +146,7 @@ public class User extends Entity {
                 .append(getPhone(), user.getPhone())
                 .append(getUserColorPreference(), user.getUserColorPreference())
                 .append(getDiscount(), user.getDiscount())
+                .append(isReviewLeft(), user.isReviewLeft())
                 .isEquals();
     }
 
@@ -153,6 +164,7 @@ public class User extends Entity {
                 .append(getUserColorPreference())
                 .append(getDiscount())
                 .append(isBanned())
+                .append(isReviewLeft())
                 .toHashCode();
     }
 }

@@ -20,7 +20,6 @@ public class OfferServiceImpl implements OfferService {
             return offerDAO.makeOffer(offer);
 
         } catch (DAOException e) {
-            System.out.println(e);
             throw new ServiceException("Offering kitten failed in Service", e);
         }
     }
@@ -32,7 +31,6 @@ public class OfferServiceImpl implements OfferService {
             return offerDAO.findAllOffersByUserId(id);
 
         } catch (DAOException e) {
-            System.out.println(e);
             throw new ServiceException("Showing all offers failed in Service", e);
         }
     }
@@ -44,8 +42,7 @@ public class OfferServiceImpl implements OfferService {
             return offerDAO.findAllOffersByStatus(status);
 
         } catch (DAOException e) {
-            System.out.println(e);
-            throw new ServiceException("Showing all offers by status failed in Service", e);
+            throw new ServiceException("Showing all offers by status failed", e);
         }
     }
 
@@ -56,19 +53,42 @@ public class OfferServiceImpl implements OfferService {
             offerDAO.changeOfferStatus(offer, status, forAdmin); // Отдельный объект DTO?
 
         } catch (DAOException e) {
-            System.out.println(e);
-            throw new ServiceException("answering to offer failed in Service", e);
+            throw new ServiceException("answering to offer failed", e);
+        }
+    }
+
+
+    @Override
+    public void discussPrice(Offer offer) throws ServiceException {
+        try {
+            offerDAO.changeOfferStatusAndPrice(offer);
+
+        } catch (DAOException e) {
+            throw new ServiceException("discussing price of an offer failed", e);
         }
     }
 
 
     @Override
     public Offer showSingleOffer(String id) throws ServiceException {
+
         try {
             return offerDAO.findSingleOffer(id);
 
         } catch (DAOException e) {
-            throw new ServiceException("error while showSingleOffer in service", e);
+            throw new ServiceException("Exception while showSingleOffer", e);
+        }
+    }
+
+
+    @Override
+    public void deleteOffer(int offerId) throws ServiceException {
+
+        try {
+            offerDAO.deleteOffer(offerId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while showSingleOffer", e);
         }
     }
 }

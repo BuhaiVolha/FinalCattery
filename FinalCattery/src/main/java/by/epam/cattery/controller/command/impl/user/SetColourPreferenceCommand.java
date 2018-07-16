@@ -1,40 +1,40 @@
-package by.epam.cattery.controller.command.impl.admin;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
-import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class MakeDiscountCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(BanCommand.class);
+public class SetColourPreferenceCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(SetColourPreferenceCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
 
         try {
-            int discount = Integer.parseInt(request.getParameter("discount")); // DTO ?
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            User user = new User();
-            user.setId(userId);
-            user.setDiscount(discount);
+            User user = new User();                 // DTO   ???????????/
+
+            user.setUserColorPreference(request.getParameter("colour"));
+            user.setId(Integer.parseInt(session.getAttribute("userId").toString()));
 
             UserService userService = ServiceFactory.getInstance().getUserService();
-            userService.makeDiscount(user);
+            userService.changeColourPreference(user);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Making discount failed: ", e);
+        } catch (Exception e) {
+            logger.log(Level.ERROR, "Setting colour preference failed: ", e);
         }
     }
 }

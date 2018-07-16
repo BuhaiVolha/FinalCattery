@@ -11,6 +11,9 @@ import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.UserAlreadyExistsException;
 import by.epam.cattery.service.exception.ValidationFailedException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,57 +23,55 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class RegistrationCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
+
     // protected?
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         User user = createUser(request);
         HttpSession session = request.getSession();
-        //int userId = -1;
+
         //StringBuilder pathToPage = new StringBuilder();
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
-            userService.register(user);
-            // а ид???
+            int userId = userService.register(user);
+
+            session.setAttribute("userId", userId);
             session.setAttribute("login", user.getUserLogin());
-            session.setAttribute("role", user.getUserRole());
-            session.setAttribute("name", user.getUserName());
-            session.setAttribute("lastname", user.getUserLastname());
-            session.setAttribute("email", user.getEmail());
-            session.setAttribute("phone", user.getPhone());
-            session.setAttribute("discount", user.getDiscount());
-            session.setAttribute("banned", user.isBanned());
+            session.setAttribute("role", Role.USER);
+//            session.setAttribute("name", user.getUserName());
+//            session.setAttribute("lastname", user.getUserLastname());
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ValidationFailedException e) {
             // заменить на бул?
             // пароль короткий
-            System.out.println("vallidation failed");
+            logger.log(Level.WARN, "Validation failed: ", e);
 
         } catch (UserAlreadyExistsException e) {
+            logger.log(Level.WARN, "User already exists exception: ", e); // mail?
+
             request.setAttribute("errorLoginExistsMessage",
                     MessageManager.getProperty("message.loginexists"));
             request.getRequestDispatcher(ConfigurationManager.
                     getProperty("path.page.reg")).forward(request, response);
 
         } catch (ServiceException e) {
-            System.out.println("smth bad happened " + e);
-
+            logger.log(Level.ERROR, "Somehing pretty bad has happened: ", e);
         }
     }
 
 
     private User createUser(HttpServletRequest request) {
         User user = new User();
+
         user.setUserLogin(request.getParameter("login"));
         user.setUserPass(request.getParameter("password"));
         user.setUserName(request.getParameter("name"));
         user.setUserLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));
         user.setPhone(request.getParameter("phone"));
-        user.setDiscount(0); // ???????????????????????????/
-        user.setBanned(false);
-        user.setUserRole(Role.USER);
 
         return user;
     }

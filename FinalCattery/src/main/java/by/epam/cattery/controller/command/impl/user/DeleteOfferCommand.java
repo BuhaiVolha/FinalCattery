@@ -1,8 +1,9 @@
-package by.epam.cattery.controller.command.impl.admin;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.impl.admin.UnmakeExpertCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.User;
+import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -10,31 +11,26 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MakeDiscountCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(BanCommand.class);
+public class DeleteOfferCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(DeleteOfferCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
-            int discount = Integer.parseInt(request.getParameter("discount")); // DTO ?
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            User user = new User();
-            user.setId(userId);
-            user.setDiscount(discount);
+            int offerId = Integer.parseInt(request.getParameter("offerId"));
 
-            UserService userService = ServiceFactory.getInstance().getUserService();
-            userService.makeDiscount(user);
+            OfferService offerService = ServiceFactory.getInstance().getOfferService();
+            offerService.deleteOffer(offerId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Making discount failed: ", e);
+            logger.log(Level.ERROR, "Deleting offer failed: ", e);
         }
     }
 }

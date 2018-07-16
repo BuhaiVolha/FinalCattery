@@ -1,11 +1,15 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.impl.expert.ApproveOfferCommand;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +19,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class ShowAllCatsCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowAllCatsCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Cat> cats = null;
-        HttpSession session = request.getSession();
 
         try {
             CatService catService = ServiceFactory.getInstance().getCatService();
@@ -27,8 +31,7 @@ public class ShowAllCatsCommand implements ActionCommand {
 
         } catch (ServiceException e) {
             //redirect
-            System.out.println(e);
-            System.out.println("cats aren't here");
+            logger.log(Level.ERROR, "Cat's are not here: ", e);
         }
         request.setAttribute("cats", cats);
         request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);

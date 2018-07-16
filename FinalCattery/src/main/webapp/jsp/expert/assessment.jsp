@@ -15,7 +15,6 @@
                             <h5>
                                 By: <c:out value="${catByStatus.userMadeOfferName}" />
                                 <c:out value="${catByStatus.userMadeOfferLastname}"/>
-                            ИД: <c:out value="${catByStatus.id}" />
                             </h5>
                             <p class="card-text">
                             <h5>

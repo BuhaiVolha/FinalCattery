@@ -11,4 +11,6 @@ public interface OfferService {
     List<Offer> showAllOffersByStatus(String status) throws ServiceException;
     void answerToOffer(Offer offer, String status, boolean forAdmin) throws ServiceException; // ?? Без була? тока проерка на Nul?
     Offer showSingleOffer(String id) throws ServiceException;
+    void discussPrice(Offer offer) throws ServiceException;
+    void deleteOffer(int offerId) throws ServiceException;
 }

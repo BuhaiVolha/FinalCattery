@@ -15,21 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MakeDiscountCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(BanCommand.class);
+public class MakeExpertCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(MakeExpertCommand.class);
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
-            int discount = Integer.parseInt(request.getParameter("discount")); // DTO ?
             int userId = Integer.parseInt(request.getParameter("userId"));
-            User user = new User();
-            user.setId(userId);
-            user.setDiscount(discount);
 
             UserService userService = ServiceFactory.getInstance().getUserService();
-            userService.makeDiscount(user);
+            userService.makeExpert(userId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 

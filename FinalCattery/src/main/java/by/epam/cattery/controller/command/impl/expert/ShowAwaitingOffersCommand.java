@@ -1,4 +1,4 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
@@ -7,44 +7,33 @@ import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowOffersByStatusCommand implements ActionCommand {
+public class ShowAwaitingOffersCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(ShowAwaitingOffersCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Offer> offers = null;
-
-        String status = request.getParameter("status").toUpperCase();
-        String path = request.getParameter("path");
 
         try {
+            List<Offer> offers = null;
+
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.showAllOffersByStatus(status);
+            offers = offerService.showAllOffersByStatus(OfferStatus.AWAIT.toString());
+            request.setAttribute("catsByStatus", offers);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.assessment")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect
-            System.out.println(e);
-            System.out.println("offers by status aren't here!");
+            logger.log(Level.ERROR, "Exception while showing awaiting offers for expert: ", e);
         }
-
-        request.setAttribute("catsByStatus", offers);
-        request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + path)).forward(request, response);
-
     }
-
-
-//    private String definePage(String status) {
-//
-//        switch (status) {
-//            case OfferStatus.AWAITING:
-//                return "path.page.assessment"; break;
-//        }
-//    }
 }

@@ -14,6 +14,8 @@ public class LanguageCommand implements ActionCommand {
         request.getSession(true).setAttribute("local", request.getParameter("local"));
 
         String viewPath = request.getHeader("referer");
+
+        System.out.println(request.getParameter("local"));
         response.sendRedirect(viewPath);
     }
 }
