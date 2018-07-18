@@ -6,30 +6,30 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class User extends Entity {
     private static final long serialVersionUID = 2798330215955662152L;
 
-    private String userLogin;
-    private String userPass;
-    private Role userRole;
-    private String userName;
-    private String userLastname;
+    private String login;
+    private String password;
+    private Role role;
+    private String name;
+    private String lastName;
     private String email;
     private String phone;
-    private String userColorPreference;
+    private String colourPreference;
     private int discount;
     private boolean banned;
     private boolean reviewLeft;
 
 
-    public User(int id, String userLogin, String userPass, Role userRole, String userName, String userLastname,
-                String email, String phone, String userColorPreference, int discount, boolean banned, boolean reviewLeft) {
+    public User(int id, String login, String password, Role role, String name, String lastName,
+                String email, String phone, String colourPreference, int discount, boolean banned, boolean reviewLeft) {
         super(id);
-        this.userLogin = userLogin;
-        this.userPass = userPass;   // массив символов?
-        this.userRole = userRole;
-        this.userName = userName;
-        this.userLastname = userLastname;
+        this.login = login;
+        this.password = password;   // массив символов?
+        this.role = role;
+        this.name = name;
+        this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.userColorPreference = userColorPreference;
+        this.colourPreference = colourPreference;
         this.discount = discount;
         this.banned = banned;
         this.reviewLeft = reviewLeft;
@@ -39,44 +39,44 @@ public class User extends Entity {
     }
 
 
-    public String getUserLogin() {
-        return userLogin;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setLogin(String userLogin) {
+        this.login = userLogin;
     }
 
-    public String getUserPass() {
-        return userPass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Role getUserRole() {
-        return userRole;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserRole(Role userRole) {
-        this.userRole = userRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserLastname() {
-        return userLastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserLastname(String userLastname) {
-        this.userLastname = userLastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -95,12 +95,12 @@ public class User extends Entity {
         this.phone = phone;
     }
 
-    public String getUserColorPreference() {
-        return userColorPreference;
+    public String getColourPreference() {
+        return colourPreference;
     }
 
-    public void setUserColorPreference(String userColorPreference) {
-        this.userColorPreference = userColorPreference;
+    public void setColourPreference(String colourPreference) {
+        this.colourPreference = colourPreference;
     }
 
     public int getDiscount() {
@@ -137,14 +137,14 @@ public class User extends Entity {
         return new EqualsBuilder()
                 .appendSuper(super.equals(o))
                 .append(isBanned(), user.isBanned())
-                .append(getUserLogin(), user.getUserLogin())
-                .append(getUserPass(), user.getUserPass())
-                .append(getUserRole(), user.getUserRole())
-                .append(getUserName(), user.getUserName())
-                .append(getUserLastname(), user.getUserLastname())
+                .append(getLogin(), user.getLogin())
+                .append(getPassword(), user.getPassword())
+                .append(getRole(), user.getRole())
+                .append(getName(), user.getName())
+                .append(getLastName(), user.getLastName())
                 .append(getEmail(), user.getEmail())
                 .append(getPhone(), user.getPhone())
-                .append(getUserColorPreference(), user.getUserColorPreference())
+                .append(getColourPreference(), user.getColourPreference())
                 .append(getDiscount(), user.getDiscount())
                 .append(isReviewLeft(), user.isReviewLeft())
                 .isEquals();
@@ -154,14 +154,14 @@ public class User extends Entity {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .appendSuper(super.hashCode())
-                .append(getUserLogin())
-                .append(getUserPass())
-                .append(getUserRole())
-                .append(getUserName())
-                .append(getUserLastname())
+                .append(getLogin())
+                .append(getPassword())
+                .append(getRole())
+                .append(getName())
+                .append(getLastName())
                 .append(getEmail())
                 .append(getPhone())
-                .append(getUserColorPreference())
+                .append(getColourPreference())
                 .append(getDiscount())
                 .append(isBanned())
                 .append(isReviewLeft())

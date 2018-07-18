@@ -1,4 +1,4 @@
-package by.epam.cattery.controller.command.impl.expert;
+package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowAwaitingOffersCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(ShowAwaitingOffersCommand.class);
+public class TakeApprovedOffersCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(TakeApprovedOffersCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -27,13 +27,13 @@ public class ShowAwaitingOffersCommand implements ActionCommand {
             List<Offer> offers = null;
 
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.showAllOffersByStatus(OfferStatus.AWAIT.toString());
+            offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD.toString());
             request.setAttribute("catsByStatus", offers);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.assessment")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-offers")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect
-            logger.log(Level.ERROR, "Exception while showing awaiting offers for expert: ", e);
+            logger.log(Level.ERROR, "Exception while showing approved offers for admin: ", e);
         }
     }
 }

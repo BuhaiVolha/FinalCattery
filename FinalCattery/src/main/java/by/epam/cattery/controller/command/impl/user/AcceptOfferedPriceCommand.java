@@ -34,6 +34,7 @@ public class AcceptOfferedPriceCommand implements ActionCommand {
 
         } catch (ServiceException | NumberFormatException e) {
             logger.log(Level.ERROR, "Exception while accepting price: ", e);
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
 }

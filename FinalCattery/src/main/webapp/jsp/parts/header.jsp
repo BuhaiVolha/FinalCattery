@@ -82,7 +82,7 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/controller?command=show_all_cats">${goods}</a></li>
+                <li><a href="/controller?command=all_cats">${goods}</a></li>
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
                 <li><a href="/controller?command=approved_reviews">${reviews}</a></li>
 
@@ -90,7 +90,7 @@
                 <c:when test="${sessionScope.role ne 'USER' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'EXPERT'}">
 
                     <li><a class="main-nav" href="#" onclick="openLoginModal()">${logIn}</a></li>
-                    <li><a class="main-nav" href="/jsp/login.jsp">1page</a></li>
+
                 </c:when>
                 <c:otherwise>
 
@@ -138,21 +138,18 @@
 
             <script type="text/javascript">
                 function openLoginModal() {
+                    $("#signInError").css("display", "none");
                     $('#login-window').modal('show');
                 }
 
                 function openLoginModalNext() {
                     var error = '${errorLoginPassMessage}';
                     if (error) {
+                        $("#signInError").css("display", "");
                         $('#login-window').modal('show');
                         <c:remove var="errorLoginPassMessage" scope="session" />
                     }
-
                 }
-
-                $('#login-window').on('hide.bs.dropdown', function () {
-                    <c:remove var="errorLoginPassMessage" scope="session" />
-                });
             </script>
 
         </div>

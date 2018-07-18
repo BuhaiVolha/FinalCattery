@@ -15,7 +15,7 @@ public class ReviewServiceImpl implements ReviewService {
     private static ReviewDAO reviewDAO = daoFactory.getReviewDAO();
 
     @Override
-    public List<Review> showApprovedReviews() throws ServiceException {
+    public List<Review> takeApprovedReviews() throws ServiceException {
         List<Review> reviews;
 
         try {

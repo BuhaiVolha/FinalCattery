@@ -1,6 +1,6 @@
 package by.epam.cattery.service.exception;
 
-public class ValidationFailedException extends Exception {
+public class ValidationFailedException extends ServiceException {
     private static final long serialVersionUID = -187123426985795281L;
 
     public ValidationFailedException() {

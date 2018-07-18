@@ -27,7 +27,7 @@ public class ShowAllOffersCommand implements ActionCommand {
 
         try {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.showAllOffersByUserId(session.getAttribute("userId").toString());
+            offers = offerService.takeAllOffersByUserId(session.getAttribute("userId").toString());
 
             request.setAttribute("catOffers", offers);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-offers")).forward(request, response);

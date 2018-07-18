@@ -5,15 +5,12 @@ import by.epam.cattery.dao.UserDAO;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.UserService;
-import by.epam.cattery.service.exception.ServiceException;
-import by.epam.cattery.service.exception.UserAlreadyExistsException;
-import by.epam.cattery.service.exception.ValidationFailedException;
+import by.epam.cattery.service.exception.*;
 import by.epam.cattery.service.validation.Validator;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
@@ -25,13 +22,17 @@ public class UserServiceImpl implements UserService {
         if (!Validator.validateUserData(user)) {
             throw new ValidationFailedException("user data invalid!");
         }
+
         try {
             if (userDAO.loginAlreadyExists(user)) {
-                throw new UserAlreadyExistsException("User already exists");
+                throw new LoginAlreadyExistsException("Login already exists");
+            }
+            if (userDAO.emailAlreadyExists(user)) {
+                throw new EmailAlreadyExistsException("Email already exists");
             }
 
-            String securePass = BCrypt.hashpw(user.getUserPass(), BCrypt.gensalt());
-            user.setUserPass(securePass);
+            String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());  // Отдельный мтеод?
+            user.setPassword(securePass);
 
             return userDAO.addUser(user);
 
@@ -43,12 +44,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User logIn(String login, String password) throws ServiceException {
-//        if (!Validator.validateUserData(user)) {
-//            System.err.println("user data invalid!");
-//        }
 
         try {
-            return userDAO.findUser(login, password); // передвавать юхера просто?
+            if (userDAO.userIsBanned(login)) {
+                throw new UserIsBannedException("User is banned");
+            }
+
+            return userDAO.findUser(login, password); // передвавать DTO userDetails ченить такое?
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while logging in", e);
@@ -57,7 +59,33 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User showUser(int userId) throws ServiceException {
+    public void editPersonalInfo(User user) throws ServiceException {
+
+//        if (!Validator.validateUserData(user)) {
+//            throw new ValidationFailedException("user data invalid!"); // отдельная валидация на пароль и логин
+//        }
+
+        try {
+            if (userDAO.loginAlreadyExists(user)) {
+                throw new LoginAlreadyExistsException("Login already exists");
+            }
+            if (userDAO.emailAlreadyExists(user)) {
+                throw new EmailAlreadyExistsException("Email already exists");
+            }
+
+            String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            user.setPassword(securePass);
+
+            userDAO.updateUserInfo(user);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Registration failed", e);
+        }
+    }
+
+
+    @Override
+    public User takeUser(int userId) throws ServiceException {
         try {
             return userDAO.findUserInfo(userId);
 
@@ -68,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> showAllUser() throws ServiceException {
+    public List<User> takeAllUsers() throws ServiceException {
         List<User> users;
 
         try {
@@ -97,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String showStatistics() throws ServiceException {
+    public String countStatistics() throws ServiceException {
 
         try {
             return userDAO.countStatistics();

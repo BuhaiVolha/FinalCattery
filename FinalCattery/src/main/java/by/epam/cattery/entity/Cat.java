@@ -17,11 +17,13 @@ public class Cat extends Entity {
     private String eyesColour;
     private String femaleParent;
     private String maleParent;
-    private double price; // ???
-    // еще два поля енамы походу
+    private double price;
+    private Double priceWithDiscount;
+    private CatStatus status;
 
 
     //конструктор с парам
+    // toString
 
     public Cat() {
     }
@@ -122,6 +124,22 @@ public class Cat extends Entity {
         OfferMadeId = offerMadeId;
     }
 
+    public CatStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CatStatus status) {
+        this.status = status;
+    }
+
+    public Double getPriceWithDiscount() {
+        return priceWithDiscount;
+    }
+
+    public void setPriceWithDiscount(Double priceWithDiscount) {
+        this.priceWithDiscount = priceWithDiscount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -143,6 +161,8 @@ public class Cat extends Entity {
                 .append(getAge(), cat.getAge())
                 .append(getUserMadeOfferId(), cat.getUserMadeOfferId())
                 .append(getOfferMadeId(), cat.getOfferMadeId())
+                .append(getStatus(), cat.getStatus())
+                .append(getPriceWithDiscount(), cat.getPriceWithDiscount())
                 .isEquals();
     }
 
@@ -162,6 +182,8 @@ public class Cat extends Entity {
                 .append(getAge())
                 .append(getUserMadeOfferId())
                 .append(getOfferMadeId())
+                .append(getStatus())
+                .append(getPriceWithDiscount())
                 .toHashCode();
     }
 }

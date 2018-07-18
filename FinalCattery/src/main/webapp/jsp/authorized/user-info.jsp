@@ -31,52 +31,55 @@
                 <div class=" col-md-9 col-lg-9 ">
                     <table class="table table-user-information">
                         <tbody>
-                        <tr>
-                            <td>Some date:</td>
-                            <td>06/23/2013</td>
-                        </tr>
-                        <tr>
-                            <td>Date of the order maybe?</td>
-                            <td>01/24/1988</td>
-                        </tr>
 
-                        <tr>
+                        <c:if test="${sessionScope.role eq 'USER'}">
                         <tr>
                             <td>Discount</td>
                             <td>${requestScope.discount} %</td>
                         </tr>
+
+
                         <tr>
                             <td>Colour preference</td>
-                            <td>${requestScope.colorPreference}
-                                <span class="pull-right">
-                            <a href="/jsp/user/preference.jsp" data-original-title="Edit this user"
+                            <td><c:choose>
+                                <c:when test="${not empty requestScope.colorPreference}">
+                                    ${requestScope.colorPreference}
+                                    <span class="pull-right">
+                            <a href="/jsp/user/preference.jsp" title="Edit your colour preference" data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i
                                     class="fas fa-palette"></i></a>
                                     </span>
+                                </c:when>
+                                <c:otherwise>
+                                    Мы собираем информацию о том, каких котят желают видеть наши пользователи.
+                                    Пожалуйста, укажите какой окрас Вы предпочитаете, чтобы мы размножили именно этих котов.
+                                <br>
+                                <br>
+                                    <span class="text-center">
+                            <a href="/jsp/user/preference.jsp" title="Choose your colour preference" data-original-title="colour preference"
+                               data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
+                                    class="fas fa-palette"></i></a></span
+                                </c:otherwise>
+                            </c:choose>
+
                             </td>
                         </tr>
+</c:if>
                         <tr>
                             <td>Email:</td>
                             <td><a href="mailto:"${requestScope.email}>${requestScope.email}</a></td>
                         </tr>
                         <tr>
-                            <td>Phone Number:</td>
+                            <td>Phone:</td>
                             <td>+375 ${requestScope.phone}</td>
                         </tr>
-                        <tr>
-                            <td>Banned</td>
-                            <td>${requestScope.banned}</td>
-                        </tr>
-                        <tr>
-                            <td>Review left</td>
-                            <td>${requestScope.reviewLeft}</td>
-                        </tr>
+
                         </tbody>
                     </table>
                     <c:choose>
                         <c:when test="${sessionScope.role eq 'USER'}">
                             <a href="/jsp/user/cat-offer.jsp" class="btn btn-primary">Offer a cat</a>
-                            <a href="/controller?command=all_offers" class="btn btn-primary">See offer status</a>
+                            <a href="/controller?command=all_offers" class="btn btn-primary">See offers status</a>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
                             <a href="/controller?command=statistics" class="btn btn-primary">See statistics</a>
@@ -93,14 +96,12 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
-               class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+
+        <div class="panel-footer clearfix">
+
             <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button"
+                            <a href="/jsp/authorized/edit-user-info.jsp" data-original-title="Edit information" data-toggle="tooltip" title="Edit your information" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
         </div>
 

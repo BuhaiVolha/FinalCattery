@@ -20,9 +20,8 @@ public class UserDAOimpl implements UserDAO {
 
     private static final String ADD_USER = "INSERT INTO user (login, password, name, lastname, email, phone) VALUES(?,?,?,?,?,?)";
     private static final String LOGIN_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE login=?)";
+    private static final String EMAIL_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE email=?)";
     private static final String UPDATE_COLOUR_PREFERENCE = "UPDATE user SET colour_preference=? WHERE user_id = ?;";
-    private static final String SET_TOTAL = "SET @total=0;";
-    private static final String COUNT_PERCENTAGE = "SELECT colour_preference, count(*) as Count, count(*) / @total * 100 AS Percent FROM (SELECT colour_preference, @total := @total + 1 FROM user WHERE colour_preference IS NOT NULL) temp GROUP BY colour_preference;";
 
 
     public UserDAOimpl(ConnectionPool connectionPool) {
@@ -41,23 +40,23 @@ public class UserDAOimpl implements UserDAO {
             con = connectionPool.takeConnection();
 
             ps = con.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getUserLogin());
-            ps.setString(2, user.getUserPass());
-            ps.setString(3, user.getUserName());
-            ps.setString(4, user.getUserLastname());
+            ps.setString(1, user.getLogin());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
+            ps.setString(4, user.getLastName());
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getPhone());
 
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
-            //rs.next();
+            rs.next();
             userId = rs.getInt(1);
 
             return userId;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("error adding user in dao ", e);  // Отдельно каждый
+            throw new DAOException("Exception adding user in dao ", e);  // Отдельно каждый
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -76,7 +75,7 @@ public class UserDAOimpl implements UserDAO {
             con = connectionPool.takeConnection();
 
             ps = con.prepareStatement(LOGIN_ALREADY_EXISTS);
-            ps.setString(1, user.getUserLogin());
+            ps.setString(1, user.getLogin());
 
             rs = ps.executeQuery();
             rs.next();
@@ -85,7 +84,35 @@ public class UserDAOimpl implements UserDAO {
             return exists;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("error during checking whether login already exists", e);
+            throw new DAOException("Exception during checking whether login already taken", e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps, rs);
+        }
+    }
+
+
+    @Override
+    public boolean emailAlreadyExists(User user) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean exists;
+
+        try {
+            con = connectionPool.takeConnection();
+
+            ps = con.prepareStatement(EMAIL_ALREADY_EXISTS);
+            ps.setString(1, user.getEmail());
+
+            rs = ps.executeQuery();
+            rs.next();
+            exists = rs.getBoolean(1);
+
+            return exists;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during checking whether email already taken", e);
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -117,15 +144,15 @@ public class UserDAOimpl implements UserDAO {
                     user = new User();
 
                     user.setId(rs.getInt(1));
-                    user.setUserLogin(rs.getString(2));
-                    user.setUserRole(Role.valueOf(rs.getString(4).toUpperCase()));
+                    user.setLogin(rs.getString(2));
+                    user.setRole(Role.valueOf(rs.getString(4).toUpperCase()));
                 }
             }
             return user;
 
         } catch (ConnectionPoolException | SQLException | IllegalArgumentException e) {
 
-            throw new DAOException("error while finding user in bd ", e);
+            throw new DAOException("Exception while finding user in bd ", e);
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -167,13 +194,13 @@ public class UserDAOimpl implements UserDAO {
 
         while (rs.next()) {
             user.setId(rs.getInt(1));
-            user.setUserLogin(rs.getString(2));
-            user.setUserRole(Role.valueOf(rs.getString(4).toUpperCase()));
-            user.setUserName(rs.getString(5));
-            user.setUserLastname(rs.getString(6));
+            user.setLogin(rs.getString(2));
+            user.setRole(Role.valueOf(rs.getString(4).toUpperCase()));
+            user.setName(rs.getString(5));
+            user.setLastName(rs.getString(6));
             user.setEmail(rs.getString(7));
             user.setPhone(rs.getString(8));
-            user.setUserColorPreference(rs.getString(9));
+            user.setColourPreference(rs.getString(9));
             user.setDiscount(rs.getInt(10));
             user.setBanned(rs.getBoolean(11));
             user.setReviewLeft(rs.getBoolean(12));
@@ -183,7 +210,7 @@ public class UserDAOimpl implements UserDAO {
     }
 
 
- // по фамилии ?
+    // по фамилии ?
     @Override
     public List<User> findAllUsers() throws DAOException {
         List<User> users = new ArrayList<>();
@@ -203,13 +230,13 @@ public class UserDAOimpl implements UserDAO {
                 User user = new User();
 
                 user.setId(rs.getInt(1));
-                user.setUserLogin(rs.getString(2));
-                user.setUserName(rs.getString(3));
-                user.setUserLastname(rs.getString(4));
+                user.setLogin(rs.getString(2));
+                user.setName(rs.getString(3));
+                user.setLastName(rs.getString(4));
                 user.setEmail(rs.getString(5));
                 user.setPhone(rs.getString(6));
-                user.setUserColorPreference(rs.getString(7));
-                user.setUserRole(Role.valueOf(rs.getString(8).toUpperCase()));
+                user.setColourPreference(rs.getString(7));
+                user.setRole(Role.valueOf(rs.getString(8).toUpperCase()));
                 user.setDiscount(rs.getInt(9));        // отдельные константы числа
                 user.setBanned(rs.getBoolean(10));
                 user.setReviewLeft(rs.getBoolean(11));
@@ -236,7 +263,7 @@ public class UserDAOimpl implements UserDAO {
             con = connectionPool.takeConnection();
             ps = con.prepareStatement(UPDATE_COLOUR_PREFERENCE);
 
-            ps.setString(1, user.getUserColorPreference());
+            ps.setString(1, user.getColourPreference());
             ps.setInt(2, user.getId());
 
             ps.executeUpdate();
@@ -254,9 +281,40 @@ public class UserDAOimpl implements UserDAO {
 
 
     @Override
+    public void updateUserInfo(User user) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionPool.takeConnection();
+            ps = con.prepareStatement("UPDATE user SET name=?, lastname=?, email=?, " +
+                    "phone=?, password =? WHERE user_id = ?;");
+
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhone());
+            System.out.println(user.getPassword());
+            ps.setString(5, user.getPassword());
+            ps.setInt(6, user.getId());
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception while connecting via pool", e);
+
+        } catch (SQLException e) {
+            throw new DAOException("Exception during updating user info", e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps);
+        }
+    }
+
+    @Override
     public String countStatistics() throws DAOException {
         Gson gsonObj = new Gson();
-        Map<Object,Object> map = null;
+        Map<Object, Object> map = null;
         List<Map<Object, Object>> list = new ArrayList<>();
 
 
@@ -370,6 +428,34 @@ public class UserDAOimpl implements UserDAO {
 
         } finally {
             connectionPool.closeConnection(con, ps);
+        }
+    }
+
+
+    @Override
+    public boolean userIsBanned(String login) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean banned;
+
+        try {
+            con = connectionPool.takeConnection();
+            String USER_IS_BANNED = "SELECT flag_banned FROM user WHERE login =?";
+            ps = con.prepareStatement(USER_IS_BANNED);
+            ps.setString(1, login);
+
+            rs = ps.executeQuery();
+            rs.next();
+            banned = rs.getBoolean(1);
+
+            return banned;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during checking whether user is banned", e);
+
+        } finally {
+            connectionPool.closeConnection(con, ps, rs);
         }
     }
 }

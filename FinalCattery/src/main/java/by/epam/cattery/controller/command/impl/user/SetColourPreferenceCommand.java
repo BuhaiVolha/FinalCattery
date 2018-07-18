@@ -24,7 +24,7 @@ public class SetColourPreferenceCommand implements ActionCommand {
         try {
             User user = new User();                 // DTO   ???????????/
 
-            user.setUserColorPreference(request.getParameter("colour"));
+            user.setColourPreference(request.getParameter("colour"));
             user.setId(Integer.parseInt(session.getAttribute("userId").toString()));
 
             UserService userService = ServiceFactory.getInstance().getUserService();

@@ -5,10 +5,7 @@ import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.connection.ConnectionPool;
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
-import by.epam.cattery.entity.Cat;
-import by.epam.cattery.entity.Gender;
-import by.epam.cattery.entity.Offer;
-import by.epam.cattery.entity.OfferStatus;
+import by.epam.cattery.entity.*;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -45,20 +42,21 @@ public class CatDAOimpl implements CatDAO {
 
             while (rs.next()) {
                 Cat cat = new Cat();
+
                 cat.setId(rs.getInt(1));
                 cat.setName(rs.getString(2));
                 cat.setLastname(rs.getString(3));
-                cat.setGender(Gender.valueOf(rs.getString(4)));  //????
+                cat.setGender(Gender.valueOf(rs.getString(4))); 
                 cat.setAge(rs.getString(5));   // отдельные константы числа
                 cat.setDescription(rs.getString(6));
                 cat.setBodyColour(rs.getString(7));
                 cat.setEyesColour(rs.getString(8));
                 cat.setFemaleParent(rs.getString(9));
                 cat.setMaleParent(rs.getString(10));
-                cat.setPrice(rs.getDouble(11)); // int?
+                cat.setPrice(rs.getDouble(11));
+                cat.setStatus(CatStatus.valueOf(rs.getString(12)));
                 cat.setUserMadeOfferId(rs.getInt(13));
 
-                // Остальные параметры?
                 cats.add(cat);
             }
             return cats;
@@ -170,8 +168,8 @@ public class CatDAOimpl implements CatDAO {
             ps = con.prepareStatement("SELECT cat_id, name, lastname, gender, " +
                     "MONTH(CURDATE()) - MONTH(birth_date), description," +
                     "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-                    "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
-                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "sale_status_id, user_suggested_id " +
+                    "FROM cat JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
                     "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
                     "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ?");
             ps.setInt(1, catId);
@@ -189,7 +187,57 @@ public class CatDAOimpl implements CatDAO {
                 cat.setFemaleParent(rs.getString(9));
                 cat.setMaleParent(rs.getString(10));
                 cat.setPrice(rs.getDouble(11)); // int?
+                cat.setStatus(CatStatus.valueOf(rs.getString(12)));
                 cat.setUserMadeOfferId(rs.getInt(13));
+            }
+            return cat;
+
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Exception while connecting via pool", e);
+        } catch (SQLException e) {
+            throw new DAOException("Exception during finding single cats", e);
+        } finally {
+            connectionPool.closeConnection(con, ps, rs);
+        }
+    }
+
+
+    @Override
+    public Cat findSingleCatWithDiscount(int catId, int userId) throws DAOException {
+        Cat cat = new Cat();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = connectionPool.takeConnection();
+            ps = con.prepareStatement("SELECT cat_id, name, lastname, gender, " +
+                    "MONTH(CURDATE()) - MONTH(birth_date), description," +
+                    "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
+                    "sale_status_id, user_suggested_id, price - (price * (SELECT discount FROM user WHERE  user_id = (?))) / 100 " +
+                    "FROM cat JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
+                    "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ?");
+            ps.setInt(1, userId);
+            ps.setInt(2, catId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                cat.setId(rs.getInt(1));
+                cat.setName(rs.getString(2));
+                cat.setLastname(rs.getString(3));
+                cat.setGender(Gender.valueOf(rs.getString(4)));  //????
+                cat.setAge(rs.getString(5));   // отдельные константы числа
+                cat.setDescription(rs.getString(6));
+                cat.setBodyColour(rs.getString(7));
+                cat.setEyesColour(rs.getString(8));
+                cat.setFemaleParent(rs.getString(9));
+                cat.setMaleParent(rs.getString(10));
+                cat.setPrice(rs.getDouble(11)); // int?
+                cat.setStatus(CatStatus.valueOf(rs.getString(12)));
+                cat.setUserMadeOfferId(rs.getInt(13));
+                cat.setPriceWithDiscount(rs.getDouble(14));
             }
             return cat;
 

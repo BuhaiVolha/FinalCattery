@@ -8,6 +8,7 @@ import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.ValidationFailedException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,10 +29,12 @@ public class AddCatCommand implements ActionCommand {
             catService.addCat(cat);
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
+        } catch (ValidationFailedException e) { // doubleSubmitException?
+            logger.log(Level.WARN, "No more cats! An attempt to add already added cat during sending an offer by admin");
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.user-info"));
+
         } catch (ServiceException e) {
-            System.out.println("smth bad happened " + e);
-        } catch (ValidationFailedException e) {
-            System.out.println("no more cats!");
+            logger.log(Level.ERROR, "Failed to add any cat");
         }
     }
 

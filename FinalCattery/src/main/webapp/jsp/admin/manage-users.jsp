@@ -36,14 +36,14 @@
                                                 <td>
                                                     <img src="img/samples/user-profile-1.png" alt=""/>
                                                     <a href="#" class="user-link" title="ID ${user.id}"><c:out
-                                                            value="${user.userName}"/>
-                                                        <c:out value="${user.userLastname}"/></a>
+                                                            value="${user.name}"/>
+                                                        <c:out value="${user.lastName}"/></a>
                                                 </td>
                                                 <td>
-                                                    <span class="user-subhead"><c:out value="${user.userRole}"/></span>
+                                                    <span class="user-subhead"><c:out value="${user.role}"/></span>
                                                 </td>
                                                 <td>
-                                                    <c:out value="${user.userLogin}"/>
+                                                    <c:out value="${user.login}"/>
                                                 </td>
                                                 <td class="text-center">
                                                     <c:choose>
@@ -64,7 +64,7 @@
                                                 </td>
                                                 <td>
                                                     <c:out value="${user.discount}"/> %
-                                                    <c:if test="${user.userRole eq 'USER' && !user.banned}">
+                                                    <c:if test="${user.role eq 'USER' && !user.banned}">
                                                     <span class="fa-stack table-link" style="color: #c6d550;">
 																<i class="fa fa-square fa-stack-2x"></i>
 																<i class="fas fa-coins fa-stack-1x fa-inverse"></i>
@@ -109,7 +109,7 @@
                                                                 </a>
 
 
-                                                                <c:if test="${user.userRole ne 'EXPERT'}">
+                                                                <c:if test="${user.role ne 'EXPERT'}">
                                                                     <a href="/controller?command=make_expert&userId=${user.id}" class="table-link power"
                                                                        title="Make Expert">
 															<span class="fa-stack">
@@ -119,7 +119,7 @@
                                                                     </a>
                                                                 </c:if>
 
-                                                                <c:if test="${user.userRole eq 'EXPERT'}">
+                                                                <c:if test="${user.role eq 'EXPERT'}">
                                                                     <a href="/controller?command=unmake_expert&userId=${user.id}" class="table-link nopower"
                                                                        title="Deprive of the Power">
 															<span class="fa-stack">

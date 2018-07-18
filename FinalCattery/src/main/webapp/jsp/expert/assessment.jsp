@@ -18,14 +18,15 @@
                             </h5>
                             <p class="card-text">
                             <h5>
+                                телефон: +375 <c:out value="${catByStatus.userMadeOfferPhone}" />
+                            </h5>
+                            <h5>
                                 описание котенка: <c:out value="${catByStatus.catDescription}" />
                             </h5>
                             <h5>
                                 желаемая цена: <c:out value="${catByStatus.price}" /> долларов
                             </h5>
-                            <h5>
-                                телефон: +375 <c:out value="${catByStatus.userMadeOfferPhone}" />
-                            </h5>
+
                             <h5>
                                 статус: <c:out value="${catByStatus.status}" />
                             </h5>

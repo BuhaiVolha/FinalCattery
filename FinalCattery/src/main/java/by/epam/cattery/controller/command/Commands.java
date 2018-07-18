@@ -5,7 +5,7 @@ public enum Commands {
     LOGIN,
     LOGOUT,
     LANGUAGE,
-    SHOW_ALL_CATS,
+    ALL_CATS,
     APPROVED_REVIEWS,
     OFFER_CAT,
     ALL_OFFERS,
@@ -26,6 +26,8 @@ public enum Commands {
     ACCEPT_PRICE,
     DELETE_OFFER,
     SINGLE_CAT,
+    SINGLE_CAT_WITH_DISCOUNT,
     APPROVED_OFFERS,
     AWAITING_OFFERS,
+    EDIT_PERSONAL_INFO
 }

@@ -57,7 +57,7 @@ public class OfferDAOimpl implements OfferDAO {
             return rs.next();
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("error offering a kitten in dao ", e);  // Отдельно каждый
+            throw new DAOException("Exception offering a kitten in dao ", e);  // Отдельно каждый
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -95,9 +95,9 @@ public class OfferDAOimpl implements OfferDAO {
             return offers;
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("error while connecting via pool", e);
+            throw new DAOException("Exception while connecting via pool", e);
         } catch (SQLException e) {
-            throw new DAOException("error during gathering offers", e);
+            throw new DAOException("Exception during gathering offers", e);
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
@@ -136,9 +136,9 @@ public class OfferDAOimpl implements OfferDAO {
             return offers;
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("error while connecting via pool", e);
+            throw new DAOException("Exception while connecting via pool", e);
         } catch (SQLException e) {
-            throw new DAOException("error during gathering offers", e);
+            throw new DAOException("Exception during gathering offers by status", e);
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }
@@ -224,6 +224,7 @@ public class OfferDAOimpl implements OfferDAO {
 
             if (offerExists) {
                 offer = new Offer();
+
                 offer.setId(rs.getInt(1));  // Отдельным методом
                 offer.setUserMadeOfferName(rs.getString(2));
                 offer.setUserMadeOfferLastname(rs.getString(3));
@@ -239,7 +240,7 @@ public class OfferDAOimpl implements OfferDAO {
 
         } catch (ConnectionPoolException | SQLException e) {
 
-            throw new DAOException("error while finding user in bd ", e);
+            throw new DAOException("Exception while finding user in bd ", e);
 
         } finally {
             connectionPool.closeConnection(con, ps, rs);
@@ -260,7 +261,7 @@ public class OfferDAOimpl implements OfferDAO {
             ps.executeUpdate();
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("error while deleting offer from bd ", e);
+            throw new DAOException("Exception while deleting offer from bd ", e);
 
         } finally {
             connectionPool.closeConnection(con, ps);

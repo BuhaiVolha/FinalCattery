@@ -35,6 +35,7 @@ public class ApproveOfferCommand implements ActionCommand {
 
         } catch (ServiceException | NumberFormatException e) {
             logger.log(Level.ERROR, "Exception while approving an offer: ", e);
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
 }

@@ -1,9 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/jsp/parts/header.jsp" %>
+
 <section id="offer" class="area_padding about_area">
     <div class="container">
-        <div class="row">
 
+            <h4>MY OFFERS</h4>
+
+        <div class="row">
+        <c:choose>
+<c:when test="${!empty catOffers}">
             <c:forEach items="${catOffers}" var="catOffer">
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
@@ -21,9 +26,7 @@
                                 <c:if test="${catOffer.status != 'DISC'}">желаемая</c:if>
                                цена: <c:out value="${catOffer.price}"/> долларов
                             </h5>
-                            <h5>
-                                телефон: +375 <c:out value="${catOffer.userMadeOfferPhone}"/>
-                            </h5>
+
                             <h5>
                                 статус: <c:out value="${catOffer.status}"/>
                             </h5>
@@ -40,7 +43,14 @@
                     </div>
                 </div>
             </c:forEach>
+</c:when>
+            <c:otherwise>
 
+                <div class="text-center">
+                    <img src="/jsp/assets/img/empty.jpg" class="img-responsive" style="margin:0 auto;" alt="Nothing to show"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
         </div>
     </div>
 </section>

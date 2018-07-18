@@ -14,8 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 public class GoToSingleOfferCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleOfferCommand.class);
@@ -29,7 +27,7 @@ public class GoToSingleOfferCommand implements ActionCommand {
 
         try {
             String offerId = request.getParameter("offerId");
-            offer = offerService.showSingleOffer(offerId);
+            offer = offerService.takeSingleOffer(offerId);
 
             if (offer != null) {
 

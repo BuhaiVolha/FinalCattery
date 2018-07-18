@@ -26,7 +26,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public List<Offer> showAllOffersByUserId(String id) throws ServiceException {
+    public List<Offer> takeAllOffersByUserId(String id) throws ServiceException {
         try {
             return offerDAO.findAllOffersByUserId(id);
 
@@ -37,7 +37,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public List<Offer> showAllOffersByStatus(String status) throws ServiceException {
+    public List<Offer> takeAllOffersByStatus(String status) throws ServiceException {
         try {
             return offerDAO.findAllOffersByStatus(status);
 
@@ -70,13 +70,13 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public Offer showSingleOffer(String id) throws ServiceException {
+    public Offer takeSingleOffer(String id) throws ServiceException {
 
         try {
             return offerDAO.findSingleOffer(id);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while showSingleOffer", e);
+            throw new ServiceException("Exception while takeSingleOffer", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class OfferServiceImpl implements OfferService {
             offerDAO.deleteOffer(offerId);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while showSingleOffer", e);
+            throw new ServiceException("Exception while takeSingleOffer", e);
         }
     }
 }

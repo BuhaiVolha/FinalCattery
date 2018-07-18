@@ -18,20 +18,21 @@
                             </h5>
                             <p class="card-text">
                             <h5>
+                                контактный телефон: +375 <c:out value="${catByStatus.userMadeOfferPhone}"/>
+                            </h5>
+                            <h5>
                                 описание котенка: <c:out value="${catByStatus.catDescription}"/>
                             </h5>
                             <h5>
                                 установленная цена: <c:out value="${catByStatus.price}"/> долларов
                             </h5>
-                            <h5>
-                                телефон: +375 <c:out value="${catByStatus.userMadeOfferPhone}"/>
-                            </h5>
+
                             <h5>
                                 статус: <c:out value="${catByStatus.status}"/>
                             </h5>
                             <c:if test="${not empty catByStatus.expertMessageToAdmin}">
                                 <h5>
-                                    статус: <c:out value="${catByStatus.expertMessageToAdmin}"/>
+                                    сообщение от эксперта: <c:out value="${catByStatus.expertMessageToAdmin}"/>
                                 </h5>
                             </c:if>
                             <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=add-cat"

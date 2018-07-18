@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class ShowCabinetCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(ShowCabinetCommand.class);
+public class GoToCabinetCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(GoToCabinetCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,13 +27,13 @@ public class ShowCabinetCommand implements ActionCommand {
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
             String  userId = session.getAttribute("userId").toString();
-            user = userService.showUser(Integer.parseInt(userId));
+            user = userService.takeUser(Integer.parseInt(userId));
 
-            request.setAttribute("name", user.getUserName());
-            request.setAttribute("lastName", user.getUserLastname());
+            request.setAttribute("name", user.getName());
+            request.setAttribute("lastName", user.getLastName());
             request.setAttribute("email", user.getEmail());
             request.setAttribute("phone", user.getPhone());
-            request.setAttribute("colorPreference", user.getUserColorPreference());
+            request.setAttribute("colorPreference", user.getColourPreference());
             request.setAttribute("discount", user.getDiscount());
             request.setAttribute("reviewLeft", user.isReviewLeft());
             request.setAttribute("banned", user.isBanned());

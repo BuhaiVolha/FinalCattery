@@ -16,7 +16,7 @@ public class CatServiceImpl implements CatService {
     private static CatDAO catDAO = daoFactory.getCatDAO();
 
     @Override
-    public List<Cat> showAllCats() throws ServiceException {
+    public List<Cat> takeAllCats() throws ServiceException {
         List<Cat> cats;
 
         try {
@@ -45,7 +45,7 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public void catAlreadyAdded(int offerId) throws ServiceException, ValidationFailedException {
+    public void catAlreadyAdded(int offerId) throws ServiceException {
         try {
             if (catDAO.catAlreadyAdded(offerId)) {
                 throw new ValidationFailedException("Cat allready added");
@@ -58,7 +58,19 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public Cat showSingleCat(int catId) throws ServiceException {
+    public Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException {
+
+        try {
+            return catDAO.findSingleCatWithDiscount(catId, userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Error while showing single cat with discount", e);
+        }
+    }
+
+
+    @Override
+    public Cat takeSingleCat(int catId) throws ServiceException {
 
         try {
             return catDAO.findSingleCat(catId);

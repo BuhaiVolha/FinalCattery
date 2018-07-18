@@ -33,8 +33,8 @@ public class CommandProvider {
         commands.put(Commands.LOGIN, new LoginCommand());
         commands.put(Commands.LOGOUT, new LogoutCommand());
         commands.put(Commands.LANGUAGE, new LanguageCommand());
-        commands.put(Commands.SHOW_ALL_CATS, new ShowAllCatsCommand());
-        commands.put(Commands.APPROVED_REVIEWS, new ShowApprovedReviewsCommand());
+        commands.put(Commands.ALL_CATS, new TakeAllCatsCommand());
+        commands.put(Commands.APPROVED_REVIEWS, new TakeApprovedReviewsCommand());
         commands.put(Commands.OFFER_CAT, new OfferCatCommand());
         commands.put(Commands.ALL_OFFERS, new ShowAllOffersCommand());
         commands.put(Commands.DECLINE_OFFER, new DeclineOfferCommand());
@@ -42,10 +42,10 @@ public class CommandProvider {
         commands.put(Commands.BARGAIN, new BargainAboutPriceCommand());
         commands.put(Commands.APPROVE, new ApproveOfferCommand());
         commands.put(Commands.ADD_CAT, new AddCatCommand());
-        commands.put(Commands.CABINET, new ShowCabinetCommand());
-        commands.put(Commands.ALL_USERS, new ShowAllUsersCommand());
+        commands.put(Commands.CABINET, new GoToCabinetCommand());
+        commands.put(Commands.ALL_USERS, new TakeAllUsersCommand());
         commands.put(Commands.COLOUR_PREFERENCE, new SetColourPreferenceCommand());
-        commands.put(Commands.STATISTICS, new ShowStatisticsCommand());
+        commands.put(Commands.STATISTICS, new CountStatisticsCommand());
         commands.put(Commands.BAN, new BanCommand());
         commands.put(Commands.UNBAN, new UnbanCommand());
         commands.put(Commands.DISCOUNT, new MakeDiscountCommand());
@@ -54,8 +54,10 @@ public class CommandProvider {
         commands.put(Commands.ACCEPT_PRICE, new AcceptOfferedPriceCommand());
         commands.put(Commands.DELETE_OFFER, new DeleteOfferCommand());
         commands.put(Commands.SINGLE_CAT, new GoToSingleCatCommand());
-        commands.put(Commands.APPROVED_OFFERS, new ShowApprovedOffersCommand());
-        commands.put(Commands.AWAITING_OFFERS, new ShowAwaitingOffersCommand());
+        commands.put(Commands.SINGLE_CAT_WITH_DISCOUNT, new GoToSingleCatWithDiscountCommand());
+        commands.put(Commands.APPROVED_OFFERS, new TakeApprovedOffersCommand());
+        commands.put(Commands.AWAITING_OFFERS, new TakeAwaitingOffersCommand());
+        commands.put(Commands.EDIT_PERSONAL_INFO, new EditPersonalInformationCommand());
     }
 
 

@@ -6,9 +6,9 @@ public final class Validator {
     private Validator() {}
 
     public static boolean validateUserData(User user) {
-        String login = user.getUserLogin();
-        String password = user.getUserPass();
+        String login = user.getLogin();
+        String password = user.getPassword();
 
-        return !login.equals("") && password.length() >= 6;
+        return !login.equals("") && password.length() >= 7;
     }
 }

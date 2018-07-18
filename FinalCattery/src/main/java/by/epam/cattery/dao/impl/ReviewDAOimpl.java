@@ -37,25 +37,19 @@ public class ReviewDAOimpl implements ReviewDAO {
 
             while (rs.next()) {
                 Review review = new Review();
+
                 review.setId(rs.getInt(1));
-                System.out.println(review.getId());
-
                 review.setUserLeftId(rs.getInt(2));
-                System.out.println(review.getUserLeftId());
-
                 review.setUserLeftLogin(rs.getString(3));
-                System.out.println(review.getUserLeftLogin());
-
                 review.setText(rs.getString(4));
-                System.out.println(review.getText());
 
                 reviews.add(review);
             }
 
         } catch (ConnectionPoolException e) {
-            throw new DAOException("error while connecting via pool", e);
+            throw new DAOException("Exception while connecting via pool", e);
         } catch (SQLException e) {
-            throw new DAOException("error during gathering reviews", e);
+            throw new DAOException("Exception during gathering reviews", e);
         } finally {
             connectionPool.closeConnection(con, ps, rs);
         }

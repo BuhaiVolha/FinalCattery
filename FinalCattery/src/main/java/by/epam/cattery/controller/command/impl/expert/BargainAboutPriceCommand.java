@@ -36,6 +36,7 @@ public class BargainAboutPriceCommand implements ActionCommand {
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Exception while bargaining over price of an offer: ", e);
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
 }

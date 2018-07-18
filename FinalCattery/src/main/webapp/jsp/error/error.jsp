@@ -7,13 +7,8 @@
             <div class="col-lg-6">
                 <div class="align-center">
                     <h1>404 error!</h1>
-                    <h2 class="subtitle">Nunc velit risus, dapibus non interdum quis, suscipit nec dolor. Vivamus tempor tempus mauris vitae fermentum. In vitae nulla lacus. Sed sagittis tortor vel arcu sollicitudin nec tincidunt metus suscipit.Nunc velit risus, dapibus non interdum.Nunc velit risus, dapibus non interdum quis, suscipit nec dolor.</h2>
-                    <form class="form-inline signup" role="form">
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email address">
-                        </div>
-                        <button type="submit" class="btn btn-theme">Get it now</button>
-                    </form>
+                    <h2 class="subtitle">But don't you worry! Our cat is already repairing the page, you can wait... or maybe it's better to use some links above! </h2>
+
                 </div>
             </div>
         </div>

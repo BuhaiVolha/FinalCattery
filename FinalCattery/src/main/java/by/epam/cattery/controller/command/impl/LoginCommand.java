@@ -7,18 +7,15 @@ import by.epam.cattery.controller.util.MessageManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
-import org.apache.http.client.utils.URIBuilder;
+import by.epam.cattery.service.exception.UserIsBannedException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
@@ -31,6 +28,7 @@ public class LoginCommand implements ActionCommand {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
         HttpSession session = request.getSession();
+        String viewPath = request.getHeader("referer");
 
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
@@ -38,32 +36,26 @@ public class LoginCommand implements ActionCommand {
 
             if (user != null) {
                 session.setAttribute("userId", user.getId());
-                session.setAttribute("login", user.getUserLogin());
-                session.setAttribute("role", user.getUserRole());
+                session.setAttribute("login", user.getLogin());
+                session.setAttribute("role", user.getRole());
 
                 response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
             } else {
-//                request.setAttribute("errorLoginPassMessage",
-//                        MessageManager.getProperty("message.loginerror"));
-//                request.getRequestDispatcher(ConfigurationManager
-//                        .getProperty("path.page.main")).forward(request, response);
-
                 request.getSession(true).setAttribute("errorLoginPassMessage",
                         MessageManager.getProperty("message.loginerror"));
-                response.sendRedirect(ConfigurationManager.getProperty("path.page.main"));
-
-//                StringBuilder viewPath = new StringBuilder();
-//                viewPath.append(getUr(request));
-//                response.sendRedirect(viewPath.toString());
+                response.sendRedirect(viewPath);
 
             }
 
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Logging in failed: ", e);
+        } catch (UserIsBannedException e) {
+            request.getSession(true).setAttribute("errorLoginPassMessage",
+                    MessageManager.getProperty("message.userbanned"));
+            response.sendRedirect(viewPath);
 
+        }  catch (ServiceException e) {
+            logger.log(Level.ERROR, "Logging in failed: ", e);
             response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
-
 }

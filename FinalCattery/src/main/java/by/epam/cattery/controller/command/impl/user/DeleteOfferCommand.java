@@ -31,6 +31,7 @@ public class DeleteOfferCommand implements ActionCommand {
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Deleting offer failed: ", e);
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
 }

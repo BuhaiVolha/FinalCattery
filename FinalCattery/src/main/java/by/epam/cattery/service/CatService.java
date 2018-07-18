@@ -7,8 +7,9 @@ import by.epam.cattery.service.exception.ValidationFailedException;
 import java.util.List;
 
 public interface CatService {
-    List<Cat> showAllCats() throws ServiceException;
+    List<Cat> takeAllCats() throws ServiceException;
     void addCat(Cat cat) throws ServiceException;
     void catAlreadyAdded(int offerId) throws ServiceException, ValidationFailedException; // ?
-    Cat showSingleCat(int catId) throws ServiceException;
+    Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException;
+    Cat takeSingleCat(int catId) throws ServiceException;
 }

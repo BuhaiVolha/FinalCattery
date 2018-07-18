@@ -16,15 +16,16 @@
 
                     <div class="form-group">
                         <label class="image-replace email" for="signin-login1">Login</label>
-                        <input class="form-control" name="login" id="signin-login1" type="text" placeholder="Login" required="required">
+                        <input class="form-control" name="login" id="signin-login1" type="text" placeholder="Login" required="required" pattern="[0-9a-zA-Zа-яА-Я]{2,10}"
+                               title="No less than 2 and no more than 10 characters such as letters and digits only">
                     </div>
 
                     <div class="form-group">
                         <label class="image-replace password" for="signin-password1">Password</label>
-                        <input class="form-control"  name="password" id="signin-password1" type="password"  placeholder="Password" required="required">
+                        <input class="form-control"  name="password" id="signin-password1" type="password"  placeholder="Password" required="required" pattern=".{7,}" title="Seven or more characters">
                     </div>
-                    ${errorLoginPassMessage}
-                    <div id="signInError" class="error form-group"></div>
+
+                    <div id="signInError" class="error form-group">${errorLoginPassMessage}</div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block" value="log-in" id="sendMessageButton1">Log in</button>
                     </div>
