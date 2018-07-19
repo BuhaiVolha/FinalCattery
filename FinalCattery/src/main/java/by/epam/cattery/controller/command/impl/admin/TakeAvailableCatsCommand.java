@@ -1,8 +1,9 @@
-package by.epam.cattery.controller.command.impl;
+package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.entity.Cat;
+import by.epam.cattery.controller.command.impl.TakeAllCatsCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.service.CatService;
@@ -19,8 +20,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class TakeAllCatsCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(TakeAllCatsCommand.class);
+public class TakeAvailableCatsCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(TakeAvailableCatsCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -44,7 +45,7 @@ public class TakeAllCatsCommand implements ActionCommand {
 
         } catch (ServiceException e) {
             //redirect
-            logger.log(Level.ERROR, "Cat's are not here: ", e);
+            logger.log(Level.ERROR, "Cat's by status are not here: ", e);
         }
 
         request.setAttribute("cats", cats);

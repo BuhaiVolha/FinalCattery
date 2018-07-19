@@ -22,11 +22,13 @@ public class AddCatCommand implements ActionCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        CatService catService = ServiceFactory.getInstance().getCatService();
 
         try {
             Cat cat = createCat(request);
+
+            CatService catService = ServiceFactory.getInstance().getCatService();
             catService.addCat(cat);
+
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
         } catch (ValidationFailedException e) { // doubleSubmitException?

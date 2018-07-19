@@ -13,7 +13,18 @@
                     <c:forEach items="${cats}" var="cat">
                         <div class="col-md-3 col-sm-6 item-wr">
                             <div class="thumbnail">
-                                <p class="status"><c:out value="${cat.status}"/></p>
+                                <c:choose><c:when test="${cat.status eq 'AVAIL'}">
+                                    <p class="status avail">
+                                </c:when>
+                                <c:when test="${cat.status eq 'BOOK'}">
+                                    <p class="status book">
+                                </c:when>
+                                    <c:otherwise>
+                                    <p class="status sold">
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:out value="${cat.status}"/></p>
                                 <img src="/jsp/assets/img/user.png" alt="A photo of kitten" class="img-responsive">
 
                                 <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
@@ -21,18 +32,22 @@
                                 <hr class="line">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
-                                        <p class="price">$<c:out value="${cat.price}"/></p>
+                                        <c:choose>
+                                            <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount}">
+                                                <p class="price">price:
+                                                    <del><span>$<c:out value="${cat.price}"/></span></del>
+                                                    <span>$<c:out value="${cat.priceWithDiscount}"/> !!!</span></p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p class="price">price: <span>$<c:out value="${cat.price}"/></span>
+                                                </p>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                     </div>
                                     <div class="col-md-6 col-sm-6">
 
-                                        <c:choose>
-                                            <c:when test="${sessionScope.role eq 'USER'}">
-                                            <a href="/controller?command=single_cat_with_discount&catId=${cat.id}">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <a href="/controller?command=single_cat&catId=${cat.id}">
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <a href="/controller?command=single_cat&catId=${cat.id}&operation=display-cat">
 
                                             <button
                                                     class="btn btn-info right">MORE DETAILS

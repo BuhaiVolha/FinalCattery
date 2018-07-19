@@ -17,8 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ShowAllOffersCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(ShowAllOffersCommand.class);
+public class TakeAllOffersCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

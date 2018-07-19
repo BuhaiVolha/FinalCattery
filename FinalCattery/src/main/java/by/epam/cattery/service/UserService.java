@@ -10,7 +10,6 @@ public interface UserService {
     int register(User user) throws ServiceException, ValidationFailedException;
     User logIn(String login, String password) throws ServiceException;
     User takeUser(int userId) throws ServiceException;
-    // проверка на забанен ли
     List<User> takeAllUsers() throws ServiceException;
     String countStatistics() throws ServiceException;
     void changeColourPreference(User user) throws ServiceException;

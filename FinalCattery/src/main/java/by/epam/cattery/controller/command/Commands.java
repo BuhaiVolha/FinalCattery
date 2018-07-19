@@ -14,6 +14,9 @@ public enum Commands {
     BARGAIN,
     APPROVE,
     ADD_CAT,
+    DELETE_CAT,
+    EDIT_CAT,
+    AVAILABLE_CATS,
     CABINET,
     ALL_USERS,
     COLOUR_PREFERENCE,
@@ -26,7 +29,6 @@ public enum Commands {
     ACCEPT_PRICE,
     DELETE_OFFER,
     SINGLE_CAT,
-    SINGLE_CAT_WITH_DISCOUNT,
     APPROVED_OFFERS,
     AWAITING_OFFERS,
     EDIT_PERSONAL_INFO

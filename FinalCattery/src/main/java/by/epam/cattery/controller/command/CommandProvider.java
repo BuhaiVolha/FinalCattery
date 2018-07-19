@@ -36,7 +36,7 @@ public class CommandProvider {
         commands.put(Commands.ALL_CATS, new TakeAllCatsCommand());
         commands.put(Commands.APPROVED_REVIEWS, new TakeApprovedReviewsCommand());
         commands.put(Commands.OFFER_CAT, new OfferCatCommand());
-        commands.put(Commands.ALL_OFFERS, new ShowAllOffersCommand());
+        commands.put(Commands.ALL_OFFERS, new TakeAllOffersCommand());
         commands.put(Commands.DECLINE_OFFER, new DeclineOfferCommand());
         commands.put(Commands.SINGLE_OFFER, new GoToSingleOfferCommand());
         commands.put(Commands.BARGAIN, new BargainAboutPriceCommand());
@@ -54,10 +54,12 @@ public class CommandProvider {
         commands.put(Commands.ACCEPT_PRICE, new AcceptOfferedPriceCommand());
         commands.put(Commands.DELETE_OFFER, new DeleteOfferCommand());
         commands.put(Commands.SINGLE_CAT, new GoToSingleCatCommand());
-        commands.put(Commands.SINGLE_CAT_WITH_DISCOUNT, new GoToSingleCatWithDiscountCommand());
         commands.put(Commands.APPROVED_OFFERS, new TakeApprovedOffersCommand());
         commands.put(Commands.AWAITING_OFFERS, new TakeAwaitingOffersCommand());
         commands.put(Commands.EDIT_PERSONAL_INFO, new EditPersonalInformationCommand());
+        commands.put(Commands.DELETE_CAT, new DeleteCatCommand());
+        commands.put(Commands.EDIT_CAT, new EditCatCommand());
+        commands.put(Commands.AVAILABLE_CATS, new TakeAvailableCatsCommand());
     }
 
 

@@ -18,9 +18,6 @@ public class DeclineOfferCommand implements ActionCommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//        HttpSession session = request.getSession();
-//        Offer offer = (Offer) session.getAttribute("singleOffer");
-//        offer.setExpertMessage(request.getParameter("expertMessage"));
 
         try {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
@@ -29,7 +26,7 @@ public class DeclineOfferCommand implements ActionCommand {
             offer.setExpertMessage(request.getParameter("expertMessage"));
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
 
-            offerService.answerToOffer(offer, OfferStatus.REJCT.toString(), false);
+            offerService.answerToOffer(offer, OfferStatus.REJCT, false);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

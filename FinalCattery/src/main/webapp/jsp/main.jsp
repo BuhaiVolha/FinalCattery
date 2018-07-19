@@ -34,7 +34,7 @@
                         <p>and we are a group of professional cat-breeders. Our work has started from 2001 when we sold my first cat to one foreigner at extremely low price. He recommended us to continue breeding cats.</p>
                         <p><b>You can</b></p>
                         <ul>
-                            <li><i class="fa fa-paw" aria-hidden="true"></i>Buy our cat</li>
+                            <li><i class="fa fa-paw" aria-hidden="true"></i>Buy our cats</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Or offer your own</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Book them</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Or just look at them</li>

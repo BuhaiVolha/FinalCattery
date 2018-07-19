@@ -28,7 +28,7 @@ public class ApproveOfferCommand implements ActionCommand {
             Offer offer = new Offer(); // не в объект а отдельный ДТО?
             offer.setExpertMessageToAdmin(request.getParameter("expertMessageToAdmin"));
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
-            offerService.answerToOffer(offer, OfferStatus.APRVD.toString(), true);
+            offerService.answerToOffer(offer, OfferStatus.APRVD, true);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

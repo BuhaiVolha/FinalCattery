@@ -18,9 +18,30 @@
             <div class="details col-md-6">
                 <h3 class="product-title"><c:out value="${requestScope.singleCat.name}"/> <c:out
                         value="${requestScope.singleCat.lastname}"/></h3>
-                <h3 class="status"><c:out value="${requestScope.singleCat.status}"/></h3>
+
+                <c:choose><c:when test="${requestScope.singleCat.status eq 'AVAIL'}">
+                <h3 class="status avail">
+                    </c:when>
+                    <c:when test="${requestScope.singleCat.status eq 'BOOK'}">
+                <h3 class="status book">
+                    </c:when>
+                    <c:otherwise>
+                <h3 class="status sold">
+                    </c:otherwise>
+                    </c:choose>
+
+                <c:out value="${requestScope.singleCat.status}"/></h3>
                 <h5 class="colors">
-                    <strong><c:out value="${requestScope.singleCat.gender}"/></strong>
+                    <strong>
+                        <c:out value="${requestScope.singleCat.gender}"/>
+                        <c:choose><c:when test="${requestScope.singleCat.gender eq 'FEMALE'}">
+                            <i class="fa fa-venus"></i>
+                        </c:when>
+                            <c:otherwise>
+                                <i class="fa fa-mars"></i>
+                            </c:otherwise>
+                        </c:choose>
+                    </strong>
                 </h5>
                 <p class="product-description"><c:out value="${requestScope.singleCat.description}"/></p>
                 <c:choose>
@@ -54,13 +75,18 @@
                         </div>
                     </c:when>
                     <c:when test="${sessionScope.role eq 'ADMIN'}">
-                        <div class="action">
-                            <button class="add-to-cart btn btn-default" type="button">Delete</button>
+                        <div class="action"><a href="/controller?command=delete_cat&catId=${singleCat.id}">
+                            <button class="add-to-cart btn btn-default" title="Think twice before clicking!!!"
+                                    type="button">Delete
+                            </button>
+                        </a>
                         </div>
                     </c:when>
                     <c:when test="${sessionScope.role eq 'EXPERT'}">
-                        <div class="action">
+                        <div class="action"><a
+                                href="/controller?command=single_cat&catId=${singleCat.id}&operation=edit-cat">
                             <button class="add-to-cart btn btn-default" type="button">Edit</button>
+                        </a>
                         </div>
                     </c:when>
                     <c:otherwise>

@@ -46,7 +46,7 @@ p {
 }
 
 a {
-    color: #d6ee18;
+    color: #c6d550;
     word-wrap: break-word;
     -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
     -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
@@ -57,7 +57,8 @@ a {
 
 a:hover,
 a:focus {
-    color: #b7cb1b;
+    /*color: #b7cb1b; */
+    color: whitesmoke;
     text-decoration: none;
     outline: 0;
 }
@@ -632,12 +633,11 @@ h2.subtitle {
     bottom: 0; /* you already have this */
     background-color: #c6d550;
     padding-right: 179px;
-    right:0;
-    padding-left:5%;
+    right: 0;
+    padding-left: 5%;
     margin: 0;
 
 }
-
 
 section.featured {
     padding: 200px 0 600px;
@@ -886,7 +886,7 @@ section.featured.inner {
     background-color: #444;
     padding: 27px; /*33*/
     margin: 43px;
-    top: 9px;
+    top: 16px; /*9*/
     margin-right: -66px;
     min-width: 148px;
 }
@@ -909,7 +909,7 @@ a.dropdown-item {
 
 a.navbar-login {
     text-align: center;
-    right: -347px;
+    right: -327px;
 }
 
 .btn {
@@ -1515,22 +1515,72 @@ html {
     height: 100%;
 }
 
-pre { font-size: 16px;}
-input:valid {background-color: #dfff87;}
-input:optional {border-style: outset;}
-input:disabled {border: 1px dotted gray;}
-input:required {border: 2px solid;}
-input:invalid {background-color: #fce479;}
+pre {
+    font-size: 16px;
+}
+
+input:valid {
+    background-color: #dfff87;
+}
+
+input:optional {
+    border-style: outset;
+}
+
+input:disabled {
+    border: 1px dotted gray;
+}
+
+input:required {
+    border: 2px solid;
+}
+
+input:invalid {
+    background-color: #fce479;
+}
 
 .status {
     float: left;
-    color: greenyellow;
+
     font-size: 30px;
     font-weight: 900;
     margin-top: 0;
 }
+
+.book {
+    color: yellow;
+}
+
+.sold {
+    color: red;
+}
+
+.avail {
+    color: greenyellow;
+}
+
 .mark {
     color: #E34234;
     margin-top: 20px;
 }
 
+.fa.fa-venus {
+    font-size: 24px;
+    color: lightpink;
+}
+
+.fa.fa-mars {
+    font-size: 24px;
+    color: cornflowerblue;
+}
+
+#left-nav-dropdown {
+    margin-top: 2px;
+    padding-top: 10px;
+    margin-right: 14px;
+    position: relative;
+}
+
+.left-nav-style {
+    margin-top: 40px;
+}

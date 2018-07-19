@@ -4,6 +4,7 @@ import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.OfferDAO;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.Offer;
+import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.exception.ServiceException;
 
@@ -37,7 +38,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public List<Offer> takeAllOffersByStatus(String status) throws ServiceException {
+    public List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException {
         try {
             return offerDAO.findAllOffersByStatus(status);
 
@@ -48,7 +49,7 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public void answerToOffer(Offer offer, String status, boolean forAdmin) throws ServiceException {
+    public void answerToOffer(Offer offer, OfferStatus status, boolean forAdmin) throws ServiceException {
         try {
             offerDAO.changeOfferStatus(offer, status, forAdmin); // Отдельный объект DTO?
 

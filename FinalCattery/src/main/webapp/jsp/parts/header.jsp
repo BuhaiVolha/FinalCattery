@@ -82,7 +82,22 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/controller?command=all_cats">${goods}</a></li>
+
+                <li>
+                    <div class="dropdown" id="left-nav-dropdown">
+                        <a href="#" class="main-nav" id="cat-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${goods}
+                        </a>
+                        <div class="dropdown-menu left-nav-style" aria-labelledby="cat-dropdown">
+                            <a class="dropdown-item" href="/controller?command=all_cats">All cats</a>
+                            <a class="dropdown-item" href="/controller?command=available_cats">Available cats</a>
+                            <a class="dropdown-item" href="#">Search for a cat</a>
+                        </div>
+                    </div>
+                </li>
+
+
+
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
                 <li><a href="/controller?command=approved_reviews">${reviews}</a></li>
 
@@ -96,7 +111,7 @@
 
                 <li>
                     <div class="nav navbar-nav navbar-right">
-                        <button class="inset" type="button" data-toggle="dropdown" aria-haspopup="true"
+                        <button class="inset" type="button" data-toggle="dropdown" id="user-dropdown" aria-haspopup="true"
                                 aria-expanded="false">
 
                             <c:choose>
@@ -116,7 +131,7 @@
                             </c:choose>
 
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-dropdown">
                             <a class="navbar-login">${sessionScope.login}</a>
                             <div class="dropdown-divider"></div>
                             <div class="dropdown-divider"></div>
@@ -124,6 +139,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/controller?command=logout">${logout}</a>
                         </div>
+
                     </div>
                 </li>
             </ul>

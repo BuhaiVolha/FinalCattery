@@ -37,7 +37,7 @@ public class OfferDAOimpl implements OfferDAO {
     }
 
     @Override
-    public boolean makeOffer(Offer offer) throws DAOException { // ретурнить ИД офера?
+    public boolean makeOffer(Offer offer) throws DAOException { // ретурнить ИД офера? // make????
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -105,7 +105,7 @@ public class OfferDAOimpl implements OfferDAO {
 
 
     @Override
-    public List<Offer> findAllOffersByStatus(String status) throws DAOException {
+    public List<Offer> findAllOffersByStatus(OfferStatus status) throws DAOException {
         List<Offer> offers = new ArrayList<>();
 
         Connection con = null;
@@ -116,7 +116,7 @@ public class OfferDAOimpl implements OfferDAO {
             con = connectionPool.takeConnection();
 
             ps = con.prepareStatement(SELECT_ALL_OFFERS + " WHERE user_offer_status_id = ?;");
-            ps.setString(1, status);
+            ps.setString(1, status.toString());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -146,7 +146,7 @@ public class OfferDAOimpl implements OfferDAO {
 
 
     @Override
-    public void changeOfferStatus(Offer offer, String status, boolean forAdmin) throws DAOException {
+    public void changeOfferStatus(Offer offer, OfferStatus status, boolean forAdmin) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -161,7 +161,7 @@ public class OfferDAOimpl implements OfferDAO {
                 ps.setString(2, offer.getExpertMessage());
             }
 
-            ps.setString(1, status);
+            ps.setString(1, status.toString());
             ps.setInt(3, offer.getId());
             ps.executeUpdate();
 
