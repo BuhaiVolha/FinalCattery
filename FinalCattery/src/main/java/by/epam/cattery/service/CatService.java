@@ -13,7 +13,6 @@ public interface CatService {
     List<Cat> takeAllCatsWithDiscount(int userId) throws ServiceException;
     List<Cat> takeCatsByStatusWithDiscount(int userId, CatStatus status) throws ServiceException;
     void addCat(Cat cat) throws ServiceException;
-    void catAlreadyAdded(int offerId) throws ServiceException, ValidationFailedException; // ?
     Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException;
     Cat takeSingleCat(int catId) throws ServiceException;
     void deleteCat(int catId) throws ServiceException;

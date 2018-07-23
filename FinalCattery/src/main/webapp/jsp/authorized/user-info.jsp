@@ -11,7 +11,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">${requestScope.name} ${requestScope.lastName}</h3>
+                    <h3 class="panel-title">${requestScope.name} ${requestScope.lastname}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -80,6 +80,7 @@
                         <c:when test="${sessionScope.role eq 'USER'}">
                             <a href="/jsp/user/cat-offer.jsp" class="btn btn-primary">Offer a cat</a>
                             <a href="/controller?command=all_offers" class="btn btn-primary">See offers status</a>
+                            <a href="/controller?command=all_reservations&operation=user" class="btn btn-primary">My reservations</a>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
                             <a href="/controller?command=statistics" class="btn btn-primary">See statistics</a>
@@ -91,6 +92,7 @@
                             <a href="/controller?command=approved_offers"
                                class="btn btn-primary">See offers</a>
                             <a href="/controller?command=all_users" class="btn btn-primary">Manage users</a>
+                            <a href="/controller?command=all_reservations&operation=admin" class="btn btn-primary">Manage reservations</a>
                         </c:when>
                     </c:choose>
                 </div>

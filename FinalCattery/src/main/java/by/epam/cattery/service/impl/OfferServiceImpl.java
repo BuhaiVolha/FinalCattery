@@ -18,7 +18,7 @@ public class OfferServiceImpl implements OfferService {
     public boolean offerCat(Offer offer) throws ServiceException {
 
         try {
-            return offerDAO.makeOffer(offer);
+            return offerDAO.addOffer(offer);
 
         } catch (DAOException e) {
             throw new ServiceException("Offering kitten failed in Service", e);

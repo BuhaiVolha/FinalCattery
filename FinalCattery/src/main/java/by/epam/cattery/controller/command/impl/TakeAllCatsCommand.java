@@ -34,11 +34,11 @@ public class TakeAllCatsCommand implements ActionCommand {
                 logger.log(Level.DEBUG, "User is logged in, showing cats with discount");
 
                 int userId = Integer.parseInt(session.getAttribute("userId").toString());
-                cats = catService.takeCatsByStatusWithDiscount(userId, CatStatus.AVAIL);
+                cats = catService.takeAllCatsWithDiscount(userId);
 
             } else {
                 logger.log(Level.DEBUG, "Showing just prices without any discount");
-                cats = catService.takeCatsByStatus(CatStatus.AVAIL);
+                cats = catService.takeAllCats();
             }
 
 

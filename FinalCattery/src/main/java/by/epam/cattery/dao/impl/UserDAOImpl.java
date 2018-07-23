@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserDAOimpl implements UserDAO {
+public class UserDAOImpl implements UserDAO {
     private final ConnectionPool connectionPool;
 
     private static final String ADD_USER = "INSERT INTO user (login, password, name, lastname, email, phone) VALUES(?,?,?,?,?,?)";
@@ -24,7 +24,7 @@ public class UserDAOimpl implements UserDAO {
     private static final String UPDATE_COLOUR_PREFERENCE = "UPDATE user SET colour_preference=? WHERE user_id = ?;";
 
 
-    public UserDAOimpl(ConnectionPool connectionPool) {
+    public UserDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
@@ -43,7 +43,7 @@ public class UserDAOimpl implements UserDAO {
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getName());
-            ps.setString(4, user.getLastName());
+            ps.setString(4, user.getLastname());
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getPhone());
 
@@ -197,7 +197,7 @@ public class UserDAOimpl implements UserDAO {
             user.setLogin(rs.getString(2));
             user.setRole(Role.valueOf(rs.getString(4).toUpperCase()));
             user.setName(rs.getString(5));
-            user.setLastName(rs.getString(6));
+            user.setLastname(rs.getString(6));
             user.setEmail(rs.getString(7));
             user.setPhone(rs.getString(8));
             user.setColourPreference(rs.getString(9));
@@ -232,7 +232,7 @@ public class UserDAOimpl implements UserDAO {
                 user.setId(rs.getInt(1));
                 user.setLogin(rs.getString(2));
                 user.setName(rs.getString(3));
-                user.setLastName(rs.getString(4));
+                user.setLastname(rs.getString(4));
                 user.setEmail(rs.getString(5));
                 user.setPhone(rs.getString(6));
                 user.setColourPreference(rs.getString(7));
@@ -291,7 +291,7 @@ public class UserDAOimpl implements UserDAO {
                     "phone=?, password =? WHERE user_id = ?;");
 
             ps.setString(1, user.getName());
-            ps.setString(2, user.getLastName());
+            ps.setString(2, user.getLastname());
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getPhone());
             System.out.println(user.getPassword());

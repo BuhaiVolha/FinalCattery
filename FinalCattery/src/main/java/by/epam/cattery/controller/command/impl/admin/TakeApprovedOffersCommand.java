@@ -32,7 +32,7 @@ public class TakeApprovedOffersCommand implements ActionCommand {
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-offers")).forward(request, response);
 
         } catch (ServiceException e) {
-            //redirect
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
             logger.log(Level.ERROR, "Exception while showing approved offers for admin: ", e);
         }
     }

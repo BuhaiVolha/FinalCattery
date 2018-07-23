@@ -35,7 +35,7 @@
                                     сообщение от эксперта: <c:out value="${catByStatus.expertMessageToAdmin}"/>
                                 </h5>
                             </c:if>
-                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=add-cat"
+                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&statedPrice=${catByStatus.price}&operation=add-cat"
                                class="btn btn-primary">Add</a>
                         </div>
                     </div>

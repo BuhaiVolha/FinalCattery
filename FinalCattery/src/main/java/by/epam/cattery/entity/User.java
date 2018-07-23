@@ -10,7 +10,7 @@ public class User extends Entity {
     private String password;
     private Role role;
     private String name;
-    private String lastName;
+    private String lastname;
     private String email;
     private String phone;
     private String colourPreference;
@@ -19,14 +19,14 @@ public class User extends Entity {
     private boolean reviewLeft;
 
 
-    public User(int id, String login, String password, Role role, String name, String lastName,
+    public User(int id, String login, String password, Role role, String name, String lastname,
                 String email, String phone, String colourPreference, int discount, boolean banned, boolean reviewLeft) {
         super(id);
         this.login = login;
         this.password = password;   // массив символов?
         this.role = role;
         this.name = name;
-        this.lastName = lastName;
+        this.lastname = lastname;
         this.email = email;
         this.phone = phone;
         this.colourPreference = colourPreference;
@@ -71,12 +71,12 @@ public class User extends Entity {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
@@ -141,7 +141,7 @@ public class User extends Entity {
                 .append(getPassword(), user.getPassword())
                 .append(getRole(), user.getRole())
                 .append(getName(), user.getName())
-                .append(getLastName(), user.getLastName())
+                .append(getLastname(), user.getLastname())
                 .append(getEmail(), user.getEmail())
                 .append(getPhone(), user.getPhone())
                 .append(getColourPreference(), user.getColourPreference())
@@ -158,7 +158,7 @@ public class User extends Entity {
                 .append(getPassword())
                 .append(getRole())
                 .append(getName())
-                .append(getLastName())
+                .append(getLastname())
                 .append(getEmail())
                 .append(getPhone())
                 .append(getColourPreference())

@@ -96,19 +96,6 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public void catAlreadyAdded(int offerId) throws ServiceException {
-        try {
-            if (catDAO.catAlreadyAdded(offerId)) {
-                throw new ValidationFailedException("Cat already added");
-            }
-
-        } catch (DAOException e) {
-            throw new ServiceException("Exception while checking cat added", e);
-        }
-    }
-
-
-    @Override
     public Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException {
 
         try {

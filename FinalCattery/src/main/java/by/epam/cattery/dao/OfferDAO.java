@@ -7,7 +7,7 @@ import by.epam.cattery.entity.OfferStatus;
 import java.util.List;
 
 public interface OfferDAO {
-    boolean makeOffer(Offer offer) throws DAOException;
+    boolean addOffer(Offer offer) throws DAOException; // с булеана на воид
     List<Offer> findAllOffersByUserId(String id) throws DAOException;
     List<Offer> findAllOffersByStatus(OfferStatus status) throws DAOException;
     void changeOfferStatus(Offer offer, OfferStatus status, boolean forAdmin) throws DAOException;

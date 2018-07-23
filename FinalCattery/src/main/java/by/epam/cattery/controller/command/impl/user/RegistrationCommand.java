@@ -70,7 +70,7 @@ public class RegistrationCommand implements ActionCommand {
         user.setLogin(request.getParameter("login"));
         user.setPassword(request.getParameter("password"));
         user.setName(request.getParameter("name"));
-        user.setLastName(request.getParameter("lastname"));
+        user.setLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));
         user.setPhone(request.getParameter("phone"));
 

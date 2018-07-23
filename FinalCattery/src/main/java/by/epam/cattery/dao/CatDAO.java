@@ -14,7 +14,6 @@ public interface CatDAO {
     void addCat(Cat cat) throws DAOException;
     void updateCat(Cat cat) throws DAOException;
     void deleteCat(int catId) throws DAOException;
-    boolean catAlreadyAdded(int offerId) throws DAOException;
     Cat findSingleCatWithDiscount(int catId, int userId) throws DAOException;
     Cat findSingleCat(int catId) throws DAOException;
 }

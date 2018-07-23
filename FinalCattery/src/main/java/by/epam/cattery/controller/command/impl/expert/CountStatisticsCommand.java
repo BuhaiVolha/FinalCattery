@@ -23,7 +23,8 @@ public class CountStatisticsCommand implements ActionCommand {
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
             String statistics = userService.countStatistics();
-            session.setAttribute("colourStatistics", statistics);
+            //session.setAttribute("colourStatistics", statistics);
+            request.setAttribute("colourStatistics", statistics);
 
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.statistics")).forward(request, response);
 

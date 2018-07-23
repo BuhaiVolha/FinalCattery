@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfferDAOimpl implements OfferDAO {
+public class OfferDAOImpl implements OfferDAO {
     private final ConnectionPool connectionPool;
 
     private static final String ADD_OFFER = "INSERT INTO user_offer (user_made_offer_id, " +
@@ -32,12 +32,12 @@ public class OfferDAOimpl implements OfferDAO {
     private static final String UPDATE_OFFER_STATUS_AND_PRICE_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
             "expert_message`=?, price=? WHERE `offer_id` = ?;";
 
-    public OfferDAOimpl(ConnectionPool connectionPool) {
+    public OfferDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
     @Override
-    public boolean makeOffer(Offer offer) throws DAOException { // ретурнить ИД офера? // make????
+    public boolean addOffer(Offer offer) throws DAOException { // ретурнить ИД офера? // make????
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;

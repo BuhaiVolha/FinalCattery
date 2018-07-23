@@ -60,6 +60,13 @@ public class CommandProvider {
         commands.put(Commands.DELETE_CAT, new DeleteCatCommand());
         commands.put(Commands.EDIT_CAT, new EditCatCommand());
         commands.put(Commands.AVAILABLE_CATS, new TakeAvailableCatsCommand());
+        commands.put(Commands.RESERVE_CAT, new ReserveCatCommand());
+        commands.put(Commands.ALL_RESERVATIONS, new TakeAllReservationsCommand());
+        commands.put(Commands.DECLINE_EXPIRED_RESERVATIONS, new DeclineExpiredReservationsCommand());
+        commands.put(Commands.CANCEL_RESERVATION, new CancelReservationCommand());
+        commands.put(Commands.DELETE_RESERVATION, new DeleteReservationCommand());
+        commands.put(Commands.RENEW_RESERVATION, new RenewReservationCommand());
+        commands.put(Commands.SELL_CAT, new SellCatCommand());
     }
 
 

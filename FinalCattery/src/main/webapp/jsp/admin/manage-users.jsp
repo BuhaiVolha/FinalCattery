@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../parts/header.jsp" %>
+<%@ include file="/jsp/parts/header.jsp" %>
 
 <div class="header">
     <div class="container">
@@ -37,7 +37,7 @@
                                                     <img src="img/samples/user-profile-1.png" alt=""/>
                                                     <a href="#" class="user-link" title="ID ${user.id}"><c:out
                                                             value="${user.name}"/>
-                                                        <c:out value="${user.lastName}"/></a>
+                                                        <c:out value="${user.lastname}"/></a>
                                                 </td>
                                                 <td>
                                                     <span class="user-subhead"><c:out value="${user.role}"/></span>
@@ -158,4 +158,4 @@
 </div>
 </div>
 </div>
-<%@ include file="../parts/footer.jsp" %>
+<%@ include file="/jsp/parts/footer.jsp" %>

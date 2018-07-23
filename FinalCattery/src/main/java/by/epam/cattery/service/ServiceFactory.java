@@ -1,11 +1,6 @@
 package by.epam.cattery.service;
 
-import by.epam.cattery.dao.ReviewDAO;
-import by.epam.cattery.dao.impl.ReviewDAOimpl;
-import by.epam.cattery.service.impl.CatServiceImpl;
-import by.epam.cattery.service.impl.OfferServiceImpl;
-import by.epam.cattery.service.impl.ReviewServiceImpl;
-import by.epam.cattery.service.impl.UserServiceImpl;
+import by.epam.cattery.service.impl.*;
 
 public class ServiceFactory { //final?
     private static final ServiceFactory instance = new ServiceFactory();
@@ -13,6 +8,7 @@ public class ServiceFactory { //final?
     private static final CatService catService = new CatServiceImpl();
     private static final ReviewService reviewService = new ReviewServiceImpl();
     private static final OfferService offerService = new OfferServiceImpl();
+    private static final ReservationService reservationService = new ReservationServiceImpl();
 
     public static ServiceFactory getInstance() {
         return instance;
@@ -32,5 +28,9 @@ public class ServiceFactory { //final?
 
     public OfferService getOfferService() {
         return offerService;
+    }
+
+    public ReservationService getReservationService() {
+        return reservationService;
     }
 }

@@ -33,6 +33,7 @@ public class GoToSingleOfferCommand implements ActionCommand {
 
                 request.setAttribute("offerId", offerId);
                 request.setAttribute("userMadeOfferId", offer.getUserMadeOfferId());
+                request.setAttribute("statedPrice", offer.getPrice());
             }
 
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);

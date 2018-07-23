@@ -1,23 +1,24 @@
 package by.epam.cattery.dao.impl;
 
 import by.epam.cattery.dao.CatDAO;
-import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.connection.ConnectionPool;
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatDAOimpl implements CatDAO {
+public class CatDAOImpl implements CatDAO {
+    private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
+
     private final ConnectionPool connectionPool;
 
-    public CatDAOimpl(ConnectionPool connectionPool) {
+    public CatDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
@@ -259,12 +260,18 @@ public class CatDAOimpl implements CatDAO {
             ps.executeUpdate();
 
             if (cat.getUserMadeOfferId() != 1) {
-                String UPDATE_OFFER_STATUS_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=? WHERE `offer_id` = ?;";
+                String UPDATE_OFFER_STATUS_FOR_USER = "UPDATE user_offer SET user_offer_status_id=? WHERE offer_id = ? AND user_offer_status_id=?;";
                 ps2 = con.prepareStatement(UPDATE_OFFER_STATUS_FOR_USER);
                 ps2.setString(1, OfferStatus.SENT.toString());
                 ps2.setInt(2, cat.getOfferMadeId());
+                ps2.setString(3, OfferStatus.APRVD.toString());
 
-                ps2.executeUpdate();
+                int i =  ps2.executeUpdate();
+
+                if (i != 1) {
+                    logger.log(Level.WARN, "No more cats! An attempt to add already added cat during sending an offer by admin");
+                    throw new DAOException("Attempt to add already processed offer ");
+                }
             }
 
             con.commit();
@@ -272,7 +279,6 @@ public class CatDAOimpl implements CatDAO {
         } catch (ConnectionPoolException | SQLException e) {
             try {
                 con.rollback();
-                System.out.println("rolling back");
                 throw new DAOException("Exception during adding cat", e);
 
             } catch (SQLException e1) {
@@ -281,34 +287,6 @@ public class CatDAOimpl implements CatDAO {
             } finally {
                 connectionPool.closeConnection(con, ps);
             }
-        }
-    }
-
-
-    @Override
-    public boolean catAlreadyAdded(int offerId) throws DAOException {
-        final String ALREADY_ADDED = "SELECT EXISTS (SELECT 1 FROM user_offer WHERE offer_id = ? AND user_offer_status_id = 'SENT');";
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        boolean added;
-
-        try {
-            con = connectionPool.takeConnection();
-            ps = con.prepareStatement(ALREADY_ADDED);
-            ps.setInt(1, offerId);
-
-            rs = ps.executeQuery();
-            rs.next();
-            added = rs.getBoolean(1);
-
-            return added;
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during checking whether cat already added", e);
-
-        } finally {
-            connectionPool.closeConnection(con, ps, rs);
         }
     }
 

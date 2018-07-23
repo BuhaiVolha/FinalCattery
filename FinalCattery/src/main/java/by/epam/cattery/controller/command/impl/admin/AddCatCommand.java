@@ -31,17 +31,14 @@ public class AddCatCommand implements ActionCommand {
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
-        } catch (ValidationFailedException e) { // doubleSubmitException?
-            logger.log(Level.WARN, "No more cats! An attempt to add already added cat during sending an offer by admin");
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.user-info"));
-
         } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Failed to add any cat");
+            logger.log(Level.ERROR, "Failed to add a cat");
+            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
     }
 
 // впихнуть билдер сюда для юзерного и админного кота?
-    private Cat createCat(HttpServletRequest request) throws ServiceException, ValidationFailedException {
+    private Cat createCat(HttpServletRequest request) {
         Cat cat = new Cat();
         CatService catService = ServiceFactory.getInstance().getCatService();
 
@@ -49,7 +46,6 @@ public class AddCatCommand implements ActionCommand {
         String userMadeOfferId = request.getParameter("userMadeOfferId");
 
         if (!(offerId.isEmpty() || userMadeOfferId.isEmpty())) {
-            catService.catAlreadyAdded(Integer.parseInt(offerId));
             cat.setOfferMadeId(Integer.parseInt(request.getParameter("offerId")));
             cat.setUserMadeOfferId(Integer.parseInt(request.getParameter("userMadeOfferId")));
 

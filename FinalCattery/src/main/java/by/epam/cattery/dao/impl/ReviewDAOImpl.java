@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewDAOimpl implements ReviewDAO {
+public class ReviewDAOImpl implements ReviewDAO {
     private final ConnectionPool connectionPool;
 
-    public ReviewDAOimpl(ConnectionPool connectionPool) {
+    public ReviewDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 

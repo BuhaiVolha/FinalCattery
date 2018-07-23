@@ -1,5 +1,6 @@
 <%
-    String dataPoints = request.getSession().getAttribute("colourStatistics").toString();
+    //String dataPoints = request.getSession().getAttribute("colourStatistics").toString();
+    String dataPoints = request.getAttribute("colourStatistics").toString();
 %>
 <%@ include file="/jsp/parts/header.jsp" %>
 
@@ -35,7 +36,7 @@
 
         <div id="chartContainer" style="height: 450px; width: 100%;"></div>
        <!-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
-        <script src="/jsp/assets/js/canvasjs.min.js"></script>
+
     </div>
 </div>
 
