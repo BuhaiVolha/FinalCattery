@@ -26,6 +26,7 @@ public class CommandProvider {
 //        return instance;
 //    }
 
+     //парсинг json
     static {
         commands = new EnumMap<>(Commands.class);
 
@@ -34,7 +35,7 @@ public class CommandProvider {
         commands.put(Commands.LOGOUT, new LogoutCommand());
         commands.put(Commands.LANGUAGE, new LanguageCommand());
         commands.put(Commands.ALL_CATS, new TakeAllCatsCommand());
-        commands.put(Commands.APPROVED_REVIEWS, new TakeApprovedReviewsCommand());
+        commands.put(Commands.ALL_REVIEWS, new TakeAllReviewsCommand());
         commands.put(Commands.OFFER_CAT, new OfferCatCommand());
         commands.put(Commands.ALL_OFFERS, new TakeAllOffersCommand());
         commands.put(Commands.DECLINE_OFFER, new DeclineOfferCommand());
@@ -67,6 +68,12 @@ public class CommandProvider {
         commands.put(Commands.DELETE_RESERVATION, new DeleteReservationCommand());
         commands.put(Commands.RENEW_RESERVATION, new RenewReservationCommand());
         commands.put(Commands.SELL_CAT, new SellCatCommand());
+        commands.put(Commands.PEDIGREE, new CountPedigreeCommand());
+        commands.put(Commands.SEARCH, new SearchCommand());
+        commands.put(Commands.WRITE_REVIEW, new WriteReviewCommand());
+        commands.put(Commands.DELETE_REVIEW, new DeleteReviewCommand());
+        commands.put(Commands.EDIT_REVIEW, new EditReviewCommand());
+        commands.put(Commands.SINGLE_REVIEW, new GoToSingleReviewCommand());
     }
 
 

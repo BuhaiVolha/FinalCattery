@@ -30,7 +30,7 @@ public class GoToSingleOfferCommand implements ActionCommand {
             offer = offerService.takeSingleOffer(offerId);
 
             if (offer != null) {
-
+ // заменить на оффер
                 request.setAttribute("offerId", offerId);
                 request.setAttribute("userMadeOfferId", offer.getUserMadeOfferId());
                 request.setAttribute("statedPrice", offer.getPrice());
@@ -42,6 +42,5 @@ public class GoToSingleOfferCommand implements ActionCommand {
             logger.log(Level.ERROR, "Failed to go to a single offer: ", e);
             //redirect
         }
-
     }
 }

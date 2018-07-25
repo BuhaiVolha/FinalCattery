@@ -139,4 +139,38 @@ public class CatServiceImpl implements CatService {
             throw new ServiceException("Exception while editing cat", e);
         }
     }
+
+
+    @Override
+    public List<Cat> searchForCat(Cat cat) throws ServiceException {
+        List<Cat> cats;
+
+        try {
+            cats = catDAO.searchForCat(cat);
+
+            if (cats.isEmpty()) {
+                return Collections.emptyList();
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while searching for cat", e);
+        }
+        return cats;
+    }
+
+
+    @Override
+    public List<Cat> searchForCatWithDiscount(Cat cat, int userId) throws ServiceException {
+        List<Cat> cats;
+
+        try {
+            cats = catDAO.searchForCatWithDiscount(cat, userId);
+
+            if (cats.isEmpty()) {
+                return Collections.emptyList();
+            }
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while searching for cat with discount", e);
+        }
+        return cats;
+    }
 }

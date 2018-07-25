@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface ReviewService {
     List<Review> takeApprovedReviews() throws ServiceException;
-
+    void writeReview(Review review) throws ServiceException;
+    void deleteReview(int reviewId) throws ServiceException;
+    void editReview(Review review) throws ServiceException;
+    Review takeSingleReview(int reviewId) throws ServiceException;
 }

@@ -17,4 +17,6 @@ public interface CatService {
     Cat takeSingleCat(int catId) throws ServiceException;
     void deleteCat(int catId) throws ServiceException;
     void editCat(Cat cat) throws ServiceException;
+    List<Cat> searchForCat(Cat cat) throws ServiceException;
+    List<Cat> searchForCatWithDiscount(Cat cat, int userId) throws ServiceException;
 }

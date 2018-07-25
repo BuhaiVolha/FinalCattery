@@ -2,8 +2,9 @@
 <%@ include file="/jsp/parts/header.jsp" %>
 <section id="aboutus" class="area_padding about_area">
     <div class="container">
-        <div class="row">
-
+        <div class="row row-eq-height">
+<c:choose>
+    <c:when test="${!empty catsByStatus}">
             <c:forEach items="${catsByStatus}" var="catByStatus">
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
@@ -41,6 +42,15 @@
                     </div>
                 </div>
             </c:forEach>
+    </c:when>
+    <c:otherwise>
+
+        <div class="text-center">
+            <img src="/jsp/assets/img/empty.jpg" class="img-responsive" style="margin:0 auto;"
+                 alt="Nothing to show"/>
+        </div>
+    </c:otherwise>
+</c:choose>
 
         </div>
     </div>

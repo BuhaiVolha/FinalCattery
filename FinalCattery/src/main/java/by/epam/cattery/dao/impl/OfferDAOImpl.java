@@ -24,20 +24,29 @@ public class OfferDAOImpl implements OfferDAO {
     private static final String SELECT_SINGLE_OFFER = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
             "JOIN user ON (user_offer.user_made_offer_id = user.user_id) ";
+
     private static final String UPDATE_OFFER_STATUS_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
             "expert_message`=? WHERE `offer_id` = ?;";
+
     private static final String UPDATE_OFFER_STATUS_FOR_ADMIN = "UPDATE user_offer SET user_offer_status_id=?, " +
             "expert_message_to_admin=? WHERE offer_id = ?;";
 
-    private static final String UPDATE_OFFER_STATUS_AND_PRICE_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
+    private static final String UPDATE_OFFER_DETAILS_FOR_USER = "UPDATE `user_offer` SET `user_offer_status_id`=?, `" +
             "expert_message`=?, price=? WHERE `offer_id` = ?;";
+
+    private static final String DELETE_CERTAIN_OFFER = "DELETE FROM user_offer WHERE offer_id = ?;";
+
+    private static final String CONDITION_BY_OFFER_STATUS = " WHERE user_offer_status_id = ?;";
+    private static final String CONDITION_BY_USER = " WHERE user_made_offer_id = ?;";
+    private static final String CONDITION_BY_OFFER = "WHERE offer_id = ?;";
+
 
     public OfferDAOImpl(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
 
     @Override
-    public boolean addOffer(Offer offer) throws DAOException { // ретурнить ИД офера? // make????
+    public boolean addOffer(Offer offer) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -64,7 +73,7 @@ public class OfferDAOImpl implements OfferDAO {
         }
     }
 
-    // переделать как со статусом????
+
     @Override
     public List<Offer> findAllOffersByUserId(String id) throws DAOException {
         List<Offer> offers = new ArrayList<>();
@@ -75,7 +84,8 @@ public class OfferDAOImpl implements OfferDAO {
 
         try {
             con = connectionPool.takeConnection();
-            ps = con.prepareStatement(SELECT_ALL_OFFERS + " WHERE user_made_offer_id = ?;");
+
+            ps = con.prepareStatement(SELECT_ALL_OFFERS + CONDITION_BY_USER);
             ps.setString(1, id);
             rs = ps.executeQuery();
 
@@ -115,7 +125,7 @@ public class OfferDAOImpl implements OfferDAO {
         try {
             con = connectionPool.takeConnection();
 
-            ps = con.prepareStatement(SELECT_ALL_OFFERS + " WHERE user_offer_status_id = ?;");
+            ps = con.prepareStatement(SELECT_ALL_OFFERS + CONDITION_BY_OFFER_STATUS);
             ps.setString(1, status.toString());
             rs = ps.executeQuery();
 
@@ -184,7 +194,7 @@ public class OfferDAOImpl implements OfferDAO {
 
         try {
             con = connectionPool.takeConnection();
-            ps = con.prepareStatement(UPDATE_OFFER_STATUS_AND_PRICE_FOR_USER); // разбить на фрагменты
+            ps = con.prepareStatement(UPDATE_OFFER_DETAILS_FOR_USER); // разбить на фрагменты
 
             ps.setString(1, OfferStatus.DISC.toString());
             ps.setString(2, offer.getExpertMessage());
@@ -217,7 +227,7 @@ public class OfferDAOImpl implements OfferDAO {
         try {
             con = connectionPool.takeConnection();
 
-            ps = con.prepareStatement(SELECT_SINGLE_OFFER + "WHERE offer_id = ?;");
+            ps = con.prepareStatement(SELECT_SINGLE_OFFER + CONDITION_BY_OFFER);
             ps.setString(1, id);
             rs = ps.executeQuery();
             boolean offerExists = rs.next();
@@ -256,7 +266,7 @@ public class OfferDAOImpl implements OfferDAO {
         try {
             con = connectionPool.takeConnection();
 
-            ps = con.prepareStatement("DELETE FROM user_offer WHERE offer_id = ?;");
+            ps = con.prepareStatement(DELETE_CERTAIN_OFFER);
             ps.setInt(1, offerId);
             ps.executeUpdate();
 

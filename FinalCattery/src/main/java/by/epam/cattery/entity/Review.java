@@ -3,18 +3,23 @@ package by.epam.cattery.entity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-// дату добавить
+import java.sql.Date;
+
 public class Review extends Entity {
     private static final long serialVersionUID = -6959322140072797013L;
     private int userLeftId;
     private String userLeftLogin;
     private String text;
+    private int starsCount;
+    private Date date;
 
-    public Review(int id, int userLeftId, String userLeftLogin, String text) {
+    public Review(int id, int userLeftId, String userLeftLogin, String text, int starsCount, Date date) {
         super(id);
         this.userLeftId = userLeftId;
         this.userLeftLogin = userLeftLogin;
         this.text = text;
+        this.starsCount = starsCount;
+        this.date = date;
     }
 
     public Review() {
@@ -44,6 +49,22 @@ public class Review extends Entity {
         this.text = text;
     }
 
+    public int getStarsCount() {
+        return starsCount;
+    }
+
+    public void setStarsCount(int starsCount) {
+        this.starsCount = starsCount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -56,6 +77,8 @@ public class Review extends Entity {
                 .append(getUserLeftId(), review.getUserLeftId())
                 .append(getUserLeftLogin(), review.getUserLeftLogin())
                 .append(getText(), review.getText())
+                .append(getStarsCount(), review.getStarsCount())
+                .append(getDate(), review.getDate())
                 .isEquals();
     }
 
@@ -66,6 +89,8 @@ public class Review extends Entity {
                 .append(getUserLeftId())
                 .append(getUserLeftLogin())
                 .append(getText())
+                .append(getStarsCount())
+                .append(getDate())
                 .toHashCode();
     }
 }

@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/jsp/parts/header.jsp" %>
 
+<div class="col-lg-4 col-lg-offset-4">
+    <input type="search" id="search" value="" class="form-control" placeholder="Search...">
+</div>
+
 <div class="header">
     <div class="container">
         <div class="col-md-10" id="content-wrapper">
@@ -14,7 +18,7 @@
                             <div class="main-box clearfix">
 
                                 <div class="table-responsive">
-                                    <table class="table user-list table-hover table-sm">
+                                    <table class="table user-list table-hover table-sm" id="users">
                                         <thead class="thead-dark">
                                         <tr>
 
@@ -158,4 +162,14 @@
 </div>
 </div>
 </div>
+<script>
+    $(function () {
+        $('#users').searchable({
+            striped: true,
+            oddRow: {'background-color': '#f5f5f5'},
+            evenRow: {'background-color': '#fff'},
+            searchType: 'fuzzy'
+        });
+    });
+</script>
 <%@ include file="/jsp/parts/footer.jsp" %>

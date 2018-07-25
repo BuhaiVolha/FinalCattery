@@ -1,9 +1,11 @@
 package by.epam.cattery.dao;
 
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.Reservation;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReservationDAO {
     void addReservation(Reservation reservation) throws DAOException;
@@ -14,4 +16,5 @@ public interface ReservationDAO {
     void cancelReservation(int reservationId) throws DAOException;
     void renewReservation(int reservationId) throws DAOException;
     void sellCat(int reservationId) throws DAOException;
+    Map<CatPedigreeType, Integer> countPedigree() throws DAOException;
 }

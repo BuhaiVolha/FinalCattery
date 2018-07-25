@@ -2,6 +2,8 @@ package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.entity.CatPedigreeType;
+import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -14,20 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 
-public class CountStatisticsCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(CountStatisticsCommand.class);
+public class CountPedigreeCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(CountPedigreeCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
-            UserService userService = ServiceFactory.getInstance().getUserService();
-            String statistics = userService.countStatistics();
+            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
+            Map<CatPedigreeType, Integer> pedigreeCount = reservationService.countPedigree();
 
-            request.setAttribute("colourStatistics", statistics);
+            request.setAttribute("pedigreeCount", pedigreeCount);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.statistics")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.pedigree")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Showing statistics failed: ", e);

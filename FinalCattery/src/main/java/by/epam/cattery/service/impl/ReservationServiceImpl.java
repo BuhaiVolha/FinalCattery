@@ -3,11 +3,13 @@ package by.epam.cattery.service.impl;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.ReservationDAO;
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.Reservation;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.exception.ServiceException;
 
 import java.util.List;
+import java.util.Map;
 
 public class ReservationServiceImpl implements ReservationService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
@@ -97,6 +99,17 @@ public class ReservationServiceImpl implements ReservationService {
 
         } catch (DAOException e) {
             throw new ServiceException("Selling cat failed in Service", e);
+        }
+    }
+
+
+    @Override
+    public Map<CatPedigreeType, Integer> countPedigree() throws ServiceException {
+        try {
+            return reservationDAO.countPedigree();
+
+        } catch (DAOException e) {
+            throw new ServiceException("Counting pedigrees failed in Service", e);
         }
     }
 }

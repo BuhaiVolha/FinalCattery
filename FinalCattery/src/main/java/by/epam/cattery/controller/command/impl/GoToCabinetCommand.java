@@ -30,7 +30,7 @@ public class GoToCabinetCommand implements ActionCommand {
             user = userService.takeUser(Integer.parseInt(userId));
 
             request.setAttribute("name", user.getName());
-            request.setAttribute("lastName", user.getLastname());
+            request.setAttribute("lastname", user.getLastname());
             request.setAttribute("email", user.getEmail());
             request.setAttribute("phone", user.getPhone());
             request.setAttribute("colorPreference", user.getColourPreference());

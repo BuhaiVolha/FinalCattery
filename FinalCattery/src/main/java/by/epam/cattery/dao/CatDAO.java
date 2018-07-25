@@ -10,6 +10,8 @@ public interface CatDAO {
     List<Cat> findAllCats() throws DAOException;
     List<Cat> findAllCatsByStatus(CatStatus status) throws DAOException;
     List<Cat> findAllCatsWithDiscount(int userId) throws DAOException;
+    List<Cat> searchForCat(Cat cat) throws DAOException;
+    List<Cat> searchForCatWithDiscount(Cat cat, int userId) throws DAOException;
     List<Cat> findAllCatsByStatusWithDiscount(int userId, CatStatus status) throws DAOException;
     void addCat(Cat cat) throws DAOException;
     void updateCat(Cat cat) throws DAOException;

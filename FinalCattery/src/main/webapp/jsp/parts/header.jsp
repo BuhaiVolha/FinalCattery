@@ -36,7 +36,7 @@
     <link href="/jsp/assets/css/style.css" rel="stylesheet">
     <link href="/jsp/assets/css/bootstrap-theme.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
@@ -91,7 +91,7 @@
                         <div class="dropdown-menu left-nav-style" aria-labelledby="cat-dropdown">
                             <a class="dropdown-item" href="/controller?command=all_cats">All cats</a>
                             <a class="dropdown-item" href="/controller?command=available_cats">Available cats</a>
-                            <a class="dropdown-item" href="#">Search for a cat</a>
+                            <a class="dropdown-item" href="/jsp/search-cat.jsp">Search for a cat</a>
                         </div>
                     </div>
                 </li>
@@ -99,7 +99,7 @@
 
 
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
-                <li><a href="/controller?command=approved_reviews">${reviews}</a></li>
+                <li><a href="/controller?command=all_reviews">${reviews}</a></li>
 
                 <c:choose>
                 <c:when test="${sessionScope.role ne 'USER' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'EXPERT'}">

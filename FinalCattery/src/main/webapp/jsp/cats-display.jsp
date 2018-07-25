@@ -3,73 +3,99 @@
 
 
 <div class="container">
+<c:choose>
+    <c:when test="${!empty cats}">
     <h4>OUR CATS</h4>
+    </c:when>
+    <c:otherwise><h4>Sorry, nothing was found</h4></c:otherwise>
+</c:choose>
     <div class="row">
 
         <!-- BEGIN PRODUCTS -->
         <div class="carousel-inner">
             <div class="item active">
                 <div class="row row-eq-height">
-                    <c:forEach items="${cats}" var="cat">
-                        <div class="col-md-3 col-sm-6 item-wr">
-                            <div class="thumbnail">
-                                <c:choose><c:when test="${cat.status eq 'AVAIL'}">
-                                    <p class="status avail"><c:out value="AVAILABLE"/>
-                                </c:when>
-                                <c:when test="${cat.status eq 'RSRV'}">
-                                    <p class="status book"><c:out value="RESERVED"/>
-                                </c:when>
-                                    <c:otherwise>
-                                    <p class="status sold"><c:out value="SOLD"/>
-                                    </c:otherwise>
-                                </c:choose>
-                                </p>
-                                <img src="/jsp/assets/img/user.png" alt="A photo of kitten" class="img-responsive">
-
-                                <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
-
-                                <h5><c:out value="${cat.age}"/> month,  <c:choose><c:when test="${cat.gender eq 'FEMALE'}">
-                                    <i class="fa fa-venus"></i>
-                                </c:when>
-                                    <c:otherwise>
-                                        <i class="fa fa-mars"></i>
-                                    </c:otherwise>
-                                </c:choose></h5>
-
-                                <hr class="line">
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                    <c:if test="${cat.status ne 'SOLD'}">
+                    <c:choose>
+                        <c:when test="${!empty cats}">
+                            <c:forEach items="${cats}" var="cat">
+                                <div class="col-md-3 col-sm-6 item-wr">
+                                    <div class="thumbnail">
                                         <c:choose>
-                                            <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount}">
-                                                <p class="price">price:
-                                                    <del><span>$<c:out value="${cat.price}"/></span></del>
-                                                    <span>$<c:out value="${cat.priceWithDiscount}"/> !!!</span></p>
+                                        <c:when test="${cat.status eq 'AVAIL'}">
+                                        <p class="status avail">
+                                                <c:out value="AVAILABLE"/>
+                                            </c:when>
+                                            <c:when test="${cat.status eq 'RSRV'}">
+                                        <p class="status book">
+                                                <c:out value="RESERVED"/>
                                             </c:when>
                                             <c:otherwise>
-                                                <p class="price">price: <span>$<c:out value="${cat.price}"/></span>
-                                                </p>
+                                        <p class="status sold"><c:out value="SOLD"/>
                                             </c:otherwise>
-                                        </c:choose>
-                                    </c:if>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
+                                            </c:choose>
+                                        </p>
+                                        <img src="/jsp/assets/img/user.png" alt="A photo of kitten"
+                                             class="img-responsive">
 
-                                        <a href="/controller?command=single_cat&catId=${cat.id}&operation=display-cat">
+                                        <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
 
-                                            <button
-                                                    class="btn btn-info right">MORE DETAILS
-                                            </button>
-                                        </a>
+                                        <h5><c:out value="${cat.age}"/> month, <c:choose><c:when
+                                                test="${cat.gender eq 'FEMALE'}">
+                                            <i class="fa fa-venus"></i>
+                                        </c:when>
+                                            <c:otherwise>
+                                                <i class="fa fa-mars"></i>
+                                            </c:otherwise>
+                                        </c:choose></h5>
+
+                                        <hr class="line">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">
+                                                <c:if test="${cat.status ne 'SOLD'}">
+                                                    <c:choose>
+                                                        <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount}">
+                                                            <p class="price">price:
+                                                                <del><span>$<c:out value="${cat.price}"/></span></del>
+                                                                <span>$<c:out
+                                                                        value="${cat.priceWithDiscount}"/> !!!</span>
+                                                            </p>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <p class="price">price: <span>$<c:out
+                                                                    value="${cat.price}"/></span>
+                                                            </p>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:if>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+
+                                                <a href="/controller?command=single_cat&catId=${cat.id}&operation=display-cat">
+
+                                                    <button
+                                                            class="btn btn-info right">MORE DETAILS
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+
+                            <div class="text-center">
+                                <img src="/jsp/assets/img/not-found.jpg" class="img-responsive" style="margin:0 auto;"
+                                     alt="Nothing to show"/>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 

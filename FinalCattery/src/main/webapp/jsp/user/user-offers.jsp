@@ -6,7 +6,7 @@
 
             <h4>MY OFFERS</h4>
 
-        <div class="row">
+        <div class="row row-eq-height">
         <c:choose>
 <c:when test="${!empty catOffers}">
             <c:forEach items="${catOffers}" var="catOffer">
