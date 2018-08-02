@@ -8,8 +8,10 @@
             <div class="preview col-md-6">
 
                 <div class="preview-pic tab-content">
-                    <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252"
-                                                                 class="img-responsive"/></div>
+                    <div class="tab-pane active" id="pic-1">
+                        <%--<img src="http://placekitten.com/400/252" class="img-responsive"/>--%>
+                        <a target="_blank"><img src="/assets/img/uploads/${singleCat.photo}" class="img-responsive"/></a>
+                    </div>
 
                 </div>
 

@@ -34,8 +34,7 @@
                                             </c:otherwise>
                                             </c:choose>
                                         </p>
-                                        <img src="/assets/img/user.png" alt="A photo of kitten"
-                                             class="img-responsive">
+                                        <img src="/assets/img/uploads/${cat.photo}" alt="A photo of kitten" class="img-responsive">
 
                                         <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
 

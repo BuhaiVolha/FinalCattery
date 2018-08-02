@@ -11,7 +11,7 @@ public class Cat extends Entity {
     private String lastname;
     private Gender gender;
     private String age;
-    //photo
+    private String photo;
     private String description;
     private String bodyColour;
     private String eyesColour;
@@ -22,11 +22,30 @@ public class Cat extends Entity {
     private CatStatus status;
 
 
-    //конструктор с парам
-    // toString
+    public Cat(int id, String name, int userMadeOfferId, int offerMadeId, String lastname, Gender gender, String age,
+               String photo, String description, String bodyColour, String eyesColour, String femaleParent,
+               String maleParent, double price, Double priceWithDiscount, CatStatus status) {
+        super(id);
+        this.name = name;
+        this.userMadeOfferId = userMadeOfferId;
+        OfferMadeId = offerMadeId;
+        this.lastname = lastname;
+        this.gender = gender;
+        this.age = age;
+        this.photo = photo;
+        this.description = description;
+        this.bodyColour = bodyColour;
+        this.eyesColour = eyesColour;
+        this.femaleParent = femaleParent;
+        this.maleParent = maleParent;
+        this.price = price;
+        this.priceWithDiscount = priceWithDiscount;
+        this.status = status;
+    }
 
     public Cat() {
     }
+
 
     public String getName() {
         return name;
@@ -128,6 +147,14 @@ public class Cat extends Entity {
         return status;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public void setStatus(CatStatus status) {
         this.status = status;
     }
@@ -163,6 +190,7 @@ public class Cat extends Entity {
                 .append(getOfferMadeId(), cat.getOfferMadeId())
                 .append(getStatus(), cat.getStatus())
                 .append(getPriceWithDiscount(), cat.getPriceWithDiscount())
+                .append(getPhoto(), cat.getPhoto())
                 .isEquals();
     }
 
@@ -184,6 +212,7 @@ public class Cat extends Entity {
                 .append(getOfferMadeId())
                 .append(getStatus())
                 .append(getPriceWithDiscount())
+                .append(getPhoto())
                 .toHashCode();
     }
 }

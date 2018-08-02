@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 // searchforcat  -  в константы всякие имена?
+// searchForCat - вынести createCAT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
 
@@ -36,14 +38,14 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final String GET_ALL_CATS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
+            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
             "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted";
     private static final String GET_ALL_CATS_BY_STATUS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
+            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
             "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? AND NOT flag_cat_deleted";
@@ -51,7 +53,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final String GET_CAT_BY_ID = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
+            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
             "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ? AND NOT flag_cat_deleted";
@@ -180,6 +182,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                 foundCat.setPrice(rs.getDouble(11));
                 foundCat.setStatus(CatStatus.valueOf(rs.getString(12)));
                 foundCat.setUserMadeOfferId(rs.getInt(13)); // НАФИГА может не надо ????????????????
+                foundCat.setPhoto(rs.getString(14)); // НАФИГА может не надо ????????????????
 
                 cats.add(foundCat);
             }
@@ -348,6 +351,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         cat.setPrice(rs.getDouble(11));
         cat.setStatus(CatStatus.valueOf(rs.getString(12)));
         cat.setUserMadeOfferId(rs.getInt(13));
+        cat.setPhoto(rs.getString(14));
 
         return cat;
     }
