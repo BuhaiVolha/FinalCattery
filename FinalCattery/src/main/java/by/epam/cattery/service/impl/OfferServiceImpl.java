@@ -1,8 +1,8 @@
 package by.epam.cattery.service.impl;
 
 import by.epam.cattery.dao.DAOFactory;
-import by.epam.cattery.dao.OfferDAO;
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.dao.mysql.OfferDAO;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
@@ -12,13 +12,14 @@ import java.util.List;
 
 public class OfferServiceImpl implements OfferService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
+
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
     @Override
-    public boolean offerCat(Offer offer) throws ServiceException {
+    public void offerCat(Offer offer) throws ServiceException {
 
         try {
-            return offerDAO.addOffer(offer);
+            offerDAO.save(offer);
 
         } catch (DAOException e) {
             throw new ServiceException("Offering kitten failed in Service", e);
@@ -27,9 +28,10 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public List<Offer> takeAllOffersByUserId(String id) throws ServiceException {
+    public List<Offer> takeAllOffersByUserId(int id) throws ServiceException {
+
         try {
-            return offerDAO.findAllOffersByUserId(id);
+            return offerDAO.loadAllById(id);
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers failed in Service", e);
@@ -39,8 +41,9 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException {
+
         try {
-            return offerDAO.findAllOffersByStatus(status);
+            return offerDAO.loadAllByStatus(status.toString());
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers by status failed", e);
@@ -49,9 +52,12 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public void answerToOffer(Offer offer, OfferStatus status, boolean forAdmin) throws ServiceException {
+    public void answerToOffer(Offer offer, OfferStatus statusToCheck) throws ServiceException {
+
         try {
-            offerDAO.changeOfferStatus(offer, status, forAdmin); // Отдельный объект DTO?
+            if (offerDAO.checkOfferStatus(offer.getId(), statusToCheck.toString())) {
+                offerDAO.update(offer);
+            }
 
         } catch (DAOException e) {
             throw new ServiceException("answering to offer failed", e);
@@ -61,8 +67,9 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public void discussPrice(Offer offer) throws ServiceException {
+
         try {
-            offerDAO.changeOfferStatusAndPrice(offer);
+            offerDAO.update(offer);
 
         } catch (DAOException e) {
             throw new ServiceException("discussing price of an offer failed", e);
@@ -71,10 +78,10 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public Offer takeSingleOffer(String id) throws ServiceException {
+    public Offer takeSingleOffer(int id) throws ServiceException {
 
         try {
-            return offerDAO.findSingleOffer(id);
+            return offerDAO.getById(id);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while takeSingleOffer", e);
@@ -86,7 +93,7 @@ public class OfferServiceImpl implements OfferService {
     public void deleteOffer(int offerId) throws ServiceException {
 
         try {
-            offerDAO.deleteOffer(offerId);
+            offerDAO.delete(offerId);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while takeSingleOffer", e);

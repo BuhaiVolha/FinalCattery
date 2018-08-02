@@ -29,7 +29,7 @@
                     </c:when>
                         <c:when test="${sessionScope.role eq 'ADMIN'}">
                             <li style="float:right;">
-                                <a href="/controller?command=delete_review&reviewId=${approvedReview.id}" class="btn btn-danger">Delete</a>
+                                <a href="/controller?command=delete_review&reviewId=${approvedReview.id}&userId=${approvedReview.userLeftId}" class="btn btn-danger">Delete</a>
                             </li>
                         </c:when>
                     </c:choose>

@@ -27,8 +27,11 @@ public class AcceptOfferedPriceCommand implements ActionCommand {
 
             Offer offer = new Offer(); // не в объект а отдельный ДТО?
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
+            offer.setPrice(Double.parseDouble(request.getParameter("price")));
 
-            offerService.answerToOffer(offer, OfferStatus.SENT, true);
+            //offerService.answerToOffer(offer, OfferStatus.SENT, true);
+            offer.setStatus(OfferStatus.APRVD);
+            offerService.answerToOffer(offer, OfferStatus.DISC);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 

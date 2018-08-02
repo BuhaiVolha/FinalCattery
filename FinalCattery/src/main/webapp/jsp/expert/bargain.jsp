@@ -15,7 +15,7 @@
                 <div class="status-upload">
                     <form name="CatOfferFrom" method="POST" action="/controller">
                         <input type="hidden" name="command" value="bargain"/>
-                        <input type="hidden" name="offerId" value="${offerId}"/>
+                        <input type="hidden" name="offerId" value="${offer.id}"/>
                         <textarea required="required" name="expertMessage" placeholder="Describe reasons for changing a price" ></textarea>
                         <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                         </button>

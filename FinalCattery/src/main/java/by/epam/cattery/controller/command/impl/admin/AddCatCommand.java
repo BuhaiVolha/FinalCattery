@@ -25,9 +25,20 @@ public class AddCatCommand implements ActionCommand {
 
         try {
             Cat cat = createCat(request);
-
             CatService catService = ServiceFactory.getInstance().getCatService();
-            catService.addCat(cat);
+
+            if (request.getParameter("offerId").isEmpty()) {
+                cat.setOfferMadeId(1);
+                cat.setUserMadeOfferId(1);
+
+                catService.addCat(cat);
+
+            } else {
+                cat.setOfferMadeId(Integer.parseInt(request.getParameter("offerId")));
+                cat.setUserMadeOfferId(Integer.parseInt(request.getParameter("userMadeOfferId")));
+
+                catService.addOfferedCat(cat, cat.getOfferMadeId());
+            }
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 
@@ -37,27 +48,16 @@ public class AddCatCommand implements ActionCommand {
         }
     }
 
+
 // впихнуть билдер сюда для юзерного и админного кота?
     private Cat createCat(HttpServletRequest request) {
         Cat cat = new Cat();
-        CatService catService = ServiceFactory.getInstance().getCatService();
 
-        String offerId = request.getParameter("offerId");
-        String userMadeOfferId = request.getParameter("userMadeOfferId");
-
-        if (!(offerId.isEmpty() || userMadeOfferId.isEmpty())) {
-            cat.setOfferMadeId(Integer.parseInt(request.getParameter("offerId")));
-            cat.setUserMadeOfferId(Integer.parseInt(request.getParameter("userMadeOfferId")));
-
-        } else {
-            cat.setOfferMadeId(1);
-            cat.setUserMadeOfferId(1);
-        }
         cat.setName(request.getParameter("name"));
         cat.setLastname(request.getParameter("lastname"));
         cat.setGender(Gender.valueOf(request.getParameter("gender")));
         cat.setAge(request.getParameter("age"));
-        cat.setPrice(Double.parseDouble(request.getParameter("price")));  // controller exception?
+        cat.setPrice(Double.parseDouble(request.getParameter("price")));
         cat.setDescription(request.getParameter("description"));
         cat.setBodyColour(request.getParameter("bodyColour"));
         cat.setEyesColour(request.getParameter("eyesColour"));

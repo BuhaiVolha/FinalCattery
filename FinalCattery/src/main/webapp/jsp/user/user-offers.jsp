@@ -6,7 +6,7 @@
 
             <h4>MY OFFERS</h4>
 
-        <div class="row row-eq-height">
+        <div class="row">
         <c:choose>
 <c:when test="${!empty catOffers}">
             <c:forEach items="${catOffers}" var="catOffer">
@@ -22,8 +22,18 @@
                             <h5>
                                 описание котенка: <c:out value="${catOffer.catDescription}"/>
                             </h5>
-                            <h5><c:if test="${catOffer.status == 'DISC'}">предлагаемая</c:if>
-                                <c:if test="${catOffer.status != 'DISC'}">желаемая</c:if>
+                            <h5>
+                                <c:choose>
+                                    <c:when test="${catOffer.status == 'DISC'}">
+                                        предлагаемая
+                                    </c:when>
+                                    <c:when test="${catOffer.status == 'SENT'}">
+                                        установленная
+                                    </c:when>
+                                    <c:otherwise>
+                                        желаемая
+                                    </c:otherwise>
+                                </c:choose>
                                цена: <c:out value="${catOffer.price}"/> долларов
                             </h5>
 
@@ -36,7 +46,7 @@
                                 </h5>
                             </c:if>
                             <c:if test="${catOffer.status == 'DISC'}">
-                                <a href="/controller?command=accept_price&offerId=${catOffer.id}" class="btn btn-primary">Accept</a>
+                                <a href="/controller?command=accept_price&offerId=${catOffer.id}&price=${catOffer.price}" class="btn btn-primary">Accept</a>
                             </c:if>
                             <a href="/controller?command=delete_offer&offerId=${catOffer.id}" class="btn btn-primary">Delete offer</a>
                         </div>

@@ -11,7 +11,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">${requestScope.name} ${requestScope.lastname}</h3>
+                    <h3 class="panel-title">${requestScope.user.name} ${requestScope.user.lastname}</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -35,15 +35,15 @@
                         <c:if test="${sessionScope.role eq 'USER'}">
                         <tr>
                             <td>Discount</td>
-                            <td>${requestScope.discount} %</td>
+                            <td>${requestScope.user.discount} %</td>
                         </tr>
 
 
                         <tr>
                             <td>Colour preference</td>
                             <td><c:choose>
-                                <c:when test="${not empty requestScope.colorPreference}">
-                                    ${requestScope.colorPreference}
+                                <c:when test="${not empty requestScope.user.colourPreference}">
+                                    ${requestScope.user.colourPreference}
                                     <span class="pull-right">
                             <a href="/jsp/user/preference.jsp" title="Edit your colour preference" data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i
@@ -67,14 +67,14 @@
 </c:if>
                         <tr>
                             <td>Email:</td>
-                            <td><a href="mailto:"${requestScope.email}>${requestScope.email}</a></td>
+                            <td><a href="mailto:"${requestScope.user.email}>${requestScope.user.email}</a></td>
                         </tr>
                         <tr>
                             <td>Phone:</td>
-                            <td>+375 ${requestScope.phone}</td>
+                            <td>+375 ${requestScope.user.phone}</td>
                         </tr>
 
-                        <c:if test="${!requestScope.reviewLeft && sessionScope.role eq 'USER'}">
+                        <c:if test="${!requestScope.user.reviewLeft && sessionScope.role eq 'USER'}">
                             <tr>
                                 <td>Review:</td>
                                 <td>
@@ -93,8 +93,8 @@
                     </table>
                     <c:choose>
                         <c:when test="${sessionScope.role eq 'USER'}">
-                            <a href="/controller?command=all_offers" class="btn btn-primary">My offers</a>
                             <a href="/controller?command=all_reservations&operation=user" class="btn btn-primary">My reservations</a>
+                            <a href="/controller?command=all_offers" class="btn btn-primary">My offers</a>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
                             <br>

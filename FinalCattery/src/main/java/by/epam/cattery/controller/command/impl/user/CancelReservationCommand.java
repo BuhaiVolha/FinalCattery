@@ -1,11 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.admin.BanCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
-import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

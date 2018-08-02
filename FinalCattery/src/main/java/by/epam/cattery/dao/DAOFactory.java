@@ -1,24 +1,29 @@
 package by.epam.cattery.dao;
 
 import by.epam.cattery.dao.connection.ConnectionPool;
-import by.epam.cattery.dao.impl.*;
+import by.epam.cattery.dao.mysql.CatDAO;
+import by.epam.cattery.dao.mysql.ReservationDAO;
+import by.epam.cattery.dao.mysql.ReviewDAO;
+import by.epam.cattery.dao.mysql.OfferDAO;
+import by.epam.cattery.dao.mysql.UserDAO;
+import by.epam.cattery.dao.mysql.impl.*;
 
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private UserDAO userDAO;   // priv static final??
+    private UserDAO userDAO;
+    private OfferDAO offerDAO;
     private CatDAO catDAO;
     private ReviewDAO reviewDAO;
-    private OfferDAO offerDAO;
     private ReservationDAO reservationDAO;
 
+
     private DAOFactory() {
-        userDAO = new UserDAOImpl(connectionPool);
-        catDAO = new CatDAOImpl(connectionPool);
-        reviewDAO = new ReviewDAOImpl(connectionPool);
-        offerDAO = new OfferDAOImpl(connectionPool);
-        reservationDAO = new ReservationDAOImpl(connectionPool);
+        userDAO = new UserDAOImpl();
+        reviewDAO = new ReviewDAOImpl();
+        offerDAO = new OfferDAOImpl();
+        catDAO = new CatDAOImpl();
+        reservationDAO = new ReservationDAOImpl();
     }
 
 
@@ -27,12 +32,8 @@ public class DAOFactory {
     }
 
     public UserDAO getUserDAO() {
-        return userDAO;
-    }
-
-    public CatDAO getCatDAO() {
-        return catDAO;
-    }
+    return userDAO;
+}
 
     public ReviewDAO getReviewDAO() {
         return reviewDAO;
@@ -42,7 +43,12 @@ public class DAOFactory {
         return offerDAO;
     }
 
+    public CatDAO getCatDAO() {
+        return catDAO;
+    }
+
     public ReservationDAO getReservationDAO() {
         return reservationDAO;
     }
+
 }

@@ -72,8 +72,10 @@
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
-            <td><a href="/controller?command=decline_expired_reservations" class="btn btn-warning btn-block">Decline all
-                expired <i class="fab fa-hotjar"></i></a></td>
+            <c:if test="${not empty reservations}">
+                <td><a href="/controller?command=decline_expired_reservations" class="btn btn-warning btn-block">Decline all
+                    expired <i class="fab fa-hotjar"></i></a></td>
+            </c:if>
         </tr>
         </tfoot>
     </table>

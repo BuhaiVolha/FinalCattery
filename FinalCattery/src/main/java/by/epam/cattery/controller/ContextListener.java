@@ -2,20 +2,26 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.dao.connection.ConnectionPool;
 import by.epam.cattery.dao.connection.ConnectionPoolException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener()
 public class ContextListener implements ServletContextListener {
+    private static final Logger logger = LogManager.getLogger(ContextListener.class);
 
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
             ConnectionPool.getInstance().initialize();
+            logger.log(Level.DEBUG, "Connection pool was initialized");
 
         } catch (ConnectionPoolException e) {
-            System.out.println("conn pool wasn't initialized");
+            logger.log(Level.ERROR, "Connection pool wasn't initialized");
         }
     }
 
@@ -23,9 +29,10 @@ public class ContextListener implements ServletContextListener {
 
         try {
             ConnectionPool.getInstance().closeConnectionQueue();
+            logger.log(Level.DEBUG, "Connection pool was closed");
 
         } catch (ConnectionPoolException e) {
-            System.out.println("conn pool wasn't closed");
+            logger.log(Level.ERROR, "Connection pool wasn't closed");
         }
     }
 }

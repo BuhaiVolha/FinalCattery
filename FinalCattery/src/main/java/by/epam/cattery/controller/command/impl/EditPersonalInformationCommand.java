@@ -39,12 +39,6 @@ public class EditPersonalInformationCommand implements ActionCommand {
             // пароль короткий
             logger.log(Level.WARN, "Validation failed: ", e);
 
-        } catch (LoginAlreadyExistsException e) {
-            logger.log(Level.WARN, "User already exists exception: ", e);
-
-            request.setAttribute("errorLoginExistsMessage", MessageManager.getProperty("message.loginexists"));
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.edit-user-info")).forward(request, response);
-
         } catch (EmailAlreadyExistsException e) {
             request.setAttribute("errorEmailExistsMessage", MessageManager.getProperty("message.emailtaken"));
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.edit-user-info")).forward(request, response);
@@ -60,6 +54,7 @@ public class EditPersonalInformationCommand implements ActionCommand {
         HttpSession session = request.getSession();
 
         user.setId(Integer.parseInt(session.getAttribute("userId").toString()));
+        user.setLogin(session.getAttribute("login").toString());
         user.setName(request.getParameter("name"));
         user.setLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));

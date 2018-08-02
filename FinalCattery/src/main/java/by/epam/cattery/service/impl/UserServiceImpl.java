@@ -1,8 +1,8 @@
 package by.epam.cattery.service.impl;
 
 import by.epam.cattery.dao.DAOFactory;
-import by.epam.cattery.dao.UserDAO;
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.dao.mysql.UserDAO;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.*;
@@ -14,7 +14,21 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
+
     private static UserDAO userDAO = daoFactory.getUserDAO();
+
+
+    @Override
+    public int getDiscount(int userId) throws ServiceException {
+
+        try {
+            return userDAO.getDiscount(userId);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while finding discount for user", e);
+        }
+    }
+
 
     @Override
     public int register(User user) throws ServiceException, ValidationFailedException {
@@ -34,7 +48,8 @@ public class UserServiceImpl implements UserService {
             String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());  // Отдельный мтеод?
             user.setPassword(securePass);
 
-            return userDAO.addUser(user);
+            userDAO.save(user);
+            return userDAO.getUserIdByLogin(user.getLogin());
 
         } catch (DAOException e) {
             throw new ServiceException("Registration failed", e);
@@ -50,7 +65,7 @@ public class UserServiceImpl implements UserService {
                 throw new UserIsBannedException("User is banned");
             }
 
-            return userDAO.findUser(login, password); // передвавать DTO userDetails ченить такое?
+            return userDAO.getUserByLoginAndPassword(login, password); // передвавать DTO userDetails ченить такое?
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while logging in", e);
@@ -66,9 +81,7 @@ public class UserServiceImpl implements UserService {
 //        }
 
         try {
-            if (userDAO.loginAlreadyExists(user)) {
-                throw new LoginAlreadyExistsException("Login already exists");
-            }
+
             if (userDAO.emailAlreadyExists(user)) {
                 throw new EmailAlreadyExistsException("Email already exists");
             }
@@ -76,7 +89,7 @@ public class UserServiceImpl implements UserService {
             String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
             user.setPassword(securePass);
 
-            userDAO.updateUserInfo(user);
+            userDAO.update(user);
 
         } catch (DAOException e) {
             throw new ServiceException("Registration failed", e);
@@ -86,8 +99,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User takeUser(int userId) throws ServiceException {
+
         try {
-            return userDAO.findUserInfo(userId);
+            return userDAO.getById(userId);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while finding user info", e);
@@ -100,7 +114,7 @@ public class UserServiceImpl implements UserService {
         List<User> users;
 
         try {
-            users = userDAO.findAllUsers();
+            users = userDAO.loadAll();
 
             if (users.isEmpty()) {
                 return Collections.emptyList();
@@ -115,6 +129,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changeColourPreference(User user) throws ServiceException {
+
         try {
             userDAO.updateColourPreference(user);
 
@@ -128,7 +143,7 @@ public class UserServiceImpl implements UserService {
     public String countStatistics() throws ServiceException {
 
         try {
-            return userDAO.countStatistics();
+            return userDAO.getColourPreferenceStatistics();
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while showing statistics", e);
@@ -137,7 +152,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void banUser(String userId) throws ServiceException {
+    public void banUser(int userId) throws ServiceException {
 
         try {
             userDAO.reverseUserBannedFlag(userId);
@@ -149,7 +164,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void unbanUser(String userId) throws ServiceException {
+    public void unbanUser(int userId) throws ServiceException {
 
         try {
             userDAO.reverseUserBannedFlag(userId);
@@ -164,7 +179,7 @@ public class UserServiceImpl implements UserService {
     public void makeDiscount(User user) throws ServiceException {
 
         try {
-            userDAO.setDiscount(user);
+            userDAO.updateDiscount(user);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while making discount", e);

@@ -20,11 +20,10 @@ public class DeleteReservationCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
-            System.out.println(request.getParameter("reservationId") + " !!!");
             int reservationId = Integer.parseInt(request.getParameter("reservationId"));
 
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            reservationService.cancelReservation(reservationId);
+            reservationService.deleteReservation(reservationId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

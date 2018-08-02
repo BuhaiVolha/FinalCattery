@@ -7,6 +7,7 @@ import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
+import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -27,19 +28,28 @@ public class TakeAllCatsCommand implements ActionCommand {
         List<Cat> cats = null;
         HttpSession session = request.getSession();
 
+
         try {
+            int discountPercents = 0;
             CatService catService = ServiceFactory.getInstance().getCatService();
 
+            cats = catService.takeAllCats();
+
             if (session.getAttribute("role") == Role.USER) {
-                logger.log(Level.DEBUG, "User is logged in, showing cats with discount");
-
                 int userId = Integer.parseInt(session.getAttribute("userId").toString());
-                cats = catService.takeAllCatsWithDiscount(userId);
+                UserService userService = ServiceFactory.getInstance().getUserService();
 
-            } else {
-                logger.log(Level.DEBUG, "Showing just prices without any discount");
-                cats = catService.takeAllCats();
+                discountPercents = userService.getDiscount(userId);
             }
+
+            for (Cat cat : cats) {
+                if (discountPercents == 0) {
+                    cat.setPriceWithDiscount(cat.getPrice());
+                } else {
+                    cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
+                }
+            }
+
             request.setAttribute("cats", cats);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
 

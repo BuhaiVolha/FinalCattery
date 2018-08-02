@@ -5,7 +5,6 @@ import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
-import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -14,19 +13,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-public class CountPedigreeCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(CountPedigreeCommand.class);
+public class CountPedigreeStatisticsCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(CountPedigreeStatisticsCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         try {
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            Map<CatPedigreeType, Integer> pedigreeCount = reservationService.countPedigree();
+            Map<CatPedigreeType, Integer> pedigreeCount = reservationService.countPedigreeTypes();
 
             request.setAttribute("pedigreeCount", pedigreeCount);
 

@@ -5,6 +5,7 @@ import by.epam.cattery.controller.util.ConfigurationManager;
 import by.epam.cattery.entity.*;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
+import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -27,17 +28,19 @@ public class SearchCommand implements ActionCommand {
 
         try {
             Cat cat = createCat(request);
+            int discountPercents;
+
             CatService catService = ServiceFactory.getInstance().getCatService();
+            cats = catService.searchForCat(cat);
 
             if (session.getAttribute("role") == Role.USER) {
-                logger.log(Level.DEBUG, "User is logged in, showing cats with discount");
                 int userId = Integer.parseInt(session.getAttribute("userId").toString());
-                cats = catService.searchForCatWithDiscount(cat, userId);
+                UserService userService = ServiceFactory.getInstance().getUserService();
 
-            } else {
-                logger.log(Level.DEBUG, "Showing just prices without any discount");
-                cats = catService.searchForCat(cat);
+                discountPercents = userService.getDiscount(userId);
+                request.setAttribute("discount", discountPercents);
             }
+
 
             request.setAttribute("cats", cats);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);

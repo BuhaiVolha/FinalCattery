@@ -12,11 +12,10 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CountStatisticsCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(CountStatisticsCommand.class);
+public class CountColourPreferenceStatisticsCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(CountColourPreferenceStatisticsCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

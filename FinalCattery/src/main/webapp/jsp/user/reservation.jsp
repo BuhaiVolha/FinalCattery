@@ -92,7 +92,7 @@
                                 <p style="color: red; font-size: 14px">* Note that you must pay in 3 day term or the reservation will be called off!</p>
                             </div>
                             <div class="col-md-12 text-right">
-                                <button type="submit" class="btn btn-primary btn-lg">Send</button>
+                                <button type="submit" class="btn btn-primary btn-lg" onclick="finalCost()">Send</button>
                             </div>
                         </div>
                     </fieldset>
@@ -114,8 +114,8 @@
 
         var total = parseFloat(price) + parseFloat(pedigreeType);
 
-        document.getElementById("result").innerHTML = total;
-        document.getElementById("total").value = total;
+        document.getElementById("result").innerHTML = total.toFixed(1);
+        document.getElementById("total").value = total.toFixed(1);
     }
 </script>
 <%@ include file="/jsp/parts/footer.jsp" %>

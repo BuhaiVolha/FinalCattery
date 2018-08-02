@@ -10,13 +10,10 @@ import java.util.List;
 public interface CatService {
     List<Cat> takeAllCats() throws ServiceException;
     List<Cat> takeCatsByStatus(CatStatus status) throws ServiceException;
-    List<Cat> takeAllCatsWithDiscount(int userId) throws ServiceException;
-    List<Cat> takeCatsByStatusWithDiscount(int userId, CatStatus status) throws ServiceException;
     void addCat(Cat cat) throws ServiceException;
-    Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException;
+    void addOfferedCat(Cat cat, int offerId) throws ServiceException;
     Cat takeSingleCat(int catId) throws ServiceException;
     void deleteCat(int catId) throws ServiceException;
     void editCat(Cat cat) throws ServiceException;
     List<Cat> searchForCat(Cat cat) throws ServiceException;
-    List<Cat> searchForCatWithDiscount(Cat cat, int userId) throws ServiceException;
 }

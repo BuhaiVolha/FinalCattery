@@ -25,8 +25,11 @@ public class DeclineOfferCommand implements ActionCommand {
             Offer offer = new Offer(); // не в объект а отдельный ДТО?
             offer.setExpertMessage(request.getParameter("expertMessage"));
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
+            offer.setPrice(Double.parseDouble(request.getParameter("price")));
 
-            offerService.answerToOffer(offer, OfferStatus.REJCT, false);
+            //offerService.answerToOffer(offer, OfferStatus.REJCT, false);
+            offer.setStatus(OfferStatus.REJCT);
+            offerService.answerToOffer(offer, OfferStatus.AWAIT);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

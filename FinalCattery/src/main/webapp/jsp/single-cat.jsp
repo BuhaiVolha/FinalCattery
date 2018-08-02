@@ -1,4 +1,3 @@
-<
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/jsp/parts/header.jsp" %>
 
@@ -45,6 +44,7 @@
                         </h5>
                         <p class="product-description"><c:out value="${requestScope.singleCat.description}"/></p>
                         <c:if test="${requestScope.singleCat.status ne 'SOLD'}">
+
                         <c:choose>
                         <c:when test="${requestScope.singleCat.priceWithDiscount != requestScope.singleCat.price && not empty requestScope.singleCat.priceWithDiscount}">
                         <h4 class="price">current price:
@@ -56,6 +56,7 @@
                         </h4>
                         </c:otherwise>
                         </c:choose>
+
                         </c:if>
                         <h5 class="sizes">parents:
                             <span><c:out value="${requestScope.singleCat.femaleParent}"/> и
@@ -72,8 +73,8 @@
                         </h5>
                         <c:choose>
                         <c:when test="${sessionScope.role eq 'USER' && requestScope.singleCat.status eq 'AVAIL'}">
-                        <div class="action"><a
-                                href="/controller?command=single_cat&catId=${singleCat.id}&operation=reserve-cat">
+                        <div class="action">
+                            <a href="/controller?command=single_cat&catId=${singleCat.id}&operation=reserve-cat">
                             <button class="add-to-cart btn btn-default" type="button">Reserve</button>
                         </a></div>
                         </c:when>

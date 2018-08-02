@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UnbanCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(UnbanCommand.class);
+public class UnbanUserCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(UnbanUserCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
-            String userId = request.getParameter("userId");
+            int userId = Integer.parseInt(request.getParameter("userId"));
 
             UserService userService = ServiceFactory.getInstance().getUserService();
             userService.unbanUser(userId);

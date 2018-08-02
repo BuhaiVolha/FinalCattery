@@ -46,9 +46,9 @@ public class CommandProvider {
         commands.put(Commands.CABINET, new GoToCabinetCommand());
         commands.put(Commands.ALL_USERS, new TakeAllUsersCommand());
         commands.put(Commands.COLOUR_PREFERENCE, new SetColourPreferenceCommand());
-        commands.put(Commands.STATISTICS, new CountStatisticsCommand());
-        commands.put(Commands.BAN, new BanCommand());
-        commands.put(Commands.UNBAN, new UnbanCommand());
+        commands.put(Commands.STATISTICS, new CountColourPreferenceStatisticsCommand());
+        commands.put(Commands.BAN, new BanUserCommand());
+        commands.put(Commands.UNBAN, new UnbanUserCommand());
         commands.put(Commands.DISCOUNT, new MakeDiscountCommand());
         commands.put(Commands.MAKE_EXPERT, new MakeExpertCommand());
         commands.put(Commands.UNMAKE_EXPERT, new UnmakeExpertCommand());
@@ -67,10 +67,10 @@ public class CommandProvider {
         commands.put(Commands.CANCEL_RESERVATION, new CancelReservationCommand());
         commands.put(Commands.DELETE_RESERVATION, new DeleteReservationCommand());
         commands.put(Commands.RENEW_RESERVATION, new RenewReservationCommand());
-        commands.put(Commands.SELL_CAT, new SellCatCommand());
-        commands.put(Commands.PEDIGREE, new CountPedigreeCommand());
+        commands.put(Commands.SELL_CAT, new CompleteReservationCommand());
+        commands.put(Commands.PEDIGREE, new CountPedigreeStatisticsCommand());
         commands.put(Commands.SEARCH, new SearchCommand());
-        commands.put(Commands.WRITE_REVIEW, new WriteReviewCommand());
+        commands.put(Commands.WRITE_REVIEW, new AddReviewCommand());
         commands.put(Commands.DELETE_REVIEW, new DeleteReviewCommand());
         commands.put(Commands.EDIT_REVIEW, new EditReviewCommand());
         commands.put(Commands.SINGLE_REVIEW, new GoToSingleReviewCommand());

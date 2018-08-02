@@ -26,14 +26,11 @@ public class GoToSingleOfferCommand implements ActionCommand {
         Offer offer;
 
         try {
-            String offerId = request.getParameter("offerId");
+            int offerId = Integer.parseInt(request.getParameter("offerId"));
             offer = offerService.takeSingleOffer(offerId);
 
             if (offer != null) {
- // заменить на оффер
-                request.setAttribute("offerId", offerId);
-                request.setAttribute("userMadeOfferId", offer.getUserMadeOfferId());
-                request.setAttribute("statedPrice", offer.getPrice());
+                request.setAttribute("offer", offer);
             }
 
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);

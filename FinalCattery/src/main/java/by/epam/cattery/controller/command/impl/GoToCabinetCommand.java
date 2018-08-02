@@ -29,14 +29,7 @@ public class GoToCabinetCommand implements ActionCommand {
             String  userId = session.getAttribute("userId").toString();
             user = userService.takeUser(Integer.parseInt(userId));
 
-            request.setAttribute("name", user.getName());
-            request.setAttribute("lastname", user.getLastname());
-            request.setAttribute("email", user.getEmail());
-            request.setAttribute("phone", user.getPhone());
-            request.setAttribute("colorPreference", user.getColourPreference());
-            request.setAttribute("discount", user.getDiscount());
-            request.setAttribute("reviewLeft", user.isReviewLeft());
-            request.setAttribute("banned", user.isBanned());
+            request.setAttribute("user", user);
 
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-info")).forward(request, response);
 

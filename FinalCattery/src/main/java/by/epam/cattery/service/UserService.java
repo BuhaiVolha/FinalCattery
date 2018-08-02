@@ -7,14 +7,15 @@ import by.epam.cattery.service.exception.ValidationFailedException;
 import java.util.List;
 
 public interface UserService {
-    int register(User user) throws ServiceException, ValidationFailedException;
+    int register(User user) throws ServiceException;
+    int getDiscount(int userId) throws ServiceException;
     User logIn(String login, String password) throws ServiceException;
     User takeUser(int userId) throws ServiceException;
     List<User> takeAllUsers() throws ServiceException;
     String countStatistics() throws ServiceException;
     void changeColourPreference(User user) throws ServiceException;
-    void banUser(String userId) throws ServiceException;
-    void unbanUser(String userId) throws ServiceException;
+    void banUser(int userId) throws ServiceException;
+    void unbanUser(int userId) throws ServiceException;
     void makeDiscount(User user) throws ServiceException;
     void makeExpert(int userId) throws ServiceException;
     void unmakeExpert(int userId) throws ServiceException;

@@ -8,7 +8,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 // подумать !
-public class ConnectionPool {
+public final class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
 
     private BlockingQueue<Connection> connectionQueue;
@@ -20,50 +20,8 @@ public class ConnectionPool {
     private String password;
     private int poolSize;
 
-//    private ConnectionPool() {
-//        DBResourceManager dbResourceManager = DBResourceManager.getInstance();
-//        this.driverName = dbResourceManager.getParameter(DBParameter.DB_DRIVER);
-//        this.url = dbResourceManager.getParameter(DBParameter.DB_URL);
-//        this.user = dbResourceManager.getParameter(DBParameter.DB_USER);
-//        this.password = dbResourceManager.getParameter(DBParameter.DB_PASSWORD);
-//
-//        try {
-//            this.poolSize = Integer.parseInt(dbResourceManager.getParameter(DBParameter.DB_POOL_SIZE));
-//
-//        } catch (NumberFormatException e) {
-//            poolSize = 5; // constant
-//        }
-//    }
-
     private ConnectionPool() {
     }
-
-
-//    public static ConnectionPool getInstance() {
-//        try {
-//            instance.initPoolData();
-//
-//        } catch (ConnectionPoolException e) {
-//            System.err.println("error getting instance of conn pool");
-//        }
-//        return instance;
-//    }
-
-//    public void initPoolData() throws ConnectionPoolException {
-//
-//        try {
-//            Class.forName(driverName);
-//            givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
-//            connectionQueue = new ArrayBlockingQueue<>(poolSize);
-//
-//            for (int i = 0; i < poolSize; i++) {
-//                Connection connection = DriverManager.getConnection(url, user, password); //user
-//                connectionQueue.add(new PooledConnection(connection));
-//            }
-//        } catch (ClassNotFoundException | SQLException e) {
-//            throw new ConnectionPoolException("Exception while trying to init ConnectionPool", e);
-//        }
-//    }
 
 
     public static ConnectionPool getInstance() {
@@ -75,6 +33,7 @@ public class ConnectionPool {
 
         try {
             Class.forName(driverName);
+
             givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
             connectionQueue = new ArrayBlockingQueue<>(poolSize);
 

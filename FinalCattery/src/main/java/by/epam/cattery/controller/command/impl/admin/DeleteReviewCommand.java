@@ -21,10 +21,11 @@ public class DeleteReviewCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
             int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
-            reviewService.deleteReview(reviewId);
+            reviewService.deleteReview(reviewId, userId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 

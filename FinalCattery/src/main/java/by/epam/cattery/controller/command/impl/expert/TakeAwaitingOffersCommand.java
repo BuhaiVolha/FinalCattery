@@ -28,6 +28,7 @@ public class TakeAwaitingOffersCommand implements ActionCommand {
 
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
             offers = offerService.takeAllOffersByStatus(OfferStatus.AWAIT);
+
             request.setAttribute("catsByStatus", offers);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.assessment")).forward(request, response);
 

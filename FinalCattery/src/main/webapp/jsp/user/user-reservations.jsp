@@ -41,9 +41,9 @@
                         <c:when test="${reservation.status eq 'NEW'}">
                             <span class="label label-success">Active</span>
                         </c:when>
-                        <c:otherwise>
+                        <c:when test="${reservation.status eq 'DONE'}">
                             <span class="label label-success">Bought</span>
-                        </c:otherwise>
+                        </c:when>
                     </c:choose>
                 </p></td>
                 <td class="actions" data-th="">

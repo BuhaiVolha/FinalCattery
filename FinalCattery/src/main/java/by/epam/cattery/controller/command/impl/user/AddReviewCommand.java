@@ -1,11 +1,8 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.admin.AddCatCommand;
 import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Review;
-import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -19,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 
-public class WriteReviewCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(WriteReviewCommand.class);
+public class AddReviewCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(AddReviewCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -1,33 +1,43 @@
 package by.epam.cattery.service.impl;
 
-import by.epam.cattery.dao.CatDAO;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
+import by.epam.cattery.dao.connection.ConnectionProvider;
+import by.epam.cattery.dao.mysql.CatDAO;
+import by.epam.cattery.dao.mysql.OfferDAO;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
+import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.exception.ServiceException;
-import by.epam.cattery.service.exception.ValidationFailedException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CatServiceImpl implements CatService {
+    private static final Logger logger = LogManager.getLogger(CatServiceImpl.class);
+
     private static DAOFactory daoFactory = DAOFactory.getInstance();
+
     private static CatDAO catDAO = daoFactory.getCatDAO();
+    private static OfferDAO offerDAO = daoFactory.getOfferDAO();
+
 
     @Override
     public List<Cat> takeAllCats() throws ServiceException {
         List<Cat> cats;
 
         try {
-            cats = catDAO.findAllCats();
+            cats = catDAO.loadAll();
 
             if (cats.isEmpty()) {
                 return Collections.emptyList();
             }
         } catch (DAOException e) {
-            throw new ServiceException("Error while showing cats", e);
+            throw new ServiceException("Exception while finding all cats", e);
         }
         return cats;
     }
@@ -38,46 +48,13 @@ public class CatServiceImpl implements CatService {
         List<Cat> cats;
 
         try {
-            cats = catDAO.findAllCatsByStatus(status);
+            cats = catDAO.loadAllByStatus(status.toString());
 
             if (cats.isEmpty()) {
                 return Collections.emptyList();
             }
         } catch (DAOException e) {
-            throw new ServiceException("Exception while taking cats by status", e);
-        }
-        return cats;
-    }
-
-    @Override
-    public List<Cat> takeAllCatsWithDiscount(int userId) throws ServiceException {
-        List<Cat> cats;
-
-        try {
-            cats = catDAO.findAllCatsWithDiscount(userId);
-
-            if (cats.isEmpty()) {
-                return Collections.emptyList();
-            }
-        } catch (DAOException e) {
-            throw new ServiceException("Exception while taking cats with discount", e);
-        }
-        return cats;
-    }
-
-
-    @Override
-    public List<Cat> takeCatsByStatusWithDiscount(int userId, CatStatus status) throws ServiceException {
-        List<Cat> cats;
-
-        try {
-            cats = catDAO.findAllCatsByStatusWithDiscount(userId, status);
-
-            if (cats.isEmpty()) {
-                return Collections.emptyList();
-            }
-        } catch (DAOException e) {
-            throw new ServiceException("Exception while taking cats with discount by status", e);
+            throw new ServiceException("Exception while finding all cats by status", e);
         }
         return cats;
     }
@@ -87,22 +64,37 @@ public class CatServiceImpl implements CatService {
     public void addCat(Cat cat) throws ServiceException {
 
         try {
-            catDAO.addCat(cat);
+            catDAO.save(cat);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while adding cats", e);
+            throw new ServiceException("Exception while adding a cat", e);
         }
     }
 
 
     @Override
-    public Cat takeSingleCatWithDiscount(int catId, int userId) throws ServiceException {
+    public void addOfferedCat(Cat cat, int offerId) throws ServiceException {
+        ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
         try {
-            return catDAO.findSingleCatWithDiscount(catId, userId);
+            connectionProvider.startTransaction();
+
+            catDAO.save(cat);
+            logger.log(Level.DEBUG, "cat added");
+
+            if (offerDAO.checkOfferStatus(offerId, OfferStatus.APRVD.toString())) {
+                offerDAO.updateStatusById(OfferStatus.SENT.toString(), offerId);
+                logger.log(Level.DEBUG, "offer's status changed");
+            }
+
+            connectionProvider.commitTransaction();
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while showing single cat with discount", e);
+            connectionProvider.abortTransaction();
+            throw new ServiceException("Exception while adding a cat", e);
+
+        }  finally {
+            connectionProvider.endTransaction();
         }
     }
 
@@ -111,10 +103,10 @@ public class CatServiceImpl implements CatService {
     public Cat takeSingleCat(int catId) throws ServiceException {
 
         try {
-            return catDAO.findSingleCat(catId);
+            return catDAO.getById(catId);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while showing single cat", e);
+            throw new ServiceException("Exception while finding single cat", e);
         }
     }
 
@@ -122,7 +114,7 @@ public class CatServiceImpl implements CatService {
     @Override
     public void deleteCat(int catId) throws ServiceException {
         try {
-            catDAO.deleteCat(catId);
+            catDAO.delete(catId);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while deleting cat", e);
@@ -133,7 +125,7 @@ public class CatServiceImpl implements CatService {
     @Override
     public void editCat(Cat cat) throws ServiceException {
         try {
-            catDAO.updateCat(cat);
+            catDAO.update(cat);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while editing cat", e);
@@ -153,23 +145,6 @@ public class CatServiceImpl implements CatService {
             }
         } catch (DAOException e) {
             throw new ServiceException("Exception while searching for cat", e);
-        }
-        return cats;
-    }
-
-
-    @Override
-    public List<Cat> searchForCatWithDiscount(Cat cat, int userId) throws ServiceException {
-        List<Cat> cats;
-
-        try {
-            cats = catDAO.searchForCatWithDiscount(cat, userId);
-
-            if (cats.isEmpty()) {
-                return Collections.emptyList();
-            }
-        } catch (DAOException e) {
-            throw new ServiceException("Exception while searching for cat with discount", e);
         }
         return cats;
     }

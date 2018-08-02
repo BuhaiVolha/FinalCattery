@@ -18,7 +18,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                        <input name="name" required="required" placeholder="First Name" class="form-control"
+                        <input name="name" required="required" value="${requestScope.singleCat.name}" class="form-control"
                                type="text">
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                        <input name="lastname" required="required" placeholder="Last Name" class="form-control"
+                        <input name="lastname" required="required" value="${requestScope.singleCat.lastname}" class="form-control"
                                type="text">
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
                         <select name="bodyColour" required="required" class="form-control selectpicker">
-                            <option value=" ">Body colour code</option>
+
                             <option>A</option>
                             <option>D</option>
                             <option>E</option>
@@ -104,7 +104,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
                         <select name="eyesColour" required="required" class="form-control selectpicker">
-                            <option value=" ">Eyes colour code</option>
+
                             <option>F61</option>
                             <option>F62</option>
                             <option>F63</option>
@@ -120,7 +120,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
-                        <input name="femaleParent" required="required" placeholder="Female parent" class="form-control"
+                        <input name="femaleParent" required="required" value="${requestScope.singleCat.femaleParent}" class="form-control"
                                type="text">
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                        <input name="maleParent" required="required" placeholder="Male parent" class="form-control"
+                        <input name="maleParent" required="required" value="${requestScope.singleCat.maleParent}" class="form-control"
                                type="text">
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
-                        <input name="price" placeholder="Price" required="required" class="form-control" type="text">
+                        <input name="price" value="${requestScope.singleCat.price}" required="required" class="form-control" type="text">
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                        <textarea class="form-control" name="description" placeholder="Cat description"
+                        <textarea class="form-control" name="description" placeholder="${requestScope.singleCat.description}"
                                   required="required"></textarea>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label"></label>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-plane"></span>
+                    <button type="submit" class="btn btn-warning">Send<span class="glyphicon glyphicon-plane"></span>
                     </button>
                 </div>
             </div>

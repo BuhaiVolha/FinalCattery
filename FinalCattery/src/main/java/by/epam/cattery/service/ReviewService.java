@@ -6,9 +6,9 @@ import by.epam.cattery.service.exception.ServiceException;
 import java.util.List;
 
 public interface ReviewService {
-    List<Review> takeApprovedReviews() throws ServiceException;
+    List<Review> takeAllReviews() throws ServiceException;
     void writeReview(Review review) throws ServiceException;
-    void deleteReview(int reviewId) throws ServiceException;
+    void deleteReview(int reviewId, int userId) throws ServiceException;
     void editReview(Review review) throws ServiceException;
     Review takeSingleReview(int reviewId) throws ServiceException;
 }

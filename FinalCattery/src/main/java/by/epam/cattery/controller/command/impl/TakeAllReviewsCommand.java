@@ -25,7 +25,7 @@ public class TakeAllReviewsCommand implements ActionCommand {
 
         try {
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
-            reviews = reviewService.takeApprovedReviews();
+            reviews = reviewService.takeAllReviews();
 
             request.setAttribute("approvedReviews", reviews);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reviews")).forward(request, response);

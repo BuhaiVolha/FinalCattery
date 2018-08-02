@@ -5,8 +5,8 @@
 
     <form class="well form-horizontal" id="contact_form" role="form" method="POST" action="/controller">
         <input type="hidden" name="command" value="add_cat"/>
-        <input type="hidden" name="offerId" value="${requestScope.offerId}"/>
-        <input type="hidden" name="userMadeOfferId" value="${requestScope.userMadeOfferId}"/>
+        <input type="hidden" name="offerId" value="${requestScope.offer.id}"/>
+        <input type="hidden" name="userMadeOfferId" value="${requestScope.offer.userMadeOfferId}"/>
 
         <fieldset>
             <!-- Form Name -->

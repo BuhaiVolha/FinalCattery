@@ -15,7 +15,8 @@
                 <div class="status-upload">
                     <form name="CatDeclineFrom" method="POST" action="/controller">
                         <input type="hidden" name="command" value="decline_offer"/>
-                        <input type="hidden" name="offerId" value="${offerId}"/>
+                        <input type="hidden" name="offerId" value="${offer.id}"/>
+                        <input type="hidden" name="price" value="${offer.price}"/>
                         <textarea required="required" name="expertMessage" placeholder="Describe the reason for the decision" ></textarea>
                         <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                         </button>
