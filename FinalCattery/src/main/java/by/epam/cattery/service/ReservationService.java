@@ -15,7 +15,7 @@ public interface ReservationService {
     List<Reservation> takeAllReservationsForUser(int userId) throws ServiceException;
     void declineExpiredReservations() throws ServiceException;
     void cancelReservation(int reservationId) throws ServiceException;
-    void deleteReservation(int reservationId) throws ServiceException;
+    void deleteExpiredReservation(int reservationId) throws ServiceException;
     void renewReservation(int reservationId) throws ServiceException;
     void sellCat(int reservationId) throws ServiceException;
     int getCatIdByReservationId(int reservationId) throws ServiceException;

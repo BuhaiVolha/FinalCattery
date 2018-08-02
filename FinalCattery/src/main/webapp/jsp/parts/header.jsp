@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="/jsp/assets/img/favicon1.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/favicon1.ico" type="image/x-icon">
 
     <fmt:setLocale value="${sessionScope.local}"/>
     <fmt:setBundle basename="local" var="loc"/>
@@ -32,9 +32,9 @@
     <title>${title}</title>
     <!-- Bootstrap -->
 
-    <link href="/jsp/assets/css/bootstrap.css" rel="stylesheet">
-    <link href="/jsp/assets/css/style.css" rel="stylesheet">
-    <link href="/jsp/assets/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -116,17 +116,17 @@
 
                             <c:choose>
                                 <c:when test="${sessionScope.role eq 'USER'}">
-                                    <img src="/jsp/assets/img/user.png">
+                                    <img src="/assets/img/user.png">
 
                                 </c:when>
                                 <c:when test="${sessionScope.role eq 'ADMIN'}">
 
-                                    <img src="/jsp/assets/img/admin.png">
+                                    <img src="/assets/img/admin.png">
 
                                 </c:when>
                                 <c:when test="${sessionScope.role eq 'EXPERT'}">
 
-                                    <img src="/jsp/assets/img/expert.png">
+                                    <img src="/assets/img/expert.png">
                                 </c:when>
                             </c:choose>
 

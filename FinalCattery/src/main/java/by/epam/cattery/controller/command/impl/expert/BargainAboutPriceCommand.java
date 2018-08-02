@@ -32,7 +32,6 @@ public class BargainAboutPriceCommand implements ActionCommand {
             offer.setPrice(Integer.parseInt(request.getParameter("price")));
             offer.setStatus(OfferStatus.DISC); // &&&?????????????????????????????????????????
 
-            //offerService.discussPrice(offer);
             offerService.answerToOffer(offer, OfferStatus.AWAIT);
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
 

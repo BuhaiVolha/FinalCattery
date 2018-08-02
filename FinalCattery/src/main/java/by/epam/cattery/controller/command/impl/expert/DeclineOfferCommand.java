@@ -26,9 +26,8 @@ public class DeclineOfferCommand implements ActionCommand {
             offer.setExpertMessage(request.getParameter("expertMessage"));
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
             offer.setPrice(Double.parseDouble(request.getParameter("price")));
-
-            //offerService.answerToOffer(offer, OfferStatus.REJCT, false);
             offer.setStatus(OfferStatus.REJCT);
+
             offerService.answerToOffer(offer, OfferStatus.AWAIT);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));

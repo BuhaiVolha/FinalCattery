@@ -29,7 +29,7 @@ public class ApproveOfferCommand implements ActionCommand {
             offer.setExpertMessageToAdmin(request.getParameter("expertMessageToAdmin"));
             offer.setId(Integer.parseInt(request.getParameter("offerId")));
             offer.setPrice(Double.parseDouble(request.getParameter("price")));
-            //offerService.answerToOffer(offer, OfferStatus.APRVD, true);
+
             offer.setStatus(OfferStatus.APRVD);
             offerService.answerToOffer(offer, OfferStatus.AWAIT);
 

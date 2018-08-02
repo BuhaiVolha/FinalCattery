@@ -3,14 +3,18 @@ package by.epam.cattery.service.impl;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.mysql.UserDAO;
+
 import by.epam.cattery.entity.User;
+
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.*;
 import by.epam.cattery.service.validation.Validator;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Collections;
 import java.util.List;
+
 
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();

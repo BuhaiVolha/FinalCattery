@@ -34,7 +34,7 @@
                                             </c:otherwise>
                                             </c:choose>
                                         </p>
-                                        <img src="/jsp/assets/img/user.png" alt="A photo of kitten"
+                                        <img src="/assets/img/user.png" alt="A photo of kitten"
                                              class="img-responsive">
 
                                         <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
@@ -86,7 +86,7 @@
                         <c:otherwise>
 
                             <div class="text-center">
-                                <img src="/jsp/assets/img/not-found.jpg" class="img-responsive" style="margin:0 auto;"
+                                <img src="/assets/img/not-found.jpg" class="img-responsive" style="margin:0 auto;"
                                      alt="Nothing to show"/>
                             </div>
                         </c:otherwise>

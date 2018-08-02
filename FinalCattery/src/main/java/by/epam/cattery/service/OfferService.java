@@ -12,6 +12,5 @@ public interface OfferService {
     List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException;
     void answerToOffer(Offer offer, OfferStatus statusToCheck) throws ServiceException;
     Offer takeSingleOffer(int offerId) throws ServiceException;
-    ///void discussPrice(Offer offer) throws ServiceException;
     void deleteOffer(int offerId) throws ServiceException;
 }

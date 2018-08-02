@@ -23,7 +23,7 @@ public class DeleteReservationCommand implements ActionCommand {
             int reservationId = Integer.parseInt(request.getParameter("reservationId"));
 
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            reservationService.deleteReservation(reservationId);
+            reservationService.deleteExpiredReservation(reservationId);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

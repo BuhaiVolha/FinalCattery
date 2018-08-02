@@ -25,7 +25,7 @@
             <div class="row results_section">
                 <div class="col-xm-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="left_results" data-uk-scrollspy="{cls:'uk-animation-slide-left', repeat: false,delay:0}">
-                        <a href="main.jsp" ><img src="/jsp/assets/img/imac1.jpg" class="img-responsive" alt="red cat"/></a>
+                        <a href="main.jsp" ><img src="/assets/img/imac1.jpg" class="img-responsive" alt="red cat"/></a>
                     </div>
                 </div>
                 <div class="col-xm-12 col-sm-6 col-md-6 col-lg-6">
@@ -36,7 +36,7 @@
                         <ul>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Buy our cats</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Or offer your own</li>
-                            <li><i class="fa fa-paw" aria-hidden="true"></i>Book them</li>
+                            <li><i class="fa fa-paw" aria-hidden="true"></i>Reserve them</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Or just look at them</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Leave feedback for FREE</li>
                             <li><i class="fa fa-paw" aria-hidden="true"></i>Get a discount</li>

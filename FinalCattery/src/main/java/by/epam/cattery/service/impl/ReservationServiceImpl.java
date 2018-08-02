@@ -3,21 +3,24 @@ package by.epam.cattery.service.impl;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.connection.ConnectionProvider;
+
 import by.epam.cattery.dao.mysql.CatDAO;
 import by.epam.cattery.dao.mysql.ReservationDAO;
+
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Reservation;
 import by.epam.cattery.entity.ReservationStatus;
+
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.exception.ServiceException;
-import org.apache.logging.log4j.Level;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+
 
 public class ReservationServiceImpl implements ReservationService {
     private static final Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
@@ -34,12 +37,12 @@ public class ReservationServiceImpl implements ReservationService {
 
         try {
             connectionProvider.startTransaction();
-            //connectionProvider.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-            reservationDAO.save(reservation);
             int catId = reservation.getCatId();
 
             if (catDAO.checkCatStatus(catId, CatStatus.AVAIL.toString())) {
+                reservationDAO.deleteAllExpiredReservationsWithReservedCat(catId);
+                reservationDAO.save(reservation);
                 catDAO.updateStatusById(CatStatus.RSRV.toString(), catId);
             }
 
@@ -79,6 +82,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    // передавать как INT число дней? чтоб можно было менять
     @Override
     public void declineExpiredReservations() throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -87,7 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
             connectionProvider.startTransaction();
 
             catDAO.setCatsAvailableIfReservationsExpired();
-            reservationDAO.setAllReservationExpiredWhenTimePasses();
+            reservationDAO.setAllReservationExpiredIfTimePassed();
 
             connectionProvider.commitTransaction();
 
@@ -107,7 +111,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         try {
             connectionProvider.startTransaction();
-            //connectionProvider.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
             int catId = getCatIdByReservationId(reservationId);
 
@@ -119,6 +122,7 @@ public class ReservationServiceImpl implements ReservationService {
         } catch (DAOException e) {
             connectionProvider.abortTransaction();
             throw new ServiceException("Cancelling reservation failed", e);
+
         } finally {
             connectionProvider.endTransaction();
         }
@@ -126,7 +130,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public void deleteReservation(int reservationId) throws ServiceException {
+    public void deleteExpiredReservation(int reservationId) throws ServiceException {
 
         try {
             reservationDAO.delete(reservationId);
@@ -143,7 +147,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         try {
             connectionProvider.startTransaction();
-            connectionProvider.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
             int catId = getCatIdByReservationId(reservationId);
 

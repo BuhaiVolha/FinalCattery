@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// searchforcat  -  в константы всякие имена?
 public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
 
@@ -27,10 +28,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     private static final String UPDATE_CAT = "UPDATE cat SET name=?, lastname=?, gender=?, birth_date=STR_TO_DATE(?, '%m/%d/%Y')," +
             " description=?, body_colour_code=?, cat_eyes_colour_code=?, parent_female=?, " +
-            "parent_male=?, price=? WHERE cat_id = ?;";
-    private static final String UPDATE_CAT_STATUS = "UPDATE cat SET sale_status_id = ? WHERE cat_id = ?";
+            "parent_male=?, price=? WHERE cat_id = ? AND NOT flag_cat_deleted;";
+    private static final String UPDATE_CAT_STATUS = "UPDATE cat SET sale_status_id = ? WHERE cat_id = ? AND NOT flag_cat_deleted";
 
-    private static final String DELETE_CAT = "DELETE FROM cat WHERE cat_id = ?;";
+    private static final String DELETE_CAT = "UPDATE cat SET flag_cat_deleted = 1 WHERE cat_id = ?";
 
     private static final String GET_ALL_CATS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
@@ -38,14 +39,14 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code)";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted";
     private static final String GET_ALL_CATS_BY_STATUS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
             "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ?";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? AND NOT flag_cat_deleted";
 
     private static final String GET_CAT_BY_ID = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
@@ -53,17 +54,18 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "sale_status_id, user_suggested_id FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ?";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ? AND NOT flag_cat_deleted";
 
     private static final String SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED = "UPDATE cat JOIN user_reservation " +
             "ON (cat.cat_id = user_reservation.cat_id) SET sale_status_id=? " +
-            "WHERE timestampdiff(DAY, user_reservation.reservation_date, now()) > 3;";
+            "WHERE sale_status_id=? AND timestampdiff(DAY, user_reservation.reservation_date, now()) > 3 " +
+            "AND NOT flag_cat_deleted;";
 
     private static final String CHECK_CAT_STATUS = "SELECT EXISTS (SELECT 1 FROM cat " +
             "WHERE cat_id =? AND sale_status_id=?)";
 
     private static final String GET_CAT_ID_BY_RESERVATION_ID = "SELECT cat.cat_id FROM cat JOIN user_reservation " +
-            "ON (cat.cat_id = user_reservation.cat_id) WHERE user_reservation.reservation_id=?;";
+            "ON (cat.cat_id = user_reservation.cat_id) WHERE user_reservation.reservation_id=? AND NOT flag_cat_deleted;";
 
 
     // Отдельно в BASE?
@@ -111,6 +113,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
             ps = con.prepareStatement(SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED);
             ps.setString(1, CatStatus.AVAIL.toString());
+            ps.setString(2, CatStatus.RSRV.toString());
 
             ps.executeUpdate();
 
@@ -135,7 +138,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         try {
             con = connectionProvider.obtainConnection();
 
-            StringBuffer condition = new StringBuffer(" WHERE ");
+            StringBuffer condition = new StringBuffer(" AND ");
 
             if (cat.getGender() != null) {
                 condition.append(" gender = '" + cat.getGender().toString() + "' AND ");

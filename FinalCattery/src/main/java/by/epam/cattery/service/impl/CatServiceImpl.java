@@ -5,11 +5,14 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.connection.ConnectionProvider;
 import by.epam.cattery.dao.mysql.CatDAO;
 import by.epam.cattery.dao.mysql.OfferDAO;
+
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.OfferStatus;
+
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.exception.ServiceException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

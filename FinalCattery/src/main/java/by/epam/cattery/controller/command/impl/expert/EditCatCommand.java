@@ -27,10 +27,6 @@ public class EditCatCommand implements ActionCommand {
             Cat cat = createCat(request);
 
             CatService catService = ServiceFactory.getInstance().getCatService();
-            System.out.println(cat.getName() + " новое имя");
-            System.out.println(cat.getLastname() + " новое имя");
-            System.out.println(cat.getDescription() + " новое имя");
-            System.out.println(cat.getFemaleParent() + " новое имя");
             catService.editCat(cat);
 
             response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page")); //Обратно на стр с котанами

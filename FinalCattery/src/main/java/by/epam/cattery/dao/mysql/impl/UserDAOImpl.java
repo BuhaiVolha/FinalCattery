@@ -59,6 +59,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final String CHECK_BANNED_FLAG = "SELECT flag_banned FROM user WHERE login =?";
     private static final String CHECK_LOGIN_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE login=?)";
     private static final String CHECK_EMAIL_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE email=?)";
+    private static final String CHECK_REVIEW_WAS_ADDED = "SELECT flag_review_left FROM user WHERE user_id =?;";
 
 
     @Override
@@ -317,8 +318,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
             int i = ps.executeUpdate();
             if (i != 1) {
-                System.out.println("i != 1");
-                throw new DAOException("Something went wrong! ");
+                throw new DAOException("Something went wrong while reversing review left flag! ");
             }
 
         } catch (ConnectionPoolException | SQLException e) {
@@ -402,6 +402,37 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during checking whether user is banned", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResultSetAndStatement(rs, ps);
+        }
+    }
+
+// проверять if rs.next а если нет кидать эксепшн с не найдено блабла?
+    @Override
+    public boolean reviewWasAdded(int userId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        boolean added;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(CHECK_REVIEW_WAS_ADDED);
+            ps.setInt(1, userId);
+
+            rs = ps.executeQuery();
+            rs.next();
+
+            added = rs.getBoolean(1);
+
+            return added;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during checking whether review already added", e);
 
         } finally {
             connectionProvider.close(con);

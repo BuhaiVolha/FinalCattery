@@ -18,13 +18,13 @@
                         <div class="col-md-3 col-lg-3 " align="center">
                             <c:choose>
                             <c:when test="${sessionScope.role eq 'USER'}">
-                            <img alt="User pic" src="/jsp/assets/img/user.png" class="img-responsive"></div>
+                            <img alt="User pic" src="/assets/img/user.png" class="img-responsive"></div>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
-                        <img alt="Expert pic" src="/jsp/assets/img/expert.png" class="img-responsive"></div>
+                        <img alt="Expert pic" src="/assets/img/expert.png" class="img-responsive"></div>
                     </c:when>
                     <c:when test="${sessionScope.role eq 'ADMIN'}">
-                    <img alt="Admin pic" src="/jsp/assets/img/admin.png" class="img-responsive"></div>
+                    <img alt="Admin pic" src="/assets/img/admin.png" class="img-responsive"></div>
                 </c:when>
                 </c:choose>
 

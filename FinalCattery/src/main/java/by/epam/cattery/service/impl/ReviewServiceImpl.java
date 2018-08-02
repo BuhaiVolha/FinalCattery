@@ -5,9 +5,12 @@ import by.epam.cattery.dao.mysql.ReviewDAO;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.mysql.UserDAO;
 import by.epam.cattery.dao.connection.ConnectionProvider;
+
 import by.epam.cattery.entity.Review;
+
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.exception.ServiceException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collections;
 import java.util.List;
  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! проверка статус
-// и мессаги красивее сделать
+
 public class ReviewServiceImpl implements ReviewService {
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
 
@@ -47,16 +50,17 @@ public class ReviewServiceImpl implements ReviewService {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
         try {
-            connectionProvider.startTransaction();
+             if (!userDAO.reviewWasAdded(review.getUserLeftId())) {
+                 connectionProvider.startTransaction();
 
-            reviewDAO.save(review);
-            logger.log(Level.DEBUG, "review added");
+                 reviewDAO.save(review);
+                 logger.log(Level.DEBUG, "Review added");
 
-            // if (!userDAO.reviewWasLeft) { // !!!!!!!!!!!!!!!!!!!!!
-            userDAO.reverseUserReviewFlag(review.getUserLeftId());
-            logger.log(Level.DEBUG, "flag reversed");
+                 userDAO.reverseUserReviewFlag(review.getUserLeftId());
+                 logger.log(Level.DEBUG, "Flag reversed");
 
-            connectionProvider.commitTransaction();
+                 connectionProvider.commitTransaction();
+             }
 
         } catch (DAOException e) {
             connectionProvider.abortTransaction();
@@ -75,13 +79,14 @@ public class ReviewServiceImpl implements ReviewService {
         try {
             connectionProvider.startTransaction();
 
-            // if (userDAO.reviewWasLeft) { // !!!!!!!!!!!!!!!!!!!!!
-            userDAO.reverseUserReviewFlag(userId);
-            logger.log(Level.DEBUG, "flag reversed");
+            if (userDAO.reviewWasAdded(userId)) {
 
-            reviewDAO.delete(reviewId);
-            logger.log(Level.DEBUG, "review deleted");
+                userDAO.reverseUserReviewFlag(userId);
+                logger.log(Level.DEBUG, "Flag reversed");
 
+                reviewDAO.delete(reviewId);
+                logger.log(Level.DEBUG, "Review deleted");
+            }
             connectionProvider.commitTransaction();
 
         } catch (DAOException e) {
@@ -98,10 +103,12 @@ public class ReviewServiceImpl implements ReviewService {
     public void editReview(Review review) throws ServiceException {
 
         try {
-            reviewDAO.update(review);
+            if (userDAO.reviewWasAdded(review.getUserLeftId())) { //???????????????????????????
+                reviewDAO.update(review);
+            }
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while editing review", e);
+            throw new ServiceException("Exception while editing a review", e);
         }
     }
 
@@ -113,7 +120,7 @@ public class ReviewServiceImpl implements ReviewService {
             return reviewDAO.getById(reviewId);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while takeSingleReview", e);
+            throw new ServiceException("Exception while finding a review", e);
         }
     }
 }

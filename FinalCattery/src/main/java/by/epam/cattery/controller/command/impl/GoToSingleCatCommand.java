@@ -38,7 +38,7 @@ public class GoToSingleCatCommand implements ActionCommand {
             cat = catService.takeSingleCat(catId);
 
             if (session.getAttribute("role") == Role.USER) {
-                int userId = Integer.parseInt(session.getAttribute("userId").toString());
+                int userId = (int) session.getAttribute("userId");
                 UserService userService = ServiceFactory.getInstance().getUserService();
 
                 discountPercents = userService.getDiscount(userId);

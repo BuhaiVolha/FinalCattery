@@ -27,31 +27,34 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
     private static final String UPDATE_RESERVATION = "UPDATE user_reservation SET " +
             "user_id=?, cat_id=?, pedigree_type=?, reservation_date=?, total_cost=?, " +
-            "reservation_status=? WHERE reservation_id = ?;";
+            "reservation_status=? WHERE reservation_id = ? AND NOT flag_reservation_deleted;";
     private static final String UPDATE_RESERVATION_STATUS_AND_DATE = "UPDATE user_reservation SET " +
-            "reservation_date=?, reservation_status=? WHERE reservation_id = ?;";
+            "reservation_date=?, reservation_status=? WHERE reservation_id = ? AND NOT flag_reservation_deleted;";
 
-    private static final String DELETE_RESERVATION = "DELETE FROM user_reservation WHERE reservation_id = ?;";
+    private static final String DELETE_RESERVATION = "UPDATE user_reservation SET flag_reservation_deleted = 1 WHERE reservation_id = ?;";
 
     private static final String GET_ALL_RESERVATIONS = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
             "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id)";
+            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE NOT flag_reservation_deleted;";
     private static final String GET_ALL_RESERVATION_BY_STATUS = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
             "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_status=?";
+            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_status=? AND NOT flag_reservation_deleted;";
     private static final String GET_RESERVATION_BY_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
             "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_id=?";
+            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_id=? AND NOT flag_reservation_deleted;";
     private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
             "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=?";
+            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=? AND NOT flag_reservation_deleted;";
 
     private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED = "UPDATE user_reservation " +
-            "SET reservation_status=? WHERE timestampdiff(DAY, reservation_date, now()) > 3;";
+            "SET reservation_status=? WHERE reservation_status=? AND timestampdiff(DAY, reservation_date, now()) > 3 " +
+            "AND NOT flag_reservation_deleted;";
+    private static final String DELETE_EXPIRED_RESERVATIONS_BY_CAT_ID = "UPDATE user_reservation " +
+            "SET flag_reservation_deleted = 1 WHERE cat_id = ? AND reservation_status = ?;";
 
     private static final String GET_PEDIGREE_TYPES = "SELECT pedigree_type, COUNT(pedigree_type) " +
             "FROM user_reservation WHERE reservation_status != ? " +
@@ -88,7 +91,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 
     @Override
-    public void setAllReservationExpiredWhenTimePasses() throws DAOException {
+    public void setAllReservationExpiredIfTimePassed() throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -97,6 +100,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
             ps = con.prepareStatement(SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED);
             ps.setString(1, ReservationStatus.EXPD.toString());
+            ps.setString(2, ReservationStatus.NEW.toString());
 
             ps.executeUpdate();
 
@@ -109,6 +113,29 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         }
     }
 
+
+    @Override
+    public void deleteAllExpiredReservationsWithReservedCat(int catId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(DELETE_EXPIRED_RESERVATIONS_BY_CAT_ID);
+            ps.setInt(1, catId);
+            ps.setString(2, ReservationStatus.EXPD.toString());
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during deleting expired reservations with reserved cat", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeStatement(ps);
+        }
+    }
 
 
     @Override

@@ -26,8 +26,8 @@ public class GoToCabinetCommand implements ActionCommand {
 
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
-            String  userId = session.getAttribute("userId").toString();
-            user = userService.takeUser(Integer.parseInt(userId));
+            int userId = (int) session.getAttribute("userId");
+            user = userService.takeUser(userId);
 
             request.setAttribute("user", user);
 

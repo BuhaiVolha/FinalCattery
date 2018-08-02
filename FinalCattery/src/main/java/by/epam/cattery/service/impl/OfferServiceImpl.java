@@ -3,8 +3,10 @@ package by.epam.cattery.service.impl;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.mysql.OfferDAO;
+
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
+
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.exception.ServiceException;
 
@@ -63,19 +65,6 @@ public class OfferServiceImpl implements OfferService {
             throw new ServiceException("answering to offer failed", e);
         }
     }
-
-
-    @Override
-    public void discussPrice(Offer offer) throws ServiceException {
-
-        try {
-            offerDAO.update(offer);
-
-        } catch (DAOException e) {
-            throw new ServiceException("discussing price of an offer failed", e);
-        }
-    }
-
 
     @Override
     public Offer takeSingleOffer(int id) throws ServiceException {

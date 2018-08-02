@@ -53,13 +53,12 @@ public class EditPersonalInformationCommand implements ActionCommand {
         User user = new User();
         HttpSession session = request.getSession();
 
-        user.setId(Integer.parseInt(session.getAttribute("userId").toString()));
+        user.setId((int) session.getAttribute("userId"));
         user.setLogin(session.getAttribute("login").toString());
         user.setName(request.getParameter("name"));
         user.setLastname(request.getParameter("lastname"));
         user.setEmail(request.getParameter("email"));
         user.setPhone(request.getParameter("phone"));
-        System.out.println(request.getParameter("password") + " password from command");
         user.setPassword(request.getParameter("password"));
 
         return user;

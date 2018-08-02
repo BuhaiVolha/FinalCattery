@@ -8,7 +8,8 @@
     <div class="well">
         <div class="media">
             <a class="pull-left" href="#">
-                <img class="media-object" src="http://placekitten.com/150/150">
+                <%--<img class="media-object" src="http://placekitten.com/150/150">--%>
+                <img class="media-object img-responsive" src="/assets/img/user.png">
             </a>
             <div class="media-body">
                 <h4 class="media-heading">${approvedReview.userLeftLogin}</h4>

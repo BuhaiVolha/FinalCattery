@@ -9,7 +9,7 @@
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
 
-                        <img src="/jsp/assets/img/user.png" alt="kitten">
+                        <img src="/assets/img/user.png" alt="kitten">
 
                         <div class="card-body">
                             <p class="card-text">
@@ -46,7 +46,7 @@
     <c:otherwise>
 
         <div class="text-center">
-            <img src="/jsp/assets/img/empty.jpg" class="img-responsive" style="margin:0 auto;"
+            <img src="/assets/img/empty.jpg" class="img-responsive" style="margin:0 auto;"
                  alt="Nothing to show"/>
         </div>
     </c:otherwise>

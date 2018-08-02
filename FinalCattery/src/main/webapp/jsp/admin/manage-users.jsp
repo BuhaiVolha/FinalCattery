@@ -21,8 +21,8 @@
                                     <table class="table user-list table-hover table-sm" id="users">
                                         <thead class="thead-dark">
                                         <tr>
-
-                                            <th><span>User</span></th>
+                                            <th style="width:6%">&nbsp;</th>
+                                            <th style="width:15%"><span>User</span></th>
                                             <th><span>Role</span></th>
                                             <th><span>Login</span></th>
                                             <th class="text-center"><span>Status</span></th>
@@ -38,7 +38,23 @@
                                             <tr>
 
                                                 <td>
-                                                    <img src="img/samples/user-profile-1.png" alt=""/>
+                                                    <c:choose>
+                                                        <c:when test="${user.role eq 'USER'}">
+                                                            <img src="/assets/img/user.png" width="50" height="36" alt="User image"/>
+
+                                                        </c:when>
+                                                        <c:when test="${user.role eq 'ADMIN'}">
+
+                                                            <img src="/assets/img/admin.png" width="50" height="36" alt="Admin image"/>
+
+                                                        </c:when>
+                                                        <c:when test="${user.role eq 'EXPERT'}">
+
+                                                            <img src="/assets/img/expert.png" width="50" height="36" alt="Expert image"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </td>
+                                                <td>
                                                     <a href="#" class="user-link" title="ID ${user.id}"><c:out
                                                             value="${user.name}"/>
                                                         <c:out value="${user.lastname}"/></a>

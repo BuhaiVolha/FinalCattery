@@ -36,7 +36,7 @@ public class TakeAllCatsCommand implements ActionCommand {
             cats = catService.takeAllCats();
 
             if (session.getAttribute("role") == Role.USER) {
-                int userId = Integer.parseInt(session.getAttribute("userId").toString());
+                int userId = (int) session.getAttribute("userId");
                 UserService userService = ServiceFactory.getInstance().getUserService();
 
                 discountPercents = userService.getDiscount(userId);

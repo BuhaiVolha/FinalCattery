@@ -157,7 +157,6 @@ ul, li {
     /*border: 2px solid #9e2c2c;*/
 }
 
-}
 .main-nav li:nth-child(2) a:hover {
     background: #b13131;
     /*border: 2px solid #b13131;*/
@@ -1706,4 +1705,7 @@ input:invalid {
     position:relative;
     top:2px;
     left:2px;
+}
+.stars {
+    color: gold;
 }

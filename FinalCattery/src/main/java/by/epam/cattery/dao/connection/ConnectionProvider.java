@@ -104,10 +104,13 @@ public class ConnectionProvider {
     public void endTransaction() {
 
         try {
-            connection.setAutoCommit(true);
-            connection.close();
-            local.remove();
-            transactional = false;
+            if (connection != null) {
+
+                connection.setAutoCommit(true);
+                connection.close();
+                local.remove();
+                transactional = false;
+            }
 
         } catch (SQLException e) {
             logger.log(Level.ERROR, "Closing transaction failed");

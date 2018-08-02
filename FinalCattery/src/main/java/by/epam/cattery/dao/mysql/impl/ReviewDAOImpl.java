@@ -20,15 +20,16 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
             "stars_count, date) VALUES(?,?,?,?)";
 
     private static final String UPDATE_REVIEW = "UPDATE user_review SET review_text=?, stars_count=?, " +
-            "date=? WHERE user_left_id=?;";
+            "date=? WHERE user_left_id=? AND NOT flag_review_deleted;";
 
-    private static final String DELETE_REVIEW = "DELETE FROM user_review WHERE review_id = ?;";
+    private static final String DELETE_REVIEW = "UPDATE user_review SET flag_review_deleted = 1 WHERE review_id = ?";
 
     private static final String GET_ALL_REVIEWS = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id); ";
+            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) WHERE NOT flag_review_deleted; ";
 
     private static final String GET_REVIEW_BY_ID = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) WHERE review_id = ?;";
+            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
+            "WHERE review_id = ? AND NOT flag_review_deleted;";
 
 
 

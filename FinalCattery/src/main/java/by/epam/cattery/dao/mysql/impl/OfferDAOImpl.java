@@ -4,6 +4,7 @@ import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.mysql.OfferDAO;
+
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 
@@ -17,22 +18,26 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
             "cat_description, price) VALUES(?, ?, ?)";
 
     private static final String UPDATE_OFFER = "UPDATE user_offer SET user_offer_status_id = ?, " +
-            "expert_message = ?, expert_message_to_admin = ?, price = ? WHERE offer_id = ?;";
+            "expert_message = ?, expert_message_to_admin = ?, price = ? WHERE offer_id = ? AND NOT flag_deleted;";
     private static final String UPDATE_OFFER_STATUS = "UPDATE user_offer SET user_offer_status_id=? " +
-            "WHERE offer_id = ?;";
+            "WHERE offer_id = ? AND NOT flag_offer_deleted;";
 
-    private static final String DELETE_OFFER = "DELETE FROM user_offer WHERE offer_id = ?;";
+    private static final String DELETE_OFFER = "UPDATE user_offer SET flag_offer_deleted = 1 WHERE offer_id = ?";
 
     private static final String GET_ALL_OFFERS = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
-            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) ";
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE NOT flag_offer_deleted;";
+    private static final String GET_ALL_OFFERS_BY_STATUS = "SELECT offer_id, name, lastname, phone, " +
+            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE user_offer_status_id = ? AND NOT flag_offer_deleted;";
+    private static final String GET_ALL_OFFERS_BY_USER_ID = "SELECT offer_id, name, lastname, phone, " +
+            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE user_made_offer_id = ? AND NOT flag_offer_deleted;";
+
     private static final String GET_OFFER_BY_ID = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id FROM user_offer " +
-            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE offer_id = ?;";
-
-    private static final String CONDITION_BY_OFFER_STATUS = " WHERE user_offer_status_id = ?;";
-    private static final String CONDITION_BY_USER_ID = " WHERE user_made_offer_id = ?;"; // соедиить
-
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE offer_id = ? AND NOT flag_offer_deleted;";
+// NOT flag_deleted;??
     private static final String CHECK_OFFER_STATUS = "SELECT EXISTS (SELECT 1 FROM user_offer " +
             "WHERE offer_id =? AND user_offer_status_id=?)";
 
@@ -83,7 +88,7 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     @Override
     public void executeUpdateQuery(PreparedStatement ps, Offer offer) throws SQLException {
 
-        ps.setString(1, offer.getStatus().toString()); // null проверка
+        ps.setString(1, offer.getStatus().toString());
         ps.setString(2, offer.getExpertMessage());
         ps.setString(3, offer.getExpertMessageToAdmin());
         ps.setDouble(4, offer.getPrice());
@@ -143,13 +148,13 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
     @Override
     public String getQueryForAllObjectsById() {
-        return GET_ALL_OFFERS + CONDITION_BY_USER_ID;
+        return GET_ALL_OFFERS_BY_USER_ID;
     }
 
 
     @Override
     public String getQueryForAllObjectsByStatus() {
-        return GET_ALL_OFFERS + CONDITION_BY_OFFER_STATUS;
+        return GET_ALL_OFFERS_BY_STATUS;
     }
 
 
