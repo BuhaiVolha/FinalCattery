@@ -9,12 +9,13 @@
 
                 <div class="preview-pic tab-content">
                     <div class="tab-pane active" id="pic-1">
-                        <%--<img src="http://placekitten.com/400/252" class="img-responsive"/>--%>
-                        <a target="_blank"><img src="/assets/img/uploads/${singleCat.photo}" class="img-responsive"/></a>
+                        <div class="product-photo">
+                            <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${singleCat.photo}">
+                                <img src="/assets/img/uploads/cats/${singleCat.photo}" class="img-responsive"/></a>
+                        </div>
                     </div>
 
                 </div>
-
             </div>
             <div class="details col-md-6">
                 <h3 class="product-title"><c:out value="${requestScope.singleCat.name}"/> <c:out
@@ -73,29 +74,50 @@
                         <h5 class="colors">eyes color:
                             <c:out value="${requestScope.singleCat.eyesColour}"/>
                         </h5>
+                        <div class="action">
                         <c:choose>
                         <c:when test="${sessionScope.role eq 'USER' && requestScope.singleCat.status eq 'AVAIL'}">
-                        <div class="action">
-                            <a href="/controller?command=single_cat&catId=${singleCat.id}&operation=reserve-cat">
-                            <button class="add-to-cart btn btn-default" type="button">Reserve</button>
-                        </a></div>
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_cat"/>
+                                <input type="hidden" name="catId" value="${singleCat.id}"/>
+                                <input type="hidden" name="operation" value="reserve-cat"/>
+                                <button type="submit" class="add-to-cart btn btn-default">Reserve</button>
+                            </form>
+
                         </c:when>
                         <c:when test="${sessionScope.role eq 'ADMIN'}">
-                        <div class="action"><a href="/controller?command=delete_cat&catId=${singleCat.id}">
-                            <button class="add-to-cart btn btn-default" title="Think twice before clicking!!!"
-                                    type="button">Delete
-                            </button>
-                        </a>
-                        </div>
+
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="delete_cat"/>
+                                <input type="hidden" name="catId" value="${singleCat.id}"/>
+                                <button type="submit" title="Think twice before clicking!!!" class="add-to-cart btn btn-default">Delete</button>
+                            </form>
+<br/>
+<br/>
+                            <form method="post" action="/imageUploader" enctype="multipart/form-data">
+                            <form method="post" action="/imageUploader" enctype="multipart/form-data">
+                                <input type="hidden" name="command" value="upload_cat_photo"/>
+                                <input type="hidden" name="catId" value="${requestScope.singleCat.id}"/>
+                                <div class="form-inline pull-left">
+                                    <div class="form-group"><input type="file" required="required" name="file" size="60" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Change photo</button>
+                                </div>
+                            </form>
+
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
-                        <div class="action"><a
-                                href="/controller?command=single_cat&catId=${singleCat.id}&operation=edit-cat">
-                            <button class="add-to-cart btn btn-default" type="button">Edit</button>
-                        </a>
-                        </div>
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_cat"/>
+                                <input type="hidden" name="catId" value="${singleCat.id}"/>
+                                <input type="hidden" name="operation" value="edit-cat"/>
+                                <button type="submit" class="add-to-cart btn btn-default">Edit</button>
+                            </form>
+
+
                         </c:when>
                         </c:choose>
+                        </div>
 
                         <c:if test="${sessionScope.role ne 'EXPERT' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'USER' && requestScope.singleCat.status ne 'SOLD'}">
                         <i class="fas fa-exclamation mark"> You must <a href="#" onclick="openLoginModal()">log in</a>

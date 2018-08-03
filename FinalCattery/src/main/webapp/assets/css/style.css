@@ -812,7 +812,7 @@ section.featured.inner {
 
 #user-welcome {
     background-color: #444;
-    background: url(/jsp/assets/img/welcome.jpg) no-repeat center top;
+    background: url(/assets/img/welcome.jpg) no-repeat center top;
     margin-top: -47px;
     padding-top: 150px;
     background-attachment: relative;
@@ -833,7 +833,7 @@ section.featured.inner {
 
 #not-found {
     background-color: #444;
-    background: url(/jsp/assets/img/404.jpg) no-repeat center top;
+    background: url(/assets/img/404.jpg) no-repeat center top;
 
     margin-top: -49px;
     padding-top: 150px;
@@ -1709,3 +1709,28 @@ input:invalid {
 .stars {
     color: gold;
 }
+
+
+
+.product-photo {
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+}
+
+.product-photo img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    transition: transform .4s ease-out;
+}
+
+.product:hover .product-photo img {
+    transform: scale(1.05);
+}
+

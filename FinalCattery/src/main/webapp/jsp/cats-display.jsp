@@ -18,7 +18,7 @@
                     <c:choose>
                         <c:when test="${!empty cats}">
                             <c:forEach items="${cats}" var="cat">
-                                <div class="col-md-3 col-sm-6 item-wr">
+                                <div class="col-md-3 col-sm-6 item-wr cat">
                                     <div class="thumbnail">
                                         <c:choose>
                                         <c:when test="${cat.status eq 'AVAIL'}">
@@ -34,11 +34,13 @@
                                             </c:otherwise>
                                             </c:choose>
                                         </p>
-                                        <img src="/assets/img/uploads/${cat.photo}" alt="A photo of kitten" class="img-responsive">
+                                            <div class="product-photo">
+                                        <img src="/assets/img/uploads/cats/${cat.photo}" alt="A photo of kitten" class="img-responsive">
+                                            </div>
 
-                                        <h4><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
+                                        <h4 style="text-align: center; position: relative;"><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
 
-                                        <h5><c:out value="${cat.age}"/> month, <c:choose><c:when
+                                        <h5 style="text-align: center; position: relative;"><c:out value="${cat.age}"/> month, <c:choose><c:when
                                                 test="${cat.gender eq 'FEMALE'}">
                                             <i class="fa fa-venus"></i>
                                         </c:when>

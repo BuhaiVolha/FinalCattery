@@ -18,7 +18,7 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
             "cat_description, price) VALUES(?, ?, ?)";
 
     private static final String UPDATE_OFFER = "UPDATE user_offer SET user_offer_status_id = ?, " +
-            "expert_message = ?, expert_message_to_admin = ?, price = ? WHERE offer_id = ? AND NOT flag_deleted;";
+            "expert_message = ?, expert_message_to_admin = ?, price = ? WHERE offer_id = ? AND NOT flag_offer_deleted;";
     private static final String UPDATE_OFFER_STATUS = "UPDATE user_offer SET user_offer_status_id=? " +
             "WHERE offer_id = ? AND NOT flag_offer_deleted;";
 

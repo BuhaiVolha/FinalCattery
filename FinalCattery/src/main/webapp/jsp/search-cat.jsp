@@ -24,7 +24,7 @@
                         <select class="form-control" name="status" id="status">
                             <option value="">Any</option>
                             <option value="AVAIL">Available</option>
-                            <option value="RSRVD">Reserved</option>
+                            <option value="RSRV">Reserved</option>
                             <option value="SOLD">Sold</option>
                         </select>
                     </div>

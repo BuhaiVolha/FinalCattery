@@ -110,8 +110,10 @@
                                                     <c:if test="${user.id ne sessionScope.userId}">
                                                         <c:choose>
                                                             <c:when test="${user.banned}">
+
                                                                 <a href="/controller?command=unban&userId=${user.id}"
                                                                    class="table-link dangergone" title="Forgive">
+
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
 																<i class="fas fa-poo fa-stack-1x fa-inverse"></i>

@@ -26,11 +26,10 @@ public class ReservationServiceImpl implements ReservationService {
     private static final Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
 
     private static DAOFactory daoFactory = DAOFactory.getInstance();
-
     private static ReservationDAO reservationDAO = daoFactory.getReservationDAO();
     private static CatDAO catDAO = daoFactory.getCatDAO();
 
-// и удалять все резервации где ИД = ИД этого кота. чтобы зря не висели
+
     @Override
     public void makeReservation(Reservation reservation) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();

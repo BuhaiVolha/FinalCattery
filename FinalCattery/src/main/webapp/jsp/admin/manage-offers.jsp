@@ -36,8 +36,15 @@
                                     сообщение от эксперта: <c:out value="${catByStatus.expertMessageToAdmin}"/>
                                 </h5>
                             </c:if>
-                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&statedPrice=${catByStatus.price}&operation=add-cat"
-                               class="btn btn-primary">Add</a>
+
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_offer"/>
+                                <input type="hidden" name="offerId" value="${catByStatus.id}"/>
+                                <input type="hidden" name="statedPrice" value="${catByStatus.price}"/>
+                                <input type="hidden" name="operation" value="add-cat"/>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>

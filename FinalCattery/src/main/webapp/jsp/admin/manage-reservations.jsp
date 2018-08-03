@@ -12,7 +12,7 @@
 
         <thead>
         <tr>
-            <th style="width:20%">Cat</th>
+            <th style="width:40%">Cat</th>
             <th style="width:15%">Buyer</th>
             <th style="width:10%">Price</th>
             <th style="width:15%">Date</th>
@@ -27,8 +27,10 @@
 
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..."
-                                                             class="img-responsive"/></div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${reservation.catPhoto}">
+                                <img src="/assets/img/uploads/cats/${reservation.catPhoto}" alt="Reserved cat"
+                                     class="img-responsive" /></a></div>
                         <div class="col-sm-10">
                             <h4 class="nomargin"><c:out value="${reservation.catName}"/> <c:out
                                     value="${reservation.catLastname}"/></h4>
@@ -55,10 +57,13 @@
                 <td class="actions" data-th="">
 
                     <c:if test="${!reservation.expired}">
-                        <a href="/controller?command=sell_cat&reservationId=${reservation.id}"
-                           class="btn btn-info btn-sm"><i class="fas fa-hand-holding-usd"> Sell</i></a>
-                    </c:if>
 
+                        <form role="form" method="post" action="/controller">
+                            <input type="hidden" name="command" value="sell_cat"/>
+                            <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                            <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-hand-holding-usd"> Sell</i></button>
+                        </form>
+                    </c:if>
 
                 </td>
             </tr>
@@ -72,9 +77,16 @@
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
             <td colspan="2" class="hidden-xs"></td>
+
             <c:if test="${not empty reservations}">
-                <td><a href="/controller?command=decline_expired_reservations" class="btn btn-warning btn-block">Decline all
-                    expired <i class="fab fa-hotjar"></i></a></td>
+                <td> <form role="form" method="post" action="/controller">
+                    <input type="hidden" name="command" value="decline_expired_reservations"/>
+                    <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                    <button type="submit" class="btn btn-warning btn-block">Decline all
+                        expired <i class="fab fa-hotjar"></i></button>
+                </form>
+                </td>
+
             </c:if>
         </tr>
         </tfoot>

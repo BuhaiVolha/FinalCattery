@@ -32,6 +32,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             " description=?, body_colour_code=?, cat_eyes_colour_code=?, parent_female=?, " +
             "parent_male=?, price=? WHERE cat_id = ? AND NOT flag_cat_deleted;";
     private static final String UPDATE_CAT_STATUS = "UPDATE cat SET sale_status_id = ? WHERE cat_id = ? AND NOT flag_cat_deleted";
+    private static final String UPDATE_PHOTO = "UPDATE cat SET cat_photo = ? WHERE cat_id = ?";
 
     private static final String DELETE_CAT = "UPDATE cat SET flag_cat_deleted = 1 WHERE cat_id = ?";
 
@@ -167,23 +168,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                Cat foundCat = new Cat();
-
-                foundCat.setId(rs.getInt(1));
-                foundCat.setName(rs.getString(2));
-                foundCat.setLastname(rs.getString(3));
-                foundCat.setGender(Gender.valueOf(rs.getString(4)));
-                foundCat.setAge(rs.getString(5));   // отдельные константы числа
-                foundCat.setDescription(rs.getString(6));
-                foundCat.setBodyColour(rs.getString(7));
-                foundCat.setEyesColour(rs.getString(8));
-                foundCat.setFemaleParent(rs.getString(9));
-                foundCat.setMaleParent(rs.getString(10));
-                foundCat.setPrice(rs.getDouble(11));
-                foundCat.setStatus(CatStatus.valueOf(rs.getString(12)));
-                foundCat.setUserMadeOfferId(rs.getInt(13)); // НАФИГА может не надо ????????????????
-                foundCat.setPhoto(rs.getString(14)); // НАФИГА может не надо ????????????????
-
+                Cat foundCat = readResultSet(rs);
                 cats.add(foundCat);
             }
             return cats;
@@ -227,6 +212,30 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         } finally {
             connectionProvider.close(con);
             connectionProvider.closeResultSetAndStatement(rs, ps);
+        }
+    }
+
+
+    @Override
+    public void addPhoto(int catId, String photo) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+            ps = con.prepareStatement(UPDATE_PHOTO);
+
+            ps.setString(1, photo);
+            ps.setInt(2, catId);
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception while updating cat's photo", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeStatement(ps);
         }
     }
 

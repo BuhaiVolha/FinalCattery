@@ -16,4 +16,5 @@ public interface CatService {
     void deleteCat(int catId) throws ServiceException;
     void editCat(Cat cat) throws ServiceException;
     List<Cat> searchForCat(Cat cat) throws ServiceException;
+    void addCatPhoto(int catId, String photo) throws ServiceException;
 }

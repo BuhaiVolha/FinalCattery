@@ -91,8 +91,9 @@
                             <option>F</option>
                             <option>N</option>
                             <option>Q</option>
-                            <option>F</option>
                             <option>S</option>
+                            <option>W</option>
+                            <option>Y</option>
                         </select>
                     </div>
                 </div>

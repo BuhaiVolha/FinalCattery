@@ -13,19 +13,6 @@ public class CommandProvider {
     // заменить на стр или чтение из файла ченить такое
     private static final EnumMap<Commands, ActionCommand> commands; // капс?
 
-//    private static final CommandProvider instance = new CommandProvider(); // капс?
-//    CommandProvider() { // package?
-//        commands.put(Commands.REGISTRATION, new RegistrationCommand());
-//        commands.put(Commands.LOGIN, new LoginCommand());
-//        commands.put(Commands.LOGOUT, new LogoutCommand());
-//        commands.put(Commands.LANGUAGE, new LanguageCommand());
-//    }
-//
-//
-//    private static CommandProvider getInstance() {
-//        return instance;
-//    }
-
      //парсинг json
     static {
         commands = new EnumMap<>(Commands.class);
@@ -43,7 +30,7 @@ public class CommandProvider {
         commands.put(Commands.BARGAIN, new BargainAboutPriceCommand());
         commands.put(Commands.APPROVE, new ApproveOfferCommand());
         commands.put(Commands.ADD_CAT, new AddCatCommand());
-        commands.put(Commands.CABINET, new GoToCabinetCommand());
+        commands.put(Commands.SINGLE_USER, new GoToSingleUserCommand());
         commands.put(Commands.ALL_USERS, new TakeAllUsersCommand());
         commands.put(Commands.COLOUR_PREFERENCE, new SetColourPreferenceCommand());
         commands.put(Commands.STATISTICS, new CountColourPreferenceStatisticsCommand());
@@ -74,6 +61,7 @@ public class CommandProvider {
         commands.put(Commands.DELETE_REVIEW, new DeleteReviewCommand());
         commands.put(Commands.EDIT_REVIEW, new EditReviewCommand());
         commands.put(Commands.SINGLE_REVIEW, new GoToSingleReviewCommand());
+        commands.put(Commands.UPLOAD_CAT_PHOTO, new UploadPhotoForCatCommand());
     }
 
 

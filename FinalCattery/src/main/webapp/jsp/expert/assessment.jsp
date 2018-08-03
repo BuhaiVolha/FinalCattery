@@ -32,9 +32,27 @@
                                 статус: <c:out value="${catByStatus.status}" />
                             </h5>
 
-                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=approve" class="btn btn-primary">Approve</a>
-                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=bargain" class="btn btn-primary">Bargain</a>
-                            <a href="/controller?command=single_offer&offerId=${catByStatus.id}&operation=decline" class="btn btn-primary">Politely decline</a>
+                            <form style ='float: left; padding: 5px;' role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_offer"/>
+                                <input type="hidden" name="offerId" value="${catByStatus.id}"/>
+                                <input type="hidden" name="operation" value="approve"/>
+                                <button type="submit" class="btn btn-primary">Approve</button>
+                            </form>
+
+                            <form style ='float: left; padding: 5px;' role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_offer"/>
+                                <input type="hidden" name="offerId" value="${catByStatus.id}"/>
+                                <input type="hidden" name="operation" value="bargain"/>
+                                <button type="submit" class="btn btn-primary">Bargain</button>
+                            </form>
+
+                            <form style ='float: left; padding: 5px;' role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_offer"/>
+                                <input type="hidden" name="offerId" value="${catByStatus.id}"/>
+                                <input type="hidden" name="operation" value="decline"/>
+                                <button type="submit" class="btn btn-primary">Politely decline</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>

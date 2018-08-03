@@ -46,9 +46,21 @@
                                 </h5>
                             </c:if>
                             <c:if test="${catOffer.status == 'DISC'}">
-                                <a href="/controller?command=accept_price&offerId=${catOffer.id}&price=${catOffer.price}" class="btn btn-primary">Accept</a>
+
+                                <form style ='float: left; padding: 5px;' role="form" method="post" action="/controller">
+                                    <input type="hidden" name="command" value="accept_price"/>
+                                    <input type="hidden" name="offerId" value="${catOffer.id}"/>
+                                    <input type="hidden" name="price" value="${catOffer.price}"/>
+                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                </form>
                             </c:if>
-                            <a href="/controller?command=delete_offer&offerId=${catOffer.id}" class="btn btn-primary">Delete offer</a>
+                            <form style ='float: left; padding: 5px;' role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="delete_offer"/>
+                                <input type="hidden" name="offerId" value="${catOffer.id}"/>
+                                <button type="submit" class="btn btn-primary">Delete offer</button>
+                            </form>
+
+
                         </div>
                     </div>
                 </div>

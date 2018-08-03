@@ -30,7 +30,7 @@ public enum Commands {
     RESERVE_CAT,
     EDIT_CAT,
     AVAILABLE_CATS,
-    CABINET,
+    SINGLE_USER,
     ALL_USERS,
     COLOUR_PREFERENCE,
     STATISTICS,
@@ -44,5 +44,6 @@ public enum Commands {
     SINGLE_CAT,
     APPROVED_OFFERS,
     AWAITING_OFFERS,
-    EDIT_PERSONAL_INFO
+    EDIT_PERSONAL_INFO,
+    UPLOAD_CAT_PHOTO,
 }

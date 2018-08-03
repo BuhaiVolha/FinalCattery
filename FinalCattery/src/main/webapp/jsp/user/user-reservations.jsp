@@ -20,8 +20,10 @@
 
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..."
-                                                             class="img-responsive"/></div>
+                        <div class="col-sm-2 hidden-xs">
+                            <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${reservation.catPhoto}">
+                                <img src="/assets/img/uploads/cats/${reservation.catPhoto}" alt="Reserved cat"
+                                     class="img-responsive" /></a></div>
                         <div class="col-sm-10">
                             <h4 class="nomargin"><c:out value="${reservation.catName}"/> <c:out
                                     value="${reservation.catLastname}"/></h4>
@@ -49,14 +51,27 @@
                 <td class="actions" data-th="">
                     <c:choose>
                         <c:when test="${reservation.status eq 'EXPD'}">
-                            <a href="/controller?command=delete_reservation&reservationId=${reservation.id}"
-                               class="btn btn-danger btn-sm"><i class="fab fa-hotjar"> Delete</i></a>
-                            <a href="/controller?command=renew_reservation&reservationId=${reservation.id}"
-                               class="btn btn-warning btn-sm"><i class="fab fa-hotjar"> Renew</i></a>
+
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="renew_reservation"/>
+                                <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="fab fa-hotjar"> Renew</i></button>
+                            </form>
+
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="delete_reservation"/>
+                                <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fab fa-hotjar"> Delete</i></button>
+                            </form>
                         </c:when>
                         <c:when test="${reservation.status eq 'NEW'}">
-                            <a href="/controller?command=cancel_reservation&reservationId=${reservation.id}"
-                               class="btn btn-info btn-sm"><i class="fas fa-hand-holding-usd"> Cancel</i></a>
+
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="cancel_reservation"/>
+                                <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                                <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-hand-holding-usd"> Cancel</i></button>
+                            </form>
+
                         </c:when>
                     </c:choose>
 

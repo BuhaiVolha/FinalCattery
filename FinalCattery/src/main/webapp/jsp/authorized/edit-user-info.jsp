@@ -14,7 +14,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="text" name="name" id="name" required="required"
-                                           class="form-control input-lg" placeholder="First Name" tabindex="1"
+                                           class="form-control input-lg" value="${requestScope.user.name}" tabindex="1"
                                            pattern="[0-9a-zA-Zа-яА-Я]{2,20}"
                                            title="No less than 2 and no more than 20 characters such as letters and digits only">
                                     <span></span></div>
@@ -22,7 +22,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="text" name="lastname" id="lastname" required="required"
-                                           class="form-control input-lg" placeholder="Last Name" tabindex="2"
+                                           class="form-control input-lg" value="${requestScope.user.lastname}" tabindex="2"
                                            pattern="[0-9a-zA-Zа-яА-Я]{2,20}"
                                            title="No less than 2 and no more than 20 characters such as letters and digits only">
                                     <span></span></div>
@@ -31,12 +31,12 @@
                         <div class="form-group">
                             <input type="email" name="email" id="email" class="form-control input-lg"
                                    required="required"
-                                   placeholder="Email Address" tabindex="4"
+                                   value="${requestScope.user.email}" tabindex="4"
                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                             <span></span></div>
                         <div class="form-group">
                             <input type="text" name="phone" id="phone" class="form-control input-lg" required="required"
-                                   placeholder="Phone" tabindex="5" pattern="^[0-9]{2,2}\s[0-9]{7,7}$"
+                                   value="${requestScope.user.phone}" tabindex="5" pattern="^[0-9]{2,2}\s[0-9]{7,7}$"
                                    title="valid format:XX XXXXXXX">
                             <span></span></div>
                         <div class="form-group">

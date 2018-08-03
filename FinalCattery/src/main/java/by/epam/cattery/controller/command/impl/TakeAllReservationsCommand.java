@@ -1,4 +1,4 @@
-package by.epam.cattery.controller.command.impl.admin;
+package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;

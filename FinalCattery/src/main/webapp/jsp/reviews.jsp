@@ -25,12 +25,22 @@
                     <c:when test="${sessionScope.userId == approvedReview.userLeftId}">
 
                         <li style="float:right;">
-                        <a href="/controller?command=single_review&reviewId=${approvedReview.id}" class="btn btn-primary">Edit</a>
+                            <form role="form" method="post" action="/controller">
+                                <input type="hidden" name="command" value="single_review"/>
+                                <input type="hidden" name="reviewId" value="${approvedReview.id}"/>
+                                <button type="submit" class="btn btn-danger">Edit</button>
+                            </form>
+
                     </li>
                     </c:when>
                         <c:when test="${sessionScope.role eq 'ADMIN'}">
                             <li style="float:right;">
-                                <a href="/controller?command=delete_review&reviewId=${approvedReview.id}&userId=${approvedReview.userLeftId}" class="btn btn-danger">Delete</a>
+                                <form role="form" method="post" action="/controller">
+                                    <input type="hidden" name="command" value="delete_review"/>
+                                    <input type="hidden" name="reviewId" value="${approvedReview.id}"/>
+                                    <input type="hidden" name="userId" value="${approvedReview.userLeftId}"/>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </li>
                         </c:when>
                     </c:choose>

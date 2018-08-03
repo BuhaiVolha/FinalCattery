@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class GoToCabinetCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(GoToCabinetCommand.class);
+public class GoToSingleUserCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(GoToSingleUserCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,11 +27,12 @@ public class GoToCabinetCommand implements ActionCommand {
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
             int userId = (int) session.getAttribute("userId");
-            user = userService.takeUser(userId);
+            String operation = request.getParameter("operation");
+            user = userService.takeSingleUser(userId);
 
             request.setAttribute("user", user);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-info")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

@@ -34,19 +34,19 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     private static final String DELETE_RESERVATION = "UPDATE user_reservation SET flag_reservation_deleted = 1 WHERE reservation_id = ?;";
 
     private static final String GET_ALL_RESERVATIONS = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
+            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
             "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE NOT flag_reservation_deleted;";
     private static final String GET_ALL_RESERVATION_BY_STATUS = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
+            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
             "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_status=? AND NOT flag_reservation_deleted;";
     private static final String GET_RESERVATION_BY_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
+            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
             "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_id=? AND NOT flag_reservation_deleted;";
     private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status " +
+            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
             "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=? AND NOT flag_reservation_deleted;";
 
@@ -239,6 +239,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         reservation.setExpired(rs.getBoolean(8));
         reservation.setTotalCost(rs.getDouble(9));
         reservation.setStatus(ReservationStatus.valueOf(rs.getString(10)));
+        reservation.setCatPhoto(rs.getString(11));
 
         return reservation;
     }

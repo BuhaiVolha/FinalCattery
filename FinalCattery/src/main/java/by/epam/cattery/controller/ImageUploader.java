@@ -5,26 +5,27 @@ import by.epam.cattery.controller.command.CommandProvider;
 import by.epam.cattery.controller.util.ConfigurationManager;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 
-@WebServlet(name = "Controller",
-        urlPatterns = "/controller")
-public class Controller extends HttpServlet {
+@WebServlet(name = "ImageUploader",
+        urlPatterns = "/imageUploader")
+@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
+        maxFileSize=1024*1024*10,      // 10MB
+        maxRequestSize=1024*1024*50) // 50MB ??
+public class ImageUploader extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         ActionCommand command = CommandProvider.defineCommand(request);
 
         if (command != null) {
@@ -32,17 +33,5 @@ public class Controller extends HttpServlet {
         } else {
             response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
         }
-        //page = command.execute(request, response);
-
-//        if (page != null) {
-//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-//            dispatcher.forward(request, response);
-//
-//        } else {
-//            //page = ConfigurationManager.getProperty("path.page.index");
-//            page = ConfigurationManager.getProperty("path.page.main");
-//            request.getSession().setAttribute("nullpage", MessageManager.getProperty("message.nullpage"));
-//            response.sendRedirect(request.getContextPath() + page);
-//        }
     }
 }

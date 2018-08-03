@@ -15,6 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.Collections;
 import java.util.List;
 
+// ВАЛИДАЦИЯ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User takeUser(int userId) throws ServiceException {
+    public User takeSingleUser(int userId) throws ServiceException {
 
         try {
             return userDAO.getById(userId);

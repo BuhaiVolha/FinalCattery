@@ -58,7 +58,7 @@ public class SearchCommand implements ActionCommand {
         if (!request.getParameter("price").isEmpty()) {
             cat.setPrice(Double.parseDouble(request.getParameter("price")));
         }
-        //cat.setPrice(Double.parseDouble(request.getParameter("price")));
+
         if (!request.getParameter("gender").isEmpty()) {
             cat.setGender(Gender.valueOf(request.getParameter("gender")));
         }
@@ -71,8 +71,3 @@ public class SearchCommand implements ActionCommand {
         return cat;
     }
 }
-
-//        cat.setPrice(Double.parseDouble(request.getParameter("price")));
-//                cat.setGender(Gender.valueOf(request.getParameter("gender")));
-//                cat.setBodyColour(request.getParameter("body"));
-//                cat.setEyesColour(request.getParameter("eyes"));
