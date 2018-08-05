@@ -1,9 +1,9 @@
-package by.epam.cattery.dao.mysql.impl;
+package by.epam.cattery.dao.impl;
 
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
-import by.epam.cattery.dao.mysql.OfferDAO;
+import by.epam.cattery.dao.OfferDAO;
 
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;

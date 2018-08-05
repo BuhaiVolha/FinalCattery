@@ -3,8 +3,8 @@ package by.epam.cattery.service.impl;
 import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.connection.ConnectionProvider;
-import by.epam.cattery.dao.mysql.CatDAO;
-import by.epam.cattery.dao.mysql.OfferDAO;
+import by.epam.cattery.dao.CatDAO;
+import by.epam.cattery.dao.OfferDAO;
 
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;

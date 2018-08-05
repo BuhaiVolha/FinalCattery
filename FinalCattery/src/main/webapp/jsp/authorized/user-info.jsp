@@ -108,13 +108,13 @@
                         </c:when>
                         <c:when test="${sessionScope.role eq 'ADMIN'}">
 
-                            <a href="/controller?command=approved_offers"
-                               class="btn btn-primary">See offers</a>
 
                             <a href="/controller?command=all_users" class="btn btn-primary">Manage users</a>
 
                             <a href="/controller?command=all_reservations" class="btn btn-primary">Manage
                                 reservations</a>
+                            <a href="/controller?command=approved_offers"
+                               class="btn btn-primary">See offers</a>
                         </c:when>
                     </c:choose>
                 </div>

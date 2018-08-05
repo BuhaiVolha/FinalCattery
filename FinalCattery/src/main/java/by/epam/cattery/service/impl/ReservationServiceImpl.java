@@ -4,8 +4,8 @@ import by.epam.cattery.dao.DAOFactory;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.connection.ConnectionProvider;
 
-import by.epam.cattery.dao.mysql.CatDAO;
-import by.epam.cattery.dao.mysql.ReservationDAO;
+import by.epam.cattery.dao.CatDAO;
+import by.epam.cattery.dao.ReservationDAO;
 
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.CatStatus;

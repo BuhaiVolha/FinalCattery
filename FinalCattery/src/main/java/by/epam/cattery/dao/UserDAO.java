@@ -1,4 +1,4 @@
-package by.epam.cattery.dao.mysql;
+package by.epam.cattery.dao;
 
 import by.epam.cattery.dao.GenericDAO;
 import by.epam.cattery.dao.exception.DAOException;
@@ -7,7 +7,6 @@ import by.epam.cattery.entity.User;
 
 public interface UserDAO extends GenericDAO<User> {
     int getDiscount(int userId) throws DAOException;
-    int getUserIdByLogin(String login) throws DAOException;
     User getUserByLoginAndPassword(String login, String password) throws DAOException;
     String getColourPreferenceStatistics() throws DAOException;
 

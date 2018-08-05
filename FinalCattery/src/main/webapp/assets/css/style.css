@@ -1739,3 +1739,171 @@ input:invalid {
     width: 70%;
     margin: auto;
 }
+
+.our-team-main
+{
+    width:100%;
+    height:auto;
+    border-bottom:5px #323233 solid;
+    background:#fff;
+    text-align:center;
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+    transition:0.5s;
+    margin-bottom:28px;
+}
+
+
+.our-team-main img
+{
+    border-radius: 50%;
+    /*margin-bottom:18px;*/
+    margin-bottom:0;
+}
+
+.our-team-main h3
+{
+    font-size:20px;
+    font-weight:700;
+}
+
+.our-team-main p
+{
+    margin-bottom:0;
+}
+
+.team-back
+{
+    width:100%;
+    height:auto;
+    position:absolute;
+    top:0;
+    left:0;
+    padding:5px 15px 0 15px;
+    text-align:left;
+    background:#fff;
+
+}
+
+.team-front
+{
+    width:100%;
+    height:auto;
+    position:relative;
+    z-index:10;
+    background:#fff;
+    padding:15px;
+    bottom:0px;
+    transition: all 0.5s ease;
+}
+
+.our-team-main:hover .team-front
+{
+    bottom:-200px;
+    transition: all 0.5s ease;
+}
+
+.our-team-main:hover
+{
+    border-color:#777;
+    transition:0.5s;
+}
+
+.layer {
+    overflow: auto;
+    width: 361px;
+    height: 198px;
+    padding: 5px;
+    border: solid 4px #ffebcc;
+}
+.speech-bubble {
+    background: #fef1e2;
+    border-radius: .4em;
+}
+
+
+p.descr {
+    text-shadow: 1px 1px 0 orange,
+    1px -1px 0 orange,
+    -1px 1px 0 orange,
+    -1px -1px 0 orange;
+    color: white;
+    transition: all 1s;
+}
+p.decl {
+    text-shadow: 1px 1px 0 red,
+    1px -1px 0 red,
+    -1px 1px 0 red,
+    -1px -1px 0 red;
+    color: white;
+    transition: all 1s;
+}
+
+hr {
+    border: none; /* Убираем границу */
+    background-color: #ffebcc; /* Цвет линии */
+    color: #ffebcc; /* Цвет линии для IE6-7 */
+    height: 2px; /* Толщина линии */
+}
+
+h2.stat-sent {
+    display: inline-block;
+    position: relative;
+    letter-spacing: .05em;
+    text-shadow: 1px 1px mediumturquoise,
+    -1px 1px mediumturquoise,
+    -1px -1px mediumturquoise,
+    1px -1px mediumturquoise;
+    color: white;
+    transition: all 1s;
+}
+
+h2.stat-reject {
+    display: inline-block;
+    position: relative;
+    letter-spacing: .05em;
+    text-shadow: 1px 1px red,
+    -1px 1px red,
+    -1px -1px red,
+    1px -1px red;
+    color: white;
+    transition: all 1s;
+}
+
+h2.stat-disc {
+    display: inline-block;
+    position: relative;
+    letter-spacing: .05em;
+    text-shadow: 1px 1px yellow,
+    -1px 1px yellow,
+    -1px -1px yellow,
+    1px -1px yellow;
+    color: white;
+    transition: all 1s;
+}
+
+h2.stat-approve {
+    display: inline-block;
+    position: relative;
+    letter-spacing: .05em;
+    text-shadow: 1px 1px green,
+    -1px 1px green,
+    -1px -1px green,
+    1px -1px green;
+    color: white;
+    transition: all 1s;
+}
+
+h2.stat-await {
+    display: inline-block;
+    position: relative;
+    letter-spacing: .05em;
+    text-shadow: 1px 1px violet,
+    -1px 1px violet,
+    -1px -1px violet,
+    1px -1px violet;
+    color: white;
+    transition: all 1s;
+}
+

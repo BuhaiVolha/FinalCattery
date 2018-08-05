@@ -1,6 +1,6 @@
-package by.epam.cattery.dao.mysql.impl;
+package by.epam.cattery.dao.impl;
 
-import by.epam.cattery.dao.mysql.ReviewDAO;
+import by.epam.cattery.dao.ReviewDAO;
 import by.epam.cattery.dao.BaseDAO;
 
 import by.epam.cattery.entity.Review;

@@ -1,9 +1,9 @@
 package by.epam.cattery.service.impl;
 
 import by.epam.cattery.dao.DAOFactory;
-import by.epam.cattery.dao.mysql.ReviewDAO;
+import by.epam.cattery.dao.ReviewDAO;
 import by.epam.cattery.dao.exception.DAOException;
-import by.epam.cattery.dao.mysql.UserDAO;
+import by.epam.cattery.dao.UserDAO;
 import by.epam.cattery.dao.connection.ConnectionProvider;
 
 import by.epam.cattery.entity.Review;

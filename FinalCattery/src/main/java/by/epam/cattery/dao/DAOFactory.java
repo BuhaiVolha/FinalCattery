@@ -1,12 +1,6 @@
 package by.epam.cattery.dao;
 
-import by.epam.cattery.dao.connection.ConnectionPool;
-import by.epam.cattery.dao.mysql.CatDAO;
-import by.epam.cattery.dao.mysql.ReservationDAO;
-import by.epam.cattery.dao.mysql.ReviewDAO;
-import by.epam.cattery.dao.mysql.OfferDAO;
-import by.epam.cattery.dao.mysql.UserDAO;
-import by.epam.cattery.dao.mysql.impl.*;
+import by.epam.cattery.dao.impl.*;
 
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();

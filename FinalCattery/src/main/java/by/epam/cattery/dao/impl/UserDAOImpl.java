@@ -1,9 +1,9 @@
-package by.epam.cattery.dao.mysql.impl;
+package by.epam.cattery.dao.impl;
 
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
-import by.epam.cattery.dao.mysql.UserDAO;
+import by.epam.cattery.dao.UserDAO;
 
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
@@ -123,36 +123,6 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception while finding user in bd ", e);
-
-        } finally {
-            connectionProvider.close(con);
-            connectionProvider.closeResources(rs, ps);
-        }
-    }
-
-
-    @Override
-    public int getUserIdByLogin(String login) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        int userId;
-
-        try {
-            con = connectionProvider.obtainConnection();
-
-            ps = con.prepareStatement(GET_USER_BY_LOGIN);
-            ps.setString(1, login);
-
-            rs = ps.executeQuery();
-            rs.next();
-            userId = rs.getInt(1);
-
-            return userId;
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception getting ID for user ", e);
 
         } finally {
             connectionProvider.close(con);
