@@ -10,8 +10,6 @@ import java.util.List;
 public interface CatDAO extends GenericDAO<Cat> {
     List<Cat> searchForCat(Cat cat) throws DAOException;
 
-    boolean checkCatStatus(int offerId, String statusToCheck) throws DAOException;
-
     void setCatsAvailableIfReservationsExpired() throws DAOException;
 
     int getCatIdByReservationId(int reservationId) throws DAOException;

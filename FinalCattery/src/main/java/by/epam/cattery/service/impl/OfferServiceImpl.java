@@ -14,17 +14,28 @@ import java.util.List;
 
 public class OfferServiceImpl implements OfferService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
-
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
+
     @Override
-    public void offerCat(Offer offer) throws ServiceException {
+    public int offerCat(Offer offer) throws ServiceException {
 
         try {
-            offerDAO.save(offer);
+            return offerDAO.saveAndReturnId(offer);
 
         } catch (DAOException e) {
             throw new ServiceException("Offering kitten failed in Service", e);
+        }
+    }
+
+
+    @Override
+    public void addPhotoToOffer(int offerId, String photo) throws ServiceException {
+        try {
+            offerDAO.addPhoto(offerId, photo);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while adding photo for an offer", e);
         }
     }
 
@@ -57,7 +68,7 @@ public class OfferServiceImpl implements OfferService {
     public void answerToOffer(Offer offer, OfferStatus statusToCheck) throws ServiceException {
 
         try {
-            if (offerDAO.checkOfferStatus(offer.getId(), statusToCheck.toString())) {
+            if (offerDAO.checkStatus(offer.getId(), statusToCheck.toString())) {
                 offerDAO.update(offer);
             }
 

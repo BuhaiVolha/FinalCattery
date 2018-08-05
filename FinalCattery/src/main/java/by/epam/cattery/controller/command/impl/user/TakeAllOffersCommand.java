@@ -29,8 +29,8 @@ public class TakeAllOffersCommand implements ActionCommand {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
             offers = offerService.takeAllOffersByUserId((int) session.getAttribute("userId"));
 
-            request.setAttribute("catOffers", offers);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.user-offers")).forward(request, response);
+            request.setAttribute("offers", offers);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.offers")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

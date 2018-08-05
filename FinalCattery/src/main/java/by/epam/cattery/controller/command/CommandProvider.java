@@ -62,6 +62,7 @@ public class CommandProvider {
         commands.put(Commands.EDIT_REVIEW, new EditReviewCommand());
         commands.put(Commands.SINGLE_REVIEW, new GoToSingleReviewCommand());
         commands.put(Commands.UPLOAD_CAT_PHOTO, new UploadPhotoForCatCommand());
+        commands.put(Commands.UPLOAD_OFFER_PHOTO, new UploadPhotoToOfferCommand());
     }
 
 

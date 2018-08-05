@@ -1734,3 +1734,8 @@ input:invalid {
     transform: scale(1.05);
 }
 
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 70%;
+    margin: auto;
+}

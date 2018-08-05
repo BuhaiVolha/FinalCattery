@@ -4,23 +4,45 @@
 
 <div class="container">
     <div class="row">
-        <h2>Editing review...</h2>
 
-        <form class="form-horizontal" role="form" method="POST" action="/controller">
-            <input type="hidden" name="command" value="edit_review"/>
-            <fieldset>
-                <br>
-                <br>
+        <c:choose>
+            <c:when test="${review != null}">
+                <h2>Editing review...</h2>
 
-                <!-- Message body -->
-                <div class="form-group">
-                    <label class="col-md-3 control-label" for="message">Your message</label>
-                    <div class="col-md-9">
-                                    <textarea style="margin: 0;" class="form-control" required="required" id="message" name="message"
+            <form class="form-horizontal" role="form" method="POST" action="/controller">
+                <input type="hidden" name="command" value="edit_review"/>
+                <fieldset>
+                    <br>
+                    <br>
+
+                    <!-- Message body -->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="message1">Your message</label>
+                        <div class="col-md-9">
+                                    <textarea style="margin: 0;" class="form-control" required="required" id="message1" name="message"
                                               placeholder="Please enter your review here..." rows="5">${review.text}</textarea>
+                        </div>
                     </div>
-                </div>
+        </c:when>
+            <c:otherwise>
+                <h2>Writing a review...</h2>
 
+                    <form class="form-horizontal" role="form" method="POST" action="/controller">
+                        <input type="hidden" name="command" value="write_review"/>
+                        <fieldset>
+                            <br>
+                            <br>
+
+                            <!-- Message body -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="message">Your message</label>
+                                <div class="col-md-9">
+                                    <textarea style="margin: 0;" class="form-control" required="required" id="message" name="message"
+                                              placeholder="Please enter your review here..." rows="5"></textarea>
+                                </div>
+                            </div>
+            </c:otherwise>
+        </c:choose>
 
                 <!-- Rating -->
                 <div class="form-group">

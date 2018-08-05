@@ -29,8 +29,8 @@ public class TakeApprovedOffersCommand implements ActionCommand {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
             offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD);
 
-            request.setAttribute("catsByStatus", offers);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-offers")).forward(request, response);
+            request.setAttribute("offers", offers);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.offers")).forward(request, response);
 
         } catch (ServiceException e) {
             response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));

@@ -39,7 +39,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             int catId = reservation.getCatId();
 
-            if (catDAO.checkCatStatus(catId, CatStatus.AVAIL.toString())) {
+            if (catDAO.checkStatus(catId, CatStatus.AVAIL.toString())) {
                 reservationDAO.deleteAllExpiredReservationsWithReservedCat(catId);
                 reservationDAO.save(reservation);
                 catDAO.updateStatusById(CatStatus.RSRV.toString(), catId);
@@ -149,7 +149,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             int catId = getCatIdByReservationId(reservationId);
 
-            if (catDAO.checkCatStatus(catId, CatStatus.AVAIL.toString())) {
+            if (catDAO.checkStatus(catId, CatStatus.AVAIL.toString())) {
                 catDAO.updateStatusById(CatStatus.RSRV.toString(), catId);
             }
             reservationDAO.updateStatusById(ReservationStatus.NEW.toString(), reservationId);
@@ -175,7 +175,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             int catId = getCatIdByReservationId(reservationId);
 
-            if (catDAO.checkCatStatus(catId, CatStatus.RSRV.toString())) {
+            if (catDAO.checkStatus(catId, CatStatus.RSRV.toString())) {
                 catDAO.updateStatusById(CatStatus.SOLD.toString(), catId);
             }
             reservationDAO.updateStatusById(ReservationStatus.DONE.toString(), reservationId);

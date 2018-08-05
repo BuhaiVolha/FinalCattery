@@ -85,7 +85,7 @@ public class CatServiceImpl implements CatService {
             catDAO.save(cat);
             logger.log(Level.DEBUG, "cat added");
 
-            if (offerDAO.checkOfferStatus(offerId, OfferStatus.APRVD.toString())) {
+            if (offerDAO.checkStatus(offerId, OfferStatus.APRVD.toString())) {
                 offerDAO.updateStatusById(OfferStatus.SENT.toString(), offerId);
                 logger.log(Level.DEBUG, "offer's status changed");
             }

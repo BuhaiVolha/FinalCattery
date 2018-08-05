@@ -46,4 +46,5 @@ public enum Commands {
     AWAITING_OFFERS,
     EDIT_PERSONAL_INFO,
     UPLOAD_CAT_PHOTO,
+    UPLOAD_OFFER_PHOTO,
 }

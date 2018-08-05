@@ -22,7 +22,7 @@ public class OfferCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(OfferCatCommand.class);
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
 
         Offer offer = createOffer(request);  // DTO?
@@ -31,10 +31,10 @@ public class OfferCatCommand implements ActionCommand {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
         try {
-            offerService.offerCat(offer);
+            int offerId = offerService.offerCat(offer);
+            request.setAttribute("offerId", offerId);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
-            // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cat-offer-photo")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Offering cat failed: ", e);

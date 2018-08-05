@@ -7,13 +7,14 @@ import by.epam.cattery.entity.Gender;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
-import by.epam.cattery.service.exception.ValidationFailedException;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -36,6 +37,10 @@ public class AddCatCommand implements ActionCommand {
             } else {
                 cat.setOfferMadeId(Integer.parseInt(request.getParameter("offerId")));
                 cat.setUserMadeOfferId(Integer.parseInt(request.getParameter("userMadeOfferId")));
+                String filename = request.getParameter("photo");
+                copyOfferPhotoToCats(filename);
+                cat.setPhoto(filename);
+
 
                 catService.addOfferedCat(cat, cat.getOfferMadeId());
             }
@@ -65,5 +70,12 @@ public class AddCatCommand implements ActionCommand {
         cat.setMaleParent(request.getParameter("maleParent"));
 
         return cat;
+    }
+
+
+    private void copyOfferPhotoToCats(String filename) throws IOException {
+        File file = new File(ConfigurationManager.getProperty("path.photo.offer") + filename);
+        File dest = new File(ConfigurationManager.getProperty("path.photo.cat"));
+        FileUtils.copyFileToDirectory(file, dest);
     }
 }

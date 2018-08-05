@@ -25,8 +25,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
 
     private static final String CREATE_CAT = "INSERT INTO cat (name, lastname, gender, birth_date, description, body_colour_code, " +
-            "cat_eyes_colour_code, parent_female, parent_male, price,  user_suggested_id, offer_made_id) " +
-            "VALUES(?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?,?,?,?,?,?,?,?)";
+            "cat_eyes_colour_code, parent_female, parent_male, price, user_suggested_id, offer_made_id, cat_photo) " +
+            "VALUES(?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?,?,?,?,?,?,?,?,?)";
 
     private static final String UPDATE_CAT = "UPDATE cat SET name=?, lastname=?, gender=?, birth_date=STR_TO_DATE(?, '%m/%d/%Y')," +
             " description=?, body_colour_code=?, cat_eyes_colour_code=?, parent_female=?, " +
@@ -71,41 +71,6 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "ON (cat.cat_id = user_reservation.cat_id) WHERE user_reservation.reservation_id=? AND NOT flag_cat_deleted;";
 
 
-    // Отдельно в BASE?
-    @Override
-    public boolean checkCatStatus(int catId, String statusToCheck) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        boolean statusMatches;
-
-        try {
-            con = connectionProvider.obtainConnection();
-
-            ps = con.prepareStatement(CHECK_CAT_STATUS);
-            ps.setInt(1, catId);
-            ps.setString(2, statusToCheck);
-
-            rs = ps.executeQuery();
-            rs.next();
-            statusMatches = rs.getBoolean(1);
-
-            if (!statusMatches) {
-                throw new DAOException("Status wasn't right for the operation");
-            }
-            return statusMatches;
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception during checking offer status", e);
-
-        } finally {
-            connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
-        }
-    }
-
-
     @Override
     public void setCatsAvailableIfReservationsExpired() throws DAOException {
         Connection con = null;
@@ -125,7 +90,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -177,7 +142,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             throw new DAOException("Exception during searching for cat", e);
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -211,7 +176,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -235,7 +200,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -255,6 +220,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         ps.setDouble(10, cat.getPrice());
         ps.setInt(11, cat.getUserMadeOfferId());
         ps.setInt(12, cat.getOfferMadeId());
+        ps.setString(13, cat.getPhoto());
 
         logger.log(Level.DEBUG, "Cat has been saved to database");
     }
@@ -329,6 +295,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         return GET_CAT_BY_ID;
     }
 
+    @Override
+    public String getQueryForStatusCheck() {
+        return CHECK_CAT_STATUS;
+    }
 
     @Override
     public String getQueryForAllObjectsById() {

@@ -57,7 +57,7 @@
                                         <br>
                                         <br>
                                         <span class="text-center">
-                            <a href="/jsp/user/preference.jsp" title="Choose your colour preference"
+                            <a href="/jsp/user/set-preference.jsp" title="Choose your colour preference"
                                data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
                                     class="fas fa-palette"></i></a></span
@@ -84,7 +84,7 @@
                                     <br>
                                     <br>
                                     <span class="text-center">
-                            <a href="/jsp/user/write-review.jsp" title="Leave your review" data-original-title="review"
+                            <a href="/jsp/user/review-form.jsp" title="Leave your review" data-original-title="review"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
                                     class="fab fa-affiliatetheme"></i></a></span>
                                 </td>
@@ -95,7 +95,7 @@
                     </table>
                     <c:choose>
                         <c:when test="${sessionScope.role eq 'USER'}">
-                            <a href="/controller?command=all_reservations&operation=user" class="btn btn-primary">My
+                            <a href="/controller?command=all_reservations" class="btn btn-primary">My
                                 reservations</a>
                             <a href="/controller?command=all_offers" class="btn btn-primary">My offers</a>
                         </c:when>
@@ -113,7 +113,7 @@
 
                             <a href="/controller?command=all_users" class="btn btn-primary">Manage users</a>
 
-                            <a href="/controller?command=all_reservations&operation=admin" class="btn btn-primary">Manage
+                            <a href="/controller?command=all_reservations" class="btn btn-primary">Manage
                                 reservations</a>
                         </c:when>
                     </c:choose>
@@ -137,7 +137,7 @@
                 </c:when>
                 <c:when test="${sessionScope.role eq 'USER'}">
 <span class="pull-left">
-                            <a href="/jsp/user/cat-offer.jsp" class="btn btn-warning">Offer a cat</a>
+                            <a href="/jsp/authorized/offer-form.jsp" class="btn btn-warning">Offer a cat</a>
                         </span>
                 </c:when>
             </c:choose>

@@ -87,7 +87,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -126,7 +126,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -156,7 +156,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -186,7 +186,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -216,7 +216,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -254,7 +254,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -278,7 +278,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -301,7 +301,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -326,7 +326,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -350,7 +350,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -373,7 +373,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -405,7 +405,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -436,7 +436,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -516,6 +516,11 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         return GET_USER_BY_ID;
     }
 
+    @Override
+    public String getQueryForStatusCheck() {
+        logger.log(Level.WARN, "Execute status check is not implemented for User");
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public String getQueryForAllObjectsById() {

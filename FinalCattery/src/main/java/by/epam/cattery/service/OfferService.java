@@ -7,10 +7,11 @@ import by.epam.cattery.service.exception.ServiceException;
 import java.util.List;
 
 public interface OfferService {
-    void offerCat(Offer offer) throws ServiceException;
+    int offerCat(Offer offer) throws ServiceException;
     List<Offer> takeAllOffersByUserId(int id) throws ServiceException;
     List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException;
     void answerToOffer(Offer offer, OfferStatus statusToCheck) throws ServiceException;
     Offer takeSingleOffer(int offerId) throws ServiceException;
     void deleteOffer(int offerId) throws ServiceException;
+    void addPhotoToOffer(int offerId, String photo) throws ServiceException;
 }

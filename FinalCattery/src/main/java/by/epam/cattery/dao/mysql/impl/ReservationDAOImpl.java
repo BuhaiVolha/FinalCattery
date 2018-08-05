@@ -85,7 +85,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
             throw new DAOException("Exception during counting pedigree statistics", e);
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeResultSetAndStatement(rs, ps);
+            connectionProvider.closeResources(rs, ps);
         }
     }
 
@@ -109,7 +109,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -133,7 +133,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
         } finally {
             connectionProvider.close(con);
-            connectionProvider.closeStatement(ps);
+            connectionProvider.closeResources(ps);
         }
     }
 
@@ -224,6 +224,11 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         return GET_ALL_RESERVATION_BY_STATUS;
     }
 
+    @Override
+    public String getQueryForStatusCheck() {
+        logger.log(Level.WARN, "Execute status check is not implemented for Reservation");
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Reservation readResultSet(ResultSet rs) throws SQLException {

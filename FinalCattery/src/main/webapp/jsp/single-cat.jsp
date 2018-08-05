@@ -95,7 +95,6 @@
 <br/>
 <br/>
                             <form method="post" action="/imageUploader" enctype="multipart/form-data">
-                            <form method="post" action="/imageUploader" enctype="multipart/form-data">
                                 <input type="hidden" name="command" value="upload_cat_photo"/>
                                 <input type="hidden" name="catId" value="${requestScope.singleCat.id}"/>
                                 <div class="form-inline pull-left">

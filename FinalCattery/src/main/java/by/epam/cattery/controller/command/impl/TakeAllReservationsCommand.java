@@ -40,8 +40,7 @@ public class TakeAllReservationsCommand implements ActionCommand {
 
             request.setAttribute("reservations", reservations);
 
-            String path = request.getParameter("operation");
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-reservations-" + path)).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reservations")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

@@ -101,6 +101,11 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
         return GET_REVIEW_BY_ID;
     }
 
+    @Override
+    public String getQueryForStatusCheck() {
+        logger.log(Level.WARN, "Execute status check is not implemented for Review");
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public String getQueryForAllObjectsById() {

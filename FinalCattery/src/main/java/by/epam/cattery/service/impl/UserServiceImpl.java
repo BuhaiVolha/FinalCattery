@@ -53,8 +53,7 @@ public class UserServiceImpl implements UserService {
             String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());  // Отдельный мтеод?
             user.setPassword(securePass);
 
-            userDAO.save(user);
-            return userDAO.getUserIdByLogin(user.getLogin());
+            return userDAO.saveAndReturnId(user);
 
         } catch (DAOException e) {
             throw new ServiceException("Registration failed", e);

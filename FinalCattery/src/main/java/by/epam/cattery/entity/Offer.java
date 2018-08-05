@@ -4,15 +4,15 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Offer extends Entity {
-    // phone?
+
     private static final long serialVersionUID = 7294045672541510139L;
     private int userMadeOfferId;
     private String userMadeOfferName;
     private String userMadeOfferLastname;
     private String userMadeOfferPhone;
-    private String catDescription; //kittenDescription
-    //photo String?
-    private double price;  //priceDollars ??? //kittenPrice
+    private String catDescription;
+    private String photo;
+    private double price;  //priceDollars ???
     private OfferStatus status;
     private String expertMessage;
     private String expertMessageToAdmin;
@@ -20,7 +20,7 @@ public class Offer extends Entity {
 
     public Offer(int id, int userMadeOfferId, String userMadeOfferName, String userMadeOfferLastname,
                  String userMadeOfferPhone, String catDescription, double price, OfferStatus status,
-                 String expertMessage, String expertMessageToAdmin) {
+                 String expertMessage, String expertMessageToAdmin, String photo) {
         super(id);
         this.userMadeOfferId = userMadeOfferId;
         this.userMadeOfferName = userMadeOfferName;
@@ -31,6 +31,7 @@ public class Offer extends Entity {
         this.status = status;
         this.expertMessage = expertMessage;
         this.expertMessageToAdmin = expertMessageToAdmin;
+        this.photo = photo;
     }
 
     public Offer() {
@@ -108,6 +109,14 @@ public class Offer extends Entity {
         this.expertMessageToAdmin = expertMessageToAdmin;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -124,6 +133,7 @@ public class Offer extends Entity {
                 .append(getUserMadeOfferPhone(), offer.getUserMadeOfferPhone())
                 .append(getCatDescription(), offer.getCatDescription())
                 .append(getStatus(), offer.getStatus())
+                .append(getPhoto(), offer.getPhoto())
                 .append(getExpertMessage(), offer.getExpertMessage())
                 .append(getExpertMessageToAdmin(), offer.getExpertMessageToAdmin())
                 .isEquals();
@@ -139,6 +149,7 @@ public class Offer extends Entity {
                 .append(getUserMadeOfferPhone())
                 .append(getCatDescription())
                 .append(getPrice())
+                .append(getPhoto())
                 .append(getStatus())
                 .append(getExpertMessage())
                 .append(getExpertMessageToAdmin())

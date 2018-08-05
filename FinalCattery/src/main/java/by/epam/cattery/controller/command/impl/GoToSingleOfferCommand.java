@@ -29,9 +29,9 @@ public class GoToSingleOfferCommand implements ActionCommand {
             int offerId = Integer.parseInt(request.getParameter("offerId"));
             offer = offerService.takeSingleOffer(offerId);
 
-            if (offer != null) {
-                request.setAttribute("offer", offer);
-            }
+            request.setAttribute("offer", offer);
+            request.setAttribute("offerId", offer.getId());
+            request.setAttribute("operation", operation);
 
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
 

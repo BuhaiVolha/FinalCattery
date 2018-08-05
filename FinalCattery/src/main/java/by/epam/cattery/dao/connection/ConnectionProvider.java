@@ -143,7 +143,7 @@ public class ConnectionProvider {
         }
     }
 
-    public void closeResultSetAndStatement(ResultSet rs, Statement st) {
+    public void closeResources(ResultSet rs, Statement st) {
 
         if (rs != null) {
             try {
@@ -154,11 +154,11 @@ public class ConnectionProvider {
             }
         }
 
-        closeStatement(st);
+        closeResources(st);
     }
 
 
-    public void closeStatement(Statement st) {
+    public void closeResources(Statement st) {
 
         if (st != null) {
             try {

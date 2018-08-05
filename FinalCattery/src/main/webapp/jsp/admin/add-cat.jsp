@@ -7,6 +7,7 @@
         <input type="hidden" name="command" value="add_cat"/>
         <input type="hidden" name="offerId" value="${requestScope.offer.id}"/>
         <input type="hidden" name="userMadeOfferId" value="${requestScope.offer.userMadeOfferId}"/>
+        <input type="hidden" name="photo" value="${requestScope.offer.photo}"/>
 
         <fieldset>
             <!-- Form Name -->
@@ -84,7 +85,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
                         <select name="bodyColour" required="required" class="form-control selectpicker">
-                            <option value=" ">Body colour code</option>
+
                             <option>A</option>
                             <option>D</option>
                             <option>E</option>
@@ -106,7 +107,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
                         <select name="eyesColour" required="required" class="form-control selectpicker">
-                            <option value=" ">Eyes colour code</option>
+
                             <option>F61</option>
                             <option>F62</option>
                             <option>F63</option>
@@ -147,7 +148,7 @@
                 <div class="col-md-4 inputGroupContainer">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
-                        <input name="price" placeholder="Price" value="${requestScope.statedPrice}" required="required" class="form-control" type="text">
+                        <input name="price" placeholder="Price" value="${requestScope.offer.price}" required="required" class="form-control" type="text">
                     </div>
                 </div>
             </div>
