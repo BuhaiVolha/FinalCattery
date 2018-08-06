@@ -10,6 +10,8 @@ public interface GenericDAO<T> {
     void update(T obj) throws DAOException;
     void delete(int id) throws DAOException;
     List<T> loadAll() throws DAOException;
+    List<T> loadAllWithPagination(int page, int itemsPerPage) throws DAOException;
+    int getTotalCount() throws DAOException;
     List<T> loadAllById(int id) throws DAOException;
     List<T> loadAllByStatus(String status) throws DAOException;
     void updateStatusById(String status, int id) throws DAOException;

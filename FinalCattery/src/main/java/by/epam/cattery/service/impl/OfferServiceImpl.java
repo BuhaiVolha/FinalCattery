@@ -10,6 +10,7 @@ import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.exception.ServiceException;
 
+import java.util.Collections;
 import java.util.List;
 
 public class OfferServiceImpl implements OfferService {
@@ -42,25 +43,37 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public List<Offer> takeAllOffersByUserId(int id) throws ServiceException {
+        List<Offer> offers;
 
         try {
-            return offerDAO.loadAllById(id);
+            offers = offerDAO.loadAllById(id);
+
+            if (offers.isEmpty()) {
+                return Collections.emptyList();
+            }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers failed in Service", e);
         }
+        return offers;
     }
 
 
     @Override
     public List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException {
+        List<Offer> offers;
 
         try {
-            return offerDAO.loadAllByStatus(status.toString());
+            offers = offerDAO.loadAllByStatus(status.toString());
+
+            if (offers.isEmpty()) {
+                return Collections.emptyList();
+            }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers by status failed", e);
         }
+        return offers;
     }
 
 
@@ -76,6 +89,7 @@ public class OfferServiceImpl implements OfferService {
             throw new ServiceException("answering to offer failed", e);
         }
     }
+
 
     @Override
     public Offer takeSingleOffer(int id) throws ServiceException {

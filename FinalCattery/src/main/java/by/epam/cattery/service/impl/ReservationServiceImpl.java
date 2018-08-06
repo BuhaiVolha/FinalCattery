@@ -18,6 +18,7 @@ import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -59,25 +60,37 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> takeAllReservations() throws ServiceException {
+        List<Reservation> reservations;
 
         try {
-            return reservationDAO.loadAllByStatus(ReservationStatus.NEW.toString());
+            reservations = reservationDAO.loadAllByStatus(ReservationStatus.NEW.toString());
+
+            if (reservations.isEmpty()) {
+                return Collections.emptyList();
+            }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all (new) reservations failed", e);
         }
+        return reservations;
     }
 
 
     @Override
     public List<Reservation> takeAllReservationsForUser(int userId) throws ServiceException {
+        List<Reservation> reservations;
 
         try {
-            return reservationDAO.loadAllById(userId);
+            reservations = reservationDAO.loadAllById(userId);
+
+            if (reservations.isEmpty()) {
+                return Collections.emptyList();
+            }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all reservations for user failed", e);
         }
+        return reservations;
     }
 
 

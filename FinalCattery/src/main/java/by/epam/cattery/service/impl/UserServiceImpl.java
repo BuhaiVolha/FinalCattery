@@ -123,11 +123,11 @@ public class UserServiceImpl implements UserService {
             if (users.isEmpty()) {
                 return Collections.emptyList();
             }
-            return users;
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while showing all users", e);
         }
+        return users;
     }
 
 

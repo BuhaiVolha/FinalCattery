@@ -8,7 +8,6 @@
     <div class="well">
         <div class="media">
             <a class="pull-left" href="#">
-                <%--<img class="media-object" src="http://placekitten.com/150/150">--%>
                 <img class="media-object img-responsive" src="/assets/img/user.png">
             </a>
             <div class="media-body">
@@ -50,6 +49,13 @@
     </div>
 </c:forEach>
 </div>
+    <div class="col" style="float: right; margin-bottom: 38px">
+        <c:url var="searchUri" value="/controller?command=all_reviews&page=##" />
+        <paginator:display maxLinks="10"
+                           currPage="${requestScope.page}"
+                           totalPages="${requestScope.pageCount}"
+                           uri="${searchUri}"/>
+    </div>
 </div>
 
 <script>

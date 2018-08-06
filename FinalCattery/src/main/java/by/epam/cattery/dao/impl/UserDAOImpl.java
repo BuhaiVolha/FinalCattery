@@ -37,7 +37,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final String GET_ALL_USERS = "SELECT user_id, login, name, lastname, email, " +
             "phone, colour_name, role, discount, flag_banned, flag_review_left " +
             "FROM user JOIN user_role ON (user.role_id = user_role.role_id)" +
-            "LEFT JOIN cat_colour ON (colour_preference = EMS_code)";
+            "LEFT JOIN cat_colour ON (colour_preference = EMS_code) ORDER BY login";
     private static final String GET_USER_BY_LOGIN = "SELECT user_id, login, password, role FROM user " +
             "JOIN user_role ON (user.role_id = user_role.role_id) WHERE login= ?;";
     private static final String GET_USER_BY_ID = "SELECT user_id, login, name, lastname, email, " +
@@ -478,6 +478,18 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_USERS;
+    }
+
+    @Override
+    public String getQueryForAllObjectsWithPagination() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForTotalCount() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
     }
 
 

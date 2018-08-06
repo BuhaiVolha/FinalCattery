@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="paginator" uri="/WEB-INF/taglib/paginator.tld"%>
 <jsp:useBean id="now" class="java.util.Date" />
 
 <!DOCTYPE html>

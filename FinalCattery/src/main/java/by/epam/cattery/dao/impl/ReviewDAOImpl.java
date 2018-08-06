@@ -25,7 +25,13 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
     private static final String DELETE_REVIEW = "UPDATE user_review SET flag_review_deleted = 1 WHERE review_id = ?";
 
     private static final String GET_ALL_REVIEWS = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) WHERE NOT flag_review_deleted; ";
+            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
+            "WHERE NOT flag_review_deleted ORDER BY date;";
+    private static final String GET_ALL_REVIEWS_FOR_PAGINATION = "SELECT review_id, user_left_id, login, review_text, date, " +
+            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
+            "WHERE NOT flag_review_deleted ORDER BY date LIMIT ? OFFSET ?;";
+
+    private static final String GET_REVIEWS_COUNT = "SELECT COUNT(*) FROM user_review WHERE NOT flag_review_deleted";
 
     private static final String GET_REVIEW_BY_ID = "SELECT review_id, user_left_id, login, review_text, date, " +
             "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
@@ -95,6 +101,15 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
         return GET_ALL_REVIEWS;
     }
 
+    @Override
+    public String getQueryForAllObjectsWithPagination() {
+        return GET_ALL_REVIEWS_FOR_PAGINATION;
+    }
+
+    @Override
+    public String getQueryForTotalCount() {
+        return GET_REVIEWS_COUNT;
+    }
 
     @Override
     public String getQueryForSingleObject() {

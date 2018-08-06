@@ -29,11 +29,12 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public List<Review> takeAllReviews() throws ServiceException {
+    public List<Review> takeAllReviews(int page, int itemsPerPage) throws ServiceException {
         List<Review> reviews;
 
         try {
-            reviews = reviewDAO.loadAll();
+            //reviews = reviewDAO.loadAll();
+            reviews = reviewDAO.loadAllWithPagination(page, itemsPerPage);
 
             if (reviews.isEmpty()) {
                 return Collections.emptyList();
@@ -42,6 +43,20 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ServiceException("Exception while finding all reviews", e);
         }
         return reviews;
+    }
+
+
+    @Override
+    public int getReviewsPageCount(int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = reviewDAO.getTotalCount();
+            pageCount = (int) Math.ceil((double) totalCount / itemsPerPage);
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting reviews count", e);
+        }
+        return pageCount;
     }
 
 

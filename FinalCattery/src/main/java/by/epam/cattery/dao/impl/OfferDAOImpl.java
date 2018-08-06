@@ -7,6 +7,9 @@ import by.epam.cattery.dao.OfferDAO;
 
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
+    private static final Logger logger = LogManager.getLogger(OfferDAOImpl.class);
+
     private static final String CREATE_OFFER = "INSERT INTO user_offer (user_made_offer_id, " +
             "cat_description, price) VALUES(?, ?, ?)";
 
@@ -133,6 +138,19 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_OFFERS;
+    }
+
+
+    @Override
+    public String getQueryForAllObjectsWithPagination() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForTotalCount() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
     }
 
 

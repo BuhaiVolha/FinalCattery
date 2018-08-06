@@ -42,14 +42,14 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted ";
     private static final String GET_ALL_CATS_BY_STATUS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
             "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? AND NOT flag_cat_deleted";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? AND NOT flag_cat_deleted ORDER BY name";
 
     private static final String GET_CAT_BY_ID = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
@@ -287,6 +287,19 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_CATS;
+    }
+
+    @Override
+    public String getQueryForAllObjectsWithPagination() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public String getQueryForTotalCount() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
     }
 
 

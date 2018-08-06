@@ -8,17 +8,20 @@
             <div class="preview col-md-6">
 
                 <div class="preview-pic tab-content">
-                    <div class="tab-pane active" id="pic-1">
-                        <div class="product-photo">
+
+
+                        <div class="img-container">
                             <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${singleCat.photo}">
                                 <img src="/assets/img/uploads/cats/${singleCat.photo}" class="img-responsive"/></a>
-                        </div>
+
+
                     </div>
 
                 </div>
             </div>
-            <div class="details col-md-6">
-                <h3 class="product-title"><c:out value="${requestScope.singleCat.name}"/> <c:out
+
+            <div class="details col-md-6 bubble">
+                <h3 class="product-title" style="text-align: center;"><c:out value="${requestScope.singleCat.name}"/> <c:out
                         value="${requestScope.singleCat.lastname}"/></h3>
 
                 <c:choose>
@@ -46,6 +49,21 @@
                             </strong>
                         </h5>
                         <p class="product-description"><c:out value="${requestScope.singleCat.description}"/></p>
+
+                        <h5 class="sizes">parents:
+                            <span><c:out value="${requestScope.singleCat.femaleParent}"/> и
+                        <span><c:out value="${requestScope.singleCat.maleParent}"/>
+                        </h5>
+                        <h5 class="colors">age:
+                            <c:out value="${requestScope.singleCat.age}"/> month
+                        </h5>
+                        <h5 class="colors">body color:
+                            <c:out value="${requestScope.singleCat.bodyColour}"/>
+                        </h5>
+                        <h5 class="colors">eyes color:
+                            <c:out value="${requestScope.singleCat.eyesColour}"/>
+                        </h5>
+
                         <c:if test="${requestScope.singleCat.status ne 'SOLD'}">
 
                         <c:choose>
@@ -61,19 +79,6 @@
                         </c:choose>
 
                         </c:if>
-                        <h5 class="sizes">parents:
-                            <span><c:out value="${requestScope.singleCat.femaleParent}"/> и
-                        <span><c:out value="${requestScope.singleCat.maleParent}"/>
-                        </h5>
-                        <h5 class="colors">age:
-                            <c:out value="${requestScope.singleCat.age}"/> month
-                        </h5>
-                        <h5 class="colors">body color:
-                            <c:out value="${requestScope.singleCat.bodyColour}"/>
-                        </h5>
-                        <h5 class="colors">eyes color:
-                            <c:out value="${requestScope.singleCat.eyesColour}"/>
-                        </h5>
                         <div class="action">
                         <c:choose>
                         <c:when test="${sessionScope.role eq 'USER' && requestScope.singleCat.status eq 'AVAIL'}">
@@ -93,7 +98,7 @@
                                 <button type="submit" title="Think twice before clicking!!!" class="add-to-cart btn btn-default">Delete</button>
                             </form>
 <br/>
-<br/>
+
                             <form method="post" action="/imageUploader" enctype="multipart/form-data">
                                 <input type="hidden" name="command" value="upload_cat_photo"/>
                                 <input type="hidden" name="catId" value="${requestScope.singleCat.id}"/>
@@ -119,9 +124,9 @@
                         </div>
 
                         <c:if test="${sessionScope.role ne 'EXPERT' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'USER' && requestScope.singleCat.status ne 'SOLD'}">
-                        <i class="fas fa-exclamation mark"> You must <a href="#" onclick="openLoginModal()">log in</a>
+                        <p style="text-align: center;"><i class="fas fa-exclamation mark"> You must <a href="#" onclick="openLoginModal()">log in</a>
                             in in order to make an
-                            order</i>
+                            order</i></p>
                         </c:if>
             </div>
 

@@ -59,7 +59,7 @@ a {
 a:hover,
 a:focus {
     /*color: #b7cb1b; */
-    color: whitesmoke;
+    color: #f1f5d6;
     text-decoration: none;
     outline: 0;
 }
@@ -1352,7 +1352,7 @@ a.table-link.nopower {
     }
 
     .product-title {
-        margin-top: 0;
+        margin-top: 40px;
     }
 
     .size {
@@ -1541,7 +1541,7 @@ input:invalid {
 
 .status {
 
-
+    text-align: center;
     font-size: 30px;
     font-weight: 900;
     margin-top: 0;
@@ -1584,7 +1584,8 @@ input:invalid {
 .left-nav-style {
     margin-top: 40px;
 }
- /* */
+
+/* */
 
 .cat_reserve_box {
     margin-top: 30px;
@@ -1604,77 +1605,104 @@ input:invalid {
     background-color: #d4c0b9;
     box-shadow: 3px 5px 10px #8BC34A;
 }
+
 .result_box_text {
     color: #232222;
     font-size: 20px;
     text-align: center;
-    padding-top:10px;
+    padding-top: 10px;
 }
+
 .result_box_text span {
     color: #614136;
     font-size: 26px;
     text-align: center;
 }
+
 /* */
-.table>tbody>tr>td, .table>tfoot>tr>td{
+.table > tbody > tr > td, .table > tfoot > tr > td {
     vertical-align: middle;
 }
+
 @media screen and (max-width: 600px) {
-    table#cart tbody td .form-control{
-        width:20%;
+    table#cart tbody td .form-control {
+        width: 20%;
         display: inline !important;
     }
-    .actions .btn{
-        width:36%;
-        margin:1.5em 0;
+
+    .actions .btn {
+        width: 36%;
+        margin: 1.5em 0;
     }
 
-    .actions .btn-info{
-        float:left;
-    }
-    .actions .btn-danger{
-        float:right;
+    .actions .btn-info {
+        float: left;
     }
 
-    table#cart thead { display: none; }
-    table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
-    table#cart tbody tr td:first-child { background: #333; color: #fff; }
+    .actions .btn-danger {
+        float: right;
+    }
+
+    table#cart thead {
+        display: none;
+    }
+
+    table#cart tbody td {
+        display: block;
+        padding: .6rem;
+        min-width: 320px;
+    }
+
+    table#cart tbody tr td:first-child {
+        background: #333;
+        color: #fff;
+    }
+
     table#cart tbody td:before {
-        content: attr(data-th); font-weight: bold;
-        display: inline-block; width: 8rem;
+        content: attr(data-th);
+        font-weight: bold;
+        display: inline-block;
+        width: 8rem;
     }
 
+    table#cart tfoot td {
+        display: block;
+    }
 
-
-    table#cart tfoot td{display:block; }
-    table#cart tfoot td .btn{display:block;}
+    table#cart tfoot td .btn {
+        display: block;
+    }
 
 }
-.carousel-item{min-height:300px; background:#ccc; }
+
+.carousel-item {
+    min-height: 300px;
+    background: #ccc;
+}
 
 .rating {
-    float:left;
+    float: left;
 }
 
 /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
   follow these rules. Every browser that supports :checked also supports :not(), so
   it doesn’t make the test unnecessarily selective */
 .rating:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-    clip:rect(0,0,0,0);
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
 }
 
 .rating:not(:checked) > label {
-    float:right;
-    width:1em;
-     padding:0 .1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:300%;
-     line-height:1.2;
-    color:#ddd;
+    float: right;
+    width: 1em;
+    padding: 0 .1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 300%;
+    line-height: 1.2;
+    color: #ddd;
 }
 
 .rating:not(:checked) > label:before {
@@ -1702,15 +1730,14 @@ input:invalid {
 }
 
 .rating > label:active {
-    position:relative;
-    top:2px;
-    left:2px;
+    position: relative;
+    top: 2px;
+    left: 2px;
 }
+
 .stars {
     color: gold;
 }
-
-
 
 .product-photo {
     position: relative;
@@ -1740,74 +1767,65 @@ input:invalid {
     margin: auto;
 }
 
-.our-team-main
-{
-    width:100%;
-    height:auto;
-    border-bottom:5px #323233 solid;
-    background:#fff;
-    text-align:center;
-    border-radius:10px;
-    overflow:hidden;
-    position:relative;
-    transition:0.5s;
-    margin-bottom:28px;
+.our-team-main {
+    width: 100%;
+    height: auto;
+    border-bottom: 5px #323233 solid;
+    background: #fff;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.5s;
+    margin-bottom: 28px;
 }
 
-
-.our-team-main img
-{
+.our-team-main img {
     border-radius: 50%;
     /*margin-bottom:18px;*/
-    margin-bottom:0;
+    margin-bottom: 0;
 }
 
-.our-team-main h3
-{
-    font-size:20px;
-    font-weight:700;
+.our-team-main h3 {
+    font-size: 20px;
+    font-weight: 700;
 }
 
-.our-team-main p
-{
-    margin-bottom:0;
+.our-team-main p {
+    margin-bottom: 0;
 }
 
-.team-back
-{
-    width:100%;
-    height:auto;
-    position:absolute;
-    top:0;
-    left:0;
-    padding:5px 15px 0 15px;
-    text-align:left;
-    background:#fff;
+.team-back {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px 15px 0 15px;
+    text-align: left;
+    background: #fff;
 
 }
 
-.team-front
-{
-    width:100%;
-    height:auto;
-    position:relative;
-    z-index:10;
-    background:#fff;
-    padding:15px;
-    bottom:0px;
+.team-front {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 10;
+    background: #fff;
+    padding: 15px;
+    bottom: 0px;
     transition: all 0.5s ease;
 }
 
-.our-team-main:hover .team-front
-{
-    bottom:-200px;
+.our-team-main:hover .team-front {
+    bottom: -200px;
     transition: all 0.5s ease;
 }
 
-.our-team-main:hover
-{
-    border-color:#777;
-    transition:0.5s;
+.our-team-main:hover {
+    border-color: #777;
+    transition: 0.5s;
 }
 
 .layer {
@@ -1817,11 +1835,11 @@ input:invalid {
     padding: 5px;
     border: solid 4px #ffebcc;
 }
+
 .speech-bubble {
     background: #fef1e2;
     border-radius: .4em;
 }
-
 
 p.descr {
     text-shadow: 1px 1px 0 orange,
@@ -1831,6 +1849,7 @@ p.descr {
     color: white;
     transition: all 1s;
 }
+
 p.decl {
     text-shadow: 1px 1px 0 red,
     1px -1px 0 red,
@@ -1841,10 +1860,10 @@ p.decl {
 }
 
 hr {
-    border: none; /* Убираем границу */
-    background-color: #ffebcc; /* Цвет линии */
-    color: #ffebcc; /* Цвет линии для IE6-7 */
-    height: 2px; /* Толщина линии */
+    border: none;
+    background-color: #ffebcc;
+    color: #ffebcc;
+    height: 2px;
 }
 
 h2.stat-sent {
@@ -1907,3 +1926,103 @@ h2.stat-await {
     transition: all 1s;
 }
 
+.img-container {
+
+    width: 435px;
+    height: 509px;
+    position: relative;
+    overflow: hidden;
+}
+
+img.img-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+}
+
+.bubble {
+    position: relative;
+    background: #fef1e2;
+    border-radius: .4em;
+    padding-left: 49px;
+    padding-bottom: 37px;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 49px solid transparent;
+    border-right-color: #fef1e2;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -24.5px;
+    margin-left: -49px;
+}
+
+/*.layer-single {*/
+/*overflow: auto;*/
+/*width: 435px;*/
+/*height: 509px;*/
+/*padding: 5px;*/
+/*border: solid 4px #ffebcc;*/
+/*}*/
+
+.paginatorList {
+    margin: 7px 6px;
+    list-style: none outside none;
+    /*padding-bottom: 20px;*/
+    display: inline-block;
+    /* border-radius: 4px; */
+    /*background-color: #fff;*/
+    /*border: 1px solid #ddd;*/
+    /*padding: 6px 12px;*/
+
+}
+
+.paginatorList > li > a:hover {
+   color: #c6d550;
+}
+
+
+a.paginatorLast {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: darkslategray;
+}
+
+.paginatorList li {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    font-size: 1.5em;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+}
+
+.paginatorList li.active {
+    background-color: #c6d550;
+    color: white;
+}
+
+.paginatorList li:hover:not(.active) {
+    background-color: #f1f5d6;
+}
+
+li.paginatorCurr {
+    font-weight: bold;
+    font-size: 1.5em;
+    /*margin-top: -2px;*/
+    color: darkslategray;
+}
+
+li.paginatorLast {
+    /*float: none;*/
+}

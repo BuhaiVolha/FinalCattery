@@ -206,6 +206,18 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         return GET_ALL_RESERVATIONS;
     }
 
+    @Override
+    public String getQueryForAllObjectsWithPagination() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForTotalCount() {
+        logger.log(Level.WARN, "Not impl yet");
+        throw new UnsupportedOperationException();
+    }
+
 
     @Override
     public String getQueryForSingleObject() {

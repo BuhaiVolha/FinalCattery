@@ -23,9 +23,15 @@ public class TakeAllReviewsCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Review> reviews = null;
 
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+
         try {
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
-            reviews = reviewService.takeAllReviews();
+            reviews = reviewService.takeAllReviews(page, 6);
+            int pageCount = reviewService.getReviewsPageCount(6);
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("page", page);
 
             request.setAttribute("approvedReviews", reviews);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reviews")).forward(request, response);

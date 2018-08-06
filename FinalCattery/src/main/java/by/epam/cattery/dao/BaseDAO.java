@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-// Добавить CHECK STATUS из OFFER и CAT
+
 public abstract class BaseDAO<T> implements GenericDAO<T> {
     private static final Logger logger = LogManager.getLogger(BaseDAO.class);
 
@@ -188,6 +188,67 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
 
     @Override
+    public List<T> loadAllWithPagination(int page, int itemsPerPage) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<T> allObjects = new ArrayList<>();
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(getQueryForAllObjectsWithPagination());
+
+            ps.setInt(1, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(2, startIndex);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                allObjects.add(readResultSet(rs));
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Loading all objects for pagination from the database to list failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+
+        return allObjects;
+    }
+
+
+    @Override
+    public int getTotalCount() throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(getQueryForTotalCount());
+
+            rs = ps.executeQuery();
+
+            rs.next();
+            return rs.getInt(1);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Counting all objects for pagination failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    @Override
     public List<T> loadAllById(int id) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -335,6 +396,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     public abstract String getDeleteQuery();
 
     public abstract String getQueryForAllObjects();
+
+    public abstract String getQueryForAllObjectsWithPagination();
+
+    public abstract String getQueryForTotalCount();
 
     public abstract String getQueryForAllObjectsByStatus();
 
