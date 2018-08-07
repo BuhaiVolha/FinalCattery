@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,9 @@ public class LogoutCommand implements ActionCommand {
         session.removeAttribute("userId");
         session.removeAttribute("login");
         session.removeAttribute("role");
+        //session.removeAttribute("local");
         session.invalidate();
 
-        response.sendRedirect(ConfigurationManager.getProperty("path.page.main"));
+        response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.main"));
     }
 }

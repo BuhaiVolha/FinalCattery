@@ -15,6 +15,7 @@ public class Reservation extends Entity {
     private String catName;
     private String catLastname;
     private String catPhoto;
+    private String chequePhoto;
     private Timestamp dateOfReservation;
     private CatPedigreeType pedigreeType;
     private double totalCost;
@@ -120,6 +121,14 @@ public class Reservation extends Entity {
         this.catPhoto = catPhoto;
     }
 
+    public String getChequePhoto() {
+        return chequePhoto;
+    }
+
+    public void setChequePhoto(String chequePhoto) {
+        this.chequePhoto = chequePhoto;
+    }
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -141,6 +150,7 @@ public class Reservation extends Entity {
                 .append(getStatus(), that.getStatus())
                 .append(isExpired(), that.isExpired())
                 .append(getCatPhoto(), that.getCatPhoto())
+                .append(getChequePhoto(), that.getChequePhoto())
                 .isEquals();
     }
 
@@ -160,6 +170,7 @@ public class Reservation extends Entity {
                 .append(getStatus())
                 .append(isExpired())
                 .append(getCatPhoto())
+                .append(getChequePhoto())
                 .toHashCode();
     }
 }

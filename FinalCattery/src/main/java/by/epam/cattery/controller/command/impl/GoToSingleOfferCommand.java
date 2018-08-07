@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
@@ -33,7 +33,8 @@ public class GoToSingleOfferCommand implements ActionCommand {
             request.setAttribute("offerId", offer.getId());
             request.setAttribute("operation", operation);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page." + operation)).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to go to a single offer: ", e);

@@ -66,16 +66,12 @@
             <c:choose>
                 <c:when test="${sessionScope.local == 'ru'}">
                     <a class="btn btn-theme1"
-                       href="/controller?command=language&from=${pageContext.request.requestURI}&local=en">${en_button}</a>
+                       href="/controller?command=language&local=en">${en_button}</a>
                 </c:when>
                 <c:when test="${sessionScope.local == 'en'}">
                     <a class="btn btn-theme1"
-                       href="/controller?command=language&from=${pageContext.request.requestURI}&local=ru">${ru_button}</a>
+                       href="/controller?command=language&local=ru">${ru_button}</a>
                 </c:when>
-                <c:otherwise>
-                    <a class="btn btn-theme1"
-                       href="/controller?command=language&from=${pageContext.request.requestURI}&local=en">${en_button}</a>
-                </c:otherwise>
             </c:choose>
 
 
@@ -168,7 +164,14 @@
                     }
                 }
             </script>
-
+            <script>
+                $( "body" ).prepend( '<div id="preloader"><div class="spinner-sm spinner-sm-1" id="status"> </div></div>' );
+                $(window).on('load', function() { // makes sure the whole site is loaded
+                    $('#status').fadeOut(); // will first fade out the loading animation
+                    $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+                    $('body').delay(350).css({'overflow':'visible'});
+                })
+            </script>
         </div>
     </div>
 

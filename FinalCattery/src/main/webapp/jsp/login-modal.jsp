@@ -12,7 +12,7 @@
             <!-- body (form)-->
             <div class="modal-body">
                 <form role="form"  method="POST" action="/controller">
-                    <input type="hidden" name="command" value="Login" />
+                    <input type="hidden" name="command" value="login" />
 
                     <div class="form-group">
                         <label class="image-replace email" for="signin-login1">Login</label>

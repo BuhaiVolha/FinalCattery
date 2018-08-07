@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.ServiceFactory;
@@ -34,11 +34,12 @@ public class TakeAllReviewsCommand implements ActionCommand {
             request.setAttribute("page", page);
 
             request.setAttribute("approvedReviews", reviews);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reviews")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.reviews")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to take all reviews", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

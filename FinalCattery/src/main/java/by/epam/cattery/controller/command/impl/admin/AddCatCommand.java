@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Gender;
 import by.epam.cattery.service.CatService;
@@ -45,11 +45,11 @@ public class AddCatCommand implements ActionCommand {
                 catService.addOfferedCat(cat, cat.getOfferMadeId());
             }
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to add a cat");
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 
@@ -74,8 +74,8 @@ public class AddCatCommand implements ActionCommand {
 
 
     private void copyOfferPhotoToCats(String filename) throws IOException {
-        File file = new File(ConfigurationManager.getProperty("path.photo.offer") + filename);
-        File dest = new File(ConfigurationManager.getProperty("path.photo.cat"));
+        File file = new File(ConfigurationManager.getInstance().getProperty("path.photo.offer") + filename);
+        File dest = new File(ConfigurationManager.getInstance().getProperty("path.photo.cat"));
         FileUtils.copyFileToDirectory(file, dest);
     }
 }

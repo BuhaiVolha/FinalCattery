@@ -8,6 +8,7 @@ public interface GenericDAO<T> {
     void save(T obj) throws DAOException;
     int saveAndReturnId(T obj) throws DAOException;
     void update(T obj) throws DAOException;
+    void updatePhoto(int id, String photo) throws DAOException;
     void delete(int id) throws DAOException;
     List<T> loadAll() throws DAOException;
     List<T> loadAllWithPagination(int page, int itemsPerPage) throws DAOException;

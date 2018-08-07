@@ -41,7 +41,7 @@
                                     <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                                     </button>
                                     <label>New price (in dollars)</label>
-                                    <input type="text" name="price" placeholder="New price" required="required"/>
+                                    <input type="text" name="price" placeholder="Old price: ${offer.price}" required="required"/>
                                 </c:when>
                                 <c:when test="${operation eq 'approve'}">
                                     <input type="hidden" name="command" value="approve"/>

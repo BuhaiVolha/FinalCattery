@@ -30,13 +30,14 @@
                                 </c:choose>
                                 <div class="product-photo">
                                     <c:choose>
-                                        <c:when test="${offer.photo eq 'offer0.jpg'}">
-                                            <img src="/assets/img/uploads/offers/${offer.photo}" style="border-radius:0; margin-bottom:0;" alt="kitten"
+                                        <c:when test="${empty offer.photo}">
+                                            <img src="/assets/img/uploads/offers/default-offer.jpg" style="border-radius:0; margin-bottom:0;" alt="default image"
                                                  class="img-responsive"/>
                                         </c:when>
                                     <c:otherwise>
+                                        <a target="_blank" title="Open in new window" href="/assets/img/uploads/offers/${offer.photo}">
                                         <img src="/assets/img/uploads/offers/${offer.photo}" alt="kitten"
-                                             class="img-responsive"/>
+                                             class="img-responsive"/></a>
                                     </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -61,7 +62,7 @@
         </c:if>
         <c:choose>
             <c:when test="${not empty offer.expertMessage && sessionScope.role == 'USER' && offer.status == 'REJCT'}">
-                <p class="decl">желаемая цена:</p><p><c:out value="${offer.price}"/> долларов </p>
+                <p class="descr">желаемая цена:</p><p><c:out value="${offer.price}"/> долларов </p>
                 <hr>
                 <p class="decl">пояснение эксперта:</p> <p><c:out value="${offer.expertMessage}"/></p>
             </c:when>
@@ -101,25 +102,27 @@
                                         <button type="submit" class="btn btn-primary">Accept</button>
                                     </form>
                                 </c:if>
+
                                 <form style='float: left; padding: 5px;' role="form" method="post"
                                       action="/controller">
                                     <input type="hidden" name="command" value="delete_offer"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <button type="submit" class="btn btn-primary">Delete offer</button>
                                 </form>
-                                <c:if test="${offer.status == 'AWAIT'}">
+                                <%--<c:if test="${offer.status == 'AWAIT' || empty offer.photo}">--%>
 
-                                    <form style='float: left; padding: 5px;' role="form" method="post"
-                                          action="/controller">
-                                        <input type="hidden" name="command" value="single_offer"/>
-                                        <input type="hidden" name="operation" value="cat-offer-photo"/>
-                                        <input type="hidden" name="offerId" value="${offer.id}"/>
-                                        <button type="submit" class="btn btn-primary">Edit photo</button>
-                                    </form>
-                                </c:if>
+                                    <%--<form style='float: left; padding: 5px;' role="form" method="get"--%>
+                                          <%--action="/controller">--%>
+                                        <%--<input type="hidden" name="command" value="single_offer"/>--%>
+                                        <%--<input type="hidden" name="operation" value="cat-offer-photo"/>--%>
+                                        <%--<input type="hidden" name="offerId" value="${offer.id}"/>--%>
+                                        <%--<button type="submit" class="btn btn-primary">Edit photo</button>--%>
+                                    <%--</form>--%>
+                                <%--</c:if>--%>
                             </c:when>
                             <c:when test="${sessionScope.role == 'ADMIN'}">
-                                <form role="form" method="post" action="/controller">
+                        <div style="text-align:center;">
+                                <form role="form" method="get" action="/controller">
                                     <input type="hidden" name="command" value="single_offer"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <input type="hidden" name="photo" value="${offer.photo}"/>
@@ -127,9 +130,10 @@
                                     <input type="hidden" name="operation" value="add-cat"/>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
+                        </div>
                             </c:when>
                             <c:when test="${sessionScope.role == 'EXPERT'}">
-                                <form style='float: left; padding: 5px;' role="form" method="post"
+                                <form style='float: left; padding: 5px;' role="form" method="get"
                                       action="/controller">
                                     <input type="hidden" name="command" value="single_offer"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
@@ -137,7 +141,7 @@
                                     <button type="submit" class="btn btn-primary">Approve</button>
                                 </form>
 
-                                <form style='float: left; padding: 5px;' role="form" method="post"
+                                <form style='float: left; padding: 5px;' role="form" method="get"
                                       action="/controller">
                                     <input type="hidden" name="command" value="single_offer"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
@@ -145,14 +149,40 @@
                                     <button type="submit" class="btn btn-primary">Bargain</button>
                                 </form>
 
-                                <form style='float: left; padding: 5px;' role="form" method="post"
+                                <form style='float: left; padding: 5px;' role="form" method="get"
                                       action="/controller">
                                     <input type="hidden" name="command" value="single_offer"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <input type="hidden" name="operation" value="decline"/>
-                                    <button type="submit" class="btn btn-primary">Politely decline</button>
+                                    <button type="submit" class="btn btn-primary">Decline</button>
                                 </form>
                             </c:when>
+                            <c:when test="${offer.status == 'AWAIT' && sessionScope.role == 'USER'
+                            || sessionScope.role == 'ADMIN' && empty offer.photo
+                            || sessionScope.role == 'EXPERT' && empty offer.photo }">
+
+                                <form style='float: left; padding: 5px;' role="form" method="get"
+                                      action="/controller">
+                                    <input type="hidden" name="command" value="single_offer"/>
+                                    <input type="hidden" name="operation" value="cat-offer-photo"/>
+                                    <input type="hidden" name="offerId" value="${offer.id}"/>
+                                    <button type="submit" class="btn btn-primary">Edit photo</button>
+                                </form>
+                            </c:when>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${offer.status == 'AWAIT' && sessionScope.role == 'USER'
+                            || sessionScope.role == 'ADMIN' && empty offer.photo
+                            || sessionScope.role == 'EXPERT' && empty offer.photo }">
+
+                            <form style='float: left; padding: 5px;' role="form" method="get"
+                                  action="/controller">
+                                <input type="hidden" name="command" value="single_offer"/>
+                                <input type="hidden" name="operation" value="cat-offer-photo"/>
+                                <input type="hidden" name="offerId" value="${offer.id}"/>
+                                <button type="submit" class="btn btn-primary">Edit photo</button>
+                            </form>
+                        </c:when>
                         </c:choose>
                     </div>
 

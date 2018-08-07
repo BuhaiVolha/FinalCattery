@@ -139,7 +139,7 @@ public class CatServiceImpl implements CatService {
     @Override
     public void addCatPhoto(int catId, String photo) throws ServiceException {
         try {
-            catDAO.addPhoto(catId, photo);
+            catDAO.updatePhoto(catId, photo);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while adding photo for a cat", e);

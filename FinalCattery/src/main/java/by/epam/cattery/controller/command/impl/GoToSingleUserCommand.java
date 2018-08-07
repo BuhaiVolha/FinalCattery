@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
@@ -32,7 +32,7 @@ public class GoToSingleUserCommand implements ActionCommand {
 
             request.setAttribute("user", user);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance().getProperty("path.page." + operation)).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

@@ -1,8 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.User;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -27,7 +26,7 @@ public class MakeExpertCommand implements ActionCommand {
             UserService userService = ServiceFactory.getInstance().getUserService();
             userService.makeExpert(userId);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Making discount failed: ", e);

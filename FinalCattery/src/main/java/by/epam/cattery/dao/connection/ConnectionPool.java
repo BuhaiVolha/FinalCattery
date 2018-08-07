@@ -1,12 +1,12 @@
 package by.epam.cattery.dao.connection;
 
+import by.epam.cattery.util.ConfigurationManager;
+
 import java.sql.*;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
+
 // подумать !
 public final class ConnectionPool {
     private static final ConnectionPool instance = new ConnectionPool();
@@ -47,14 +47,15 @@ public final class ConnectionPool {
     }
 
     private void initPoolData() {
-        DBResourceManager dbResourceManager = DBResourceManager.getInstance();
-        this.driverName = dbResourceManager.getParameter(DBParameter.DB_DRIVER);
-        this.url = dbResourceManager.getParameter(DBParameter.DB_URL);
-        this.user = dbResourceManager.getParameter(DBParameter.DB_USER);
-        this.password = dbResourceManager.getParameter(DBParameter.DB_PASSWORD);
+        ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+
+        this.driverName = configurationManager.getDatabaseParameters(DBParameter.DB_DRIVER);
+        this.url = configurationManager.getDatabaseParameters(DBParameter.DB_URL);
+        this.user = configurationManager.getDatabaseParameters(DBParameter.DB_USER);
+        this.password = configurationManager.getDatabaseParameters(DBParameter.DB_PASSWORD);
 
         try {
-            this.poolSize = Integer.parseInt(dbResourceManager.getParameter(DBParameter.DB_POOL_SIZE));
+            this.poolSize = Integer.parseInt(configurationManager.getDatabaseParameters(DBParameter.DB_POOL_SIZE));
 
         } catch (NumberFormatException e) {
             poolSize = 5; // constant
@@ -77,74 +78,8 @@ public final class ConnectionPool {
     }
 
 
-    public void closeConnection(Connection con, Statement st, ResultSet rs) {
-        try {
-            if (con != null) {
-                con.close();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("closing connection failed " + e);
-            // logger error
-        }
-
-        try {
-            if (st != null) {
-                st.close();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("closing statement failed " + e);
-            // logger error
-        }
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("closing resultset failed " + e);
-            // logger error
-        }
-    }
-
-
-    public void closeConnection(Connection con, Statement st) {
-        try {
-            if (con != null) {
-                con.close();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("closing connection failed " + e);
-            // logger error
-        }
-
-        try {
-            if (st != null) {
-                st.close();
-            }
-
-        } catch (SQLException e) {
-            System.err.println("closing statement failed " + e);
-            // logger error
-        }
-    }
-
-
-//    private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws SQLException {
-//        Connection connection;
-//
-//        while ((connection = queue.poll()) != null) {
-//            if (!connection.getAutoCommit()) {
-//                connection.commit();
-//            }
-//            ((PooledConnection) connection).reallyClose();
-//        }
-//    }
-
-
     public void closeConnectionQueue() throws ConnectionPoolException {
+
         for (int i = 0; i < poolSize; i++) {
 
             try {
@@ -160,6 +95,22 @@ public final class ConnectionPool {
             }
         }
     }
+
+
+    public void deregisterAllDrivers() throws ConnectionPoolException {
+
+        try {
+            Enumeration<Driver> drivers = DriverManager.getDrivers();
+
+            while (drivers.hasMoreElements()) {
+                Driver driver = drivers.nextElement();
+                DriverManager.deregisterDriver(driver);
+            }
+        } catch (SQLException e) {
+            throw new ConnectionPoolException("Exception while deregistering drivers", e);
+        }
+    }
+
 
     public BlockingQueue<Connection> getConnectionQueue() {
         return connectionQueue;

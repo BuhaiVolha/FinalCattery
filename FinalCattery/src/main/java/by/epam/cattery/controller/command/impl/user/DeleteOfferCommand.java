@@ -1,11 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.admin.UnmakeExpertCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
-import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -27,11 +25,11 @@ public class DeleteOfferCommand implements ActionCommand {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
             offerService.deleteOffer(offerId);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Deleting offer failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

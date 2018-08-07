@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
@@ -29,7 +29,8 @@ public class TakeAllUsersCommand implements ActionCommand {
             users = userService.takeAllUsers();
 
             request.setAttribute("users", users);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.manage-users")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.manage-users")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

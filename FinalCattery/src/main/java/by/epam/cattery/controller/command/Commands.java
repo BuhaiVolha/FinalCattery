@@ -33,7 +33,7 @@ public enum Commands {
     SINGLE_USER,
     ALL_USERS,
     COLOUR_PREFERENCE,
-    STATISTICS,
+    COLOUR_STATISTICS,
     BAN,
     UNBAN,
     DISCOUNT,

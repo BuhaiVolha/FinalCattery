@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -28,7 +28,7 @@ public class UploadPhotoToOfferCommand implements ActionCommand {
 
         try {
             int offerId = Integer.parseInt(request.getParameter("offerId"));
-            File path = new File(ConfigurationManager.getProperty("path.photo.offer"));
+            File path = new File(ConfigurationManager.getInstance().getProperty("path.photo.offer"));
 
             if (!path.exists()) {
                 path.mkdir();
@@ -44,7 +44,7 @@ public class UploadPhotoToOfferCommand implements ActionCommand {
 
             offerService.addPhotoToOffer(offerId, file.getName());
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page")); //Обратно в кабинет
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Something pretty bad has happened: ", e);

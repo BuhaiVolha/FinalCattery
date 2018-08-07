@@ -35,8 +35,19 @@
                                             </c:choose>
                                         </p>
                                             <div class="product-photo">
-                                        <img src="/assets/img/uploads/cats/${cat.photo}" alt="A photo of kitten" class="img-responsive">
-                                            </div>
+
+                                                <c:choose>
+                                                    <c:when test="${not empty cat.photo}">
+                                                        <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${cat.photo}">
+                                                            <img src="/assets/img/uploads/cats/${cat.photo}" alt="A photo of kitten"
+                                                                 class="img-responsive"/></a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="/assets/img/uploads/cats/${sessionScope.local}-default-cat.jpg" style="border-radius:0; margin-bottom:0;" alt="default image"
+                                                             class="img-responsive"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                    </div>
 
                                         <h4 style="text-align: center; position: relative;"><c:out value="${cat.name}"/> <c:out value="${cat.lastname}"/></h4>
 
@@ -57,7 +68,7 @@
                                                         <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount}">
                                                             <p class="price">price:
                                                                 <del><span>$<c:out value="${cat.price}"/></span></del>
-                                                                <span>$<c:out
+                                                                <span style="margin-left: 19px">$<c:out
                                                                         value="${cat.priceWithDiscount}"/> !!!</span>
                                                             </p>
                                                         </c:when>

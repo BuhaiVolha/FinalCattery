@@ -1,10 +1,11 @@
-package by.epam.cattery.controller.command.impl.admin;
+package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.util.ConfigurationManager;
-import by.epam.cattery.service.CatService;
+import by.epam.cattery.service.OfferService;
+import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.util.ConfigurationManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,20 +14,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public class UploadPhotoForCatCommand implements ActionCommand {
-    private static final Logger logger = LogManager.getLogger(UploadPhotoForCatCommand.class);
+public class UploadChequePhotoCommand implements ActionCommand {
+    private static final Logger logger = LogManager.getLogger(UploadChequePhotoCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CatService catService = ServiceFactory.getInstance().getCatService();
+        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
         try {
-            int catId = Integer.parseInt(request.getParameter("catId"));
-            File path = new File(ConfigurationManager.getInstance().getProperty("path.photo.cat"));
+            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            File path = new File(ConfigurationManager.getInstance().getProperty("path.photo.cheque"));
 
             if (!path.exists()) {
                 path.mkdir();
@@ -34,13 +37,13 @@ public class UploadPhotoForCatCommand implements ActionCommand {
 
             Part filePart = request.getPart("file");
             String suffix = getFileSuffix(filePart);
-            File file = File.createTempFile("cat-up", suffix, path);
+            File file = File.createTempFile("cheque", suffix, path);
 
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
 
-            catService.addCatPhoto(catId, file.getName());
+            reservationService.addChequePhoto(reservationId, file.getName());
 
             response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
 

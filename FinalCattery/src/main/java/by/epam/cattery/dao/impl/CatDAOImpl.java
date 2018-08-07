@@ -181,28 +181,28 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
-    @Override
-    public void addPhoto(int catId, String photo) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-
-        try {
-            con = connectionProvider.obtainConnection();
-            ps = con.prepareStatement(UPDATE_PHOTO);
-
-            ps.setString(1, photo);
-            ps.setInt(2, catId);
-
-            ps.executeUpdate();
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception while updating cat's photo", e);
-
-        } finally {
-            connectionProvider.close(con);
-            connectionProvider.closeResources(ps);
-        }
-    }
+//    @Override
+//    public void addPhoto(int catId, String photo) throws DAOException {
+//        Connection con = null;
+//        PreparedStatement ps = null;
+//
+//        try {
+//            con = connectionProvider.obtainConnection();
+//            ps = con.prepareStatement(UPDATE_PHOTO);
+//
+//            ps.setString(1, photo);
+//            ps.setInt(2, catId);
+//
+//            ps.executeUpdate();
+//
+//        } catch (ConnectionPoolException | SQLException e) {
+//            throw new DAOException("Exception while updating cat's photo", e);
+//
+//        } finally {
+//            connectionProvider.close(con);
+//            connectionProvider.closeResources(ps);
+//        }
+//    }
 
 
     @Override
@@ -277,6 +277,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         return UPDATE_CAT_STATUS;
     }
 
+    @Override
+    public String getUpdatePhotoQuery() {
+        return UPDATE_PHOTO;
+    }
 
     @Override
     public String getDeleteQuery() {

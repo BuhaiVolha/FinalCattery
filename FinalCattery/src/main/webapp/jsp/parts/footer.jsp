@@ -9,7 +9,7 @@
                     <div class="wow fadeInRight" data-wow-delay="0.1s">
                         <div class="text-right">
                             <div id="credits">
-                                <p style="color: white; margin-right: -183px;">&copy;Copyright - Milacoon.</p>
+                                <p class="foot" style="color: white; margin-right: -187px; margin-top: 10px;">&copy;Copyright - Milacoon.</p>
                             </div>
                         </div>
                     </div>

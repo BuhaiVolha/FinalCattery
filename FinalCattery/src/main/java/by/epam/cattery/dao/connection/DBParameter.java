@@ -1,6 +1,7 @@
 package by.epam.cattery.dao.connection;
 
 public final class DBParameter {
+
     private DBParameter() {
     }
 

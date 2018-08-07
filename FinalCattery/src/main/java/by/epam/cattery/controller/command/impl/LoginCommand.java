@@ -2,8 +2,7 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.User;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.controller.util.MessageManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -39,23 +38,23 @@ public class LoginCommand implements ActionCommand {
                 session.setAttribute("login", user.getLogin());
                 session.setAttribute("role", user.getRole());
 
-                response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+                response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
             } else {
                 request.getSession(true).setAttribute("errorLoginPassMessage",
-                        MessageManager.getProperty("message.loginerror"));
+                        ConfigurationManager.getInstance().getMessage("message.loginerror"));
                 response.sendRedirect(viewPath);
 
             }
 
         } catch (UserIsBannedException e) {
             request.getSession(true).setAttribute("errorLoginPassMessage",
-                    MessageManager.getProperty("message.userbanned"));
+                    ConfigurationManager.getInstance().getMessage("message.userbanned"));
             response.sendRedirect(viewPath);
 
         }  catch (ServiceException e) {
             logger.log(Level.ERROR, "Logging in failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

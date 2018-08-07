@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
@@ -30,7 +30,7 @@ public class SetColourPreferenceCommand implements ActionCommand {
             UserService userService = ServiceFactory.getInstance().getUserService();
             userService.changeColourPreference(user);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
         } catch (Exception e) {

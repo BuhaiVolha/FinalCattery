@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -25,7 +25,7 @@ public class BanUserCommand implements ActionCommand {
             UserService userService = ServiceFactory.getInstance().getUserService();
             userService.banUser(userId);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
             // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 
         } catch (ServiceException e) {

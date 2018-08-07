@@ -2,7 +2,7 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -10,8 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
 
 @WebServlet(name = "ImageUploader",
@@ -26,12 +24,12 @@ public class ImageUploader extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ActionCommand command = CommandProvider.defineCommand(request);
+        ActionCommand command = CommandProvider.getInstance().defineCommand(request);
 
         if (command != null) {
             command.execute(request, response);
         } else {
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

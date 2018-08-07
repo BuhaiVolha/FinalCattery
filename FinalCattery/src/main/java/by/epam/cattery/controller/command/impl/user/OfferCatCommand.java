@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
@@ -34,7 +34,8 @@ public class OfferCatCommand implements ActionCommand {
             int offerId = offerService.offerCat(offer);
             request.setAttribute("offerId", offerId);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cat-offer-photo")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.cat-offer-photo")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Offering cat failed: ", e);

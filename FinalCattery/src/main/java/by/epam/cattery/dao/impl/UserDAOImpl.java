@@ -468,6 +468,14 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         throw new UnsupportedOperationException();
     }
 
+
+    @Override
+    public String getUpdatePhotoQuery() {
+        logger.log(Level.WARN, "Execute update photo is not implemented for User (sounds like a good idea, maybe later)");
+        throw new UnsupportedOperationException();
+    }
+
+
     @Override
     public String getDeleteQuery() {
         logger.log(Level.WARN, "Deleting is not implemented User");

@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Gender;
 import by.epam.cattery.service.CatService;
@@ -29,7 +29,8 @@ public class EditCatCommand implements ActionCommand {
             CatService catService = ServiceFactory.getInstance().getCatService();
             catService.editCat(cat);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page")); //Обратно на стр с котанами
+            response.sendRedirect(ConfigurationManager.getInstance()
+                    .getProperty("path.page.success-page")); //Обратно на стр с котанами
 
         } catch (ValidationFailedException e) { // ккаято валидация
             logger.log(Level.WARN, "Validation failed: ", e);

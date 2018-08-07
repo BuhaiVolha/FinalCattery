@@ -1,10 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.Reservation;
-import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -30,11 +29,11 @@ public class ReserveCatCommand implements ActionCommand {
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
             reservationService.makeReservation(reservation);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to make a reservation");
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 

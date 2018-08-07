@@ -6,6 +6,5 @@
   </head>
   <body>
   <c:redirect url="jsp/main.jsp" />
-  <%-- <jsp:forward page="main.jsp" /> --%>
   </body>
 </html>

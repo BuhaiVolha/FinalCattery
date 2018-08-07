@@ -2,8 +2,7 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.Cat;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.CatStatus;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -28,7 +27,6 @@ public class TakeAllCatsCommand implements ActionCommand {
         List<Cat> cats = null;
         HttpSession session = request.getSession();
 
-
         try {
             int discountPercents = 0;
             CatService catService = ServiceFactory.getInstance().getCatService();
@@ -51,7 +49,8 @@ public class TakeAllCatsCommand implements ActionCommand {
             }
 
             request.setAttribute("cats", cats);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.cats")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

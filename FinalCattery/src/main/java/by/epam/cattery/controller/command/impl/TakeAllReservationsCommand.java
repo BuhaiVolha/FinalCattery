@@ -2,11 +2,9 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.entity.Offer;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Reservation;
 import by.epam.cattery.entity.Role;
-import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -33,14 +31,16 @@ public class TakeAllReservationsCommand implements ActionCommand {
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
             if (session.getAttribute("role") == Role.USER) {
-                reservations = reservationService.takeAllReservationsForUser(Integer.parseInt(session.getAttribute("userId").toString()));
+                reservations = reservationService
+                        .takeAllReservationsForUser(Integer.parseInt(session.getAttribute("userId").toString()));
             } else {
                 reservations = reservationService.takeAllReservations();
             }
 
             request.setAttribute("reservations", reservations);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reservations")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.reservations")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

@@ -91,6 +91,13 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
 
 
     @Override
+    public String getUpdatePhotoQuery() {
+        logger.log(Level.WARN, "Execute update photo is not implemented for Review");
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
     public String getDeleteQuery() {
         return DELETE_REVIEW;
     }

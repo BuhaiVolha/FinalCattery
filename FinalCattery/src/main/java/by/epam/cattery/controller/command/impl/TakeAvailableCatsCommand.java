@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Role;
@@ -50,7 +50,8 @@ public class TakeAvailableCatsCommand implements ActionCommand {
             }
 
             request.setAttribute("cats", cats);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.cats")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

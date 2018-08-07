@@ -118,6 +118,17 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
+    public void addChequePhoto(int reservationId, String photo) throws ServiceException {
+        try {
+            reservationDAO.updatePhoto(reservationId, photo);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while adding photo for an reservation", e);
+        }
+    }
+
+
+    @Override
     public void cancelReservation(int reservationId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 

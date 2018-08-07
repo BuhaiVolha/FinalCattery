@@ -129,6 +129,35 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
 
     @Override
+    public void updatePhoto(int id, String photo) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(getUpdatePhotoQuery());
+
+            ps.setString(1, photo);
+            ps.setInt(2, id);
+
+            int i = ps.executeUpdate();
+
+            if (i != 1) {
+                throw new DAOException("Couldn't upload photo into database");
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Uploading photo failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
     public void delete(int id) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -392,6 +421,8 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     public abstract String getUpdateQuery();
 
     public abstract String getUpdateStatusQuery();
+
+    public abstract String getUpdatePhotoQuery();
 
     public abstract String getDeleteQuery();
 

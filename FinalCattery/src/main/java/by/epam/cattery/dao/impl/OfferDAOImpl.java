@@ -47,34 +47,9 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
             "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
             "WHERE offer_id = ? AND NOT flag_offer_deleted;";
-// NOT flag_deleted;??
+
     private static final String CHECK_OFFER_STATUS = "SELECT EXISTS (SELECT 1 FROM user_offer " +
-            "WHERE offer_id =? AND user_offer_status_id=?)";
-
-
-
-    @Override
-    public void addPhoto(int offerId, String photo) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-
-        try {
-            con = connectionProvider.obtainConnection();
-            ps = con.prepareStatement(UPDATE_PHOTO);
-
-            ps.setString(1, photo);
-            ps.setInt(2, offerId);
-
-            ps.executeUpdate();
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception while adding photo to offer", e);
-
-        } finally {
-            connectionProvider.close(con);
-            connectionProvider.closeResources(ps);
-        }
-    }
+            "WHERE offer_id =? AND user_offer_status_id=? AND NOT flag_offer_deleted)";
 
 
     @Override
@@ -126,6 +101,11 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     @Override
     public String getUpdateStatusQuery() {
         return UPDATE_OFFER_STATUS;
+    }
+
+    @Override
+    public String getUpdatePhotoQuery() {
+        return UPDATE_PHOTO;
     }
 
 

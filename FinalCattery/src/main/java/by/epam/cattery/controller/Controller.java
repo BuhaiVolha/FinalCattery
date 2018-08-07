@@ -2,7 +2,10 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,35 +17,27 @@ import java.io.IOException;
 @WebServlet(name = "Controller",
         urlPatterns = "/controller")
 public class Controller extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        ActionCommand command = CommandProvider.defineCommand(request);
+        ActionCommand command = CommandProvider.getInstance().defineCommand(request);
 
         if (command != null) {
             command.execute(request, response);
         } else {
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            logger.log(Level.WARN, "Command was null");
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
-        //page = command.execute(request, response);
-
-//        if (page != null) {
-//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-//            dispatcher.forward(request, response);
-//
-//        } else {
-//            //page = ConfigurationManager.getProperty("path.page.index");
-//            page = ConfigurationManager.getProperty("path.page.main");
-//            request.getSession().setAttribute("nullpage", MessageManager.getProperty("message.nullpage"));
-//            response.sendRedirect(request.getContextPath() + page);
-//        }
     }
 }

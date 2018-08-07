@@ -33,7 +33,7 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public void addPhotoToOffer(int offerId, String photo) throws ServiceException {
         try {
-            offerDAO.addPhoto(offerId, photo);
+            offerDAO.updatePhoto(offerId, photo);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while adding photo for an offer", e);

@@ -1,7 +1,6 @@
 package by.epam.cattery.controller.filter;
 
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.controller.util.MessageManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Role;
 
 import javax.servlet.*;
@@ -26,9 +25,10 @@ public class AdminFilter implements Filter {
         if (session.getAttribute("role") != Role.ADMIN) {
 
             if (session.getAttribute("login") == null) {
-                session.setAttribute("errorLoginPassMessage", MessageManager.getProperty("message.accessdenied"));
+                session.setAttribute("errorLoginPassMessage", ConfigurationManager.getInstance()
+                        .getMessage("message.accessdenied"));
             }
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.main"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.main"));
 
         } else {
             chain.doFilter(request, response);

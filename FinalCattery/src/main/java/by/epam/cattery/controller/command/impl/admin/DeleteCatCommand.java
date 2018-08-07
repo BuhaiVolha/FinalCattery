@@ -1,10 +1,8 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.user.DeleteOfferCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.CatService;
-import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
@@ -27,11 +25,11 @@ public class DeleteCatCommand implements ActionCommand {
             CatService catService = ServiceFactory.getInstance().getCatService();
             catService.deleteCat(catId);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Deleting cat failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

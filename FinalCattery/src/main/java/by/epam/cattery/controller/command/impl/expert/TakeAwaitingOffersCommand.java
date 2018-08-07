@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
@@ -30,7 +30,8 @@ public class TakeAwaitingOffersCommand implements ActionCommand {
             offers = offerService.takeAllOffersByStatus(OfferStatus.AWAIT);
 
             request.setAttribute("offers", offers);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.offers")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.offers")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

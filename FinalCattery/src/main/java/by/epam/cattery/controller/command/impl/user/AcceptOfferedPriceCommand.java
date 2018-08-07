@@ -1,8 +1,7 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.expert.ApproveOfferCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.service.OfferService;
@@ -32,11 +31,11 @@ public class AcceptOfferedPriceCommand implements ActionCommand {
 
             offerService.answerToOffer(offer, OfferStatus.DISC);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException | NumberFormatException e) {
             logger.log(Level.ERROR, "Exception while accepting price: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

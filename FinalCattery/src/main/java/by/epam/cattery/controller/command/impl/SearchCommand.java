@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.*;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -43,10 +43,11 @@ public class SearchCommand implements ActionCommand {
 
 
             request.setAttribute("cats", cats);
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.cats")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.cats")).forward(request, response);
 
         } catch (ServiceException e) {
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
             logger.log(Level.ERROR, "Cat's are not here: ", e);
         }
     }

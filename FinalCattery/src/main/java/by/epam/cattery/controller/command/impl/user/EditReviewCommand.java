@@ -1,8 +1,7 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.command.impl.admin.DeleteReviewCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.ServiceFactory;
@@ -29,11 +28,11 @@ public class EditReviewCommand implements ActionCommand {
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
             reviewService.editReview(review);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Editing review failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 

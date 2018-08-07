@@ -14,20 +14,25 @@
         <tr>
             <c:choose>
                 <c:when test="${sessionScope.role == 'ADMIN'}">
-                    <th style="width:40%">Cat</th>
-                    <th style="width:15%">Buyer</th>
+                    <th style="width:15%; text-align: center">Cat</th>
+                    <th style="width:20%; text-align: center">Name</th>
+                    <th style="width:15%; text-align: center">Buyer</th>
                     <th style="width:10%">Price</th>
                     <th style="width:15%">Date</th>
                     <th style="width:10%">Pedigree</th>
                     <th style="width:22%" class="text-center">Status</th>
+                    <th >Cheque</th>
                     <th style="width:10%"></th>
                 </c:when>
                 <c:when test="${sessionScope.role == 'USER'}">
-                    <th style="width:30%">Cat</th>
+                    <th style="width:15%; text-align: center">Cat</th>
+                    <th style="width:20%;">Name</th>
                     <th style="width:10%">Price</th>
                     <th style="width:15%">Date</th>
                     <th style="width:10%">Pedigree</th>
                     <th style="width:22%" class="text-center">Status</th>
+                    <th></th>
+                    <th style="width:10%"></th>
                     <th style="width:10%"></th>
                 </c:when>
             </c:choose>
@@ -36,20 +41,15 @@
         <c:forEach items="${reservations}" var="reservation">
             <tbody>
             <tr>
+                    <td data-th="Product">
 
-                <td data-th="Product">
-                    <div class="row">
-                        <div class="col-sm-2 hidden-xs">
-                            <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${reservation.catPhoto}">
-                                <img src="/assets/img/uploads/cats/${reservation.catPhoto}" alt="Reserved cat"
-                                     class="img-responsive" /></a></div>
-                        <div class="col-sm-10">
-                            <h4 class="nomargin"><c:out value="${reservation.catName}"/> <c:out
-                                    value="${reservation.catLastname}"/></h4>
+                                <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${reservation.catPhoto}">
+                                    <img src="/assets/img/uploads/cats/${reservation.catPhoto}" alt="Reserved cat"
+                                         class="img-responsive" /></a>
 
-                        </div>
-                    </div>
-                </td>
+                    </td>
+                    <td><c:out value="${reservation.catName}"/> <c:out
+                            value="${reservation.catLastname}"/></td>
                 <c:if test="${sessionScope.role == 'ADMIN'}">
                     <td data-th="Price"><c:out value="${reservation.userMadeReservationName}"/> <c:out
                             value="${reservation.userMadeReservationLastname}"/></td>
@@ -64,6 +64,7 @@
                         <c:choose>
                             <c:when test="${reservation.expired}">
                                 <span class="label label-danger">Expired</span>
+                                <c:set var="showExpiredButton" value="true"/>
                             </c:when>
                             <c:otherwise>
                                 <span class="label label-success">Active</span>
@@ -85,9 +86,40 @@
                     </c:if>
                 </p></td>
 
+<c:choose>
+    <c:when test="${empty reservation.chequePhoto || sessionScope.role != 'ADMIN'}">
+      <td></td>
+    </c:when>
+    <c:otherwise>
+                <td data-th="Product">
+        <a target="_blank" title="Open in new window" href="/assets/img/uploads/cheques/${reservation.chequePhoto}">
+            <img src="/assets/img/uploads/cheques/${reservation.chequePhoto}" alt="Payment"
+                 class="img-responsive" /></a>
+                </td>
+    </c:otherwise>
+</c:choose>
+                    <c:choose>
+                    <c:when test="${reservation.status eq 'NEW' && empty reservation.chequePhoto && sessionScope.role == 'USER'}">
+                        <td>
+                            <form method="post" action="/imageUploader" enctype="multipart/form-data">
+                                <input type="hidden" name="command" value="upload_cheque_photo"/>
+                                <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                                <div class="form-inline pull-left">
+                                    <div class="form-group"><input type="file" required="required" name="file" size="60" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Attach cheque photo</button>
+                                </div>
+                            </form>
+                        </td>
+                    </c:when>
+                        <c:when test="${reservation.status eq 'NEW' && not empty reservation.chequePhoto && sessionScope.role == 'USER'}">
+                            <td style="text-align: center">Paid</td>
+                        </c:when>
+                    </c:choose>
                 <td class="actions" data-th="">
 
-                    <c:if test="${!reservation.expired && sessionScope.role == 'ADMIN'}">
+                    <c:if test="${!reservation.expired && sessionScope.role == 'ADMIN'
+                    || not empty reservation.chequePhoto && sessionScope.role == 'ADMIN'}">
 
                         <form role="form" method="post" action="/controller">
                             <input type="hidden" name="command" value="sell_cat"/>
@@ -95,6 +127,7 @@
                             <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-hand-holding-usd"> Sell</i></button>
                         </form>
                     </c:if>
+
                     <c:if test="${sessionScope.role == 'USER'}">
                         <c:choose>
                             <c:when test="${reservation.status eq 'EXPD'}">
@@ -111,7 +144,7 @@
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fab fa-hotjar"> Delete</i></button>
                                 </form>
                             </c:when>
-                            <c:when test="${reservation.status eq 'NEW'}">
+                            <c:when test="${reservation.status eq 'NEW' && empty reservation.chequePhoto}">
 
                                 <form role="form" method="post" action="/controller">
                                     <input type="hidden" name="command" value="cancel_reservation"/>
@@ -136,8 +169,8 @@
                 <td colspan="2" class="hidden-xs"></td>
                 <td colspan="2" class="hidden-xs"></td>
                 <td colspan="2" class="hidden-xs"></td>
-
-                <c:if test="${not empty reservations}">
+<c:choose>
+                <c:when test="${not empty reservations && showExpiredButton}">
                     <td> <form role="form" method="post" action="/controller">
                         <input type="hidden" name="command" value="decline_expired_reservations"/>
                         <input type="hidden" name="reservationId" value="${reservation.id}"/>
@@ -145,8 +178,11 @@
                             expired <i class="fab fa-hotjar"></i></button>
                     </form>
                     </td>
-
-                </c:if>
+                </c:when>
+    <c:otherwise>
+        <td colspan="2" class="hidden-xs"></td>
+    </c:otherwise>
+</c:choose>
             </tr>
         </c:if>
         </tfoot>

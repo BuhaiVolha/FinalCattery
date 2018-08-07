@@ -15,6 +15,7 @@
         </div>
     </div>
 </div>
+
 <section id="aboutus" class="area_padding about_area">
     <div class="container">
         <div class="about">

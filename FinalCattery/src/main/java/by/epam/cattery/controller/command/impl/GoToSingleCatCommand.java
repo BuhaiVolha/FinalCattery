@@ -1,9 +1,8 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
-import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-// подумать с дискаунтами
 public class GoToSingleCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleCatCommand.class);
 
@@ -46,10 +44,21 @@ public class GoToSingleCatCommand implements ActionCommand {
             } else {
                 cat.setPriceWithDiscount(cat.getPrice());
             }
-
             request.setAttribute("singleCat", cat);
+//
+//            if (session.getAttribute("role") == Role.USER) {
+//                request.getRequestDispatcher(ConfigurationManager.getInstance()
+//                        .getProperty("path.page.reserve-cat")).forward(request, response);
+//            }
+//
+//            if (session.getAttribute("role") == Role.EXPERT) {
+//                request.getRequestDispatcher(ConfigurationManager.getInstance()
+//                        .getProperty("path.page.edit-cat")).forward(request, response);
+//            }
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page." + operation)).forward(request, response);
+
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page." + operation)).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to go to a single offer: ", e);

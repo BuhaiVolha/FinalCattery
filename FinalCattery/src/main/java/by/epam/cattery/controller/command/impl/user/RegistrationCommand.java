@@ -3,8 +3,7 @@ package by.epam.cattery.controller.command.impl.user;
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.controller.util.MessageManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 
@@ -41,7 +40,7 @@ public class RegistrationCommand implements ActionCommand {
             session.setAttribute("login", user.getLogin());
             session.setAttribute("role", Role.USER);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ValidationFailedException e) {
             // заменить на бул?
@@ -51,12 +50,14 @@ public class RegistrationCommand implements ActionCommand {
         } catch (LoginAlreadyExistsException e) {
             logger.log(Level.WARN, "User already exists exception: ", e);
 
-            request.setAttribute("errorLoginExistsMessage", MessageManager.getProperty("message.loginexists"));
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reg")).forward(request, response);
+            request.setAttribute("errorLoginExistsMessage", ConfigurationManager.getInstance().getMessage("message.loginexists"));
+            request.getRequestDispatcher(ConfigurationManager.getInstance().getProperty("path.page.reg")).forward(request, response);
 
         } catch (EmailAlreadyExistsException e) {
-            request.setAttribute("errorEmailExistsMessage", MessageManager.getProperty("message.emailtaken"));
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.reg")).forward(request, response);
+            request.setAttribute("errorEmailExistsMessage", ConfigurationManager.getInstance()
+                    .getMessage("message.emailtaken"));
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.reg")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Somehing pretty bad has happened: ", e);

@@ -30,6 +30,8 @@ public class ContextListener implements ServletContextListener {
         try {
             ConnectionPool.getInstance().closeConnectionQueue();
             logger.log(Level.DEBUG, "Connection pool was closed");
+            ConnectionPool.getInstance().deregisterAllDrivers();
+            logger.log(Level.DEBUG, "Drivers were deregistered");
 
         } catch (ConnectionPoolException e) {
             logger.log(Level.ERROR, "Connection pool wasn't closed");

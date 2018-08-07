@@ -1,8 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.service.CatService;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
@@ -24,11 +23,11 @@ public class DeclineExpiredReservationsCommand implements ActionCommand {
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
             reservationService.declineExpiredReservations();
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Declining reservations failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

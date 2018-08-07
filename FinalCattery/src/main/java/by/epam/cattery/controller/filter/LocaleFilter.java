@@ -1,7 +1,6 @@
 package by.epam.cattery.controller.filter;
 
 import by.epam.cattery.util.ConfigurationManager;
-import by.epam.cattery.entity.Role;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -10,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = { "/jsp/user/*"})
-public class UserFilter implements Filter {
+@WebFilter(filterName = "LocaleFilter", urlPatterns = {"/*"})
+public class LocaleFilter implements Filter {
 
     public void destroy() {
     }
@@ -22,20 +21,14 @@ public class UserFilter implements Filter {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("role") != Role.USER) {
-
-            if (session.getAttribute("login") == null) {
-                session.setAttribute("errorLoginPassMessage", ConfigurationManager.getInstance()
-                        .getMessage("message.accessdenied"));
-            }
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.main"));
-
-        } else {
-            chain.doFilter(request, response);
+        if (session.getAttribute("local") == null) {
+            session.setAttribute("local", "en");
         }
+        chain.doFilter(request, response);
     }
 
     public void init(FilterConfig config) throws ServletException {
 
     }
+
 }

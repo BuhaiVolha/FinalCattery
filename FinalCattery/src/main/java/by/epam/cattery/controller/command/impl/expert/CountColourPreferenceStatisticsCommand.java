@@ -1,7 +1,7 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -26,11 +26,12 @@ public class CountColourPreferenceStatisticsCommand implements ActionCommand {
 
             request.setAttribute("colourStatistics", statistics);
 
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.statistics")).forward(request, response);
+            request.getRequestDispatcher(ConfigurationManager.getInstance()
+                    .getProperty("path.page.statistics")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Showing statistics failed: ", e);
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.error"));
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
         }
     }
 }

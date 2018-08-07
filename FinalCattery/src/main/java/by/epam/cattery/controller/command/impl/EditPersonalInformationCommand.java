@@ -1,13 +1,11 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-import by.epam.cattery.controller.util.ConfigurationManager;
-import by.epam.cattery.controller.util.MessageManager;
+import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.EmailAlreadyExistsException;
-import by.epam.cattery.service.exception.LoginAlreadyExistsException;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 import org.apache.logging.log4j.Level;
@@ -32,7 +30,7 @@ public class EditPersonalInformationCommand implements ActionCommand {
             UserService userService = ServiceFactory.getInstance().getUserService();
             userService.editPersonalInfo(user);
 
-            response.sendRedirect(ConfigurationManager.getProperty("path.page.success-page")); //Обратно в кабинет
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
 
         } catch (ValidationFailedException e) {
             // заменить на бул?
@@ -40,8 +38,8 @@ public class EditPersonalInformationCommand implements ActionCommand {
             logger.log(Level.WARN, "Validation failed: ", e);
 
         } catch (EmailAlreadyExistsException e) {
-            request.setAttribute("errorEmailExistsMessage", MessageManager.getProperty("message.emailtaken"));
-            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.edit-user-info")).forward(request, response);
+            request.setAttribute("errorEmailExistsMessage", ConfigurationManager.getInstance().getMessage("message.emailtaken"));
+            request.getRequestDispatcher(ConfigurationManager.getInstance().getProperty("path.page.edit-user-info")).forward(request, response);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Something pretty bad has happened: ", e);

@@ -24,7 +24,7 @@
                     <c:when test="${sessionScope.userId == approvedReview.userLeftId}">
 
                         <li style="float:right;">
-                            <form role="form" method="post" action="/controller">
+                            <form role="form" method="get" action="/controller">
                                 <input type="hidden" name="command" value="single_review"/>
                                 <input type="hidden" name="reviewId" value="${approvedReview.id}"/>
                                 <button type="submit" class="btn btn-danger">Edit</button>

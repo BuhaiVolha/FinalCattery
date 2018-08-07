@@ -45,7 +45,7 @@
                                     <c:when test="${not empty requestScope.user.colourPreference}">
                                         ${requestScope.user.colourPreference}
                                         <span class="pull-right">
-                            <a href="/jsp/user/preference.jsp" title="Edit your colour preference"
+                            <a href="/jsp/user/set-preference.jsp" title="Edit your colour preference"
                                data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i
                                     class="fas fa-palette"></i></a>
@@ -101,7 +101,7 @@
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
                             <br>
-                            <a href="/controller?command=statistics" class="btn btn-primary">See statistics</a>
+                            <a href="/controller?command=colour_statistics" class="btn btn-primary">See statistics</a>
                             <a href="/controller?command=pedigree" class="btn btn-primary">Pedigree count</a>
                             <a href="/controller?command=awaiting_offers"
                                class="btn btn-primary">Assess cats</a>

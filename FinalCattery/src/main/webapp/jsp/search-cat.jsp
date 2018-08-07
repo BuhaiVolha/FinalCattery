@@ -3,10 +3,11 @@
 
 <%@ include file="/jsp/parts/header.jsp" %>
 
+<div id="searcher" class="header">
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
-            <div class="well">
+            <div class="well" style="padding: 28px;">
                 <h3 align="center">Search Filter</h3>
                 <form class="form-horizontal" method="POST" action="/controller">
                     <input type="hidden" name="command" value="search"/>
@@ -20,8 +21,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="status" class="control-label">Status</label>
-                        <select class="form-control" name="status" id="status">
+                        <label for="catstatus" class="control-label">Status</label>
+                        <select class="form-control" name="status" id="catstatus">
                             <option value="">Any</option>
                             <option value="AVAIL">Available</option>
                             <option value="RSRV">Reserved</option>
@@ -73,6 +74,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 </div>
 <%@ include file="/jsp/parts/footer.jsp" %>
