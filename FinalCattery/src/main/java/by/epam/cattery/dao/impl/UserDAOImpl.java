@@ -26,43 +26,105 @@ import java.util.Map;
 public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class);
 
-    private static final String CREATE_USER = "INSERT INTO user (login, password, name, lastname, email, phone) " +
-            "VALUES(?,?,?,?,?,?)";
+    private static final String CREATE_USER =
+            "INSERT INTO user " +
+                    "(login, password, name, lastname, email, phone) " +
+                    "VALUES(?, ?, ?, ?, ?, ?);";
 
-    private static final String UPDATE_USER = "UPDATE user SET login=?, password =?, name=?, lastname=?, email=?, " +
-            "phone=? WHERE user_id = ?;";
-    private static final String UPDATE_DISCOUNT = "UPDATE user SET discount = ? WHERE user_id = ?";
-    private static final String UPDATE_COLOUR_PREFERENCE = "UPDATE user SET colour_preference=? WHERE user_id = ?;";
+    private static final String UPDATE_USER =
+            "UPDATE user " +
+                    "SET login = ?, password = ?, name = ?, lastname = ?, email = ?, phone = ? " +
+                    "WHERE user_id = ?;";
+    private static final String UPDATE_DISCOUNT =
+            "UPDATE user " +
+                    "SET discount = ? " +
+                    "WHERE user_id = ?;";
+    private static final String UPDATE_COLOUR_PREFERENCE =
+            "UPDATE user " +
+                    "SET colour_preference = ? " +
+                    "WHERE user_id = ?;";
 
-    private static final String GET_ALL_USERS = "SELECT user_id, login, name, lastname, email, " +
-            "phone, colour_name, role, discount, flag_banned, flag_review_left " +
-            "FROM user JOIN user_role ON (user.role_id = user_role.role_id)" +
-            "LEFT JOIN cat_colour ON (colour_preference = EMS_code) ORDER BY login LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_USERS =
+            "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
+                    "FROM user " +
+                    "JOIN user_role " +
+                    "ON (user.role_id = user_role.role_id)" +
+                    "LEFT JOIN cat_colour " +
+                    "ON (colour_preference = EMS_code) " +
+                    "ORDER BY login LIMIT ? OFFSET ?;";
 
-    private static final String GET_USER_BY_LOGIN = "SELECT user_id, login, password, role FROM user " +
-            "JOIN user_role ON (user.role_id = user_role.role_id) WHERE login= ?;";
-    private static final String GET_USER_BY_ID = "SELECT user_id, login, name, lastname, email, " +
-            "phone, colour_name, role, discount, flag_banned, flag_review_left " +
-            "FROM user JOIN user_role ON (user.role_id = user_role.role_id)" +
-            "LEFT JOIN cat_colour ON (colour_preference = EMS_code) WHERE user_id = ?;";
+    private static final String GET_USER_BY_LOGIN =
+            "SELECT user_id, login, password, role " +
+                    "FROM user " +
+                    "JOIN user_role " +
+                    "ON (user.role_id = user_role.role_id) " +
+                    "WHERE login = ?;";
+    private static final String GET_USER_BY_ID =
+            "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
+                    "FROM user " +
+                    "JOIN user_role " +
+                    "ON (user.role_id = user_role.role_id)" +
+                    "LEFT JOIN cat_colour " +
+                    "ON (colour_preference = EMS_code) " +
+                    "WHERE user_id = ?;";
 
-    private static final String GET_USERS_COUNT = "SELECT COUNT(*) FROM user";
+    private static final String GET_USERS_COUNT =
+            "SELECT COUNT(*) " +
+                    "FROM user;";
 
-    private static final String REVERSE_BANNED_FLAG = "UPDATE user SET flag_banned = NOT flag_banned WHERE user_id = ?";
-    private static final String REVERSE_REVIEW_LEFT_FLAG = "UPDATE user SET flag_review_left= NOT flag_review_left " +
-            "WHERE user_id = ?";
-    private static final String REVERSE_EXPERT_ROLE_FOR_USER = "UPDATE user SET role_id = CASE " +
-            "WHEN role_id = 1 THEN 3 WHEN role_id = 3  THEN 1 END WHERE user_id = ?";
+    private static final String REVERSE_BANNED_FLAG =
+            "UPDATE user " +
+                    "SET flag_banned = NOT flag_banned " +
+                    "WHERE user_id = ?;";
+    private static final String REVERSE_REVIEW_LEFT_FLAG =
+            "UPDATE user " +
+                    "SET flag_review_left= NOT flag_review_left " +
+                    "WHERE user_id = ?;";
+    private static final String REVERSE_EXPERT_ROLE_FOR_USER =
+            "UPDATE user " +
+                    "SET role_id = " +
+                        "CASE " +
+                            "WHEN role_id = 1 " +
+                            "THEN 3 " +
+                            "WHEN role_id = 3  " +
+                            "THEN 1 " +
+                        "END " +
+                    "WHERE user_id = ?;";
 
-    private static final String GET_COLOUR_STATISTICS = "SELECT I.colour_preference AS colour, FORMAT(COUNT(*) / T.total * 100,2) AS percent " +
-            "FROM cattery.user AS I,  (SELECT COUNT(*) AS total FROM cattery.user WHERE colour_preference IS NOT NULL) AS T " +
-            "WHERE colour_preference IS NOT NULL GROUP BY colour;";
-    private static final String GET_DISCOUNT = "SELECT discount FROM user WHERE user_id = ?";
+    private static final String GET_COLOUR_STATISTICS =
+            "SELECT I.colour_preference AS colour, " +
+                    "FORMAT(COUNT(*) / T.total * 100,2) AS percent " +
+                    "FROM cattery.user AS I,  " +
+                        "(SELECT COUNT(*) AS total " +
+                        "FROM cattery.user " +
+                        "WHERE colour_preference IS NOT NULL) AS T " +
+                    "WHERE colour_preference IS NOT NULL " +
+                    "GROUP BY colour;";
+    private static final String GET_DISCOUNT =
+            "SELECT discount " +
+                    "FROM user " +
+                    "WHERE user_id = ?;";
 
-    private static final String CHECK_BANNED_FLAG = "SELECT flag_banned FROM user WHERE login =?";
-    private static final String CHECK_LOGIN_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE login=?)";
-    private static final String CHECK_EMAIL_ALREADY_EXISTS = "SELECT EXISTS (SELECT 1 FROM user WHERE email=?)";
-    private static final String CHECK_REVIEW_WAS_ADDED = "SELECT flag_review_left FROM user WHERE user_id =?;";
+    private static final String CHECK_BANNED_FLAG =
+            "SELECT flag_banned " +
+                    "FROM user " +
+                    "WHERE login =?;";
+    private static final String CHECK_LOGIN_ALREADY_EXISTS =
+            "SELECT EXISTS " +
+                    "(SELECT 1 " +
+                    "FROM user " +
+                    "WHERE login = ?);";
+    private static final String CHECK_EMAIL_ALREADY_EXISTS =
+            "SELECT EXISTS " +
+                    "(SELECT 1 " +
+                    "FROM user " +
+                    "WHERE email = ?);";
+    private static final String CHECK_REVIEW_WAS_ADDED =
+            "SELECT flag_review_left " +
+                    "FROM user " +
+                    "WHERE user_id = ?;";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -413,6 +475,8 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public void executeCreateQuery(PreparedStatement ps, User user) throws SQLException {
@@ -451,6 +515,8 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         logger.log(Level.WARN, "Deleting is not implemented for User");
         throw new UnsupportedOperationException();
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -529,6 +595,8 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         logger.log(Level.WARN, "Execute status check is not implemented for User");
         throw new UnsupportedOperationException();
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override

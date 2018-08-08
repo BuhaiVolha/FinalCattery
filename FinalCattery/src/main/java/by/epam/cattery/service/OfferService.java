@@ -16,4 +16,5 @@ public interface OfferService {
     Offer takeSingleOffer(int offerId) throws ServiceException;
     void deleteOffer(int offerId) throws ServiceException;
     void addPhotoToOffer(int offerId, String photo) throws ServiceException;
+    boolean offerBelongsToUser(int userId, int offerId) throws ServiceException;
 }

@@ -236,7 +236,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
             ps.setInt(2, itemsPerPage);
             int startIndex = (page - 1) * itemsPerPage;
             ps.setInt(3, startIndex);
-            System.out.println(ps);
+
             rs = ps.executeQuery();
 
             while (rs.next()) {

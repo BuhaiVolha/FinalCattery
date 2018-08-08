@@ -34,8 +34,10 @@ public class OfferCatCommand implements ActionCommand {
             int offerId = offerService.offerCat(offer);
             request.setAttribute("offerId", offerId);
 
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.cat-offer-photo")).forward(request, response);
+//            request.getRequestDispatcher(ConfigurationManager.getInstance()
+//                    .getProperty("path.page.cat-offer-photo")).forward(request, response);
+            response.sendRedirect(ConfigurationManager.getInstance()
+                    .getProperty("path.page.cat-offer-photo")+"?offerId="+offerId);
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Offering cat failed: ", e);

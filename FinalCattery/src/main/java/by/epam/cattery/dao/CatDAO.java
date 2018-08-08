@@ -13,4 +13,5 @@ public interface CatDAO extends GenericDAO<Cat> {
     void getTotalCountForFoundCats(SearchCatTO searchCatTO) throws DAOException;
     void setCatsAvailableIfReservationsExpired() throws DAOException;
     int getCatIdByReservationId(int reservationId) throws DAOException;
+    void setCatsAvailableIfUserBanned(int userId) throws DAOException;
 }

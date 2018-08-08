@@ -17,54 +17,119 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-// Заменить тройки на константы какието - типа количество дней
-
 public class ReservationDAOImpl extends BaseDAO<Reservation> implements ReservationDAO {
     private static final Logger logger = LogManager.getLogger(ReservationDAOImpl.class);
 
-    private static final String CREATE_RESERVATION = "INSERT INTO user_reservation (user_id, cat_id, pedigree_type, " +
-            "reservation_date, total_cost) VALUES(?,?,?,?,?)";
+    private static final String DAYS_TILL_RESERVATION_EXPIRES = "3";
 
-    private static final String UPDATE_RESERVATION = "UPDATE user_reservation SET " +
-            "user_id=?, cat_id=?, pedigree_type=?, reservation_date=?, total_cost=?, " +
-            "reservation_status=? WHERE reservation_id = ? AND NOT flag_reservation_deleted;";
-    private static final String UPDATE_RESERVATION_STATUS_AND_DATE = "UPDATE user_reservation SET " +
-            "reservation_date=?, reservation_status=? WHERE reservation_id = ? AND NOT flag_reservation_deleted;";
-    private static final String UPDATE_PHOTO = "UPDATE user_reservation SET cheque_photo = ? WHERE reservation_id = ?";
+    private static final String CREATE_RESERVATION =
+            "INSERT INTO user_reservation " +
+                    "(user_id, cat_id, pedigree_type, reservation_date, total_cost) " +
+                    "VALUES(?, ?, ?, ?, ?);";
 
-    private static final String DELETE_RESERVATION = "UPDATE user_reservation SET flag_reservation_deleted = 1 " +
-            "WHERE reservation_id = ?;";
+    private static final String UPDATE_RESERVATION =
+            "UPDATE user_reservation " +
+                    "SET user_id = ?, cat_id = ?, pedigree_type = ?, reservation_date = ?, total_cost = ?, reservation_status = ? " +
+                    "WHERE reservation_id = ? " +
+                    "AND NOT flag_reservation_deleted;";
+    private static final String UPDATE_RESERVATION_STATUS_AND_DATE =
+            "UPDATE user_reservation " +
+                    "SET reservation_date = ?, reservation_status = ? " +
+                    "WHERE reservation_id = ? " +
+                    "AND NOT flag_reservation_deleted;";
+    private static final String UPDATE_PHOTO =
+            "UPDATE user_reservation " +
+                    "SET cheque_photo = ? " +
+                    "WHERE reservation_id = ?";
 
-    private static final String GET_ALL_RESERVATIONS_BY_STATUS = "SELECT reservation_id, user.name, user.lastname, " +
-            "cat.name, cat.lastname, pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, " +
-            "total_cost, reservation_status, cat_photo, cheque_photo FROM user_reservation JOIN user " +
-            "ON (user_reservation.user_id = user.user_id) JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
-            "WHERE reservation_status=? AND NOT flag_reservation_deleted ORDER BY user.name LIMIT ? OFFSET ?;";
-    private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo, cheque_photo " +
-            "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=? AND NOT flag_reservation_deleted" +
-            " ORDER BY cat.name LIMIT ? OFFSET ?;";
+    private static final String DELETE_RESERVATION =
+            "UPDATE user_reservation " +
+                    "SET flag_reservation_deleted = 1 " +
+                    "WHERE reservation_id = ?;";
+    private static final String DELETE_RESERVATIONS_BY_USER_ID =
+            "UPDATE user_reservation " +
+                    "SET flag_reservation_deleted = 1 " +
+                    "WHERE user_id = ? " +
+                    "AND reservation_status = ?;";
 
-    private static final String GET_RESERVATIONS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM user_reservation " +
-            "WHERE reservation_status=? AND NOT flag_reservation_deleted";
-    private static final String GET_RESERVATIONS_COUNT_BY_USER_ID = "SELECT COUNT(*) FROM user_reservation " +
-            "JOIN user ON (user_reservation.user_id = user.user_id) WHERE user.user_id=? AND NOT flag_reservation_deleted";
+    private static final String GET_ALL_RESERVATIONS_BY_STATUS =
+            "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname, pedigree_type, reservation_date, " +
+                    "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
+                    ", total_cost, reservation_status, cat_photo, cheque_photo " +
+                    "FROM user_reservation " +
+                    "JOIN user " +
+                    "ON (user_reservation.user_id = user.user_id) " +
+                    "JOIN cat " +
+                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                    "WHERE reservation_status = ? " +
+                    "AND NOT flag_reservation_deleted " +
+                    "ORDER BY user.name LIMIT ? OFFSET ?;";
+    private static final String GET_RESERVATIONS_BY_USER_ID =
+            "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname, pedigree_type, reservation_date, " +
+                    "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
+                    ", total_cost, reservation_status, cat_photo, cheque_photo " +
+                    "FROM user_reservation " +
+                    "JOIN user " +
+                    "ON (user_reservation.user_id = user.user_id) " +
+                    "JOIN cat " +
+                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                    "WHERE user.user_id = ? " +
+                    "AND NOT flag_reservation_deleted " +
+                    "ORDER BY cat.name LIMIT ? OFFSET ?;";
 
-    private static final String GET_RESERVATION_BY_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo, cheque_photo " +
-            "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_id=? AND NOT flag_reservation_deleted;";
+    private static final String GET_RESERVATIONS_COUNT_BY_STATUS =
+            "SELECT COUNT(*) " +
+                    "FROM user_reservation " +
+                    "WHERE reservation_status=? " +
+                    "AND NOT flag_reservation_deleted";
+    private static final String GET_RESERVATIONS_COUNT_BY_USER_ID =
+            "SELECT COUNT(*) " +
+                    "FROM user_reservation " +
+                    "JOIN user " +
+                    "ON (user_reservation.user_id = user.user_id) " +
+                    "WHERE user.user_id=? " +
+                    "AND NOT flag_reservation_deleted";
 
-    private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED = "UPDATE user_reservation " +
-            "SET reservation_status=? WHERE reservation_status=? AND timestampdiff(DAY, reservation_date, now()) > 3 " +
-            "AND NOT flag_reservation_deleted;";
-    private static final String DELETE_EXPIRED_RESERVATIONS_BY_CAT_ID = "UPDATE user_reservation " +
-            "SET flag_reservation_deleted = 1 WHERE cat_id = ? AND reservation_status = ?;";
+    private static final String GET_RESERVATION_BY_ID =
+            "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname, pedigree_type, reservation_date, " +
+                    "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
+                    ", total_cost, reservation_status, cat_photo, cheque_photo " +
+                    "FROM user_reservation " +
+                    "JOIN user " +
+                    "ON (user_reservation.user_id = user.user_id) " +
+                    "JOIN cat " +
+                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                    "WHERE reservation_id=? " +
+                    "AND NOT flag_reservation_deleted;";
 
-    private static final String GET_PEDIGREE_TYPES = "SELECT pedigree_type, COUNT(pedigree_type) " +
-            "FROM user_reservation WHERE reservation_status != ? " +
-            "GROUP BY pedigree_type ORDER BY pedigree_type;";
+//    private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED =
+//            "UPDATE user_reservation " +
+//                    "SET reservation_status=? " +
+//                    "WHERE reservation_status=? AND timestampdiff(DAY, reservation_date, now()) > 3 " +
+//            "AND NOT flag_reservation_deleted;";
+
+    private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED =
+            "UPDATE user_reservation " +
+                    "SET reservation_status=? " +
+                    "WHERE reservation_status=? " +
+                    "AND timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
+                    " AND NOT flag_reservation_deleted;";
+
+    private static final String DELETE_EXPIRED_RESERVATIONS_BY_CAT_ID =
+            "UPDATE user_reservation " +
+                    "SET flag_reservation_deleted = 1 " +
+                    "WHERE cat_id = ? " +
+                    "AND reservation_status = ?;";
+
+    private static final String GET_PEDIGREE_TYPES =
+            "SELECT pedigree_type, " +
+                    "COUNT(pedigree_type) " +
+                    "FROM user_reservation " +
+                    "WHERE reservation_status != ? " +
+                    "GROUP BY pedigree_type " +
+                    "ORDER BY pedigree_type;";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -145,6 +210,32 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 
     @Override
+    public void deleteNewReservationsOfBannedUser(int userId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(DELETE_RESERVATIONS_BY_USER_ID);
+            ps.setInt(1, userId);
+            ps.setString(2, ReservationStatus.NEW.toString());
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during deleting all reservations by user Id", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    @Override
     public void executeCreateQuery(PreparedStatement ps, Reservation reservation) throws SQLException {
 
         ps.setInt(1, reservation.getUserMadeReservationId());
@@ -182,6 +273,8 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         ps.setInt(1, reservationId);
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public String getCreateQuery() {
@@ -215,7 +308,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
     @Override
     public String getQueryForAllObjects() {
-        logger.log(Level.WARN, "Return all objects with pagination not implemented for Reservation");
+        logger.log(Level.WARN, "Getiing all objects not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
@@ -227,7 +320,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
     @Override
     public String getQueryForTotalCount() {
-        logger.log(Level.WARN, "Counting all objects with pagination not implemented for Reservation");
+        logger.log(Level.WARN, "Counting all objects not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
@@ -257,6 +350,9 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
         logger.log(Level.WARN, "Execute status check is not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public Reservation readResultSet(ResultSet rs) throws SQLException {

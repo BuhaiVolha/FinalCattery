@@ -208,14 +208,15 @@
         </tfoot>
     </table>
 
-    <div class="col" style="float: right; margin-bottom: 38px">
-        <c:url var="searchUri" value="/controller?command=all_reservations&page=##" />
-        <paginator:display maxLinks="10"
-                           currPage="${requestScope.page}"
-                           totalPages="${requestScope.pageCount}"
-                           uri="${searchUri}"/>
-    </div>
-
+   <c:if test="${not empty requestScope.reservations}">
+       <div class="col" style="float: right; margin-bottom: 38px">
+           <c:url var="searchUri" value="/controller?command=all_reservations&page=##" />
+           <paginator:display maxLinks="10"
+                              currPage="${requestScope.page}"
+                              totalPages="${requestScope.pageCount}"
+                              uri="${searchUri}"/>
+       </div>
+   </c:if>
 </div>
 <script>
     $(function () {

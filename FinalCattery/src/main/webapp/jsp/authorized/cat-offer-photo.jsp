@@ -15,7 +15,7 @@
                 <div class="status-upload">
                     <form method="post" action="/imageUploader" enctype="multipart/form-data">
                         <input type="hidden" name="command" value="upload_offer_photo"/>
-                        <input type="hidden" name="offerId" value="${requestScope.offerId}"/>
+                        <input type="hidden" name="offerId" value="${param.offerId}"/>
 
                             <div class="form-group"><input type="file" required="required" name="file" size="60" />
                             </div><br>

@@ -13,27 +13,48 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
     private static final Logger logger = LogManager.getLogger(ReviewDAOImpl.class);
 
-    private static final String CREATE_REVIEW = "INSERT INTO user_review (user_left_id, review_text, " +
-            "stars_count, date) VALUES(?,?,?,?)";
+    private static final String CREATE_REVIEW =
+            "INSERT INTO user_review " +
+                    "(user_left_id, review_text, stars_count, date) " +
+                    "VALUES(?, ?, ?, ?);";
 
-    private static final String UPDATE_REVIEW = "UPDATE user_review SET review_text=?, stars_count=?, " +
-            "date=? WHERE user_left_id=? AND NOT flag_review_deleted;";
+    private static final String UPDATE_REVIEW =
+            "UPDATE user_review " +
+                    "SET review_text = ?, stars_count = ?, date = ? " +
+                    "WHERE user_left_id = ? " +
+                    "AND NOT flag_review_deleted;";
 
-    private static final String DELETE_REVIEW = "UPDATE user_review SET flag_review_deleted = 1 WHERE review_id = ?";
+    private static final String DELETE_REVIEW =
+            "UPDATE user_review " +
+                    "SET flag_review_deleted = 1 " +
+                    "WHERE review_id = ?;";
 
-    private static final String GET_ALL_REVIEWS = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
-            "WHERE NOT flag_review_deleted ORDER BY date LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_REVIEWS =
+            "SELECT review_id, user_left_id, login, review_text, date, stars_count " +
+                    "FROM user_review " +
+                    "JOIN user " +
+                    "ON (user_review.user_left_id = user.user_id) " +
+                    "WHERE NOT flag_review_deleted " +
+                    "ORDER BY date LIMIT ? OFFSET ?;";
 
-    private static final String GET_REVIEWS_COUNT = "SELECT COUNT(*) FROM user_review WHERE NOT flag_review_deleted";
+    private static final String GET_REVIEWS_COUNT =
+            "SELECT COUNT(*) " +
+                    "FROM user_review " +
+                    "WHERE NOT flag_review_deleted";
 
-    private static final String GET_REVIEW_BY_ID = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
-            "WHERE review_id = ? AND NOT flag_review_deleted;";
+    private static final String GET_REVIEW_BY_ID =
+            "SELECT review_id, user_left_id, login, review_text, date, stars_count " +
+                    "FROM user_review " +
+                    "JOIN user " +
+                    "ON (user_review.user_left_id = user.user_id) " +
+                    "WHERE review_id = ? " +
+                    "AND NOT flag_review_deleted;";
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -67,6 +88,8 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
     public void executeDeleteQuery(PreparedStatement ps, int reviewId) throws SQLException {
         ps.setInt(1, reviewId);
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -144,6 +167,8 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
         logger.log(Level.WARN, "Taking all objects by id is not implemented for Review");
         throw new UnsupportedOperationException();
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override

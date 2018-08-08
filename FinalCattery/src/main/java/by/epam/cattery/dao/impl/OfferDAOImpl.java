@@ -3,53 +3,171 @@ package by.epam.cattery.dao.impl;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.OfferDAO;
 
+import by.epam.cattery.dao.connection.ConnectionPoolException;
+import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     private static final Logger logger = LogManager.getLogger(OfferDAOImpl.class);
 
-    private static final String CREATE_OFFER = "INSERT INTO user_offer (user_made_offer_id, " +
-            "cat_description, price) VALUES(?, ?, ?)";
+    private static final String CREATE_OFFER =
+            "INSERT INTO user_offer " +
+            "(user_made_offer_id, cat_description, price) " +
+            "VALUES(?, ?, ?);";
 
-    private static final String UPDATE_OFFER = "UPDATE user_offer SET user_offer_status_id = ?, " +
-            "expert_message = ?, expert_message_to_admin = ?, price = ? WHERE offer_id = ? AND NOT flag_offer_deleted;";
-    private static final String UPDATE_OFFER_STATUS = "UPDATE user_offer SET user_offer_status_id=? " +
-            "WHERE offer_id = ? AND NOT flag_offer_deleted;";
-    private static final String UPDATE_PHOTO = "UPDATE user_offer SET offered_cat_photo = ? WHERE offer_id = ?";
+    private static final String UPDATE_OFFER =
+            "UPDATE user_offer " +
+            "SET user_offer_status_id = ?, expert_message = ?, expert_message_to_admin = ?, price = ? " +
+            "WHERE offer_id = ? " +
+            "AND NOT flag_offer_deleted;";
+    private static final String UPDATE_OFFER_STATUS =
+            "UPDATE user_offer " +
+            "SET user_offer_status_id = ? " +
+            "WHERE offer_id = ? " +
+            "AND NOT flag_offer_deleted;";
+    private static final String UPDATE_PHOTO =
+            "UPDATE user_offer " +
+            "SET offered_cat_photo = ? " +
+            "WHERE offer_id = ?;";
 
-    private static final String DELETE_OFFER = "UPDATE user_offer SET flag_offer_deleted = 1 WHERE offer_id = ?";
+    private static final String DELETE_OFFER =
+            "UPDATE user_offer " +
+            "SET flag_offer_deleted = 1 " +
+            "WHERE offer_id = ?;";
+    private static final String DELETE_OFFERS_BY_USER_ID =
+            "UPDATE user_offer " +
+            "SET flag_offer_deleted = 1 " +
+            "WHERE user_made_offer_id = ? " +
+            "AND user_offer_status_id = ?;";
 
-    private static final String GET_ALL_OFFERS_BY_STATUS = "SELECT offer_id, name, lastname, phone, " +
-            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
-            "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE user_offer_status_id = ? AND NOT flag_offer_deleted ORDER BY name LIMIT ? OFFSET ?;";
-    private static final String GET_ALL_OFFERS_BY_USER_ID = "SELECT offer_id, name, lastname, phone, " +
-            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
-            "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE user_made_offer_id = ? AND NOT flag_offer_deleted ORDER BY user_offer_status_id LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_OFFERS_BY_STATUS =
+            "SELECT offer_id, name, lastname, phone, cat_description, price, user_offer_status_id, expert_message, " +
+                    "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+                    "FROM user_offer " +
+                    "JOIN user " +
+                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                    "WHERE user_offer_status_id = ? " +
+                    "AND NOT flag_offer_deleted " +
+                    "ORDER BY name LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_OFFERS_BY_USER_ID =
+            "SELECT offer_id, name, lastname, phone, cat_description, price, user_offer_status_id, expert_message, " +
+                    "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+                    "FROM user_offer " +
+                    "JOIN user " +
+                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                    "WHERE user_made_offer_id = ? " +
+                    "AND NOT flag_offer_deleted " +
+                    "ORDER BY user_offer_status_id LIMIT ? OFFSET ?;";
 
-    private static final String GET_OFFER_BY_ID = "SELECT offer_id, name, lastname, phone, " +
-            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
-            "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE offer_id = ? AND NOT flag_offer_deleted;";
+    private static final String GET_OFFER_BY_ID =
+            "SELECT offer_id, name, lastname, phone, cat_description, price, " +
+                "user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+                "FROM user_offer " +
+                "JOIN user " +
+                "ON (user_offer.user_made_offer_id = user.user_id) " +
+                "WHERE offer_id = ? " +
+                "AND NOT flag_offer_deleted;";
 
-    private static final String GET_OFFERS_COUNT = "SELECT COUNT(*) FROM user_offer WHERE NOT flag_offer_deleted";
-    private static final String GET_OFFERS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM user_offer " +
-            "WHERE user_offer_status_id=? AND NOT flag_offer_deleted";
-    private static final String GET_OFFERS_COUNT_BY_USER_ID = "SELECT COUNT(*) FROM user_offer " +
-            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE user_made_offer_id=? AND NOT flag_offer_deleted";
+    private static final String GET_OFFERS_COUNT =
+            "SELECT COUNT(*) " +
+                    "FROM user_offer " +
+                    "WHERE NOT flag_offer_deleted;";
+    private static final String GET_OFFERS_COUNT_BY_STATUS =
+            "SELECT COUNT(*) " +
+                    "FROM user_offer " +
+                    "WHERE user_offer_status_id = ? " +
+                    "AND NOT flag_offer_deleted;";
+    private static final String GET_OFFERS_COUNT_BY_USER_ID =
+            "SELECT COUNT(*) " +
+                    "FROM user_offer " +
+                    "JOIN user " +
+                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                    "WHERE user_made_offer_id = ? " +
+                    "AND NOT flag_offer_deleted;";
+
+    private static final String CHECK_OFFER_STATUS =
+            "SELECT EXISTS " +
+                    "(SELECT 1 " +
+                        "FROM user_offer " +
+                        "WHERE offer_id = ? " +
+                        "AND user_offer_status_id = ? " +
+                        "AND NOT flag_offer_deleted);";
+
+    private static final String CHECK_OFFER_BELONGS_TO_USER =
+            "SELECT EXISTS " +
+                    "(SELECT 1 " +
+                        "FROM user_offer " +
+                        "WHERE user_made_offer_id = ? " +
+                        "AND offer_id = ?);";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void deleteAwaitingOffersOfBannedUser(int userId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(DELETE_OFFERS_BY_USER_ID);
+            ps.setInt(1, userId);
+            ps.setString(2, OfferStatus.AWAIT.toString());
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during deleting all offers by user Id", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
 
 
-    private static final String CHECK_OFFER_STATUS = "SELECT EXISTS (SELECT 1 FROM user_offer " +
-            "WHERE offer_id =? AND user_offer_status_id=? AND NOT flag_offer_deleted)";
+    @Override
+    public boolean checkOfferBelongsToUser(int userId, int offerId)  throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        boolean exists;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(CHECK_OFFER_BELONGS_TO_USER);
+            ps.setInt(1, userId);
+            ps.setInt(2, offerId);
+
+            rs = ps.executeQuery();
+            rs.next();
+            exists = rs.getBoolean(1);
+
+            return exists;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during checking whether user has rights to add photo", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -85,6 +203,8 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
         ps.setInt(1, offerId);
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public String getCreateQuery() {
@@ -116,7 +236,7 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
     @Override
     public String getQueryForAllObjects() {
-        logger.log(Level.WARN, "Not impl yet");
+        logger.log(Level.WARN, "Not implemented for Qffer");
         throw new UnsupportedOperationException();
     }
 
@@ -156,6 +276,9 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     public String getQueryForStatusCheck() {
         return CHECK_OFFER_STATUS;
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public Offer readResultSet(ResultSet rs) throws SQLException {

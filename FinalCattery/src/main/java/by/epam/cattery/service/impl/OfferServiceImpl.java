@@ -32,6 +32,17 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
+    public boolean offerBelongsToUser(int userId, int offerId) throws ServiceException {
+
+        try {
+            return offerDAO.checkOfferBelongsToUser(userId, offerId);
+        } catch (DAOException e) {
+            throw new ServiceException("Checking whether user can add photo to offer failed", e);
+        }
+    }
+
+
+    @Override
     public void addPhotoToOffer(int offerId, String photo) throws ServiceException {
         try {
             offerDAO.updatePhoto(offerId, photo);
@@ -42,39 +53,21 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
-//    @Override
-////    public List<Offer> takeAllOffersByUserId(int id) throws ServiceException {
-////        List<Offer> offers;
-////
-////        try {
-////            offers = offerDAO.loadAllById(id);
-////
-////            if (offers.isEmpty()) {
-////                return Collections.emptyList();
-////            }
-////
-////        } catch (DAOException e) {
-////            throw new ServiceException("Showing all offers failed in Service", e);
-////        }
-////        return offers;
-////    }
-
-
     @Override
     public List<Offer> takeAllOffersForUser(int userId, int page, int itemsPerPage) throws ServiceException {
-        List<Offer> ofers;
+        List<Offer> offers;
 
         try {
-            ofers = offerDAO.loadAllById(userId, page, itemsPerPage);
+            offers = offerDAO.loadAllById(userId, page, itemsPerPage);
 
-            if (ofers.isEmpty()) {
+            if (offers.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers by Id failed", e);
         }
-        return ofers;
+        return offers;
     }
 
 
@@ -95,19 +88,19 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public List<Offer> takeAllOffersByStatus(OfferStatus status, int page, int itemsPerPage) throws ServiceException {
-        List<Offer> ofers;
+        List<Offer> offers;
 
         try {
-            ofers = offerDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
+            offers = offerDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
 
-            if (ofers.isEmpty()) {
+            if (offers.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers by status failed", e);
         }
-        return ofers;
+        return offers;
     }
 
 

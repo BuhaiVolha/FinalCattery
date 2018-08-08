@@ -13,12 +13,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 public class UploadPhotoToOfferCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(UploadPhotoToOfferCommand.class);
@@ -29,6 +26,7 @@ public class UploadPhotoToOfferCommand implements ActionCommand {
 
         try {
             int offerId = Integer.parseInt(request.getParameter("offerId"));
+
             Part filePart = request.getPart("file");
             String prefixToName = "offer";
 
@@ -38,6 +36,7 @@ public class UploadPhotoToOfferCommand implements ActionCommand {
             response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
 
         } catch (ServiceException e) {
+            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
             logger.log(Level.ERROR, "Something pretty bad has happened: ", e);
         }
     }

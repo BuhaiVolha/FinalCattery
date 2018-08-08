@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface ReservationDAO extends GenericDAO<Reservation> {
     Map<CatPedigreeType, Integer> getPedigreeStatistics() throws DAOException;
-
     void setAllReservationExpiredIfTimePassed() throws DAOException;
     void deleteAllExpiredReservationsWithReservedCat(int catId) throws DAOException;
+    void deleteNewReservationsOfBannedUser(int userId) throws DAOException;
 }

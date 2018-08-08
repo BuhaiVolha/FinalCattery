@@ -4,10 +4,12 @@ import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.CatDAO;
+
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Gender;
 import by.epam.cattery.entity.dto.SearchCatTO;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,71 +18,123 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
-// searchforcat  -  в константы всякие имена?
-// searchForCat - вынести createCAT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
 
-    private static final String CREATE_CAT = "INSERT INTO cat (name, lastname, gender, birth_date, description, body_colour_code, " +
-            "cat_eyes_colour_code, parent_female, parent_male, price, user_suggested_id, offer_made_id, cat_photo) " +
-            "VALUES(?,?,?,STR_TO_DATE(?, '%m/%d/%Y'),?,?,?,?,?,?,?,?,?)";
+    private static final String CREATE_CAT =
+            "INSERT INTO cat " +
+                    "(name, lastname, gender, birth_date, description, body_colour_code, cat_eyes_colour_code, " +
+                    "parent_female, parent_male, price, user_suggested_id, offer_made_id, cat_photo) " +
+                    "VALUES(?, ?, ?, STR_TO_DATE(?, '%m/%d/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private static final String UPDATE_CAT = "UPDATE cat SET name=?, lastname=?, gender=?, birth_date=STR_TO_DATE(?, '%m/%d/%Y')," +
-            " description=?, body_colour_code=?, cat_eyes_colour_code=?, parent_female=?, " +
-            "parent_male=?, price=? WHERE cat_id = ? AND NOT flag_cat_deleted;";
-    private static final String UPDATE_CAT_STATUS = "UPDATE cat SET sale_status_id = ? WHERE cat_id = ? AND NOT flag_cat_deleted";
-    private static final String UPDATE_PHOTO = "UPDATE cat SET cat_photo = ? WHERE cat_id = ?";
+    private static final String UPDATE_CAT =
+            "UPDATE cat " +
+                    "SET name = ?, lastname = ?, gender = ?, birth_date = STR_TO_DATE(?, '%m/%d/%Y'), description = ?, " +
+                    "body_colour_code = ?, cat_eyes_colour_code = ?, parent_female = ?, parent_male = ?, price = ? " +
+                    "WHERE cat_id = ? " +
+                    "AND NOT flag_cat_deleted;";
+    private static final String UPDATE_CAT_STATUS =
+            "UPDATE cat " +
+                    "SET sale_status_id = ? " +
+                    "WHERE cat_id = ? " +
+                    "AND NOT flag_cat_deleted;";
+    private static final String UPDATE_PHOTO =
+            "UPDATE cat " +
+                    "SET cat_photo = ? " +
+                    "WHERE cat_id = ?;";
 
-    private static final String DELETE_CAT = "UPDATE cat SET flag_cat_deleted = 1 WHERE cat_id = ?";
+    private static final String DELETE_CAT =
+            "UPDATE cat " +
+                    "SET flag_cat_deleted = 1 " +
+                    "WHERE cat_id = ?;";
 
-    private static final String GET_ALL_CATS_FOR_SEARCH = "SELECT cat_id, name, lastname, gender, " +
-            "MONTH(CURDATE()) - MONTH(birth_date), description," +
-            "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
-            "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-            "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted ";
-    private static final String GET_ALL_CATS = "SELECT cat_id, name, lastname, gender, " +
-            "MONTH(CURDATE()) - MONTH(birth_date), description," +
-            "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
-            "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-            "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted ORDER BY name LIMIT ? OFFSET ?;";
-    private static final String GET_ALL_CATS_BY_STATUS = "SELECT cat_id, name, lastname, gender, " +
-            "MONTH(CURDATE()) - MONTH(birth_date), description," +
-            "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
-            "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-            "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? " +
-            "AND NOT flag_cat_deleted ORDER BY name LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_CATS_FOR_SEARCH =
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
+                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+                    "FROM cat " +
+                    "JOIN cat_colour " +
+                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "LEFT JOIN cat_eyes_colour " +
+                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                    "WHERE NOT flag_cat_deleted ";
+    private static final String GET_ALL_CATS =
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
+                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+                    "FROM cat " +
+                    "JOIN cat_colour " +
+                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "LEFT JOIN cat_eyes_colour " +
+                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                    "WHERE NOT flag_cat_deleted " +
+                    "ORDER BY name LIMIT ? OFFSET ?;";
+    private static final String GET_ALL_CATS_BY_STATUS =
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
+                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+                    "FROM cat JOIN cat_colour " +
+                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "LEFT JOIN cat_eyes_colour " +
+                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                    "WHERE sale_status_id = ? " +
+                    "AND NOT flag_cat_deleted " +
+                    "ORDER BY name LIMIT ? OFFSET ?;";
 
-    private static final String GET_CAT_BY_ID = "SELECT cat_id, name, lastname, gender, " +
-            "MONTH(CURDATE()) - MONTH(birth_date), description," +
-            "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
-            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
-            "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-            "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ? AND NOT flag_cat_deleted";
+    private static final String GET_CAT_BY_ID =
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
+                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+                    "FROM cat " +
+                    "JOIN cat_colour " +
+                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                    "LEFT JOIN cat_eyes_colour " +
+                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                    "WHERE cat_id = ? " +
+                    "AND NOT flag_cat_deleted;";
 
-    private static final String GET_CATS_COUNT = "SELECT COUNT(*) FROM cat WHERE NOT flag_cat_deleted";
-    private static final String GET_CATS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM cat WHERE sale_status_id=? AND NOT flag_cat_deleted";
+    private static final String GET_CATS_COUNT =
+            "SELECT COUNT(*) " +
+                    "FROM cat " +
+                    "WHERE NOT flag_cat_deleted;";
+    private static final String GET_CATS_COUNT_BY_STATUS =
+            "SELECT COUNT(*) " +
+                    "FROM cat " +
+                    "WHERE sale_status_id = ? " +
+                    "AND NOT flag_cat_deleted;";
 
-    private static final String SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED = "UPDATE cat JOIN user_reservation " +
-            "ON (cat.cat_id = user_reservation.cat_id) SET sale_status_id=? " +
-            "WHERE sale_status_id=? AND timestampdiff(DAY, user_reservation.reservation_date, now()) > 3 " +
-            "AND NOT flag_cat_deleted;";
+    private static final String SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED =
+            "UPDATE cat JOIN user_reservation " +
+                    "ON (cat.cat_id = user_reservation.cat_id) " +
+                    "SET sale_status_id = ? " +
+                    "WHERE sale_status_id = ? " +
+                    "AND timestampdiff(DAY, user_reservation.reservation_date, now()) > 3 " +
+                    "AND NOT flag_cat_deleted;";
+    private static final String SET_RESERVED_CATS_AVAILABLE_IF_USER_BANNED =
+            "UPDATE cat " +
+                    "JOIN user_reservation " +
+                    "ON (cat.cat_id = user_reservation.cat_id) " +
+                    "SET sale_status_id = ? " +
+                    "WHERE sale_status_id=? " +
+                    "AND user_reservation.user_id = ? " +
+                    "AND NOT flag_cat_deleted;";
 
-    private static final String CHECK_CAT_STATUS = "SELECT EXISTS (SELECT 1 FROM cat " +
-            "WHERE cat_id =? AND sale_status_id=?)";
+    private static final String CHECK_CAT_STATUS =
+            "SELECT EXISTS " +
+                    "(SELECT 1 FROM cat " +
+                        "WHERE cat_id = ? " +
+                        "AND sale_status_id = ?)";
 
-    private static final String GET_CAT_ID_BY_RESERVATION_ID = "SELECT cat.cat_id FROM cat JOIN user_reservation " +
-            "ON (cat.cat_id = user_reservation.cat_id) WHERE user_reservation.reservation_id=? AND NOT flag_cat_deleted;";
+    private static final String GET_CAT_ID_BY_RESERVATION_ID =
+            "SELECT cat.cat_id " +
+                    "FROM cat " +
+                    "JOIN user_reservation " +
+                    "ON (cat.cat_id = user_reservation.cat_id) " +
+                    "WHERE user_reservation.reservation_id = ? " +
+                    "AND NOT flag_cat_deleted;";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -99,6 +153,31 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during making cats free after reservations expired", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
+    public void setCatsAvailableIfUserBanned(int userId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(SET_RESERVED_CATS_AVAILABLE_IF_USER_BANNED);
+            ps.setString(1, CatStatus.AVAIL.toString());
+            ps.setString(2, CatStatus.RSRV.toString());
+            ps.setInt(3, userId);
+
+            ps.executeUpdate();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during making cats free after user was banned", e);
 
         } finally {
             connectionProvider.close(con);
@@ -146,7 +225,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             }
             condition.append(" 1 = 1");
 
-            String SEARCH_QUERY_ENDING = " ORDER BY name LIMIT ? OFFSET ?;";
+            String SEARCH_QUERY_ENDING = " ORDER BY price LIMIT ? OFFSET ?;";
             final String GET_FOUND_CATS_COUNT = "SELECT COUNT(*) FROM cat WHERE NOT flag_cat_deleted ";
 
             ps = con.prepareStatement(GET_ALL_CATS_FOR_SEARCH + condition + SEARCH_QUERY_ENDING);
@@ -234,6 +313,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public void executeCreateQuery(PreparedStatement ps, Cat cat) throws SQLException {
@@ -288,6 +369,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         ps.setInt(1, catId);
         logger.log(Level.DEBUG, "Cat has been deleted from database :(");
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -359,6 +442,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         throw new UnsupportedOperationException();
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public Cat readResultSet(ResultSet rs) throws SQLException {
@@ -368,7 +453,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         cat.setName(rs.getString(2));
         cat.setLastname(rs.getString(3));
         cat.setGender(Gender.valueOf(rs.getString(4)));
-        cat.setAge(rs.getString(5));   // отдельные константы числа
+        cat.setAge(rs.getString(5));
         cat.setDescription(rs.getString(6));
         cat.setBodyColour(rs.getString(7));
         cat.setEyesColour(rs.getString(8));

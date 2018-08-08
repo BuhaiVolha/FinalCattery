@@ -64,11 +64,16 @@
                     </div>
 
                     <div class="form-group">
+                        <div class="col-md-4 text-left">
+                        <button type="reset" class="btn btn-primary glyphicon glyphicon-remove">
+                        </button>
+                        </div>
                         <label class="col-md-4 control-label"></label>
-                        <div class="col-md-4 text-center">
+                        <div class="col-md-4 text-right">
                             <button type="submit" class="btn btn-danger glyphicon glyphicon-search">
                             </button>
                         </div>
+
                     </div>
 
                 </form>

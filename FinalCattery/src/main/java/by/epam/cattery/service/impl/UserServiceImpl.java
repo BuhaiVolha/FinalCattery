@@ -1,8 +1,8 @@
 package by.epam.cattery.service.impl;
 
-import by.epam.cattery.dao.DAOFactory;
+import by.epam.cattery.dao.*;
+import by.epam.cattery.dao.connection.ConnectionProvider;
 import by.epam.cattery.dao.exception.DAOException;
-import by.epam.cattery.dao.UserDAO;
 
 import by.epam.cattery.entity.User;
 
@@ -22,6 +22,9 @@ public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
 
     private static UserDAO userDAO = daoFactory.getUserDAO();
+    private static CatDAO catDAO = daoFactory.getCatDAO();
+    private static ReservationDAO reservationDAO = daoFactory.getReservationDAO();
+    private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
 
     @Override
@@ -172,12 +175,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void banUser(int userId) throws ServiceException {
+        ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
         try {
+            connectionProvider.startTransaction();
+
             userDAO.reverseUserBannedFlag(userId);
+            catDAO.setCatsAvailableIfUserBanned(userId);
+            reservationDAO.deleteNewReservationsOfBannedUser(userId);
+            offerDAO.deleteAwaitingOffersOfBannedUser(userId);
+
+            connectionProvider.commitTransaction();
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while banning user", e);
+            connectionProvider.abortTransaction();
+            throw new ServiceException("Exception while banning user and deleting his reservation and offers", e);
+
+        } finally {
+            connectionProvider.endTransaction();
         }
     }
 
