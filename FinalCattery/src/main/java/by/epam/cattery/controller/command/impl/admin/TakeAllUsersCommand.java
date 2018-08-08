@@ -24,11 +24,18 @@ public class TakeAllUsersCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<User> users;
 
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+
         try {
             UserService userService = ServiceFactory.getInstance().getUserService();
-            users = userService.takeAllUsers();
+            users = userService.takeAllUsers(page, 10);
 
+            int pageCount = userService.getUsersPageCount(10);
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("page", page);
             request.setAttribute("users", users);
+
             request.getRequestDispatcher(ConfigurationManager.getInstance()
                     .getProperty("path.page.manage-users")).forward(request, response);
 

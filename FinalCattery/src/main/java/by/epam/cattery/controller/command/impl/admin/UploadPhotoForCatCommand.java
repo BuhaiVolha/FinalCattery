@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.util.UploadHelper;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -26,48 +27,16 @@ public class UploadPhotoForCatCommand implements ActionCommand {
 
         try {
             int catId = Integer.parseInt(request.getParameter("catId"));
-            File path = new File(ConfigurationManager.getInstance().getProperty("path.photo.cat"));
-
-            if (!path.exists()) {
-                path.mkdir();
-            }
-
             Part filePart = request.getPart("file");
-            String suffix = getFileSuffix(filePart);
-            File file = File.createTempFile("cat-up", suffix, path);
+            String prefixToName = "cat-up";
 
-            try (InputStream input = filePart.getInputStream()) {
-                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            catService.addCatPhoto(catId, file.getName());
+            catService.addCatPhoto(catId, UploadHelper.getInstance()
+                    .upload(filePart, ConfigurationManager.getInstance().getProperty("path.photo.cat"), prefixToName));
 
             response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Something pretty bad has happened: ", e);
         }
-    }
-
-
-    private String getFileSuffix(Part part) throws ServiceException {
-        String fileName = getFileName(part);
-
-        if (fileName != null) {
-            return fileName.substring(fileName.lastIndexOf("."));
-        } else {
-            throw new ServiceException("Wrong file format");
-        }
-    }
-
-
-    private String getFileName(Part part) {
-
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
     }
 }

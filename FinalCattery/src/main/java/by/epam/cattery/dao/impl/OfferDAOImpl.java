@@ -1,7 +1,5 @@
 package by.epam.cattery.dao.impl;
 
-import by.epam.cattery.dao.connection.ConnectionPoolException;
-import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.OfferDAO;
 
@@ -11,7 +9,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,23 +27,26 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
     private static final String DELETE_OFFER = "UPDATE user_offer SET flag_offer_deleted = 1 WHERE offer_id = ?";
 
-    private static final String GET_ALL_OFFERS = "SELECT offer_id, name, lastname, phone, " +
-            "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
-            "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE NOT flag_offer_deleted;";
     private static final String GET_ALL_OFFERS_BY_STATUS = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
             "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE user_offer_status_id = ? AND NOT flag_offer_deleted;";
+            "WHERE user_offer_status_id = ? AND NOT flag_offer_deleted ORDER BY name LIMIT ? OFFSET ?;";
     private static final String GET_ALL_OFFERS_BY_USER_ID = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
             "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
-            "WHERE user_made_offer_id = ? AND NOT flag_offer_deleted;";
+            "WHERE user_made_offer_id = ? AND NOT flag_offer_deleted ORDER BY user_offer_status_id LIMIT ? OFFSET ?;";
 
     private static final String GET_OFFER_BY_ID = "SELECT offer_id, name, lastname, phone, " +
             "cat_description, price, user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id," +
             "offered_cat_photo FROM user_offer JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
             "WHERE offer_id = ? AND NOT flag_offer_deleted;";
+
+    private static final String GET_OFFERS_COUNT = "SELECT COUNT(*) FROM user_offer WHERE NOT flag_offer_deleted";
+    private static final String GET_OFFERS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM user_offer " +
+            "WHERE user_offer_status_id=? AND NOT flag_offer_deleted";
+    private static final String GET_OFFERS_COUNT_BY_USER_ID = "SELECT COUNT(*) FROM user_offer " +
+            "JOIN user ON (user_offer.user_made_offer_id = user.user_id) WHERE user_made_offer_id=? AND NOT flag_offer_deleted";
+
 
     private static final String CHECK_OFFER_STATUS = "SELECT EXISTS (SELECT 1 FROM user_offer " +
             "WHERE offer_id =? AND user_offer_status_id=? AND NOT flag_offer_deleted)";
@@ -114,31 +114,26 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
         return DELETE_OFFER;
     }
 
-
     @Override
     public String getQueryForAllObjects() {
-        return GET_ALL_OFFERS;
-    }
-
-
-    @Override
-    public String getQueryForAllObjectsWithPagination() {
         logger.log(Level.WARN, "Not impl yet");
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getQueryForTotalCount() {
-        logger.log(Level.WARN, "Not impl yet");
-        throw new UnsupportedOperationException();
+    public String getQueryForAllObjectsByStatus() {
+        return GET_ALL_OFFERS_BY_STATUS;
     }
-
 
     @Override
-    public String getQueryForSingleObject() {
-        return GET_OFFER_BY_ID;
+    public String getQueryForTotalCountByStatus() {
+        return GET_OFFERS_COUNT_BY_STATUS;
     }
 
+    @Override
+    public String getQueryForTotalCountById() {
+        return GET_OFFERS_COUNT_BY_USER_ID;
+    }
 
     @Override
     public String getQueryForAllObjectsById() {
@@ -147,10 +142,15 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
 
     @Override
-    public String getQueryForAllObjectsByStatus() {
-        return GET_ALL_OFFERS_BY_STATUS;
+    public String getQueryForTotalCount() {
+        return GET_OFFERS_COUNT;
     }
 
+
+    @Override
+    public String getQueryForSingleObject() {
+        return GET_OFFER_BY_ID;
+    }
 
     @Override
     public String getQueryForStatusCheck() {

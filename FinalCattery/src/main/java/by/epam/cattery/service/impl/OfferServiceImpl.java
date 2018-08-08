@@ -9,6 +9,7 @@ import by.epam.cattery.entity.OfferStatus;
 
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.service.util.PageCounter;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,39 +42,87 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
+//    @Override
+////    public List<Offer> takeAllOffersByUserId(int id) throws ServiceException {
+////        List<Offer> offers;
+////
+////        try {
+////            offers = offerDAO.loadAllById(id);
+////
+////            if (offers.isEmpty()) {
+////                return Collections.emptyList();
+////            }
+////
+////        } catch (DAOException e) {
+////            throw new ServiceException("Showing all offers failed in Service", e);
+////        }
+////        return offers;
+////    }
+
+
     @Override
-    public List<Offer> takeAllOffersByUserId(int id) throws ServiceException {
-        List<Offer> offers;
+    public List<Offer> takeAllOffersForUser(int userId, int page, int itemsPerPage) throws ServiceException {
+        List<Offer> ofers;
 
         try {
-            offers = offerDAO.loadAllById(id);
+            ofers = offerDAO.loadAllById(userId, page, itemsPerPage);
 
-            if (offers.isEmpty()) {
+            if (ofers.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Showing all offers failed in Service", e);
+            throw new ServiceException("Showing all offers by Id failed", e);
         }
-        return offers;
+        return ofers;
     }
 
 
     @Override
-    public List<Offer> takeAllOffersByStatus(OfferStatus status) throws ServiceException {
-        List<Offer> offers;
+    public int getOffersPageCountByUserId(int userId, int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
 
         try {
-            offers = offerDAO.loadAllByStatus(status.toString());
+            int totalCount = offerDAO.getTotalCountById(userId);
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
 
-            if (offers.isEmpty()) {
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting offers counted by Id", e);
+        }
+        return pageCount;
+    }
+
+
+    @Override
+    public List<Offer> takeAllOffersByStatus(OfferStatus status, int page, int itemsPerPage) throws ServiceException {
+        List<Offer> ofers;
+
+        try {
+            ofers = offerDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
+
+            if (ofers.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
             throw new ServiceException("Showing all offers by status failed", e);
         }
-        return offers;
+        return ofers;
+    }
+
+
+    @Override
+    public int getOffersPageCountByStatus(OfferStatus status, int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = offerDAO.getTotalCountByStatus(status.toString());
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting offers counted by status", e);
+        }
+        return pageCount;
     }
 
 

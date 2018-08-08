@@ -27,12 +27,15 @@ public class TakeAvailableCatsCommand implements ActionCommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Cat> cats = null;
         HttpSession session = request.getSession();
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
 
         try {
             int discountPercents = 0;
             CatService catService = ServiceFactory.getInstance().getCatService();
 
-            cats = catService.takeCatsByStatus(CatStatus.AVAIL);
+            cats = catService.takeAllCatsByStatus(CatStatus.AVAIL, page, 8);
+            int pageCount = catService.getCatsPageCountByStatus(CatStatus.AVAIL, 8);
 
             if (session.getAttribute("role") == Role.USER) {
                 int userId = (int) session.getAttribute("userId");
@@ -48,10 +51,11 @@ public class TakeAvailableCatsCommand implements ActionCommand {
                     cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
                 }
             }
-
+            request.setAttribute("page", page);
+            request.setAttribute("pageCount", pageCount);
             request.setAttribute("cats", cats);
             request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.cats")).forward(request, response);
+                    .getProperty("path.page.cats-available")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

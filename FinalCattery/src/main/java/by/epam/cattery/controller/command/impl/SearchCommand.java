@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.entity.dto.SearchCatTO;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.*;
 import by.epam.cattery.service.CatService;
@@ -26,25 +27,47 @@ public class SearchCommand implements ActionCommand {
         List<Cat> cats = null;
         HttpSession session = request.getSession();
 
+        SearchCatTO searchCatTO = new SearchCatTO();
+
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+
         try {
-            Cat cat = createCat(request);
-            int discountPercents;
+            Cat searchedCat = createCat(request);
+            searchCatTO.setItemsPerPage(8);
+            searchCatTO.setSearchedCat(searchedCat);
+            int discountPercents = 0;
 
             CatService catService = ServiceFactory.getInstance().getCatService();
-            cats = catService.searchForCat(cat);
 
             if (session.getAttribute("role") == Role.USER) {
                 int userId = (int) session.getAttribute("userId");
                 UserService userService = ServiceFactory.getInstance().getUserService();
 
                 discountPercents = userService.getDiscount(userId);
-                request.setAttribute("discount", discountPercents);
+                searchCatTO.setUserDiscount(discountPercents);
             }
 
+            catService.searchForCat(searchCatTO, page);
 
-            request.setAttribute("cats", cats);
+            cats = searchCatTO.getCats();
+
+            for (Cat cat : cats) {
+                if (discountPercents == 0) {
+                    cat.setPriceWithDiscount(cat.getPrice());
+                } else {
+                    cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
+                }
+            }
+
+            catService.getPageCountForFoundCats(searchCatTO);
+
+            request.setAttribute("pageCount", searchCatTO.getPageCount());
+            request.setAttribute("page", page);
+            request.setAttribute("cats", searchCatTO.getCats());
+
             request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.cats")).forward(request, response);
+                    .getProperty("path.page.cats-found")).forward(request, response);
 
         } catch (ServiceException e) {
             response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));

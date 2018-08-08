@@ -186,7 +186,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
 
     @Override
-    public List<T> loadAll() throws DAOException {
+    public List<T> loadAll(int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -196,6 +196,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
         try {
             connection = connectionProvider.obtainConnection();
             ps = connection.prepareStatement(getQueryForAllObjects());
+
+            ps.setInt(1, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(2, startIndex);
 
             rs = ps.executeQuery();
 
@@ -217,7 +221,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
 
     @Override
-    public List<T> loadAllWithPagination(int page, int itemsPerPage) throws DAOException {
+    public List<T> loadAllByStatus(String status, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -226,12 +230,13 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
         try {
             connection = connectionProvider.obtainConnection();
-            ps = connection.prepareStatement(getQueryForAllObjectsWithPagination());
+            ps = connection.prepareStatement(getQueryForAllObjectsByStatus());
 
-            ps.setInt(1, itemsPerPage);
+            ps.setString(1, status);
+            ps.setInt(2, itemsPerPage);
             int startIndex = (page - 1) * itemsPerPage;
-            ps.setInt(2, startIndex);
-
+            ps.setInt(3, startIndex);
+            System.out.println(ps);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -239,7 +244,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
             }
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all objects for pagination from the database to list failed", e);
+            logger.error("Loading all objects by status from the database to list failed", e);
             throw new DAOException(e);
 
         } finally {
@@ -252,33 +257,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
 
     @Override
-    public int getTotalCount() throws DAOException {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            connection = connectionProvider.obtainConnection();
-            ps = connection.prepareStatement(getQueryForTotalCount());
-
-            rs = ps.executeQuery();
-
-            rs.next();
-            return rs.getInt(1);
-
-        } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Counting all objects for pagination failed", e);
-            throw new DAOException(e);
-
-        } finally {
-            connectionProvider.close(connection);
-            connectionProvider.closeResources(rs, ps);
-        }
-    }
-
-
-    @Override
-    public List<T> loadAllById(int id) throws DAOException {
+    public List<T> loadAllById(int id, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -290,6 +269,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
             ps = connection.prepareStatement(getQueryForAllObjectsById());
 
             ps.setInt(1, id);
+            ps.setInt(2, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(3, startIndex);
+            rs = ps.executeQuery();
 
             rs = ps.executeQuery();
 
@@ -310,35 +293,86 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+
     @Override
-    public List<T> loadAllByStatus(String status) throws DAOException {
+    public int getTotalCount() throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<T> allObjects = new ArrayList<>();
-
         try {
             connection = connectionProvider.obtainConnection();
-            ps = connection.prepareStatement(getQueryForAllObjectsByStatus());
+            ps = connection.prepareStatement(getQueryForTotalCount());
 
-            ps.setString(1, status);
             rs = ps.executeQuery();
 
-            while (rs.next()) {
-                allObjects.add(readResultSet(rs));
-            }
+            rs.next();
+            return rs.getInt(1);
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all objects by status from the database to list failed", e);
+            logger.error("Counting all objects failed", e);
             throw new DAOException(e);
 
         } finally {
             connectionProvider.close(connection);
             connectionProvider.closeResources(rs, ps);
         }
+    }
 
-        return allObjects;
+
+    @Override
+    public int getTotalCountByStatus(String status) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(getQueryForTotalCountByStatus());
+
+            ps.setString(1, status);
+
+            rs = ps.executeQuery();
+
+            rs.next();
+            return rs.getInt(1);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Counting all objects by status failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    @Override
+    public int getTotalCountById(int id) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(getQueryForTotalCountById());
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            rs.next();
+            return rs.getInt(1);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Counting all objects by id failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
     }
 
 
@@ -428,15 +462,17 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
     public abstract String getQueryForAllObjects();
 
-    public abstract String getQueryForAllObjectsWithPagination();
-
     public abstract String getQueryForTotalCount();
 
     public abstract String getQueryForAllObjectsByStatus();
 
-    public abstract String getQueryForStatusCheck();
-
     public abstract String getQueryForAllObjectsById();
+
+    public abstract String getQueryForTotalCountByStatus();
+
+    public abstract String getQueryForTotalCountById();
+
+    public abstract String getQueryForStatusCheck();
 
     public abstract String getQueryForSingleObject();
 }

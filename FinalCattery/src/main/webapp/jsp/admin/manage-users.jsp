@@ -40,17 +40,20 @@
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${user.role eq 'USER'}">
-                                                            <img src="/assets/img/user.png" width="50" height="36" alt="User image"/>
+                                                            <img src="/assets/img/user.png" width="50" height="36"
+                                                                 alt="User image"/>
 
                                                         </c:when>
                                                         <c:when test="${user.role eq 'ADMIN'}">
 
-                                                            <img src="/assets/img/admin.png" width="50" height="36" alt="Admin image"/>
+                                                            <img src="/assets/img/admin.png" width="50" height="36"
+                                                                 alt="Admin image"/>
 
                                                         </c:when>
                                                         <c:when test="${user.role eq 'EXPERT'}">
 
-                                                            <img src="/assets/img/expert.png" width="50" height="36" alt="Expert image"/>
+                                                            <img src="/assets/img/expert.png" width="50" height="36"
+                                                                 alt="Expert image"/>
                                                         </c:when>
                                                     </c:choose>
                                                 </td>
@@ -90,18 +93,19 @@
 																<i class="fas fa-coins fa-stack-1x fa-inverse"></i>
 															</span>
 
-                                                    <form role="form" title="Make Discount" method="POST" action="/controller">
-                                                        <input type="hidden" name="command" value="discount"/>
-                                                        <input type="hidden" name="userId" value="${user.id}"/>
-                                                        <select name="discount">
-                                                            <c:if test="${user.discount ne '0'}">
-                                                            <option value=0>0%</option>
-                                                            </c:if>
-                                                            <option value=5>5%</option>
-                                                            <option value=10>10%</option>
-                                                        </select>
-                                                        <input type="submit" value="Submit">
-                                                    </form>
+                                                        <form role="form" title="Make Discount" method="POST"
+                                                              action="/controller">
+                                                            <input type="hidden" name="command" value="discount"/>
+                                                            <input type="hidden" name="userId" value="${user.id}"/>
+                                                            <select name="discount">
+                                                                <c:if test="${user.discount ne '0'}">
+                                                                    <option value=0>0%</option>
+                                                                </c:if>
+                                                                <option value=5>5%</option>
+                                                                <option value=10>10%</option>
+                                                            </select>
+                                                            <input type="submit" value="Submit">
+                                                        </form>
                                                     </c:if>
                                                 </td>
                                                 <td style="width: 50%;">
@@ -132,7 +136,8 @@
 
 
                                                                 <c:if test="${user.role ne 'EXPERT'}">
-                                                                    <a href="/controller?command=make_expert&userId=${user.id}" class="table-link power"
+                                                                    <a href="/controller?command=make_expert&userId=${user.id}"
+                                                                       class="table-link power"
                                                                        title="Make Expert">
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
@@ -142,7 +147,8 @@
                                                                 </c:if>
 
                                                                 <c:if test="${user.role eq 'EXPERT'}">
-                                                                    <a href="/controller?command=unmake_expert&userId=${user.id}" class="table-link nopower"
+                                                                    <a href="/controller?command=unmake_expert&userId=${user.id}"
+                                                                       class="table-link nopower"
                                                                        title="Deprive of the Power">
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
@@ -161,15 +167,13 @@
                                     </table>
                                 </div>
 
-                                <ul class="pagination pull-right">
-                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
-                                </ul>
+                                <div class="col" style="float: right; margin-bottom: 38px">
+                                    <c:url var="searchUri" value="/controller?command=all_users&page=##" />
+                                    <paginator:display maxLinks="10"
+                                                       currPage="${requestScope.page}"
+                                                       totalPages="${requestScope.pageCount}"
+                                                       uri="${searchUri}"/>
+                                </div>
                             </div>
                         </div>
                     </div>

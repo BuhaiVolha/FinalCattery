@@ -35,24 +35,26 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     private static final String DELETE_RESERVATION = "UPDATE user_reservation SET flag_reservation_deleted = 1 " +
             "WHERE reservation_id = ?;";
 
-    private static final String GET_ALL_RESERVATIONS = "SELECT reservation_id, user.name, user.lastname, cat.name, " +
-            "cat.lastname, pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost," +
-            "reservation_status, cat_photo, cheque_photo FROM user_reservation JOIN user " +
-            "ON (user_reservation.user_id = user.user_id) JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
-            "WHERE NOT flag_reservation_deleted;";
-    private static final String GET_ALL_RESERVATION_BY_STATUS = "SELECT reservation_id, user.name, user.lastname, " +
+    private static final String GET_ALL_RESERVATIONS_BY_STATUS = "SELECT reservation_id, user.name, user.lastname, " +
             "cat.name, cat.lastname, pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, " +
             "total_cost, reservation_status, cat_photo, cheque_photo FROM user_reservation JOIN user " +
             "ON (user_reservation.user_id = user.user_id) JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
-            "WHERE reservation_status=? AND NOT flag_reservation_deleted;";
+            "WHERE reservation_status=? AND NOT flag_reservation_deleted ORDER BY user.name LIMIT ? OFFSET ?;";
+    private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
+            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo, cheque_photo " +
+            "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
+            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=? AND NOT flag_reservation_deleted" +
+            " ORDER BY cat.name LIMIT ? OFFSET ?;";
+
+    private static final String GET_RESERVATIONS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM user_reservation " +
+            "WHERE reservation_status=? AND NOT flag_reservation_deleted";
+    private static final String GET_RESERVATIONS_COUNT_BY_USER_ID = "SELECT COUNT(*) FROM user_reservation " +
+            "JOIN user ON (user_reservation.user_id = user.user_id) WHERE user.user_id=? AND NOT flag_reservation_deleted";
+
     private static final String GET_RESERVATION_BY_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
             "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo, cheque_photo " +
             "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
             "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE reservation_id=? AND NOT flag_reservation_deleted;";
-    private static final String GET_RESERVATIONS_BY_USER_ID = "SELECT reservation_id, user.name, user.lastname, cat.name, cat.lastname," +
-            "pedigree_type, reservation_date, timestampdiff(DAY, reservation_date, now()) > 3, total_cost, reservation_status, cat_photo, cheque_photo " +
-            "FROM user_reservation JOIN user ON (user_reservation.user_id = user.user_id) " +
-            "JOIN cat ON (user_reservation.cat_id = cat.cat_id) WHERE user.user_id=? AND NOT flag_reservation_deleted;";
 
     private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED = "UPDATE user_reservation " +
             "SET reservation_status=? WHERE reservation_status=? AND timestampdiff(DAY, reservation_date, now()) > 3 " +
@@ -213,21 +215,31 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
     @Override
     public String getQueryForAllObjects() {
-        return GET_ALL_RESERVATIONS;
+        logger.log(Level.WARN, "Return all objects with pagination not implemented for Reservation");
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getQueryForAllObjectsWithPagination() {
-        logger.log(Level.WARN, "Not impl yet");
-        throw new UnsupportedOperationException();
+    public String getQueryForAllObjectsByStatus() {
+        return GET_ALL_RESERVATIONS_BY_STATUS;
     }
+
 
     @Override
     public String getQueryForTotalCount() {
-        logger.log(Level.WARN, "Not impl yet");
+        logger.log(Level.WARN, "Counting all objects with pagination not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getQueryForTotalCountByStatus() {
+        return GET_RESERVATIONS_COUNT_BY_STATUS;
+    }
+
+    @Override
+    public String getQueryForTotalCountById() {
+        return GET_RESERVATIONS_COUNT_BY_USER_ID;
+    }
 
     @Override
     public String getQueryForSingleObject() {
@@ -238,12 +250,6 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     @Override
     public String getQueryForAllObjectsById() {
         return GET_RESERVATIONS_BY_USER_ID;
-    }
-
-
-    @Override
-    public String getQueryForAllObjectsByStatus() {
-        return GET_ALL_RESERVATION_BY_STATUS;
     }
 
     @Override

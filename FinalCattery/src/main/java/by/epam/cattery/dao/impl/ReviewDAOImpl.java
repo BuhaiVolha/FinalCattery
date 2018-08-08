@@ -26,9 +26,6 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
 
     private static final String GET_ALL_REVIEWS = "SELECT review_id, user_left_id, login, review_text, date, " +
             "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
-            "WHERE NOT flag_review_deleted ORDER BY date;";
-    private static final String GET_ALL_REVIEWS_FOR_PAGINATION = "SELECT review_id, user_left_id, login, review_text, date, " +
-            "stars_count FROM user_review JOIN user ON (user_review.user_left_id = user.user_id) " +
             "WHERE NOT flag_review_deleted ORDER BY date LIMIT ? OFFSET ?;";
 
     private static final String GET_REVIEWS_COUNT = "SELECT COUNT(*) FROM user_review WHERE NOT flag_review_deleted";
@@ -102,15 +99,9 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
         return DELETE_REVIEW;
     }
 
-
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_REVIEWS;
-    }
-
-    @Override
-    public String getQueryForAllObjectsWithPagination() {
-        return GET_ALL_REVIEWS_FOR_PAGINATION;
     }
 
     @Override
@@ -129,16 +120,28 @@ public class ReviewDAOImpl extends BaseDAO<Review> implements ReviewDAO {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public String getQueryForAllObjectsById() {
-        logger.log(Level.WARN, "Getting all objects by ID is not implemented for Review");
-        throw new UnsupportedOperationException();
-    }
-
 
     @Override
     public String getQueryForAllObjectsByStatus() {
-        logger.log(Level.WARN, "Getting all objects by status is not implemented for Review");
+        logger.log(Level.WARN, "Taking all objects by status is not implemented for Review");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForTotalCountByStatus() {
+        logger.log(Level.WARN, "Counting all objects by status is not implemented for Review");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForTotalCountById() {
+        logger.log(Level.WARN, "Counting all objects by id is not implemented for Review");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForAllObjectsById() {
+        logger.log(Level.WARN, "Taking all objects by id is not implemented for Review");
         throw new UnsupportedOperationException();
     }
 

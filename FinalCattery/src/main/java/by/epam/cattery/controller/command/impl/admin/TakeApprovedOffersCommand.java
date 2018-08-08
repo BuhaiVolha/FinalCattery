@@ -25,13 +25,18 @@ public class TakeApprovedOffersCommand implements ActionCommand {
 
         try {
             List<Offer> offers = null;
+            String pageValue = request.getParameter("page");
+            int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
 
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD);
+            offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD, page, 6);
+            int pageCount = offerService.getOffersPageCountByStatus(OfferStatus.APRVD,6);
 
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("page", page);
             request.setAttribute("offers", offers);
             request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.offers")).forward(request, response);
+                    .getProperty("path.page.offers-approved")).forward(request, response);
 
         } catch (ServiceException e) {
             response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));

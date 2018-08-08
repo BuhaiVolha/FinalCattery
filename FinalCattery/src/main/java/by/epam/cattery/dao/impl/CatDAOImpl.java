@@ -7,6 +7,7 @@ import by.epam.cattery.dao.CatDAO;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.Gender;
+import by.epam.cattery.entity.dto.SearchCatTO;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,20 +37,28 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     private static final String DELETE_CAT = "UPDATE cat SET flag_cat_deleted = 1 WHERE cat_id = ?";
 
-    private static final String GET_ALL_CATS = "SELECT cat_id, name, lastname, gender, " +
+    private static final String GET_ALL_CATS_FOR_SEARCH = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
             "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
             "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted ";
+    private static final String GET_ALL_CATS = "SELECT cat_id, name, lastname, gender, " +
+            "MONTH(CURDATE()) - MONTH(birth_date), description," +
+            "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
+            "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
+            "ON (cat.body_colour_code = cat_colour.EMS_code) " +
+            "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE NOT flag_cat_deleted ORDER BY name LIMIT ? OFFSET ?;";
     private static final String GET_ALL_CATS_BY_STATUS = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
             "colour_name, eyes_colour_name, parent_female, parent_male, price, " +
             "sale_status_id, user_suggested_id, cat_photo FROM cat JOIN cat_colour " +
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
-            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? AND NOT flag_cat_deleted ORDER BY name";
+            "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE sale_status_id = ? " +
+            "AND NOT flag_cat_deleted ORDER BY name LIMIT ? OFFSET ?;";
 
     private static final String GET_CAT_BY_ID = "SELECT cat_id, name, lastname, gender, " +
             "MONTH(CURDATE()) - MONTH(birth_date), description," +
@@ -58,6 +67,9 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "ON (cat.body_colour_code = cat_colour.EMS_code) " +
             "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code " +
             "= cat_eyes_colour.FIFe_eyes_colour_code) WHERE cat_id = ? AND NOT flag_cat_deleted";
+
+    private static final String GET_CATS_COUNT = "SELECT COUNT(*) FROM cat WHERE NOT flag_cat_deleted";
+    private static final String GET_CATS_COUNT_BY_STATUS = "SELECT COUNT(*) FROM cat WHERE sale_status_id=? AND NOT flag_cat_deleted";
 
     private static final String SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED = "UPDATE cat JOIN user_reservation " +
             "ON (cat.cat_id = user_reservation.cat_id) SET sale_status_id=? " +
@@ -96,7 +108,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
 
     @Override
-    public List<Cat> searchForCat(Cat cat) throws DAOException {
+    public void searchForCat(SearchCatTO searchCatTO, int page) throws DAOException {
+        Cat cat = searchCatTO.getSearchedCat();
         List<Cat> cats = new ArrayList<>();
 
         Connection con = null;
@@ -124,11 +137,26 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             }
 
             if (cat.getPrice() != 0.0) {
-                condition.append(" price <= " + cat.getPrice() + " AND ");
-            }
-            condition.append(" 1 = 1;");
 
-            ps = con.prepareStatement(GET_ALL_CATS + condition);
+                if (searchCatTO.getUserDiscount() == 0)  {
+                    condition.append(" price <= " + cat.getPrice() + " AND ");
+                } else  {
+                    condition.append(" price - (price * " + searchCatTO.getUserDiscount() + ") / 100 <= " + cat.getPrice() + " AND ");
+                }
+            }
+            condition.append(" 1 = 1");
+
+            String SEARCH_QUERY_ENDING = " ORDER BY name LIMIT ? OFFSET ?;";
+            final String GET_FOUND_CATS_COUNT = "SELECT COUNT(*) FROM cat WHERE NOT flag_cat_deleted ";
+
+            ps = con.prepareStatement(GET_ALL_CATS_FOR_SEARCH + condition + SEARCH_QUERY_ENDING);
+
+            searchCatTO.setSearchQuery(GET_FOUND_CATS_COUNT + condition);
+
+            int itemsPerPage = searchCatTO.getItemsPerPage();
+            ps.setInt(1, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(2, startIndex);
 
             rs = ps.executeQuery();
 
@@ -136,10 +164,36 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                 Cat foundCat = readResultSet(rs);
                 cats.add(foundCat);
             }
-            return cats;
+            searchCatTO.setCats(cats);
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during searching for cat", e);
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    @Override
+    public void getTotalCountForFoundCats(SearchCatTO searchCatTO) throws DAOException {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(searchCatTO.getSearchQuery());
+            rs = ps.executeQuery();
+            rs.next();
+
+            searchCatTO.setPageCount(rs.getInt(1));
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during counting how much cats were found", e);
+
         } finally {
             connectionProvider.close(con);
             connectionProvider.closeResources(rs, ps);
@@ -179,30 +233,6 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             connectionProvider.closeResources(rs, ps);
         }
     }
-
-
-//    @Override
-//    public void addPhoto(int catId, String photo) throws DAOException {
-//        Connection con = null;
-//        PreparedStatement ps = null;
-//
-//        try {
-//            con = connectionProvider.obtainConnection();
-//            ps = con.prepareStatement(UPDATE_PHOTO);
-//
-//            ps.setString(1, photo);
-//            ps.setInt(2, catId);
-//
-//            ps.executeUpdate();
-//
-//        } catch (ConnectionPoolException | SQLException e) {
-//            throw new DAOException("Exception while updating cat's photo", e);
-//
-//        } finally {
-//            connectionProvider.close(con);
-//            connectionProvider.closeResources(ps);
-//        }
-//    }
 
 
     @Override
@@ -271,7 +301,6 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         return UPDATE_CAT;
     }
 
-
     @Override
     public String getUpdateStatusQuery() {
         return UPDATE_CAT_STATUS;
@@ -287,23 +316,14 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         return DELETE_CAT;
     }
 
-
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_CATS;
     }
 
     @Override
-    public String getQueryForAllObjectsWithPagination() {
-        logger.log(Level.WARN, "Not impl yet");
-        throw new UnsupportedOperationException();
-    }
-
-
-    @Override
     public String getQueryForTotalCount() {
-        logger.log(Level.WARN, "Not impl yet");
-        throw new UnsupportedOperationException();
+        return GET_CATS_COUNT;
     }
 
 
@@ -318,15 +338,25 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
     @Override
-    public String getQueryForAllObjectsById() {
-        logger.log(Level.WARN, "Getting all objects by ID is not implemented for Cat");
+    public String getQueryForAllObjectsByStatus() {
+        return GET_ALL_CATS_BY_STATUS;
+    }
+
+    @Override
+    public String getQueryForTotalCountByStatus() {
+        return GET_CATS_COUNT_BY_STATUS;
+    }
+
+    @Override
+    public String getQueryForTotalCountById() {
+        logger.log(Level.WARN, "Counting all objects by id is not implemented for Cat");
         throw new UnsupportedOperationException();
     }
 
-
     @Override
-    public String getQueryForAllObjectsByStatus() {
-        return GET_ALL_CATS_BY_STATUS;
+    public String getQueryForAllObjectsById() {
+        logger.log(Level.WARN, "Taking all objects by id is not implemented for Cat");
+        throw new UnsupportedOperationException();
     }
 
 

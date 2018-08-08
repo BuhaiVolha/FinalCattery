@@ -11,6 +11,7 @@ import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.exception.ServiceException;
 
+import by.epam.cattery.service.util.PageCounter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,8 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
         List<Review> reviews;
 
         try {
-            //reviews = reviewDAO.loadAll();
-            reviews = reviewDAO.loadAllWithPagination(page, itemsPerPage);
+            reviews = reviewDAO.loadAll(page, itemsPerPage);
 
             if (reviews.isEmpty()) {
                 return Collections.emptyList();
@@ -52,9 +52,10 @@ public class ReviewServiceImpl implements ReviewService {
 
         try {
             int totalCount = reviewDAO.getTotalCount();
-            pageCount = (int) Math.ceil((double) totalCount / itemsPerPage);
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
         } catch (DAOException e) {
-            throw new ServiceException("Exception while getting reviews count", e);
+            throw new ServiceException("Exception while getting reviews counted", e);
         }
         return pageCount;
     }

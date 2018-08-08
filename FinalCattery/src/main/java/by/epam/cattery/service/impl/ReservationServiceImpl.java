@@ -15,6 +15,7 @@ import by.epam.cattery.entity.ReservationStatus;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.exception.ServiceException;
 
+import by.epam.cattery.service.util.PageCounter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,38 +60,68 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public List<Reservation> takeAllReservations() throws ServiceException {
+    public List<Reservation> takeAllReservationsByStatus(ReservationStatus status, int page, int itemsPerPage)  throws ServiceException {
         List<Reservation> reservations;
 
         try {
-            reservations = reservationDAO.loadAllByStatus(ReservationStatus.NEW.toString());
+            reservations = reservationDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
 
             if (reservations.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Showing all (new) reservations failed", e);
+            throw new ServiceException("Showing all reservations by status failed", e);
         }
         return reservations;
     }
 
 
     @Override
-    public List<Reservation> takeAllReservationsForUser(int userId) throws ServiceException {
+    public int getReservationsPageCountByStatus(ReservationStatus status, int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = reservationDAO.getTotalCountByStatus(status.toString());
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting reservations counted by status", e);
+        }
+        return pageCount;
+    }
+
+
+    @Override
+    public List<Reservation> takeAllReservationsForUser(int userId, int page, int itemsPerPage) throws ServiceException {
         List<Reservation> reservations;
 
         try {
-            reservations = reservationDAO.loadAllById(userId);
+            reservations = reservationDAO.loadAllById(userId, page, itemsPerPage);
 
             if (reservations.isEmpty()) {
                 return Collections.emptyList();
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Showing all reservations for user failed", e);
+            throw new ServiceException("Showing all reservations by Id failed", e);
         }
         return reservations;
+    }
+
+
+    @Override
+    public int getReservationsPageCountByUserId(int userId, int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = reservationDAO.getTotalCountById(userId);
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting reservations counted by Id", e);
+        }
+        return pageCount;
     }
 
 

@@ -1,5 +1,6 @@
 package by.epam.cattery.service;
 
+import by.epam.cattery.entity.Review;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.ValidationFailedException;
@@ -11,7 +12,8 @@ public interface UserService {
     int getDiscount(int userId) throws ServiceException;
     User logIn(String login, String password) throws ServiceException;
     User takeSingleUser(int userId) throws ServiceException;
-    List<User> takeAllUsers() throws ServiceException;
+    List<User> takeAllUsers(int page, int itemsPerPage) throws ServiceException;
+    int getUsersPageCount(int itemsPerPage) throws ServiceException;
     String countStatistics() throws ServiceException;
     void changeColourPreference(User user) throws ServiceException;
     void banUser(int userId) throws ServiceException;

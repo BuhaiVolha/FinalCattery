@@ -9,7 +9,7 @@
         <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
             <div class="well" style="padding: 28px;">
                 <h3 align="center">Search Filter</h3>
-                <form class="form-horizontal" method="POST" action="/controller">
+                <form class="form-horizontal" method="GET" action="/controller">
                     <input type="hidden" name="command" value="search"/>
                     <div class="form-group">
                         <label for="gender" class="control-label">Gender</label>

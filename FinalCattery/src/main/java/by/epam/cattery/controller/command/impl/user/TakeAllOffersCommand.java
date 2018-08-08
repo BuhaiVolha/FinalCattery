@@ -25,13 +25,20 @@ public class TakeAllOffersCommand implements ActionCommand {
         List<Offer> offers = null;
         HttpSession session = request.getSession();
 
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+        int userId = (int) session.getAttribute("userId");
+
         try {
             OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.takeAllOffersByUserId((int) session.getAttribute("userId"));
+            offers = offerService.takeAllOffersForUser(userId, page, 6);
+            int pageCount = offerService.getOffersPageCountByUserId(userId,6);
 
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("page", page);
             request.setAttribute("offers", offers);
             request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.offers")).forward(request, response);
+                    .getProperty("path.page.offers-all")).forward(request, response);
 
         } catch (ServiceException e) {
             //redirect

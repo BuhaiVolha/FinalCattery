@@ -8,6 +8,7 @@ import by.epam.cattery.entity.User;
 
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.*;
+import by.epam.cattery.service.util.PageCounter;
 import by.epam.cattery.service.validation.Validator;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -114,20 +115,34 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> takeAllUsers() throws ServiceException {
+    public List<User> takeAllUsers(int page, int itemsPerPage) throws ServiceException {
         List<User> users;
 
         try {
-            users = userDAO.loadAll();
+            users = userDAO.loadAll(page, itemsPerPage);
 
             if (users.isEmpty()) {
                 return Collections.emptyList();
             }
-
         } catch (DAOException e) {
-            throw new ServiceException("Exception while showing all users", e);
+            throw new ServiceException("Exception while finding all users", e);
         }
         return users;
+    }
+
+
+    @Override
+    public int getUsersPageCount(int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = userDAO.getTotalCount();
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting users counted", e);
+        }
+        return pageCount;
     }
 
 

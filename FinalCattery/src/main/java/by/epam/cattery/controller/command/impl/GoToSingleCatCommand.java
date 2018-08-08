@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Base64;
 
 public class GoToSingleCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleCatCommand.class);
@@ -55,7 +57,6 @@ public class GoToSingleCatCommand implements ActionCommand {
 //                request.getRequestDispatcher(ConfigurationManager.getInstance()
 //                        .getProperty("path.page.edit-cat")).forward(request, response);
 //            }
-
 
             request.getRequestDispatcher(ConfigurationManager.getInstance()
                     .getProperty("path.page." + operation)).forward(request, response);

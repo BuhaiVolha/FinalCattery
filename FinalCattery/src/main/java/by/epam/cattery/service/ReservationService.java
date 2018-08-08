@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ReservationService {
-    void makeReservation(Reservation reservation) throws ServiceException; // delete from all reserv where catId =
-    List<Reservation> takeAllReservations() throws ServiceException;
-    List<Reservation> takeAllReservationsForUser(int userId) throws ServiceException;
+    void makeReservation(Reservation reservation) throws ServiceException;
+    List<Reservation> takeAllReservationsByStatus(ReservationStatus status, int page, int itemsPerPage) throws ServiceException;
+    int getReservationsPageCountByStatus(ReservationStatus status, int itemsPerPage) throws ServiceException;
+    List<Reservation> takeAllReservationsForUser(int userId, int page, int itemsPerPage) throws ServiceException;
+    int getReservationsPageCountByUserId(int userId, int itemsPerPage) throws ServiceException;
     void declineExpiredReservations() throws ServiceException;
     void cancelReservation(int reservationId) throws ServiceException;
     void addChequePhoto(int reservationId, String photo) throws ServiceException;

@@ -29,11 +29,12 @@ public class TakeAllReviewsCommand implements ActionCommand {
         try {
             ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
             reviews = reviewService.takeAllReviews(page, 6);
+
             int pageCount = reviewService.getReviewsPageCount(6);
             request.setAttribute("pageCount", pageCount);
             request.setAttribute("page", page);
-
             request.setAttribute("approvedReviews", reviews);
+
             request.getRequestDispatcher(ConfigurationManager.getInstance()
                     .getProperty("path.page.reviews")).forward(request, response);
 

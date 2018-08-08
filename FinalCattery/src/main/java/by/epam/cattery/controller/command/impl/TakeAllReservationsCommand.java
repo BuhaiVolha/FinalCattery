@@ -2,6 +2,7 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
+import by.epam.cattery.entity.ReservationStatus;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Reservation;
 import by.epam.cattery.entity.Role;
@@ -27,16 +28,26 @@ public class TakeAllReservationsCommand implements ActionCommand {
         List<Reservation> reservations = null;
         HttpSession session = request.getSession();
 
+        String pageValue = request.getParameter("page");
+        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+        int userId = (int) session.getAttribute("userId");
+        int pageCount;
+
         try {
             ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
             if (session.getAttribute("role") == Role.USER) {
                 reservations = reservationService
-                        .takeAllReservationsForUser(Integer.parseInt(session.getAttribute("userId").toString()));
+                        .takeAllReservationsForUser(userId, page, 6);
+                pageCount = reservationService.getReservationsPageCountByUserId(userId,6);
+
             } else {
-                reservations = reservationService.takeAllReservations();
+                reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, 6);
+                pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW,6);
             }
 
+            request.setAttribute("pageCount", pageCount);
+            request.setAttribute("page", page);
             request.setAttribute("reservations", reservations);
 
             request.getRequestDispatcher(ConfigurationManager.getInstance()

@@ -10,9 +10,11 @@ import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
 import by.epam.cattery.entity.OfferStatus;
 
+import by.epam.cattery.entity.dto.SearchCatTO;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.exception.ServiceException;
 
+import by.epam.cattery.service.util.PageCounter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,11 +32,11 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public List<Cat> takeAllCats() throws ServiceException {
+    public List<Cat> takeAllCats(int page, int itemsPerPage) throws ServiceException {
         List<Cat> cats;
 
         try {
-            cats = catDAO.loadAll();
+            cats = catDAO.loadAll(page, itemsPerPage);
 
             if (cats.isEmpty()) {
                 return Collections.emptyList();
@@ -47,11 +49,26 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public List<Cat> takeCatsByStatus(CatStatus status) throws ServiceException {
+    public int getCatsPageCount(int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = catDAO.getTotalCount();
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting all cats counted", e);
+        }
+        return pageCount;
+    }
+
+
+    @Override
+    public List<Cat> takeAllCatsByStatus(CatStatus status, int page, int itemsPerPage) throws ServiceException {
         List<Cat> cats;
 
         try {
-            cats = catDAO.loadAllByStatus(status.toString());
+            cats = catDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
 
             if (cats.isEmpty()) {
                 return Collections.emptyList();
@@ -60,6 +77,21 @@ public class CatServiceImpl implements CatService {
             throw new ServiceException("Exception while finding all cats by status", e);
         }
         return cats;
+    }
+
+
+    @Override
+    public int getCatsPageCountByStatus(CatStatus status, int itemsPerPage) throws ServiceException {
+        int pageCount = 0;
+
+        try {
+            int totalCount = catDAO.getTotalCountByStatus(status.toString());
+            pageCount = PageCounter.getInstance().countPages(totalCount, itemsPerPage);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while getting cats counted by status", e);
+        }
+        return pageCount;
     }
 
 
@@ -96,8 +128,32 @@ public class CatServiceImpl implements CatService {
             connectionProvider.abortTransaction();
             throw new ServiceException("Exception while adding a cat", e);
 
-        }  finally {
+        } finally {
             connectionProvider.endTransaction();
+        }
+    }
+
+
+    @Override
+    public void searchForCat(SearchCatTO searchCatTO, int page) throws ServiceException {
+
+        try {
+            catDAO.searchForCat(searchCatTO, page);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while searching for a cat", e);
+        }
+    }
+
+
+    @Override
+    public void getPageCountForFoundCats(SearchCatTO searchCatTO) throws ServiceException {
+
+        try {
+            catDAO.getTotalCountForFoundCats(searchCatTO);
+
+        } catch (DAOException e) {
+            throw new ServiceException("Exception while counting found cats", e);
         }
     }
 
@@ -144,22 +200,5 @@ public class CatServiceImpl implements CatService {
         } catch (DAOException e) {
             throw new ServiceException("Exception while adding photo for a cat", e);
         }
-    }
-
-
-    @Override
-    public List<Cat> searchForCat(Cat cat) throws ServiceException {
-        List<Cat> cats;
-
-        try {
-            cats = catDAO.searchForCat(cat);
-
-            if (cats.isEmpty()) {
-                return Collections.emptyList();
-            }
-        } catch (DAOException e) {
-            throw new ServiceException("Exception while searching for cat", e);
-        }
-        return cats;
     }
 }

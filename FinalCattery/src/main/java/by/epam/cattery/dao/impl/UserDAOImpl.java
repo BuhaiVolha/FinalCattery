@@ -37,13 +37,16 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final String GET_ALL_USERS = "SELECT user_id, login, name, lastname, email, " +
             "phone, colour_name, role, discount, flag_banned, flag_review_left " +
             "FROM user JOIN user_role ON (user.role_id = user_role.role_id)" +
-            "LEFT JOIN cat_colour ON (colour_preference = EMS_code) ORDER BY login";
+            "LEFT JOIN cat_colour ON (colour_preference = EMS_code) ORDER BY login LIMIT ? OFFSET ?;";
+
     private static final String GET_USER_BY_LOGIN = "SELECT user_id, login, password, role FROM user " +
             "JOIN user_role ON (user.role_id = user_role.role_id) WHERE login= ?;";
     private static final String GET_USER_BY_ID = "SELECT user_id, login, name, lastname, email, " +
             "phone, colour_name, role, discount, flag_banned, flag_review_left " +
             "FROM user JOIN user_role ON (user.role_id = user_role.role_id)" +
             "LEFT JOIN cat_colour ON (colour_preference = EMS_code) WHERE user_id = ?;";
+
+    private static final String GET_USERS_COUNT = "SELECT COUNT(*) FROM user";
 
     private static final String REVERSE_BANNED_FLAG = "UPDATE user SET flag_banned = NOT flag_banned WHERE user_id = ?";
     private static final String REVERSE_REVIEW_LEFT_FLAG = "UPDATE user SET flag_review_left= NOT flag_review_left " +
@@ -478,10 +481,9 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
     @Override
     public String getDeleteQuery() {
-        logger.log(Level.WARN, "Deleting is not implemented User");
+        logger.log(Level.WARN, "Deleting is not implemented for User");
         throw new UnsupportedOperationException();
     }
-
 
     @Override
     public String getQueryForAllObjects() {
@@ -489,17 +491,33 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
     @Override
-    public String getQueryForAllObjectsWithPagination() {
-        logger.log(Level.WARN, "Not impl yet");
+    public String getQueryForTotalCount() {
+        return GET_USERS_COUNT;
+    }
+
+    @Override
+    public String getQueryForAllObjectsByStatus() {
+        logger.log(Level.WARN, "Taking all users by status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getQueryForTotalCount() {
-        logger.log(Level.WARN, "Not impl yet");
+    public String getQueryForTotalCountByStatus() {
+        logger.log(Level.WARN, "Counting all users by status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getQueryForTotalCountById() {
+        logger.log(Level.WARN, "Counting all users by id is not implemented for User");
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getQueryForAllObjectsById() {
+        logger.log(Level.WARN, "Taking all users by id is not implemented for User");
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public String getQueryForSingleObject() {
@@ -509,19 +527,6 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     @Override
     public String getQueryForStatusCheck() {
         logger.log(Level.WARN, "Execute status check is not implemented for User");
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getQueryForAllObjectsById() {
-        logger.log(Level.WARN, "Getting all objects by ID is not implemented for User");
-        throw new UnsupportedOperationException();
-    }
-
-
-    @Override
-    public String getQueryForAllObjectsByStatus() {
-        logger.log(Level.WARN, "Getting all objects by status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
