@@ -57,28 +57,23 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
                     "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                    "JOIN cat_colour " +
-                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                    "LEFT JOIN cat_eyes_colour " +
-                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE NOT flag_cat_deleted ";
     private static final String GET_ALL_CATS =
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
                     "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                    "JOIN cat_colour " +
-                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                    "LEFT JOIN cat_eyes_colour " +
-                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE NOT flag_cat_deleted " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
     private static final String GET_ALL_CATS_BY_STATUS =
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
                     "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
-                    "FROM cat JOIN cat_colour " +
-                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                    "LEFT JOIN cat_eyes_colour " +
-                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                    "FROM cat " +
+                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE sale_status_id = ? " +
                     "AND NOT flag_cat_deleted " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
@@ -87,10 +82,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
                     "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                    "JOIN cat_colour " +
-                    "ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                    "LEFT JOIN cat_eyes_colour " +
-                    "ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
+                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE cat_id = ? " +
                     "AND NOT flag_cat_deleted;";
 
@@ -105,20 +98,19 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                     "AND NOT flag_cat_deleted;";
 
     private static final String SET_RESERVED_CATS_AVAILABLE_IF_RESERVATIONS_EXPIRED =
-            "UPDATE cat JOIN user_reservation " +
-                    "ON (cat.cat_id = user_reservation.cat_id) " +
-                    "SET sale_status_id = ? " +
-                    "WHERE sale_status_id = ? " +
-                    "AND timestampdiff(DAY, user_reservation.reservation_date, now()) > 3 " +
-                    "AND NOT flag_cat_deleted;";
+            "UPDATE cat " +
+                    "JOIN user_reservation ON (cat.cat_id = user_reservation.cat_id) " +
+                        "SET sale_status_id = ? " +
+                        "WHERE sale_status_id = ? " +
+                        "AND timestampdiff(DAY, user_reservation.reservation_date, now()) > 3 " +
+                        "AND NOT flag_cat_deleted;";
     private static final String SET_RESERVED_CATS_AVAILABLE_IF_USER_BANNED =
             "UPDATE cat " +
-                    "JOIN user_reservation " +
-                    "ON (cat.cat_id = user_reservation.cat_id) " +
-                    "SET sale_status_id = ? " +
-                    "WHERE sale_status_id=? " +
-                    "AND user_reservation.user_id = ? " +
-                    "AND NOT flag_cat_deleted;";
+                    "JOIN user_reservation ON (cat.cat_id = user_reservation.cat_id) " +
+                        "SET sale_status_id = ? " +
+                        "WHERE sale_status_id=? " +
+                        "AND user_reservation.user_id = ? " +
+                        "AND NOT flag_cat_deleted;";
 
     private static final String CHECK_CAT_STATUS =
             "SELECT EXISTS " +
@@ -129,8 +121,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final String GET_CAT_ID_BY_RESERVATION_ID =
             "SELECT cat.cat_id " +
                     "FROM cat " +
-                    "JOIN user_reservation " +
-                    "ON (cat.cat_id = user_reservation.cat_id) " +
+                        "JOIN user_reservation ON (cat.cat_id = user_reservation.cat_id) " +
                     "WHERE user_reservation.reservation_id = ? " +
                     "AND NOT flag_cat_deleted;";
 

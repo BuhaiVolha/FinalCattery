@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class Entity implements Serializable {
     private static final long serialVersionUID = 4852012814608236102L;
-    private int id;  // Integer????
+    private int id;
     /*
     If they are nullable in the database, then use wrappers. If they are not nullable, and you use wrappers,
     then you'll get an exception if you try and insert a null into the database.
@@ -47,5 +47,14 @@ public class Entity implements Serializable {
         return new HashCodeBuilder(17, 37)
                 .append(getId())
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Entity{");
+        sb.append("id=").append(id);
+        sb.append('}');
+        return sb.toString();
     }
 }

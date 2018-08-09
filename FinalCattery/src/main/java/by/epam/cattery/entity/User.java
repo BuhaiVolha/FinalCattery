@@ -5,7 +5,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class User extends Entity {
     private static final long serialVersionUID = 2798330215955662152L;
-
     private String login;
     private String password;
     private Role role;
@@ -19,8 +18,8 @@ public class User extends Entity {
     private boolean reviewLeft;
 
 
-    public User(int id, String login, String password, Role role, String name, String lastname,
-                String email, String phone, String colourPreference, int discount, boolean banned, boolean reviewLeft) {
+    public User(int id, String login, String password, Role role, String name, String lastname, String email,
+                String phone, String colourPreference, int discount, boolean banned, boolean reviewLeft) {
         super(id);
         this.login = login;
         this.password = password;   // массив символов?
@@ -127,6 +126,7 @@ public class User extends Entity {
         this.reviewLeft = reviewLeft;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -166,5 +166,24 @@ public class User extends Entity {
                 .append(isBanned())
                 .append(isReviewLeft())
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("login='").append(login).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", role=").append(role);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", lastname='").append(lastname).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", phone='").append(phone).append('\'');
+        sb.append(", colourPreference='").append(colourPreference).append('\'');
+        sb.append(", discount=").append(discount);
+        sb.append(", banned=").append(banned);
+        sb.append(", reviewLeft=").append(reviewLeft);
+        sb.append('}');
+        return sb.toString();
     }
 }

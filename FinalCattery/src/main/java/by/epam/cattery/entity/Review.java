@@ -13,6 +13,7 @@ public class Review extends Entity {
     private int starsCount;
     private Date date;
 
+
     public Review(int id, int userLeftId, String userLeftLogin, String text, int starsCount, Date date) {
         super(id);
         this.userLeftId = userLeftId;
@@ -65,6 +66,7 @@ public class Review extends Entity {
         this.date = date;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if ((o == null) || (getClass() != o.getClass())) return false;
@@ -92,5 +94,18 @@ public class Review extends Entity {
                 .append(getStarsCount())
                 .append(getDate())
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Review{");
+        sb.append("userLeftId=").append(userLeftId);
+        sb.append(", userLeftLogin='").append(userLeftLogin).append('\'');
+        sb.append(", text='").append(text).append('\'');
+        sb.append(", starsCount=").append(starsCount);
+        sb.append(", date=").append(date);
+        sb.append('}');
+        return sb.toString();
     }
 }

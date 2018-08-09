@@ -7,7 +7,7 @@ public class Cat extends Entity {
     private static final long serialVersionUID = 8277026855704434661L;
     private String name;
     private int userMadeOfferId;
-    private int OfferMadeId;
+    private int offerMadeId;
     private String lastname;
     private Gender gender;
     private String age;
@@ -28,7 +28,7 @@ public class Cat extends Entity {
         super(id);
         this.name = name;
         this.userMadeOfferId = userMadeOfferId;
-        OfferMadeId = offerMadeId;
+        this.offerMadeId = offerMadeId;
         this.lastname = lastname;
         this.gender = gender;
         this.age = age;
@@ -136,11 +136,11 @@ public class Cat extends Entity {
     }
 
     public int getOfferMadeId() {
-        return OfferMadeId;
+        return offerMadeId;
     }
 
     public void setOfferMadeId(int offerMadeId) {
-        OfferMadeId = offerMadeId;
+        this.offerMadeId = offerMadeId;
     }
 
     public CatStatus getStatus() {
@@ -166,6 +166,7 @@ public class Cat extends Entity {
     public void setPriceWithDiscount(Double priceWithDiscount) {
         this.priceWithDiscount = priceWithDiscount;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -214,5 +215,28 @@ public class Cat extends Entity {
                 .append(getPriceWithDiscount())
                 .append(getPhoto())
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Cat{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", userMadeOfferId=").append(userMadeOfferId);
+        sb.append(", offerMadeId=").append(offerMadeId);
+        sb.append(", lastname='").append(lastname).append('\'');
+        sb.append(", gender=").append(gender);
+        sb.append(", age='").append(age).append('\'');
+        sb.append(", photo='").append(photo).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", bodyColour='").append(bodyColour).append('\'');
+        sb.append(", eyesColour='").append(eyesColour).append('\'');
+        sb.append(", femaleParent='").append(femaleParent).append('\'');
+        sb.append(", maleParent='").append(maleParent).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", priceWithDiscount=").append(priceWithDiscount);
+        sb.append(", status=").append(status);
+        sb.append('}');
+        return sb.toString();
     }
 }

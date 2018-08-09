@@ -57,10 +57,8 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
                     "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
                     ", total_cost, reservation_status, cat_photo, cheque_photo " +
                     "FROM user_reservation " +
-                    "JOIN user " +
-                    "ON (user_reservation.user_id = user.user_id) " +
-                    "JOIN cat " +
-                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                        "JOIN user ON (user_reservation.user_id = user.user_id) " +
+                        "JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
                     "WHERE reservation_status = ? " +
                     "AND NOT flag_reservation_deleted " +
                     "ORDER BY user.name LIMIT ? OFFSET ?;";
@@ -69,10 +67,8 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
                     "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
                     ", total_cost, reservation_status, cat_photo, cheque_photo " +
                     "FROM user_reservation " +
-                    "JOIN user " +
-                    "ON (user_reservation.user_id = user.user_id) " +
-                    "JOIN cat " +
-                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                        "JOIN user ON (user_reservation.user_id = user.user_id) " +
+                        "JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
                     "WHERE user.user_id = ? " +
                     "AND NOT flag_reservation_deleted " +
                     "ORDER BY cat.name LIMIT ? OFFSET ?;";
@@ -85,8 +81,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     private static final String GET_RESERVATIONS_COUNT_BY_USER_ID =
             "SELECT COUNT(*) " +
                     "FROM user_reservation " +
-                    "JOIN user " +
-                    "ON (user_reservation.user_id = user.user_id) " +
+                        "JOIN user ON (user_reservation.user_id = user.user_id) " +
                     "WHERE user.user_id=? " +
                     "AND NOT flag_reservation_deleted";
 
@@ -95,18 +90,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
                     "timestampdiff(DAY, reservation_date, now()) > " + DAYS_TILL_RESERVATION_EXPIRES +
                     ", total_cost, reservation_status, cat_photo, cheque_photo " +
                     "FROM user_reservation " +
-                    "JOIN user " +
-                    "ON (user_reservation.user_id = user.user_id) " +
-                    "JOIN cat " +
-                    "ON (user_reservation.cat_id = cat.cat_id) " +
+                        "JOIN user ON (user_reservation.user_id = user.user_id) " +
+                        "JOIN cat ON (user_reservation.cat_id = cat.cat_id) " +
                     "WHERE reservation_id=? " +
                     "AND NOT flag_reservation_deleted;";
-
-//    private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED =
-//            "UPDATE user_reservation " +
-//                    "SET reservation_status=? " +
-//                    "WHERE reservation_status=? AND timestampdiff(DAY, reservation_date, now()) > 3 " +
-//            "AND NOT flag_reservation_deleted;";
 
     private static final String SET_ALL_RESERVATIONS_EXPIRED_IF_TIME_PASSED =
             "UPDATE user_reservation " +

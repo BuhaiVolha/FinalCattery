@@ -23,61 +23,58 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
     private static final String CREATE_OFFER =
             "INSERT INTO user_offer " +
-            "(user_made_offer_id, cat_description, price) " +
-            "VALUES(?, ?, ?);";
+                    "(user_made_offer_id, cat_description, price) " +
+                    "VALUES(?, ?, ?);";
 
     private static final String UPDATE_OFFER =
             "UPDATE user_offer " +
-            "SET user_offer_status_id = ?, expert_message = ?, expert_message_to_admin = ?, price = ? " +
-            "WHERE offer_id = ? " +
-            "AND NOT flag_offer_deleted;";
+                    "SET user_offer_status_id = ?, expert_message = ?, expert_message_to_admin = ?, price = ? " +
+                    "WHERE offer_id = ? " +
+                    "AND NOT flag_offer_deleted;";
     private static final String UPDATE_OFFER_STATUS =
             "UPDATE user_offer " +
-            "SET user_offer_status_id = ? " +
-            "WHERE offer_id = ? " +
-            "AND NOT flag_offer_deleted;";
+                    "SET user_offer_status_id = ? " +
+                    "WHERE offer_id = ? " +
+                    "AND NOT flag_offer_deleted;";
     private static final String UPDATE_PHOTO =
             "UPDATE user_offer " +
-            "SET offered_cat_photo = ? " +
-            "WHERE offer_id = ?;";
+                    "SET offered_cat_photo = ? " +
+                    "WHERE offer_id = ?;";
 
     private static final String DELETE_OFFER =
             "UPDATE user_offer " +
-            "SET flag_offer_deleted = 1 " +
-            "WHERE offer_id = ?;";
+                    "SET flag_offer_deleted = 1 " +
+                    "WHERE offer_id = ?;";
     private static final String DELETE_OFFERS_BY_USER_ID =
             "UPDATE user_offer " +
-            "SET flag_offer_deleted = 1 " +
-            "WHERE user_made_offer_id = ? " +
-            "AND user_offer_status_id = ?;";
+                    "SET flag_offer_deleted = 1 " +
+                    "WHERE user_made_offer_id = ? " +
+                    "AND user_offer_status_id = ?;";
 
     private static final String GET_ALL_OFFERS_BY_STATUS =
             "SELECT offer_id, name, lastname, phone, cat_description, price, user_offer_status_id, expert_message, " +
-                    "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+            "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
                     "FROM user_offer " +
-                    "JOIN user " +
-                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                        "JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
                     "WHERE user_offer_status_id = ? " +
                     "AND NOT flag_offer_deleted " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
     private static final String GET_ALL_OFFERS_BY_USER_ID =
             "SELECT offer_id, name, lastname, phone, cat_description, price, user_offer_status_id, expert_message, " +
-                    "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+            "expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
                     "FROM user_offer " +
-                    "JOIN user " +
-                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                        "JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
                     "WHERE user_made_offer_id = ? " +
                     "AND NOT flag_offer_deleted " +
                     "ORDER BY user_offer_status_id LIMIT ? OFFSET ?;";
 
     private static final String GET_OFFER_BY_ID =
             "SELECT offer_id, name, lastname, phone, cat_description, price, " +
-                "user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
-                "FROM user_offer " +
-                "JOIN user " +
-                "ON (user_offer.user_made_offer_id = user.user_id) " +
-                "WHERE offer_id = ? " +
-                "AND NOT flag_offer_deleted;";
+            "user_offer_status_id, expert_message, expert_message_to_admin, user_made_offer_id, offered_cat_photo " +
+                    "FROM user_offer " +
+                        "JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
+                    "WHERE offer_id = ? " +
+                    "AND NOT flag_offer_deleted;";
 
     private static final String GET_OFFERS_COUNT =
             "SELECT COUNT(*) " +
@@ -91,8 +88,7 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     private static final String GET_OFFERS_COUNT_BY_USER_ID =
             "SELECT COUNT(*) " +
                     "FROM user_offer " +
-                    "JOIN user " +
-                    "ON (user_offer.user_made_offer_id = user.user_id) " +
+                        "JOIN user ON (user_offer.user_made_offer_id = user.user_id) " +
                     "WHERE user_made_offer_id = ? " +
                     "AND NOT flag_offer_deleted;";
 

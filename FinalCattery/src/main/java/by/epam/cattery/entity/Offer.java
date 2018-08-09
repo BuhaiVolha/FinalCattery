@@ -12,7 +12,7 @@ public class Offer extends Entity {
     private String userMadeOfferPhone;
     private String catDescription;
     private String photo;
-    private double price;  //priceDollars ???
+    private double price;
     private OfferStatus status;
     private String expertMessage;
     private String expertMessageToAdmin;
@@ -154,5 +154,23 @@ public class Offer extends Entity {
                 .append(getExpertMessage())
                 .append(getExpertMessageToAdmin())
                 .toHashCode();
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Offer{");
+        sb.append("userMadeOfferId=").append(userMadeOfferId);
+        sb.append(", userMadeOfferName='").append(userMadeOfferName).append('\'');
+        sb.append(", userMadeOfferLastname='").append(userMadeOfferLastname).append('\'');
+        sb.append(", userMadeOfferPhone='").append(userMadeOfferPhone).append('\'');
+        sb.append(", catDescription='").append(catDescription).append('\'');
+        sb.append(", photo='").append(photo).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", status=").append(status);
+        sb.append(", expertMessage='").append(expertMessage).append('\'');
+        sb.append(", expertMessageToAdmin='").append(expertMessageToAdmin).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -173,4 +173,25 @@ public class Reservation extends Entity {
                 .append(getChequePhoto())
                 .toHashCode();
     }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Reservation{");
+        sb.append("userMadeReservationId=").append(userMadeReservationId);
+        sb.append(", userMadeReservationName='").append(userMadeReservationName).append('\'');
+        sb.append(", userMadeReservationLastname='").append(userMadeReservationLastname).append('\'');
+        sb.append(", catId=").append(catId);
+        sb.append(", catName='").append(catName).append('\'');
+        sb.append(", catLastname='").append(catLastname).append('\'');
+        sb.append(", catPhoto='").append(catPhoto).append('\'');
+        sb.append(", chequePhoto='").append(chequePhoto).append('\'');
+        sb.append(", dateOfReservation=").append(dateOfReservation);
+        sb.append(", pedigreeType=").append(pedigreeType);
+        sb.append(", totalCost=").append(totalCost);
+        sb.append(", expired=").append(expired);
+        sb.append(", status=").append(status);
+        sb.append('}');
+        return sb.toString();
+    }
 }

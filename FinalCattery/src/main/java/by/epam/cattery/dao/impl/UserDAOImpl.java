@@ -47,25 +47,20 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final String GET_ALL_USERS =
             "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
                     "FROM user " +
-                    "JOIN user_role " +
-                    "ON (user.role_id = user_role.role_id)" +
-                    "LEFT JOIN cat_colour " +
-                    "ON (colour_preference = EMS_code) " +
+                        "JOIN user_role ON (user.role_id = user_role.role_id)" +
+                        "LEFT JOIN cat_colour ON (colour_preference = EMS_code) " +
                     "ORDER BY login LIMIT ? OFFSET ?;";
 
     private static final String GET_USER_BY_LOGIN =
             "SELECT user_id, login, password, role " +
                     "FROM user " +
-                    "JOIN user_role " +
-                    "ON (user.role_id = user_role.role_id) " +
+                        "JOIN user_role ON (user.role_id = user_role.role_id) " +
                     "WHERE login = ?;";
     private static final String GET_USER_BY_ID =
             "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
                     "FROM user " +
-                    "JOIN user_role " +
-                    "ON (user.role_id = user_role.role_id)" +
-                    "LEFT JOIN cat_colour " +
-                    "ON (colour_preference = EMS_code) " +
+                        "JOIN user_role ON (user.role_id = user_role.role_id)" +
+                        "LEFT JOIN cat_colour ON (colour_preference = EMS_code) " +
                     "WHERE user_id = ?;";
 
     private static final String GET_USERS_COUNT =
@@ -112,13 +107,13 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final String CHECK_LOGIN_ALREADY_EXISTS =
             "SELECT EXISTS " +
                     "(SELECT 1 " +
-                    "FROM user " +
-                    "WHERE login = ?);";
+                        "FROM user " +
+                        "WHERE login = ?);";
     private static final String CHECK_EMAIL_ALREADY_EXISTS =
             "SELECT EXISTS " +
                     "(SELECT 1 " +
-                    "FROM user " +
-                    "WHERE email = ?);";
+                        "FROM user " +
+                        "WHERE email = ?);";
     private static final String CHECK_REVIEW_WAS_ADDED =
             "SELECT flag_review_left " +
                     "FROM user " +
