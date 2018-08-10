@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.service.OfferService;
@@ -10,35 +13,26 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class GoToSingleOfferCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleOfferCommand.class);
 
-    @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String operation = request.getParameter("operation");
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
 
+
+    @Override
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
         Offer offer;
 
-        try {
-            int offerId = Integer.parseInt(request.getParameter("offerId"));
-            offer = offerService.takeSingleOffer(offerId);
+        String operation = requestContent.getParameter("operation");
+        int offerId = Integer.parseInt(requestContent.getParameter("offerId"));
+        offer = offerService.takeSingleOffer(offerId);
 
-            request.setAttribute("offer", offer);
-            request.setAttribute("offerId", offer.getId());
-            request.setAttribute("operation", operation);
+        requestContent.setAttribute("offer", offer);
+        requestContent.setAttribute("offerId", offer.getId());
+        requestContent.setAttribute("operation", operation);
 
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page." + operation)).forward(request, response);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Failed to go to a single offer: ", e);
-            //redirect
-        }
+        return new RequestResult(NavigationType.FORWARD, ConfigurationManager.getInstance()
+                .getProperty("path.page." + operation));
     }
 }

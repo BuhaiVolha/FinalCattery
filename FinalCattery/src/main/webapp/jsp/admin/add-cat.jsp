@@ -2,13 +2,11 @@
 <%@ include file="/jsp/parts/header.jsp" %>
 
 <div class="container">
-
     <form class="well form-horizontal" id="contact_form" role="form" method="POST" action="/controller">
         <input type="hidden" name="command" value="add_cat"/>
         <input type="hidden" name="offerId" value="${requestScope.offer.id}"/>
         <input type="hidden" name="userMadeOfferId" value="${requestScope.offer.userMadeOfferId}"/>
         <input type="hidden" name="photo" value="${requestScope.offer.photo}"/>
-
         <fieldset>
             <!-- Form Name -->
             <legend>Adding a cat...</legend>
@@ -38,7 +36,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- radio checks -->
             <div class="form-group">

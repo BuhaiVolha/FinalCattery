@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
@@ -10,34 +13,23 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class GoToSingleReviewCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleReviewCommand.class);
 
-    @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private static final String EDIT_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty("path.page.edit-review");
 
+    @Override
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
         ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
         Review review;
 
-        try {
-            int reviewId = Integer.parseInt(request.getParameter("reviewId"));
-            review = reviewService.takeSingleReview(reviewId);
+        int reviewId = Integer.parseInt(requestContent.getParameter("reviewId"));
+        review = reviewService.takeSingleReview(reviewId);
 
-            if (review != null) {
-                request.setAttribute("review", review);
-            }
-
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.edit-review")).forward(request, response);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Failed to go to a single review: ", e);
-            //redirect
+        if (review != null) {
+            requestContent.setAttribute("review", review);
         }
+
+        return new RequestResult(NavigationType.FORWARD, EDIT_REVIEW_PAGE);
     }
 }

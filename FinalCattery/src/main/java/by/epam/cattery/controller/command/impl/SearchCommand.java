@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.entity.dto.SearchCatTO;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.*;
@@ -12,85 +15,70 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 public class SearchCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(SearchCommand.class);
 
-    @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Cat> cats = null;
-        HttpSession session = request.getSession();
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String FOUND_CATS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.cats-found");
 
+    @Override
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        CatService catService = ServiceFactory.getInstance().getCatService();
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        List<Cat> cats;
         SearchCatTO searchCatTO = new SearchCatTO();
 
-        String pageValue = request.getParameter("page");
+        String pageValue = requestContent.getParameter("page");
         int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
 
-        try {
-            Cat searchedCat = createCat(request);
-            searchCatTO.setItemsPerPage(8);
-            searchCatTO.setSearchedCat(searchedCat);
-            int discountPercents = 0;
+        Cat searchedCat = createCat(requestContent);
+        searchCatTO.setItemsPerPage(8);
+        searchCatTO.setSearchedCat(searchedCat);
+        int discountPercents = 0;
 
-            CatService catService = ServiceFactory.getInstance().getCatService();
-
-            if (session.getAttribute("role") == Role.USER) {
-                int userId = (int) session.getAttribute("userId");
-                UserService userService = ServiceFactory.getInstance().getUserService();
-
-                discountPercents = userService.getDiscount(userId);
-                searchCatTO.setUserDiscount(discountPercents);
-            }
-
-            catService.searchForCat(searchCatTO, page);
-
-            cats = searchCatTO.getCats();
-
-            for (Cat cat : cats) {
-                if (discountPercents == 0) {
-                    cat.setPriceWithDiscount(cat.getPrice());
-                } else {
-                    cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
-                }
-            }
-
-            catService.getPageCountForFoundCats(searchCatTO);
-
-            request.setAttribute("pageCount", searchCatTO.getPageCount());
-            request.setAttribute("page", page);
-            request.setAttribute("cats", searchCatTO.getCats());
-
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.cats-found")).forward(request, response);
-
-        } catch (ServiceException e) {
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-            logger.log(Level.ERROR, "Cat's are not here: ", e);
+        if (requestContent.getSessionAttribute("role") == Role.USER) {
+            int userId = (int) requestContent.getSessionAttribute("userId");
+            discountPercents = userService.getDiscount(userId);
+            searchCatTO.setUserDiscount(discountPercents);
         }
+        catService.searchForCat(searchCatTO, page);
+        cats = searchCatTO.getCats();
+
+        for (Cat cat : cats) {
+            if (discountPercents == 0) {
+                cat.setPriceWithDiscount(cat.getPrice());
+            } else {
+                cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
+            }
+        }
+
+        catService.getPageCountForFoundCats(searchCatTO);
+
+        requestContent.setAttribute("pageCount", searchCatTO.getPageCount());
+        requestContent.setAttribute("page", page);
+        requestContent.setAttribute("cats", searchCatTO.getCats());
+
+        return new RequestResult(NavigationType.FORWARD, FOUND_CATS_PAGE);
     }
 
 
-    private Cat createCat(HttpServletRequest request) {
+    private Cat createCat(RequestContent requestContent) {
         Cat cat = new Cat();
 
-        if (!request.getParameter("price").isEmpty()) {
-            cat.setPrice(Double.parseDouble(request.getParameter("price")));
+        if (!requestContent.getParameter("price").isEmpty()) {
+            cat.setPrice(Double.parseDouble(requestContent.getParameter("price")));
         }
 
-        if (!request.getParameter("gender").isEmpty()) {
-            cat.setGender(Gender.valueOf(request.getParameter("gender")));
+        if (!requestContent.getParameter("gender").isEmpty()) {
+            cat.setGender(Gender.valueOf(requestContent.getParameter("gender")));
         }
-        if (!request.getParameter("status").isEmpty()) {
-            cat.setStatus(CatStatus.valueOf(request.getParameter("status")));
+        if (!requestContent.getParameter("status").isEmpty()) {
+            cat.setStatus(CatStatus.valueOf(requestContent.getParameter("status")));
         }
-        cat.setBodyColour(request.getParameter("body"));
-        cat.setEyesColour(request.getParameter("eyes"));
+        cat.setBodyColour(requestContent.getParameter("body"));
+        cat.setEyesColour(requestContent.getParameter("eyes"));
 
         return cat;
     }

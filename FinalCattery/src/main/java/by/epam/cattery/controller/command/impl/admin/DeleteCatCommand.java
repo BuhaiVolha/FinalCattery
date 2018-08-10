@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -9,27 +12,18 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class DeleteCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(DeleteCatCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        CatService catService = ServiceFactory.getInstance().getCatService();
 
-        try {
-            int catId = Integer.parseInt(request.getParameter("catId"));
+        int catId = Integer.parseInt(requestContent.getParameter("catId"));
+        catService.deleteCat(catId);
 
-            CatService catService = ServiceFactory.getInstance().getCatService();
-            catService.deleteCat(catId);
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Deleting cat failed: ", e);
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 }

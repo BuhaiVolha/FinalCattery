@@ -9,7 +9,6 @@
     </div>
 
     <div class="row">
-
         <div class="col-md-6">
             <div class="widget-area no-padding blank">
                 <div class="status-upload">
@@ -17,7 +16,7 @@
                         <input type="hidden" name="command" value="upload_offer_photo"/>
                         <input type="hidden" name="offerId" value="${param.offerId}"/>
 
-                            <div class="form-group"><input type="file" required="required" name="file" size="60" />
+                            <div class="form-group"><input type="file" required="required" name="offer" size="60" />
                             </div><br>
                             <button type="submit" class="btn btn-primary">Add photo of your kitten</button>
                     </form>
@@ -26,6 +25,5 @@
         </div>
     </div>
 </div>
-
 
 <%@ include file="/jsp/parts/footer.jsp" %>

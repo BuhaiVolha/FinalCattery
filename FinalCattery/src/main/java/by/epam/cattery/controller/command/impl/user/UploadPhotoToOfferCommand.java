@@ -2,6 +2,9 @@ package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.util.UploadHelper;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.ServiceFactory;
@@ -10,34 +13,24 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import java.io.IOException;
 
 public class UploadPhotoToOfferCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(UploadPhotoToOfferCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+    private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty("path.photo.offer");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
-        try {
-            int offerId = Integer.parseInt(request.getParameter("offerId"));
+        int offerId = Integer.parseInt(requestContent.getParameter("offerId"));
+        Part filePart = requestContent.getPart("offer");
+        String prefixToName = "offer";
 
-            Part filePart = request.getPart("file");
-            String prefixToName = "offer";
+        offerService.addPhotoToOffer(offerId, UploadHelper.getInstance().upload(filePart, OFFER_PHOTO_SAVE_PATH, prefixToName));
 
-            offerService.addPhotoToOffer(offerId, UploadHelper.getInstance()
-                    .upload(filePart, ConfigurationManager.getInstance().getProperty("path.photo.offer"), prefixToName));
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page")); //Обратно в кабинет
-
-        } catch (ServiceException e) {
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-            logger.log(Level.ERROR, "Something pretty bad has happened: ", e);
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE); //Обратно в кабинет
     }
 }

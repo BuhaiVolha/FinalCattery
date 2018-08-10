@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command.util;
 
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,7 @@ public class UploadHelper {
     }
 
 
-    public String upload(Part filePart, String path, String prefixToName) throws IOException, ServiceException {
+    public String upload(Part filePart, String path, String prefixToName) throws ServiceException {
         File directory = new File(path);
 
         if (!directory.exists()) {
@@ -32,23 +33,27 @@ public class UploadHelper {
         }
 
         String suffix = getFileSuffix(filePart);
-        File file = File.createTempFile(prefixToName, suffix, directory);
+        File file;
 
         try (InputStream input = filePart.getInputStream()) {
+            file = File.createTempFile(prefixToName, suffix, directory);
             Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+        } catch (IOException e) {
+            logger.log(Level.WARN, "Failed to upload file", e);
+            throw new ServiceException(e);
         }
         return file.getName();
     }
 
 
-    private String getFileSuffix(Part part) throws ServiceException {
+    private String getFileSuffix(Part part) {
         String fileName = getFileName(part);
 
         if (fileName != null) {
             return fileName.substring(fileName.lastIndexOf("."));
-        } else {
-            throw new ServiceException("Wrong file format");
         }
+        return "";
     }
 
 

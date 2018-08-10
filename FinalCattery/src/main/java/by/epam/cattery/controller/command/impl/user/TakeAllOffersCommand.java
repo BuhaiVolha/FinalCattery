@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.service.OfferService;
@@ -10,39 +13,30 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 public class TakeAllOffersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
+    private static final String ALL_OFFERS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.offers-all");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Offer> offers = null;
-        HttpSession session = request.getSession();
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        OfferService offerService = ServiceFactory.getInstance().getOfferService();
+        List<Offer> offers;
 
-        String pageValue = request.getParameter("page");
+        String pageValue = requestContent.getParameter("page");
         int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
-        int userId = (int) session.getAttribute("userId");
+        int userId = (int) requestContent.getSessionAttribute("userId");
 
-        try {
-            OfferService offerService = ServiceFactory.getInstance().getOfferService();
-            offers = offerService.takeAllOffersForUser(userId, page, 6);
-            int pageCount = offerService.getOffersPageCountByUserId(userId,6);
+        offers = offerService.takeAllOffersForUser(userId, page, 6);
+        int pageCount = offerService.getOffersPageCountByUserId(userId, 6);
 
-            request.setAttribute("pageCount", pageCount);
-            request.setAttribute("page", page);
-            request.setAttribute("offers", offers);
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.offers-all")).forward(request, response);
+        requestContent.setAttribute("pageCount", pageCount);
+        requestContent.setAttribute("page", page);
+        requestContent.setAttribute("offers", offers);
 
-        } catch (ServiceException e) {
-            //redirect
-            logger.log(Level.ERROR, "Can't show offers: ", e);
-        }
+        return new RequestResult(NavigationType.FORWARD, ALL_OFFERS_PAGE);
     }
 }

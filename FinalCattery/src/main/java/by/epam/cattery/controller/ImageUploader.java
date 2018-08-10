@@ -2,7 +2,8 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
-import by.epam.cattery.util.ConfigurationManager;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,13 +24,18 @@ public class ImageUploader extends HttpServlet {
         processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ActionCommand command = CommandProvider.getInstance().defineCommand(request);
-
-        if (command != null) {
-            command.execute(request, response);
-        } else {
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        RequestContent requestContent = new RequestContent();
+        requestContent.extractValues(request);
+        ActionCommand command = CommandProvider.getInstance().defineCommand(requestContent);
+        RequestResult requestResult = null;
+        try {
+            requestResult = command.execute(requestContent);
+        } catch (by.epam.cattery.service.exception.ServiceException e) {
+            e.printStackTrace();
         }
+        requestContent.insertValues(request);
+
+        response.sendRedirect(request.getContextPath() + requestResult.getPage());
     }
 }

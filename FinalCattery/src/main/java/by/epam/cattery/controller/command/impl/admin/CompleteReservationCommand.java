@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
@@ -9,28 +12,18 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class CompleteReservationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(CompleteReservationCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
-        try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        int reservationId = Integer.parseInt(requestContent.getParameter("reservationId"));
+        reservationService.sellCat(reservationId);
 
-            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            reservationService.sellCat(reservationId);
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-            // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-        } catch (ServiceException e) {
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-            logger.log(Level.ERROR, "Selling cat failed: ", e);
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 }

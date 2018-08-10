@@ -1,20 +1,17 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.service.exception.ServiceException;
 
 public class LanguageCommand implements ActionCommand {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getSession(true).setAttribute("local", request.getParameter("local"));
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        requestContent.setSessionAttribute("local", requestContent.getParameter("local"));
 
-        String viewPath = request.getHeader("referer");
-
-        response.sendRedirect(viewPath);
+        return new RequestResult(NavigationType.REDIRECT, requestContent.getCurrentPage());
     }
 }

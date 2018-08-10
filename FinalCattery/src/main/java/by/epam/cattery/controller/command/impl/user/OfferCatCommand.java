@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
@@ -12,44 +15,34 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 public class OfferCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(OfferCatCommand.class);
 
+    private static final String UPLOAD_CAT_PHOTO_PAGE = ConfigurationManager.getInstance().getProperty("path.page.cat-offer-photo");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
-
-        Offer offer = createOffer(request);  // DTO?
-        offer.setUserMadeOfferId((int)(session.getAttribute("userId")));
-
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
-        try {
-            int offerId = offerService.offerCat(offer);
-            request.setAttribute("offerId", offerId);
+        Offer offer = createOffer(requestContent);
+        offer.setUserMadeOfferId((int) (requestContent.getSessionAttribute("userId")));
+        int offerId = offerService.offerCat(offer);
 
-//            request.getRequestDispatcher(ConfigurationManager.getInstance()
-//                    .getProperty("path.page.cat-offer-photo")).forward(request, response);
-            response.sendRedirect(ConfigurationManager.getInstance()
-                    .getProperty("path.page.cat-offer-photo")+"?offerId="+offerId);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Offering cat failed: ", e);
-        }
+        //request.setAttribute("offerId", offerId);
+//            response.sendRedirect(ConfigurationManager.getInstance()
+//                    .getProperty("path.page.cat-offer-photo")+"?offerId="+offerId);
+        return new RequestResult(NavigationType.REDIRECT, UPLOAD_CAT_PHOTO_PAGE + "?offerId=" + offerId);
     }
 
 
-    private Offer createOffer(HttpServletRequest request) {
+    private Offer createOffer(RequestContent requestContent) {
         Offer offer = new Offer();
 
-        offer.setCatDescription(request.getParameter("catDescription"));
-        offer.setPrice(Double.parseDouble(request.getParameter("price")));
+        offer.setCatDescription(requestContent.getParameter("catDescription"));
+        offer.setPrice(Double.parseDouble(requestContent.getParameter("price")));
         offer.setStatus(OfferStatus.AWAIT);
 
         return offer;

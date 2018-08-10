@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Gender;
@@ -12,50 +15,46 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class EditCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(EditCatCommand.class);
 
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        CatService catService = ServiceFactory.getInstance().getCatService();
 
         try {
-            Cat cat = createCat(request);
-
-            CatService catService = ServiceFactory.getInstance().getCatService();
+            Cat cat = createCat(requestContent);
             catService.editCat(cat);
 
-            response.sendRedirect(ConfigurationManager.getInstance()
-                    .getProperty("path.page.success-page")); //Обратно на стр с котанами
+            //Обратно на стр с котанами
+            return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
 
         } catch (ValidationFailedException e) { // ккаято валидация
             logger.log(Level.WARN, "Validation failed: ", e);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Something pretty bad has happened: ", e);
+            return new RequestResult(NavigationType.REDIRECT, ERROR_PAGE); // Обратно на форму
         }
     }
 
 
-    private Cat createCat(HttpServletRequest request) {
+    private Cat createCat(RequestContent requestContent) {
         Cat cat = new Cat();
 
-        cat.setId(Integer.parseInt(request.getParameter("catId")));
-        cat.setName(request.getParameter("name"));
-        cat.setLastname(request.getParameter("lastname"));
-        cat.setGender(Gender.valueOf(request.getParameter("gender")));
-        cat.setAge(request.getParameter("age"));
-        cat.setPrice(Double.parseDouble(request.getParameter("price")));
-        cat.setDescription(request.getParameter("description"));
-        cat.setBodyColour(request.getParameter("bodyColour"));
-        cat.setEyesColour(request.getParameter("eyesColour"));
-        cat.setFemaleParent(request.getParameter("femaleParent"));
-        cat.setMaleParent(request.getParameter("maleParent"));
-        cat.setPrice(Double.parseDouble(request.getParameter("price")));
+        cat.setId(Integer.parseInt(requestContent.getParameter("catId")));
+        cat.setName(requestContent.getParameter("name"));
+        cat.setLastname(requestContent.getParameter("lastname"));
+        cat.setGender(Gender.valueOf(requestContent.getParameter("gender")));
+        cat.setAge(requestContent.getParameter("age"));
+        cat.setPrice(Double.parseDouble(requestContent.getParameter("price")));
+        cat.setDescription(requestContent.getParameter("description"));
+        cat.setBodyColour(requestContent.getParameter("bodyColour"));
+        cat.setEyesColour(requestContent.getParameter("eyesColour"));
+        cat.setFemaleParent(requestContent.getParameter("femaleParent"));
+        cat.setMaleParent(requestContent.getParameter("maleParent"));
+        cat.setPrice(Double.parseDouble(requestContent.getParameter("price")));
 
         return cat;
     }

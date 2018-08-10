@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.Reservation;
@@ -12,40 +15,32 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.sql.Timestamp;
 
 public class ReserveCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(ReserveCatCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
-        try {
-            Reservation reservation = createReservation(request);
+        Reservation reservation = createReservation(requestContent);
+        reservationService.makeReservation(reservation);
 
-            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            reservationService.makeReservation(reservation);
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Failed to make a reservation");
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 
 
-    private Reservation createReservation(HttpServletRequest request) {
+    private Reservation createReservation(RequestContent requestContent) {
         Reservation reservation = new Reservation();
-        HttpSession session = request.getSession();
 
-        reservation.setUserMadeReservationId(Integer.parseInt(session.getAttribute("userId").toString()));
-        reservation.setCatId(Integer.parseInt(request.getParameter("catId")));
-        reservation.setPedigreeType(CatPedigreeType.valueOf(request.getParameter("pedigreeType").toUpperCase()));
-        reservation.setTotalCost(Double.parseDouble(request.getParameter("total")));
+        reservation.setUserMadeReservationId(Integer.parseInt(requestContent.getSessionAttribute("userId").toString()));
+        reservation.setCatId(Integer.parseInt(requestContent.getParameter("catId")));
+        reservation.setPedigreeType(CatPedigreeType.valueOf(requestContent.getParameter("pedigreeType").toUpperCase()));
+        reservation.setTotalCost(Double.parseDouble(requestContent.getParameter("total")));
         reservation.setDateOfReservation(new Timestamp(System.currentTimeMillis()));
 
         return reservation;

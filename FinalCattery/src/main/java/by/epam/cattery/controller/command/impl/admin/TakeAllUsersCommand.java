@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
@@ -10,38 +13,29 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 
 public class TakeAllUsersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllUsersCommand.class);
 
+    private static final String ALL_USERS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.manage-users");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
         List<User> users;
 
-        String pageValue = request.getParameter("page");
+        String pageValue = requestContent.getParameter("page");
         int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
 
-        try {
-            UserService userService = ServiceFactory.getInstance().getUserService();
-            users = userService.takeAllUsers(page, 10);
+        users = userService.takeAllUsers(page, 10);
 
-            int pageCount = userService.getUsersPageCount(10);
-            request.setAttribute("pageCount", pageCount);
-            request.setAttribute("page", page);
-            request.setAttribute("users", users);
+        int pageCount = userService.getUsersPageCount(10);
+        requestContent.setAttribute("pageCount", pageCount);
+        requestContent.setAttribute("page", page);
+        requestContent.setAttribute("users", users);
 
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.manage-users")).forward(request, response);
-
-        } catch (ServiceException e) {
-            //redirect
-            logger.log(Level.ERROR, "Can't show offers: ", e);
-        }
+        return new RequestResult(NavigationType.FORWARD, ALL_USERS_PAGE);
     }
 }

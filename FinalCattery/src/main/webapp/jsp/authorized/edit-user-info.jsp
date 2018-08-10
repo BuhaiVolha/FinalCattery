@@ -52,7 +52,6 @@
                             <input type="submit" value="Edit" class="btn btn-primary btn-block btn-lg"
                                    tabindex="8">
                         </div>
-
             </form>
         </div>
     </div>

@@ -2,6 +2,9 @@ package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.entity.ReservationStatus;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Reservation;
@@ -13,49 +16,39 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 public class TakeAllReservationsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
-    @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Reservation> reservations = null;
-        HttpSession session = request.getSession();
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String ALL_RESERVATIONS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.reservations");
 
-        String pageValue = request.getParameter("page");
+
+    @Override
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
+        List<Reservation> reservations;
+
+        String pageValue = requestContent.getParameter("page");
         int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
-        int userId = (int) session.getAttribute("userId");
+        int userId = (int) requestContent.getSessionAttribute("userId");
         int pageCount;
 
-        try {
-            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
+        if (requestContent.getSessionAttribute("role") == Role.USER) {
+            reservations = reservationService
+                    .takeAllReservationsForUser(userId, page, 6);
+            pageCount = reservationService.getReservationsPageCountByUserId(userId, 6);
 
-            if (session.getAttribute("role") == Role.USER) {
-                reservations = reservationService
-                        .takeAllReservationsForUser(userId, page, 6);
-                pageCount = reservationService.getReservationsPageCountByUserId(userId,6);
-
-            } else {
-                reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, 6);
-                pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW,6);
-            }
-
-            request.setAttribute("pageCount", pageCount);
-            request.setAttribute("page", page);
-            request.setAttribute("reservations", reservations);
-
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.reservations")).forward(request, response);
-
-        } catch (ServiceException e) {
-            //redirect
-            logger.log(Level.ERROR, "Can't show reservations: ", e);
+        } else {
+            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, 6);
+            pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, 6);
         }
+
+        requestContent.setAttribute("pageCount", pageCount);
+        requestContent.setAttribute("page", page);
+        requestContent.setAttribute("reservations", reservations);
+
+        return new RequestResult(NavigationType.FORWARD, ALL_RESERVATIONS_PAGE);
     }
 }

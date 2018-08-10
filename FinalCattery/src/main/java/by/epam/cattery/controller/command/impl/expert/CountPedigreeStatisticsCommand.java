@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.service.ReservationService;
@@ -10,30 +13,21 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 public class CountPedigreeStatisticsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(CountPedigreeStatisticsCommand.class);
 
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String PEDIGREE_PAGE = ConfigurationManager.getInstance().getProperty("path.page.pedigree");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
 
-        try {
-            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-            Map<CatPedigreeType, Integer> pedigreeCount = reservationService.countPedigreeTypes();
+        Map<CatPedigreeType, Integer> pedigreeCount = reservationService.countPedigreeTypes();
+        requestContent.setAttribute("pedigreeCount", pedigreeCount);
 
-            request.setAttribute("pedigreeCount", pedigreeCount);
-
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page.pedigree")).forward(request, response);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Showing statistics failed: ", e);
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-        }
+        return new RequestResult(NavigationType.FORWARD, PEDIGREE_PAGE);
     }
 }

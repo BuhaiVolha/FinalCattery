@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
@@ -11,39 +14,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.sql.Date;
 
 public class EditReviewCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(EditReviewCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
 
-        try {
-            Review review = createReview(request);
+        Review review = createReview(requestContent);
+        reviewService.editReview(review);
 
-            ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
-            reviewService.editReview(review);
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Editing review failed: ", e);
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 
 
-    private Review createReview(HttpServletRequest request) {
+    private Review createReview(RequestContent requestContent) {
         Review review = new Review();
-        HttpSession session = request.getSession();
 
-        review.setText(request.getParameter("message"));
-        review.setStarsCount(Integer.parseInt(request.getParameter("rating")));
-        review.setUserLeftId(Integer.parseInt(session.getAttribute("userId").toString()));
+        review.setText(requestContent.getParameter("message"));
+        review.setStarsCount(Integer.parseInt(requestContent.getParameter("rating")));
+        review.setUserLeftId(Integer.parseInt(requestContent.getSessionAttribute("userId").toString()));
         review.setDate(new Date(System.currentTimeMillis()));
 
         return review;

@@ -9,7 +9,6 @@
 
                 <div class="preview-pic tab-content">
 
-
                         <div class="img-container">
                             <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${singleCat.photo}">
                                 <img src="/assets/img/uploads/cats/${singleCat.photo}" class="img-responsive"/></a>
@@ -98,7 +97,7 @@
                                 <input type="hidden" name="command" value="upload_cat_photo"/>
                                 <input type="hidden" name="catId" value="${requestScope.singleCat.id}"/>
                                 <div class="form-inline pull-left">
-                                    <div class="form-group"><input type="file" required="required" name="file" size="60" />
+                                    <div class="form-group"><input type="file" required="required" name="cat" size="60" />
                                     </div>
                                     <button type="submit" class="btn btn-primary">Change photo</button>
                                 </div>

@@ -1,11 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/jsp/parts/header.jsp" %>
 
-
 <div class="col-lg-4 col-lg-offset-4">
     <input type="search" id="search" value="" class="form-control" placeholder="Search...">
 </div>
-
 <br>
 <div class="container">
     <table id="cart" class="table table-hover table-condensed">
@@ -108,7 +106,7 @@
                                 <input type="hidden" name="command" value="upload_cheque_photo"/>
                                 <input type="hidden" name="reservationId" value="${reservation.id}"/>
                                 <div class="form-inline pull-left">
-                                    <div class="form-group"><input type="file" required="required" name="file"
+                                    <div class="form-group"><input type="file" required="required" name="cheque"
                                                                    size="60"/>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Attach cheque photo</button>

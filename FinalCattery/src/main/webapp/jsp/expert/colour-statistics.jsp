@@ -31,11 +31,8 @@
 </script>
 <div class="container">
     <div class="row">
-
         <div id="chartContainer" style="height: 450px; width: 100%;"></div>
-
     </div>
 </div>
-
 
 <%@ include file="/jsp/parts/footer.jsp" %>

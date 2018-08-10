@@ -1,6 +1,10 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
@@ -9,32 +13,23 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 public class SetColourPreferenceCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(SetColourPreferenceCommand.class);
 
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        User user = new User();
 
-        try {
-            User user = new User();                 // DTO   ???????????/
+        user.setColourPreference(requestContent.getParameter("colour"));
+        user.setId((int) requestContent.getSessionAttribute("userId"));
+        userService.changeColourPreference(user);
 
-            user.setColourPreference(request.getParameter("colour"));
-            user.setId((int) session.getAttribute("userId"));
-
-            UserService userService = ServiceFactory.getInstance().getUserService();
-            userService.changeColourPreference(user);
-
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-            // success message!!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-        } catch (Exception e) {
-            logger.log(Level.ERROR, "Setting colour preference failed: ", e);
-        }
+        //в кабинет вернуть
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 }

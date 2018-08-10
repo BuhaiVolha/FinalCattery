@@ -1,10 +1,9 @@
 package by.epam.cattery.controller.command;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.service.exception.ServiceException;
 
 public interface ActionCommand {
-    void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
+    RequestResult execute(RequestContent requestContent) throws ServiceException;
 }

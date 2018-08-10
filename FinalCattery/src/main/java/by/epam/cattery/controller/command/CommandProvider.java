@@ -1,11 +1,11 @@
 package by.epam.cattery.controller.command;
 
 import by.epam.cattery.controller.command.exception.CommandParserException;
+import by.epam.cattery.controller.content.RequestContent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 public class CommandProvider {
@@ -26,17 +26,11 @@ public class CommandProvider {
     }
 
 
-    public ActionCommand defineCommand(HttpServletRequest request) {
-        String commandName = request.getParameter("command");
+    public ActionCommand defineCommand(RequestContent requestContent) {
+        String commandName = requestContent.getParameter("command");
+
         logger.log(Level.DEBUG, "Command name is " + commandName);
-
-        ActionCommand command = commands.get(commandName);
-
-        if (command == null) {
-            logger.log(Level.WARN, "Command was null");
-        }
-        return command;
-
+        return commands.get(commandName);
     }
 
 

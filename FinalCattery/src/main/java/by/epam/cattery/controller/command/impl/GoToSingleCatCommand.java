@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Role;
@@ -12,57 +15,36 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Base64;
-
 public class GoToSingleCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleCatCommand.class);
 
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String operation = request.getParameter("operation");
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        CatService catService = ServiceFactory.getInstance().getCatService();
+        Cat cat;
 
-        try {
-            HttpSession session = request.getSession();
-            CatService catService = ServiceFactory.getInstance().getCatService();
 
-            Cat cat;
-            int catId = Integer.parseInt(request.getParameter("catId"));
-            int discountPercents = 0;
+        String operation = requestContent.getParameter("operation");
+        int catId = Integer.parseInt(requestContent.getParameter("catId"));
+        int discountPercents = 0;
 
-            cat = catService.takeSingleCat(catId);
+        cat = catService.takeSingleCat(catId);
 
-            if (session.getAttribute("role") == Role.USER) {
-                int userId = (int) session.getAttribute("userId");
-                UserService userService = ServiceFactory.getInstance().getUserService();
+        if (requestContent.getSessionAttribute("role") == Role.USER) {
+            int userId = (int) requestContent.getSessionAttribute("userId");
+            UserService userService = ServiceFactory.getInstance().getUserService();
 
-                discountPercents = userService.getDiscount(userId);
-                cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
-            } else {
-                cat.setPriceWithDiscount(cat.getPrice());
-            }
-            request.setAttribute("singleCat", cat);
-//
-//            if (session.getAttribute("role") == Role.USER) {
-//                request.getRequestDispatcher(ConfigurationManager.getInstance()
-//                        .getProperty("path.page.reserve-cat")).forward(request, response);
-//            }
-//
-//            if (session.getAttribute("role") == Role.EXPERT) {
-//                request.getRequestDispatcher(ConfigurationManager.getInstance()
-//                        .getProperty("path.page.edit-cat")).forward(request, response);
-//            }
-
-            request.getRequestDispatcher(ConfigurationManager.getInstance()
-                    .getProperty("path.page." + operation)).forward(request, response);
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Failed to go to a single offer: ", e);
+            discountPercents = userService.getDiscount(userId);
+            cat.setPriceWithDiscount(cat.getPrice() - (cat.getPrice() * discountPercents) / 100);
+        } else {
+            cat.setPriceWithDiscount(cat.getPrice());
         }
+        requestContent.setAttribute("singleCat", cat);
+
+        return new RequestResult(NavigationType.FORWARD, ConfigurationManager.getInstance()
+                .getProperty("path.page." + operation));
     }
 }

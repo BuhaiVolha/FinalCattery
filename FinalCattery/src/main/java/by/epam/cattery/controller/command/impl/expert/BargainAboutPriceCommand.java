@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.content.NavigationType;
+import by.epam.cattery.controller.content.RequestContent;
+import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
@@ -11,31 +14,24 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class BargainAboutPriceCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(BargainAboutPriceCommand.class);
 
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        OfferService offerService = ServiceFactory.getInstance().getOfferService();
+        Offer offer = new Offer();
 
-        try {
-            OfferService offerService = ServiceFactory.getInstance().getOfferService();
+        offer.setExpertMessage(requestContent.getParameter("expertMessage"));
+        offer.setId(Integer.parseInt(requestContent.getParameter("offerId")));
+        offer.setPrice(Integer.parseInt(requestContent.getParameter("price")));
+        offer.setStatus(OfferStatus.DISC);
 
-            Offer offer = new Offer(); // не в объект а отдельный ДТО?
-            offer.setExpertMessage(request.getParameter("expertMessage"));
-            offer.setId(Integer.parseInt(request.getParameter("offerId")));
-            offer.setPrice(Integer.parseInt(request.getParameter("price")));
-            offer.setStatus(OfferStatus.DISC); // &&&?????????????????????????????????????????
+        offerService.answerToOffer(offer, OfferStatus.AWAIT);
 
-            offerService.answerToOffer(offer, OfferStatus.AWAIT);
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.success-page"));
-
-        } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Exception while bargaining over price of an offer: ", e);
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.error"));
-        }
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 }

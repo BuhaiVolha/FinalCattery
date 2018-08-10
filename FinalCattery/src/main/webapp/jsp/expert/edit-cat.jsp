@@ -2,11 +2,9 @@
 <%@ include file="/jsp/parts/header.jsp" %>
 
 <div class="container">
-
     <form class="well form-horizontal" id="contact_form" role="form" method="POST" action="/controller">
         <input type="hidden" name="command" value="edit_cat"/>
         <input type="hidden" name="catId" value="${requestScope.singleCat.id}"/>
-
         <fieldset>
             <!-- Form Name -->
             <legend>Editing a cat...</legend>
