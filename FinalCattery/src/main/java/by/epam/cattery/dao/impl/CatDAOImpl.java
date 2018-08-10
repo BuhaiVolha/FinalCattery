@@ -208,7 +208,9 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
             if (cat.getPrice() != 0.0) {
 
-                if (searchCatTO.getUserDiscount() == 0)  {
+                if (searchCatTO.getUserDiscount() == 0
+                        && cat.getStatus() != null
+                        && !cat.getStatus().equals(CatStatus.SOLD))  {
                     condition.append(" price <= " + cat.getPrice() + " AND ");
                 } else  {
                     condition.append(" price - (price * " + searchCatTO.getUserDiscount() + ") / 100 <= " + cat.getPrice() + " AND ");

@@ -63,9 +63,9 @@
                                         <hr class="line">
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6">
-                                                <c:if test="${cat.status ne 'SOLD'}">
+
                                                     <c:choose>
-                                                        <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount}">
+                                                        <c:when test="${cat.priceWithDiscount != cat.price && not empty cat.priceWithDiscount && cat.status ne 'SOLD'}">
                                                             <p class="price">price:
                                                                 <del><span>$<c:out value="${cat.price}"/></span></del>
                                                                 <span style="margin-left: 19px">$<c:out
@@ -75,11 +75,10 @@
                                                         <c:otherwise>
                                                             <p class="price">price: <span>$<c:out
                                                                     value="${cat.price}"/></span>
-                                                            </p>
+                                                            </p><br>
                                                         </c:otherwise>
                                                     </c:choose>
 
-                                                </c:if>
                                             </div>
                                             <div class="col-md-6 col-sm-6">
 

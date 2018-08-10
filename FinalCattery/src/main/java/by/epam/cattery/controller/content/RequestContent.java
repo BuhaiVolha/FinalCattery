@@ -42,8 +42,8 @@ public class RequestContent {
         extractParameters(request);
         extractSessionAttributes(request);
         extractParts(request);
-        sessionToBeInvalidated = false;
         referer = request.getHeader(REFERER);
+        sessionToBeInvalidated = false;
     }
 
 
@@ -78,7 +78,6 @@ public class RequestContent {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            logger.log(Level.DEBUG, "Session wasn't null");
             Enumeration<String> sessionAttributeNames = session.getAttributeNames();
             
             while (sessionAttributeNames.hasMoreElements()) {
@@ -113,7 +112,6 @@ public class RequestContent {
 
         if (session != null) {
 
-            logger.log(Level.DEBUG, "Session wasn't null (inserting)");
             for (Map.Entry<String, Object> entry : sessionAttributes.entrySet()) {
                 session.setAttribute(entry.getKey(), entry.getValue());
             }
@@ -146,6 +144,11 @@ public class RequestContent {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public void setPaginationParameters(int pageCount, int page) {
+        requestAttributes.put("pageCount", pageCount);
+        requestAttributes.put("page", page);
     }
 
     public String getCurrentPage() {

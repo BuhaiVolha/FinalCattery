@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.util.UploadHelper;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
@@ -18,19 +20,19 @@ import javax.servlet.http.Part;
 public class UploadPhotoForCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(UploadPhotoForCatCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
-    private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty("path.photo.cat");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
+    private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance()
+            .getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
+    private static final String CAT_PHOTO_PREFIX = "cat-up";
+
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         CatService catService = ServiceFactory.getInstance().getCatService();
 
-        int catId = Integer.parseInt(requestContent.getParameter("catId"));
-        Part filePart = requestContent.getPart("cat");
-        String prefixToName = "cat-up";
-
-        catService.addCatPhoto(catId, UploadHelper.getInstance().upload(filePart, CAT_PHOTO_SAVE_PATH, prefixToName));
+        int catId = Integer.parseInt(requestContent.getParameter(RequestConst.CAT_ID));
+        Part filePart = requestContent.getPart(RequestConst.CAT_PHOTO_PARTNAME);
+        catService.addCatPhoto(catId, UploadHelper.getInstance().upload(filePart, CAT_PHOTO_SAVE_PATH, CAT_PHOTO_PREFIX));
 
         //Обратно в кабинет
         return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);

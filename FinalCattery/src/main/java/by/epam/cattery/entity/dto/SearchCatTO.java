@@ -5,6 +5,7 @@ import by.epam.cattery.entity.Entity;
 import by.epam.cattery.service.util.PageCounter;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.List;
 
@@ -104,14 +105,13 @@ public class SearchCatTO extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("SearchCatTO{");
-        sb.append("cats=").append(cats);
-        sb.append(", searchedCat=").append(searchedCat);
-        sb.append(", userDiscount=").append(userDiscount);
-        sb.append(", pageCount=").append(pageCount);
-        sb.append(", itemsPerPage=").append(itemsPerPage);
-        sb.append(", searchQuery='").append(searchQuery).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("cats", cats)
+                .append("searchedCat", searchedCat)
+                .append("userDiscount", userDiscount)
+                .append("pageCount", pageCount)
+                .append("itemsPerPage", itemsPerPage)
+                .append("searchQuery", searchQuery)
+                .toString();
     }
 }

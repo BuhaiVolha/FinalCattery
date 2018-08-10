@@ -63,21 +63,21 @@
                             <c:out value="${requestScope.singleCat.eyesColour}"/>
                         </h5>
 
-                        <c:if test="${requestScope.singleCat.status ne 'SOLD'}">
 
                         <c:choose>
-                        <c:when test="${requestScope.singleCat.priceWithDiscount != requestScope.singleCat.price && not empty requestScope.singleCat.priceWithDiscount}">
+                        <c:when test="${requestScope.singleCat.priceWithDiscount != requestScope.singleCat.price
+                        && not empty requestScope.singleCat.priceWithDiscount && requestScope.singleCat.status ne 'SOLD'}">
                         <h4 class="price">current price:
                             <del><span>$<c:out value="${requestScope.singleCat.price}"/></span></del>
                             <span>$<c:out value="${requestScope.singleCat.priceWithDiscount}"/></span></h4>
                         </c:when>
                         <c:otherwise>
-                        <h4 class="price">current price: <span>$<c:out value="${requestScope.singleCat.price}"/></span>
+                        <h4 class="price">
+                            <c:if test="${requestScope.singleCat.status ne 'SOLD'}">current</c:if> price: <span>$<c:out value="${requestScope.singleCat.price}"/></span>
                         </h4>
                         </c:otherwise>
                         </c:choose>
 
-                        </c:if>
                         <div class="action">
                         <c:choose>
                         <c:when test="${sessionScope.role eq 'USER' && requestScope.singleCat.status eq 'AVAIL'}">

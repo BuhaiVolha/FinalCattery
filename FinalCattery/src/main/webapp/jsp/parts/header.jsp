@@ -5,6 +5,7 @@
 <%@ taglib prefix="paginator" uri="/WEB-INF/taglib/paginator.tld"%>
 <jsp:useBean id="now" class="java.util.Date" />
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

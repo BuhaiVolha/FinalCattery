@@ -2,6 +2,7 @@ package by.epam.cattery.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class Offer extends Entity {
 
@@ -159,18 +160,17 @@ public class Offer extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Offer{");
-        sb.append("userMadeOfferId=").append(userMadeOfferId);
-        sb.append(", userMadeOfferName='").append(userMadeOfferName).append('\'');
-        sb.append(", userMadeOfferLastname='").append(userMadeOfferLastname).append('\'');
-        sb.append(", userMadeOfferPhone='").append(userMadeOfferPhone).append('\'');
-        sb.append(", catDescription='").append(catDescription).append('\'');
-        sb.append(", photo='").append(photo).append('\'');
-        sb.append(", price=").append(price);
-        sb.append(", status=").append(status);
-        sb.append(", expertMessage='").append(expertMessage).append('\'');
-        sb.append(", expertMessageToAdmin='").append(expertMessageToAdmin).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("userMadeOfferId", userMadeOfferId)
+                .append("userMadeOfferName", userMadeOfferName)
+                .append("userMadeOfferLastname", userMadeOfferLastname)
+                .append("userMadeOfferPhone", userMadeOfferPhone)
+                .append("catDescription", catDescription)
+                .append("photo", photo)
+                .append("price", price)
+                .append("status", status)
+                .append("expertMessage", expertMessage)
+                .append("expertMessageToAdmin", expertMessageToAdmin)
+                .toString();
     }
 }

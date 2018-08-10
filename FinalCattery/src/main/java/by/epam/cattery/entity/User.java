@@ -2,6 +2,7 @@ package by.epam.cattery.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class User extends Entity {
     private static final long serialVersionUID = 2798330215955662152L;
@@ -171,19 +172,18 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("login='").append(login).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", role=").append(role);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", lastname='").append(lastname).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", phone='").append(phone).append('\'');
-        sb.append(", colourPreference='").append(colourPreference).append('\'');
-        sb.append(", discount=").append(discount);
-        sb.append(", banned=").append(banned);
-        sb.append(", reviewLeft=").append(reviewLeft);
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("login", login)
+                .append("password", password)
+                .append("role", role)
+                .append("name", name)
+                .append("lastname", lastname)
+                .append("email", email)
+                .append("phone", phone)
+                .append("colourPreference", colourPreference)
+                .append("discount", discount)
+                .append("banned", banned)
+                .append("reviewLeft", reviewLeft)
+                .toString();
     }
 }

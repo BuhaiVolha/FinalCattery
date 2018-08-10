@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -21,7 +24,8 @@ import java.sql.Timestamp;
 public class ReserveCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(ReserveCatCommand.class);
 
-    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
+
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
@@ -37,10 +41,10 @@ public class ReserveCatCommand implements ActionCommand {
     private Reservation createReservation(RequestContent requestContent) {
         Reservation reservation = new Reservation();
 
-        reservation.setUserMadeReservationId(Integer.parseInt(requestContent.getSessionAttribute("userId").toString()));
-        reservation.setCatId(Integer.parseInt(requestContent.getParameter("catId")));
-        reservation.setPedigreeType(CatPedigreeType.valueOf(requestContent.getParameter("pedigreeType").toUpperCase()));
-        reservation.setTotalCost(Double.parseDouble(requestContent.getParameter("total")));
+        reservation.setUserMadeReservationId((int) requestContent.getSessionAttribute(SessionConst.ID));
+        reservation.setCatId(Integer.parseInt(requestContent.getParameter(RequestConst.CAT_ID)));
+        reservation.setPedigreeType(CatPedigreeType.valueOf(requestContent.getParameter(RequestConst.PEDIGREE_TYPE).toUpperCase()));
+        reservation.setTotalCost(Double.parseDouble(requestContent.getParameter(RequestConst.TOTAL_COST)));
         reservation.setDateOfReservation(new Timestamp(System.currentTimeMillis()));
 
         return reservation;

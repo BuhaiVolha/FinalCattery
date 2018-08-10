@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command.util;
 
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +21,17 @@ public class UploadHelper {
     private UploadHelper() {
     }
 
-    public static UploadHelper getInstance() {
-        return instance;
+
+    public void moveFileToAnotherDirectory(String filename, String pathFrom, String pathTo) {
+
+        try {
+            File file = new File(pathFrom + filename);
+            File dest = new File(pathTo);
+            FileUtils.copyFileToDirectory(file, dest);
+
+        } catch (IOException e) {
+            logger.log(Level.WARN, "Failed to move file from one directory to another", e);
+        }
     }
 
 
@@ -65,5 +75,10 @@ public class UploadHelper {
             }
         }
         return null;
+    }
+
+
+    public static UploadHelper getInstance() {
+        return instance;
     }
 }

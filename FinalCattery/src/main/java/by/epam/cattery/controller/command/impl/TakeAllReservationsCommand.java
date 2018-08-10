@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
@@ -21,8 +24,9 @@ import java.util.List;
 public class TakeAllReservationsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-    private static final String ALL_RESERVATIONS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.reservations");
+    private static final String ALL_RESERVATIONS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.RESERVATIONS);
+    private static final int ITEMS_PER_PAGE = 6;
+    private static final int DEFAULT_PAGE = 1;
 
 
     @Override
@@ -30,24 +34,23 @@ public class TakeAllReservationsCommand implements ActionCommand {
         ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
         List<Reservation> reservations;
 
-        String pageValue = requestContent.getParameter("page");
-        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
-        int userId = (int) requestContent.getSessionAttribute("userId");
+        String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
+        int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
+        int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
         int pageCount;
 
-        if (requestContent.getSessionAttribute("role") == Role.USER) {
+        if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {
             reservations = reservationService
-                    .takeAllReservationsForUser(userId, page, 6);
-            pageCount = reservationService.getReservationsPageCountByUserId(userId, 6);
+                    .takeAllReservationsForUser(userId, page, ITEMS_PER_PAGE);
+            pageCount = reservationService.getReservationsPageCountByUserId(userId, ITEMS_PER_PAGE);
 
         } else {
-            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, 6);
-            pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, 6);
+            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, ITEMS_PER_PAGE);
+            pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, ITEMS_PER_PAGE);
         }
 
-        requestContent.setAttribute("pageCount", pageCount);
-        requestContent.setAttribute("page", page);
-        requestContent.setAttribute("reservations", reservations);
+        requestContent.setPaginationParameters(pageCount, page);
+        requestContent.setAttribute(RequestConst.RESERVATIONS_LIST, reservations);
 
         return new RequestResult(NavigationType.FORWARD, ALL_RESERVATIONS_PAGE);
     }

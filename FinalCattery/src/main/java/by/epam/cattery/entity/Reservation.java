@@ -2,6 +2,7 @@ package by.epam.cattery.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.sql.Timestamp;
 
@@ -177,21 +178,20 @@ public class Reservation extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Reservation{");
-        sb.append("userMadeReservationId=").append(userMadeReservationId);
-        sb.append(", userMadeReservationName='").append(userMadeReservationName).append('\'');
-        sb.append(", userMadeReservationLastname='").append(userMadeReservationLastname).append('\'');
-        sb.append(", catId=").append(catId);
-        sb.append(", catName='").append(catName).append('\'');
-        sb.append(", catLastname='").append(catLastname).append('\'');
-        sb.append(", catPhoto='").append(catPhoto).append('\'');
-        sb.append(", chequePhoto='").append(chequePhoto).append('\'');
-        sb.append(", dateOfReservation=").append(dateOfReservation);
-        sb.append(", pedigreeType=").append(pedigreeType);
-        sb.append(", totalCost=").append(totalCost);
-        sb.append(", expired=").append(expired);
-        sb.append(", status=").append(status);
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("userMadeReservationId", userMadeReservationId)
+                .append("userMadeReservationName", userMadeReservationName)
+                .append("userMadeReservationLastname", userMadeReservationLastname)
+                .append("catId", catId)
+                .append("catName", catName)
+                .append("catLastname", catLastname)
+                .append("catPhoto", catPhoto)
+                .append("chequePhoto", chequePhoto)
+                .append("dateOfReservation", dateOfReservation)
+                .append("pedigreeType", pedigreeType)
+                .append("totalCost", totalCost)
+                .append("expired", expired)
+                .append("status", status)
+                .toString();
     }
 }

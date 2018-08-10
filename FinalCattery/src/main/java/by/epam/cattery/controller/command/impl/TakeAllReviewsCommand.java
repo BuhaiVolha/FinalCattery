@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -18,8 +20,9 @@ import java.util.List;
 public class TakeAllReviewsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllReviewsCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-    private static final String ALL_REVIEWS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.reviews");
+    private static final String ALL_REVIEWS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.REVIEWS);
+    private static final int ITEMS_PER_PAGE = 6;
+    private static final int DEFAULT_PAGE = 1;
 
 
     @Override
@@ -27,14 +30,13 @@ public class TakeAllReviewsCommand implements ActionCommand {
         ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
         List<Review> reviews;
 
-        String pageValue = requestContent.getParameter("page");
-        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
-        reviews = reviewService.takeAllReviews(page, 6);
+        String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
+        int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
+        reviews = reviewService.takeAllReviews(page, ITEMS_PER_PAGE);
 
-        int pageCount = reviewService.getReviewsPageCount(6);
-        requestContent.setAttribute("pageCount", pageCount);
-        requestContent.setAttribute("page", page);
-        requestContent.setAttribute("approvedReviews", reviews);
+        int pageCount = reviewService.getReviewsPageCount(ITEMS_PER_PAGE);
+        requestContent.setPaginationParameters(pageCount, page);
+        requestContent.setAttribute(RequestConst.REVIEWS_LIST, reviews);
 
         return new RequestResult(NavigationType.FORWARD, ALL_REVIEWS_PAGE);
     }

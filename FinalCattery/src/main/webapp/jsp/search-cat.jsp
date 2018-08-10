@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="body" class="control-label">Body colour</label>
-                        <select class="form-control" name="body" id="body">
+                        <select class="form-control" name="bodyColour" id="body">
                             <option value="">Any</option>
                             <option value="A">Blue</option>
                             <option value="D">Red</option>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="eyes" class="control-label">Eyes colour</label>
-                        <select class="form-control" name="eyes" id="eyes">
+                        <select class="form-control" name="eyesColour" id="eyes">
                             <option value="">Any</option>
                             <option value="F61">Blue</option>
                             <option value="F62">Orange</option>

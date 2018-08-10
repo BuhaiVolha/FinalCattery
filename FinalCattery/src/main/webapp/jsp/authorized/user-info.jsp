@@ -113,7 +113,7 @@
                             <a href="/controller?command=all_reservations" class="btn btn-primary">Manage
                                 reservations</a>
                             <a href="/controller?command=approved_offers"
-                               class="btn btn-primary">See offers</a>
+                               class="btn btn-primary">Add offers</a>
                         </c:when>
                     </c:choose>
                 </div>

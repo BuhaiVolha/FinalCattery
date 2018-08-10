@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl.expert;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -17,17 +19,17 @@ import org.apache.logging.log4j.Logger;
 public class BargainAboutPriceCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(BargainAboutPriceCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
+
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
-        Offer offer = new Offer();
 
-        offer.setExpertMessage(requestContent.getParameter("expertMessage"));
-        offer.setId(Integer.parseInt(requestContent.getParameter("offerId")));
-        offer.setPrice(Integer.parseInt(requestContent.getParameter("price")));
+        Offer offer = new Offer();
+        offer.setExpertMessage(requestContent.getParameter(RequestConst.OFFER_EXPERT_MESSAGE_TO_USER));
+        offer.setId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
+        offer.setPrice(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_PRICE)));
         offer.setStatus(OfferStatus.DISC);
 
         offerService.answerToOffer(offer, OfferStatus.AWAIT);

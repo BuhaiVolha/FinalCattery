@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -16,23 +18,19 @@ import org.apache.logging.log4j.Logger;
 public class GoToSingleOfferCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleOfferCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-
-
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
-        Offer offer;
 
-        String operation = requestContent.getParameter("operation");
-        int offerId = Integer.parseInt(requestContent.getParameter("offerId"));
-        offer = offerService.takeSingleOffer(offerId);
+        String operation = requestContent.getParameter(RequestConst.OPERATION);
+        int offerId = Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID));
+        Offer offer = offerService.takeSingleOffer(offerId);
 
-        requestContent.setAttribute("offer", offer);
-        requestContent.setAttribute("offerId", offer.getId());
-        requestContent.setAttribute("operation", operation);
+        requestContent.setAttribute(RequestConst.OFFER, offer);
+        requestContent.setAttribute(RequestConst.OFFER_ID, offer.getId());
+        requestContent.setAttribute(RequestConst.OPERATION, operation);
 
         return new RequestResult(NavigationType.FORWARD, ConfigurationManager.getInstance()
-                .getProperty("path.page." + operation));
+                .getProperty(PathConst.PATH_START + operation));
     }
 }

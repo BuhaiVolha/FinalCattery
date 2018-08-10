@@ -2,6 +2,7 @@ package by.epam.cattery.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class Cat extends Entity {
     private static final long serialVersionUID = 8277026855704434661L;
@@ -220,23 +221,22 @@ public class Cat extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Cat{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", userMadeOfferId=").append(userMadeOfferId);
-        sb.append(", offerMadeId=").append(offerMadeId);
-        sb.append(", lastname='").append(lastname).append('\'');
-        sb.append(", gender=").append(gender);
-        sb.append(", age='").append(age).append('\'');
-        sb.append(", photo='").append(photo).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", bodyColour='").append(bodyColour).append('\'');
-        sb.append(", eyesColour='").append(eyesColour).append('\'');
-        sb.append(", femaleParent='").append(femaleParent).append('\'');
-        sb.append(", maleParent='").append(maleParent).append('\'');
-        sb.append(", price=").append(price);
-        sb.append(", priceWithDiscount=").append(priceWithDiscount);
-        sb.append(", status=").append(status);
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("userMadeOfferId", userMadeOfferId)
+                .append("offerMadeId", offerMadeId)
+                .append("lastname", lastname)
+                .append("gender", gender)
+                .append("age", age)
+                .append("photo", photo)
+                .append("description", description)
+                .append("bodyColour", bodyColour)
+                .append("eyesColour", eyesColour)
+                .append("femaleParent", femaleParent)
+                .append("maleParent", maleParent)
+                .append("price", price)
+                .append("priceWithDiscount", priceWithDiscount)
+                .append("status", status)
+                .toString();
     }
 }

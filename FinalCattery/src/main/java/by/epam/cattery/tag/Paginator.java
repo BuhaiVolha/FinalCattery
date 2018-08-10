@@ -6,49 +6,52 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.Writer;
 
 public class Paginator extends SimpleTagSupport {
+
+
+
     private String uri;
     private int currPage;
     private int totalPages;
-//    private int maxLinks = 10;
     private int maxLinks;
 
     private Writer getWriter() {
-        JspWriter out = getJspContext().getOut();
-        return out;
+        return getJspContext().getOut();
     }
 
 
     @Override
     public void doTag() throws JspException {
         Writer out = getWriter();
-
         boolean lastPage = currPage == totalPages;
-        int pgStart = Math.max(currPage - maxLinks / 2, 1);
-        int pgEnd = pgStart + maxLinks;
-        if (pgEnd > totalPages + 1) {
-            int diff = pgEnd - totalPages;
-            pgStart -= diff - 1;
-            if (pgStart < 1)
-                pgStart = 1;
-            pgEnd = totalPages + 1;
+        int startPage = Math.max(currPage - maxLinks / 2, 1);
+        int endPage = startPage + maxLinks;
+
+        if (endPage > totalPages + 1) {
+            int diff = endPage - totalPages;
+            startPage -= diff - 1;
+
+            if (startPage < 1) {
+                startPage = 1;
+            }
+            endPage = totalPages + 1;
         }
 
         try {
             out.write("<ul class=\"paginatorList\">");
 
-            if (currPage > 1)
+            if (currPage > 1) {
                 out.write(constructLink(currPage - 1, "<", "paginatorPrev"));
-
-            for (int i = pgStart; i < pgEnd; i++) {
+            }
+            for (int i = startPage; i < endPage; i++) {
                 if (i == currPage)
                     out.write("<li class=\"paginatorCurr active"+ (lastPage && i == totalPages ? " paginatorLast" : "")  +"\">"+ currPage + "</li>");
                 else
                     out.write(constructLink(i));
             }
 
-            if (!lastPage)
+            if (!lastPage) {
                 out.write(constructLink(currPage + 1, ">", "paginatorNext paginatorLast"));
-
+            }
             out.write("</ul>");
 
         } catch (java.io.IOException ex) {
@@ -63,6 +66,7 @@ public class Paginator extends SimpleTagSupport {
 
     private String constructLink(int page, String text, String className) {
         StringBuilder link = new StringBuilder("<li");
+
         if (className != null) {
             link.append(" class=\"");
             link.append(className);

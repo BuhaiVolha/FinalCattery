@@ -50,7 +50,7 @@
                             <input type="email" name="email" id="email" class="form-control input-lg"
                                    required="required"
                                    placeholder="Email Address" tabindex="4"
-                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                   pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,3}$">
                             <span></span></div>
                         <div class="form-group">
                             <input type="text" name="phone" id="phone" class="form-control input-lg" required="required"

@@ -2,6 +2,7 @@ package by.epam.cattery.entity;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.sql.Date;
 
@@ -99,13 +100,12 @@ public class Review extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Review{");
-        sb.append("userLeftId=").append(userLeftId);
-        sb.append(", userLeftLogin='").append(userLeftLogin).append('\'');
-        sb.append(", text='").append(text).append('\'');
-        sb.append(", starsCount=").append(starsCount);
-        sb.append(", date=").append(date);
-        sb.append('}');
-        return sb.toString();
+        return new ToStringBuilder(this)
+                .append("userLeftId", userLeftId)
+                .append("userLeftLogin", userLeftLogin)
+                .append("text", text)
+                .append("starsCount", starsCount)
+                .append("date", date)
+                .toString();
     }
 }

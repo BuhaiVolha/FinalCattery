@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -19,23 +21,24 @@ import java.util.List;
 public class TakeApprovedOffersCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeApprovedOffersCommand.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
-    private static final String APPROVED_OFFERS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.offers-approved");
+    private static final String APPROVED_OFFERS_PAGE = ConfigurationManager.getInstance()
+            .getProperty(PathConst.APPROVED_OFFERS);
+    private static final int ITEMS_PER_PAGE = 6;
+    private static final int DEFAULT_PAGE = 1;
+
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
-        List<Offer> offers;
 
-        String pageValue = requestContent.getParameter("page");
-        int page = (pageValue == null) ? 1 : Integer.parseInt(pageValue);
+        String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
+        int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
 
-        offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD, page, 6);
-        int pageCount = offerService.getOffersPageCountByStatus(OfferStatus.APRVD, 6);
+        List<Offer> offers = offerService.takeAllOffersByStatus(OfferStatus.APRVD, page, ITEMS_PER_PAGE);
+        int pageCount = offerService.getOffersPageCountByStatus(OfferStatus.APRVD, ITEMS_PER_PAGE);
 
-        requestContent.setAttribute("pageCount", pageCount);
-        requestContent.setAttribute("page", page);
-        requestContent.setAttribute("offers", offers);
+        requestContent.setPaginationParameters(pageCount, page);
+        requestContent.setAttribute(RequestConst.OFFERS_LIST, offers);
 
         return new RequestResult(NavigationType.FORWARD, APPROVED_OFFERS_PAGE);
     }

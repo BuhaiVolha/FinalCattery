@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.impl.user;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -16,20 +18,19 @@ import org.apache.logging.log4j.Logger;
 public class GoToSingleReviewCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleReviewCommand.class);
 
-    private static final String EDIT_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty("path.page.edit-review");
+    private static final String EDIT_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_REVIEW);
+
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         ReviewService reviewService = ServiceFactory.getInstance().getReviewService();
-        Review review;
 
-        int reviewId = Integer.parseInt(requestContent.getParameter("reviewId"));
-        review = reviewService.takeSingleReview(reviewId);
+        int reviewId = Integer.parseInt(requestContent.getParameter(RequestConst.REVIEW_ID));
+        Review review = reviewService.takeSingleReview(reviewId);
 
         if (review != null) {
-            requestContent.setAttribute("review", review);
+            requestContent.setAttribute(RequestConst.REVIEW, review);
         }
-
         return new RequestResult(NavigationType.FORWARD, EDIT_REVIEW_PAGE);
     }
 }

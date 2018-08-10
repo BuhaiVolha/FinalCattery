@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command.impl;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -18,10 +19,9 @@ import org.apache.logging.log4j.Logger;
 public class EditPersonalInformationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(EditPersonalInformationCommand.class);
 
-    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty("path.page.success-page");
+    private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
     private static final String EMAIL_TAKEN_MESSAGE = ConfigurationManager.getInstance().getMessage("message.emailtaken");
-    private static final String EDIT_USER_INFO_PAGE = ConfigurationManager.getInstance().getProperty("path.page.edit-user-info");
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String EDIT_USER_INFO_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_USER_INFO);
 
     // проверить емаил но не тот что свой.  форвард на го ту сингл юзер??
     @Override

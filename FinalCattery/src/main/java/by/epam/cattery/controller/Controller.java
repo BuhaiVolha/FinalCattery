@@ -42,8 +42,9 @@ public class Controller extends HttpServlet {
 
         try {
             requestResult = command.execute(requestContent);
+
         } catch (ServiceException e) {
-            logger.log(Level.ERROR, "Command was null");
+            logger.log(Level.ERROR, "Failed to process command", e);
             redirect(ERROR_PAGE, response);
         }
         requestContent.insertValues(request);
@@ -56,13 +57,9 @@ public class Controller extends HttpServlet {
                 case REDIRECT:
                     redirect(requestResult.getPage(), response);
                     break;
-                default:
-                    logger.log(Level.WARN, "Command was null");
-                    redirect(ERROR_PAGE, response);
-                    break;
             }
         } else {
-            logger.log(Level.ERROR, "Second null command");
+            logger.log(Level.ERROR, "Null request result");
             redirect(ERROR_PAGE, response);
         }
     }
