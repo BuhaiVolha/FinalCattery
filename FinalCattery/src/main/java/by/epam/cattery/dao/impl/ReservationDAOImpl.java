@@ -20,7 +20,7 @@ import java.util.Map;
 public class ReservationDAOImpl extends BaseDAO<Reservation> implements ReservationDAO {
     private static final Logger logger = LogManager.getLogger(ReservationDAOImpl.class);
 
-    private static final String DAYS_TILL_RESERVATION_EXPIRES = "3";
+    private static final int DAYS_TILL_RESERVATION_EXPIRES = 3;
 
     private static final String CREATE_RESERVATION =
             "INSERT INTO user_reservation " +

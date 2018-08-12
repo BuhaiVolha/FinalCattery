@@ -1,6 +1,7 @@
 package by.epam.cattery.controller.command;
 
 import by.epam.cattery.controller.command.exception.CommandParserException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,8 +10,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+
 
 public class CommandParser {
     private static final Logger logger = LogManager.getLogger(CommandParser.class);

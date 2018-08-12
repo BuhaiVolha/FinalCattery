@@ -1,5 +1,8 @@
 package by.epam.cattery.controller.filter;
 
+import by.epam.cattery.controller.command.constant.MessageConst;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Role;
 
@@ -12,6 +15,7 @@ import java.io.IOException;
 
 @WebFilter(urlPatterns = { "/jsp/admin/*"})
 public class AdminFilter implements Filter {
+    private static final String MAIN_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.MAIN_PAGE);
 
     public void destroy() {
     }
@@ -21,14 +25,15 @@ public class AdminFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
 
         HttpSession session = request.getSession();
+        String locale = session.getAttribute(SessionConst.LOCALE).toString();
 
-        if (session.getAttribute("role") != Role.ADMIN) {
+        if (session.getAttribute(SessionConst.ROLE) != Role.ADMIN) {
 
-            if (session.getAttribute("login") == null) {
-                session.setAttribute("errorLoginPassMessage", ConfigurationManager.getInstance()
-                        .getMessage("message.accessdenied"));
+            if (session.getAttribute(SessionConst.LOGIN) == null) {
+                session.setAttribute(SessionConst.LOG_IN_FAIL, ConfigurationManager.getInstance()
+                        .getMessage(MessageConst.ACCESS_DENIED, locale));
             }
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.main"));
+            response.sendRedirect(MAIN_PAGE);
 
         } else {
             chain.doFilter(request, response);

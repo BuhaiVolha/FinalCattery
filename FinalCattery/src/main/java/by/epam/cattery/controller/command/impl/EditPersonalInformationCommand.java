@@ -26,16 +26,17 @@ public class EditPersonalInformationCommand implements ActionCommand {
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
     private static final String EDIT_USER_INFO_COMMAND = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_USER_INFO_COMMAND);
 
-    private static final String EMAIL_TAKEN_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN);
-    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
-
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
-        UserService userService = ServiceFactory.getInstance().getUserService();
+        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
+        String message;
+
 
         try {
             User user = createUser(requestContent);
@@ -46,15 +47,13 @@ public class EditPersonalInformationCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation failed while editing personal info");
-            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND,
-                    RequestConst.EDIT_USER_INFO_FAILED_MESSAGE,
-                    INVALID_INPUT_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
+            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, message);
 
         } catch (EmailAlreadyExistsException e) {
             logger.log(Level.WARN, "Email already exist and it's not user's");
-            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND,
-                    RequestConst.EDIT_USER_INFO_FAILED_MESSAGE,
-                    EMAIL_TAKEN_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN, locale);
+            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, message);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

@@ -4,6 +4,7 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.util.PathHelper;
 
 import by.epam.cattery.controller.content.NavigationType;
@@ -32,9 +33,6 @@ public class EditCatCommand implements ActionCommand {
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
     private static final String EDIT_CAT_COMMAND = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_CAT_COMMAND);
 
-    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
-    private static final String INVALID_BIRTH_DATE_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE);
-
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
@@ -44,6 +42,9 @@ public class EditCatCommand implements ActionCommand {
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
+        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
+        String message;
+
         try {
             catService.editCat(cat);
 
@@ -52,21 +53,15 @@ public class EditCatCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during adding cat");
-            path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND,
-                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
-                    INVALID_INPUT_MESSAGE);
-            path = pathHelper.addParameterToPath(path,
-                    RequestConst.CAT_ID,
-                    cat.getId());
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
+            path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(path, RequestConst.CAT_ID, cat.getId());
 
         } catch (InvalidDateException e) {
             logger.log(Level.WARN, "Validation of input birthday failed during adding cat");
-            path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND,
-                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
-                    INVALID_BIRTH_DATE_MESSAGE);
-            path = pathHelper.addParameterToPath(path,
-                    RequestConst.CAT_ID,
-                    cat.getId());
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE, locale);
+            path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(path, RequestConst.CAT_ID, cat.getId());
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

@@ -1,5 +1,6 @@
 package by.epam.cattery.controller.filter;
 
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.util.ConfigurationManager;
 
 import javax.servlet.*;
@@ -21,8 +22,8 @@ public class LocaleFilter implements Filter {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("local") == null) {
-            session.setAttribute("local", "en");
+        if (session.getAttribute(SessionConst.LOCALE) == null) {
+            session.setAttribute(SessionConst.LOCALE, SessionConst.DEFAULT_LOCALE);
         }
         chain.doFilter(request, response);
     }

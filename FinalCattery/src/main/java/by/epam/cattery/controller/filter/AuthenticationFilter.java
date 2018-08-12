@@ -1,5 +1,8 @@
 package by.epam.cattery.controller.filter;
 
+import by.epam.cattery.controller.command.constant.MessageConst;
+import by.epam.cattery.controller.command.constant.PathConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.util.ConfigurationManager;
 
 import javax.servlet.*;
@@ -11,6 +14,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "AuthenticationFilter", urlPatterns = { "/jsp/authorized/*"})
 public class AuthenticationFilter implements Filter {
+    private static final String MAIN_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.MAIN_PAGE);
 
     public void destroy() {
     }
@@ -20,11 +24,13 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
 
         HttpSession session = request.getSession();
+        String locale = session.getAttribute(SessionConst.LOCALE).toString();
 
-        if (session.getAttribute("login") == null) {
-            session.setAttribute("errorLoginPassMessage", ConfigurationManager.getInstance()
-                    .getMessage("message.accessdenied"));
-            response.sendRedirect(ConfigurationManager.getInstance().getProperty("path.page.main"));
+        if (session.getAttribute(SessionConst.LOGIN) == null) {
+            session.setAttribute(SessionConst.LOG_IN_FAIL, ConfigurationManager.getInstance()
+                    .getMessage(MessageConst.ACCESS_DENIED, locale));
+
+            response.sendRedirect(MAIN_PAGE);
 
         } else {
             chain.doFilter(request, response);

@@ -8,6 +8,7 @@ public final class MessageConst {
     public static final String WRONG_LOGIN_OR_PASSWORD = "message.loginerror";
     public static final String USER_IS_BANNED = "message.userbanned";
     public static final String INVALID_BIRTH_DATE = "message.birthdayinvalid";
+    public static final String ACCESS_DENIED = "message.accessdenied";
 
 
     private MessageConst() {

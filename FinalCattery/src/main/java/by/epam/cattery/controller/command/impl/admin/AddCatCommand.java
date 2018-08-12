@@ -4,6 +4,7 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.command.util.UploadHelper;
 
@@ -36,9 +37,6 @@ public class AddCatCommand implements ActionCommand {
     private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
     private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.OFFER_PHOTO_SAVE_PATH);
 
-    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
-    private static final String INVALID_BIRTH_DATE_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE);
-
     private static final int ADMIN_ID = 1;
 
 
@@ -48,6 +46,9 @@ public class AddCatCommand implements ActionCommand {
 
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
+
+        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
+        String message;
 
         try {
             Cat cat = createCat(requestContent);
@@ -71,15 +72,13 @@ public class AddCatCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during adding cat");
-            path = pathHelper.addParameterToPath(CAT_FORM_PAGE,
-                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
-                    INVALID_INPUT_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
 
         } catch (InvalidDateException e) {
             logger.log(Level.WARN, "Validation of input birthday failed during adding cat");
-            path = pathHelper.addParameterToPath(CAT_FORM_PAGE,
-                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
-                    INVALID_BIRTH_DATE_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE, locale);
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

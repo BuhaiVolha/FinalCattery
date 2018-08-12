@@ -33,17 +33,16 @@ public class RegistrationCommand implements ActionCommand {
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
     private static final String REGISTRATION_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.REGISTRATION);
 
-    private static final String EMAIL_TAKEN_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN);
-    private static final String LOGIN_ALREADY_EXISTS_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.LOGIN_ALREADY_EXISTS);
-    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
-
 
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        User user = createUser(requestContent);
+
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
-        UserService userService = ServiceFactory.getInstance().getUserService();
-        User user = createUser(requestContent);
+        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
+        String message;
 
         try {
             int userId = userService.register(user);
@@ -56,21 +55,18 @@ public class RegistrationCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during registration");
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
-                    RequestConst.REGISTRATION_FAILED_MESSAGE,
-                    INVALID_INPUT_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
 
         } catch (LoginAlreadyExistsException e) {
             logger.log(Level.WARN, "User already exists");
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
-                    RequestConst.REGISTRATION_FAILED_MESSAGE,
-                    LOGIN_ALREADY_EXISTS_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.LOGIN_ALREADY_EXISTS, locale);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
 
         } catch (EmailAlreadyExistsException e) {
             logger.log(Level.WARN, "Email is already taken");
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
-                    RequestConst.REGISTRATION_FAILED_MESSAGE,
-                    EMAIL_TAKEN_MESSAGE);
+            message = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN, locale);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

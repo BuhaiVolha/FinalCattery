@@ -1,6 +1,8 @@
 package by.epam.cattery.controller.command.constant;
 
 public final class SessionConst {
+    public final static String DEFAULT_LOCALE = "en";
+
     public final static String ID = "userId";
     public final static String LOGIN = "login";
     public final static String ROLE = "role";
