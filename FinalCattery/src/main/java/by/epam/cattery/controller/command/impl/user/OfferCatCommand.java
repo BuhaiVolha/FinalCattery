@@ -20,8 +20,8 @@ import org.apache.logging.log4j.Logger;
 public class OfferCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(OfferCatCommand.class);
 
-    private static final String UPLOAD_CAT_PHOTO_PAGE = ConfigurationManager.getInstance()
-            .getProperty(PathConst.UPLOAD_CAT_PHOTO_PAGE);
+    private static final String UPLOAD_OFFER_PHOTO_PAGE = ConfigurationManager.getInstance()
+            .getProperty(PathConst.UPLOAD_OFFER_PHOTO_PAGE);
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
@@ -32,7 +32,7 @@ public class OfferCatCommand implements ActionCommand {
         Offer offer = createOffer(requestContent);
         int offerId = offerService.offerCat(offer);
 
-        String path = pathHelper.addParameterToPath(UPLOAD_CAT_PHOTO_PAGE, RequestConst.OFFER_ID, offerId);
+        String path = pathHelper.addParameterToPath(UPLOAD_OFFER_PHOTO_PAGE, RequestConst.OFFER_ID, offerId);
         return new RequestResult(NavigationType.REDIRECT, path);
     }
 

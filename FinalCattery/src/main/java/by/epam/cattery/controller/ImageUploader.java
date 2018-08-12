@@ -48,7 +48,8 @@ public class ImageUploader extends HttpServlet {
         }
         requestContent.insertValues(request);
 
-        redirect(ERROR_PAGE, response);
+        String path = requestResult != null ? requestResult.getPage() : ERROR_PAGE;
+        redirect(path, response);
     }
 
 

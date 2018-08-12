@@ -12,15 +12,20 @@ import by.epam.cattery.entity.OfferStatus;
 
 import by.epam.cattery.entity.dto.SearchCatTO;
 import by.epam.cattery.service.CatService;
+import by.epam.cattery.service.exception.InvalidDateException;
 import by.epam.cattery.service.exception.ServiceException;
 
+import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.util.PageCounter;
+import by.epam.cattery.service.validation.Validator;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
+
 
 public class CatServiceImpl implements CatService {
     private static final Logger logger = LogManager.getLogger(CatServiceImpl.class);
@@ -98,6 +103,14 @@ public class CatServiceImpl implements CatService {
     @Override
     public void addCat(Cat cat) throws ServiceException {
 
+        if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
+            throw new InvalidDateException("Cat birth date is invalid!");
+        }
+
+        if (!Validator.getInstance().validateCatInputData(cat)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
+
         try {
             catDAO.save(cat);
 
@@ -109,6 +122,14 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void addOfferedCat(Cat cat, int offerId) throws ServiceException {
+        if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
+            throw new InvalidDateException("Cat birth date is invalid!");
+        }
+
+        if (!Validator.getInstance().validateCatInputData(cat)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
+
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
         try {
@@ -172,6 +193,7 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void deleteCat(int catId) throws ServiceException {
+
         try {
             catDAO.delete(catId);
 
@@ -183,6 +205,15 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void editCat(Cat cat) throws ServiceException {
+
+        if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
+            throw new InvalidDateException("Cat birth date is invalid!");
+        }
+
+        if (!Validator.getInstance().validateCatInputData(cat)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
+
         try {
             catDAO.update(cat);
 
@@ -194,6 +225,7 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void addCatPhoto(int catId, String photo) throws ServiceException {
+
         try {
             catDAO.updatePhoto(catId, photo);
 

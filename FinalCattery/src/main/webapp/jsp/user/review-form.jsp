@@ -53,7 +53,7 @@
                         <input type="radio" required="required" id="star3" name="rating" value="3"/><label for="star3" title="Normal">3 stars</label>
                         <input type="radio" required="required" id="star2" name="rating" value="2"/><label for="star2" title="Worse than average">2
                         stars</label>
-                        <input type="radio" required="required" id="star1" name="rating" value="1"/><label for="star1" title="Sucks big time">1
+                        <input type="radio" required="required" id="star1" name="rating" value="1"/><label for="star1" title="The worst!">1
                         star</label>
                     </div>
                 </div>

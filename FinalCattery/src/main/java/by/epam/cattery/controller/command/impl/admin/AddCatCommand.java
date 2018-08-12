@@ -1,36 +1,43 @@
 package by.epam.cattery.controller.command.impl.admin;
 
 import by.epam.cattery.controller.command.ActionCommand;
+import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.command.util.UploadHelper;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
+import by.epam.cattery.service.exception.InvalidDateException;
+import by.epam.cattery.service.exception.ValidationFailedException;
+
 import by.epam.cattery.util.ConfigurationManager;
+
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Gender;
+
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
-import org.apache.commons.io.FileUtils;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 
 
 public class AddCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(AddCatCommand.class);
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
-    private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance()
-            .getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
-    private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance()
-            .getProperty(PathConst.OFFER_PHOTO_SAVE_PATH);
+    private static final String CAT_FORM_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.CAT_FORM_PAGE);
+    private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
+    private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.OFFER_PHOTO_SAVE_PATH);
+
+    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
+    private static final String INVALID_BIRTH_DATE_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE);
 
     private static final int ADMIN_ID = 1;
 
@@ -39,25 +46,44 @@ public class AddCatCommand implements ActionCommand {
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         CatService catService = ServiceFactory.getInstance().getCatService();
 
-        Cat cat = createCat(requestContent);
+        PathHelper pathHelper = PathHelper.getInstance();
+        String path;
 
-        if (requestContent.getParameter(RequestConst.OFFER_ID).isEmpty()) {
-            cat.setOfferMadeId(ADMIN_ID);
-            cat.setUserMadeOfferId(ADMIN_ID);
+        try {
+            Cat cat = createCat(requestContent);
 
-            catService.addCat(cat);
+            if (requestContent.getParameter(RequestConst.OFFER_ID).isEmpty()) {
+                cat.setOfferMadeId(ADMIN_ID);
+                cat.setUserMadeOfferId(ADMIN_ID);
 
-        } else {
-            cat.setOfferMadeId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
-            cat.setUserMadeOfferId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_MADE_USER_ID)));
-            String filename = requestContent.getParameter(RequestConst.ADDED_CAT_PHOTO);
-            UploadHelper.getInstance().moveFileToAnotherDirectory(filename, OFFER_PHOTO_SAVE_PATH, CAT_PHOTO_SAVE_PATH);
-            cat.setPhoto(filename);
+                catService.addCat(cat);
 
-            catService.addOfferedCat(cat, cat.getOfferMadeId());
+            } else {
+                cat.setOfferMadeId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
+                cat.setUserMadeOfferId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_MADE_USER_ID)));
+                String filename = requestContent.getParameter(RequestConst.ADDED_CAT_PHOTO);
+                UploadHelper.getInstance().moveFileToAnotherDirectory(filename, OFFER_PHOTO_SAVE_PATH, CAT_PHOTO_SAVE_PATH);
+                cat.setPhoto(filename);
+
+                catService.addOfferedCat(cat, cat.getOfferMadeId());
+            }
+            path = SUCCESS_PAGE;
+
+        } catch (ValidationFailedException e) {
+            logger.log(Level.WARN, "Validation of input data failed during adding cat");
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE,
+                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
+                    INVALID_INPUT_MESSAGE);
+
+        } catch (InvalidDateException e) {
+            logger.log(Level.WARN, "Validation of input birthday failed during adding cat");
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE,
+                    RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE,
+                    INVALID_BIRTH_DATE_MESSAGE);
         }
-        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+        return new RequestResult(NavigationType.REDIRECT, path);
     }
+
 
 // такая же как в EDIT CAT только айди +
     // впихнуть билдер сюда для юзерного и админного кота?

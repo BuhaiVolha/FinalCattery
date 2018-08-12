@@ -113,6 +113,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
                     "COUNT(pedigree_type) " +
                     "FROM user_reservation " +
                     "WHERE reservation_status != ? " +
+                    "AND NOT flag_reservation_deleted " +
                     "GROUP BY pedigree_type " +
                     "ORDER BY pedigree_type;";
 

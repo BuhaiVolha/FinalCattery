@@ -145,7 +145,7 @@
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <input type="hidden" name="photo" value="${offer.photo}"/>
                                     <input type="hidden" name="statedPrice" value="${offer.price}"/>
-                                    <input type="hidden" name="operation" value="add-cat"/>
+                                    <input type="hidden" name="operation" value="cat-form"/>
                                     <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
 

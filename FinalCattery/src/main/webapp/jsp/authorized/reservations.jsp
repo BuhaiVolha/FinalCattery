@@ -162,6 +162,16 @@
                                 </form>
 
                             </c:when>
+                            <c:when test="${reservation.status eq 'DONE' && sessionScope.role == 'USER'}">
+
+                                <form role="form" method="post" action="/controller">
+                                    <input type="hidden" name="command" value="delete_reservation"/>
+                                    <input type="hidden" name="reservationId" value="${reservation.id}"/>
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fab fa-hotjar">
+                                        Delete</i></button>
+                                </form>
+
+                            </c:when>
                         </c:choose>
                     </c:if>
 

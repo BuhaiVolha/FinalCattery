@@ -2120,3 +2120,8 @@ p.foot {
         transform: rotate(360deg) scale(1);
     }
 }
+
+.datepicker {
+    color: #22e0ea;
+    display: block;
+}

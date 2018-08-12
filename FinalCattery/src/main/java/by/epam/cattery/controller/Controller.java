@@ -60,7 +60,7 @@ public class Controller extends HttpServlet {
                     break;
             }
         } else {
-            logger.log(Level.WARN, "Some troubles occurred while executing command");
+            logger.log(Level.ERROR, "Some troubles occurred while executing command");
             redirect(ERROR_PAGE, response);
         }
     }

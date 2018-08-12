@@ -30,11 +30,11 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "INSERT INTO cat " +
                     "(name, lastname, gender, birth_date, description, body_colour_code, cat_eyes_colour_code, " +
                     "parent_female, parent_male, price, user_suggested_id, offer_made_id, cat_photo) " +
-                    "VALUES(?, ?, ?, STR_TO_DATE(?, '%m/%d/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "VALUES(?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE_CAT =
             "UPDATE cat " +
-                    "SET name = ?, lastname = ?, gender = ?, birth_date = STR_TO_DATE(?, '%m/%d/%Y'), description = ?, " +
+                    "SET name = ?, lastname = ?, gender = ?, birth_date = STR_TO_DATE(?, '%d/%m/%Y'), description = ?, " +
                     "body_colour_code = ?, cat_eyes_colour_code = ?, parent_female = ?, parent_male = ?, price = ? " +
                     "WHERE cat_id = ? " +
                     "AND NOT flag_cat_deleted;";

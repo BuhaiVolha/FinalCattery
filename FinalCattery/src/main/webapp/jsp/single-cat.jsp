@@ -10,10 +10,18 @@
                 <div class="preview-pic tab-content">
 
                         <div class="img-container">
-                            <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${singleCat.photo}">
-                                <img src="/assets/img/uploads/cats/${singleCat.photo}" class="img-responsive"/></a>
 
-
+                            <c:choose>
+                                <c:when test="${not empty singleCat.photo}">
+                                    <a target="_blank" title="Open in new window" href="/assets/img/uploads/cats/${singleCat.photo}">
+                                        <img src="/assets/img/uploads/cats/${singleCat.photo}" alt="A photo of kitten"
+                                             class="img-responsive"/></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="/assets/img/uploads/cats/${sessionScope.local}-default-cat.jpg" style="border-radius:0; margin-bottom:0;" alt="default image"
+                                         class="img-responsive"/>
+                                </c:otherwise>
+                            </c:choose>
                     </div>
 
                 </div>
@@ -117,7 +125,7 @@
                             <form role="form" method="get" action="/controller">
                                 <input type="hidden" name="command" value="single_cat"/>
                                 <input type="hidden" name="catId" value="${singleCat.id}"/>
-                                <input type="hidden" name="operation" value="edit-cat"/>
+                                <input type="hidden" name="operation" value="cat-form"/>
                                 <button type="submit" class="add-to-cart btn btn-default">Edit</button>
                             </form>
                             </div>

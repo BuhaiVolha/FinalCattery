@@ -131,7 +131,7 @@
             <c:choose>
                 <c:when test="${sessionScope.role eq 'ADMIN'}">
             <span class="pull-left">
-                            <a href="/jsp/admin/add-cat.jsp" class="btn btn-warning">Add a cat</a>
+                            <a href="/jsp/authorized/cat-form.jsp" class="btn btn-warning">Add a cat</a>
                         </span>
                 </c:when>
                 <c:when test="${sessionScope.role eq 'USER'}">
