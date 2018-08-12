@@ -14,8 +14,8 @@
 Администратор может назначать скидки, может банить пользователей, делать пользователя экспертом.
 
 Техническое описание: 
-Java 8; 
-JavaEE: Servlet, JSP; 
+Java 8;
+JavaEE: Servlet, JSP;
 Server / Servlet container: Tomcat 9.0 
 Data base: MySQL; 
 JDBC; 
