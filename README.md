@@ -1,6 +1,6 @@
 # Final Project
 
-Питомник котов. 
+Питомник котов.  
 Пользователь может выбрать котенка, забронировать его, если он доступен, внести оплату (загрузить чек) или отменить бронь.
 Администратор проверяет истекшие брони (не поступила оплата в течении 3 дней) и отменяет их. 
 Пользователь может обновить такую бронь (если котенок еще доступен) или удалить.
@@ -13,13 +13,12 @@
 Эксперт ведет статистику того, какие окрасы популярны и сколько и каких родословных нужно сделать.
 Администратор может назначать скидки, может банить пользователей, делать пользователя экспертом.
 
-Техническое описание: 
-Java 8;
-JavaEE: Servlet, JSP;
-Server / Servlet container: Tomcat 9.0 
-Data base: MySQL; 
-JDBC; 
-Logger: Log4J; 
-Tests: JUnit4; 
-Password encryption: jbcrypt
-Build tool: Maven.
+Техническое описание:  
+Java 8   
+JavaEE: Servlet, JSP  
+Server / Servlet container: Tomcat 9.0  
+Data base: MySQL, JDBC  
+Logger: Log4J  
+Tests: JUnit4  
+Password encryption: jbcrypt  
+Build tool: Maven
