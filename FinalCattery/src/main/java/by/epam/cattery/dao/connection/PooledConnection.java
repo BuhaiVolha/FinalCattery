@@ -34,13 +34,13 @@ public class PooledConnection implements Connection {
             connection.setReadOnly(false);
         }
 
-        BlockingQueue<Connection> givenAwayConQueue = ConnectionPool.getInstance().getGivenAwayConQueue();
+        BlockingQueue<Connection> givenAwayConQueue = ConnectionPool.getInstance().getTakenConnections();
         if (!givenAwayConQueue.remove(this)) {
             throw new SQLException("error deleting connection from given away pool");
         }
 
 
-        BlockingQueue<Connection> connectionQueue = ConnectionPool.getInstance().getConnectionQueue();
+        BlockingQueue<Connection> connectionQueue = ConnectionPool.getInstance().getFreeConnections();
         if (!connectionQueue.offer(this)) {
             throw new SQLException("error allocating connection to pool");
         }

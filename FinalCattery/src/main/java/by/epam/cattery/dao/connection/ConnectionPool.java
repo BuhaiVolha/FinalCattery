@@ -1,6 +1,8 @@
 package by.epam.cattery.dao.connection;
 
 import by.epam.cattery.util.ConfigurationManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Enumeration;
@@ -9,16 +11,20 @@ import java.util.concurrent.BlockingQueue;
 
 // подумать !
 public final class ConnectionPool {
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
+
     private static final ConnectionPool instance = new ConnectionPool();
 
-    private BlockingQueue<Connection> connectionQueue;
-    private BlockingQueue<Connection> givenAwayConQueue;
+    private BlockingQueue<Connection> freeConnections;
+    private BlockingQueue<Connection> takenConnections;
 
     private String driverName;
     private String url;
     private String user;
     private String password;
     private int poolSize;
+
+    private static final int DEFAULT_POOLSIZE = 5;
 
     private ConnectionPool() {
     }
@@ -34,12 +40,12 @@ public final class ConnectionPool {
         try {
             Class.forName(driverName);
 
-            givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
-            connectionQueue = new ArrayBlockingQueue<>(poolSize);
+            takenConnections = new ArrayBlockingQueue<>(poolSize);
+            freeConnections = new ArrayBlockingQueue<>(poolSize);
 
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                connectionQueue.add(new PooledConnection(connection));
+                freeConnections.add(new PooledConnection(connection));
             }
         } catch (ClassNotFoundException | SQLException e) {
             throw new ConnectionPoolException("Exception while trying to init ConnectionPool", e);
@@ -58,18 +64,17 @@ public final class ConnectionPool {
             this.poolSize = Integer.parseInt(configurationManager.getDatabaseParameters(DBParameter.DB_POOL_SIZE));
 
         } catch (NumberFormatException e) {
-            poolSize = 5; // constant
+            poolSize = DEFAULT_POOLSIZE;
         }
     }
-
 
 
     public Connection takeConnection() throws ConnectionPoolException  {
         Connection connection;
 
         try {
-            connection = connectionQueue.take();
-            givenAwayConQueue.add(connection);
+            connection = freeConnections.take();
+            takenConnections.add(connection);
 
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("error connecting to data source", e);
@@ -83,7 +88,7 @@ public final class ConnectionPool {
         for (int i = 0; i < poolSize; i++) {
 
             try {
-                Connection connection = connectionQueue.take();
+                Connection connection = freeConnections.take();
 
                 if (!connection.getAutoCommit()) {
                     connection.commit();
@@ -112,11 +117,11 @@ public final class ConnectionPool {
     }
 
 
-    public BlockingQueue<Connection> getConnectionQueue() {
-        return connectionQueue;
+    public BlockingQueue<Connection> getFreeConnections() {
+        return freeConnections;
     }
 
-    public BlockingQueue<Connection> getGivenAwayConQueue() {
-        return givenAwayConQueue;
+    public BlockingQueue<Connection> getTakenConnections() {
+        return takenConnections;
     }
 }
