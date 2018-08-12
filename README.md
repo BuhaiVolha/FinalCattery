@@ -14,11 +14,11 @@
 Администратор может назначать скидки, может банить пользователей, делать пользователя экспертом.
 
 Техническое описание:  
-Java 8;  
-JavaEE: Servlet, JSP;  
-Server / Servlet container: Tomcat 9.0;  
-Data base: MySQL, JDBC;  
-Logger: Log4J;  
-Tests: JUnit4;  
-Password encryption: jbcrypt;  
-Build tool: Maven.
+Java 8   
+JavaEE: Servlet, JSP  
+Server / Servlet container: Tomcat 9.0  
+Data base: MySQL, JDBC  
+Logger: Log4J  
+Tests: JUnit4  
+Password encryption: jbcrypt  
+Build tool: Maven
