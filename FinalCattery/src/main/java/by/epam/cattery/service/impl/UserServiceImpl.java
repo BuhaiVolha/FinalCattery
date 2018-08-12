@@ -9,6 +9,7 @@ import by.epam.cattery.entity.User;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.*;
 import by.epam.cattery.service.util.PageCounter;
+import by.epam.cattery.service.util.PasswordEncrypter;
 import by.epam.cattery.service.validation.Validator;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -40,21 +41,21 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int register(User user) throws ServiceException, ValidationFailedException {
+    public int register(User user) throws ServiceException {
 
-        if (!Validator.validateUserData(user)) {
-            throw new ValidationFailedException("user data invalid!");
+        if (!Validator.getInstance().validateRegistrationInputData(user)) {
+            throw new ValidationFailedException("User's data are invalid!");
         }
 
         try {
-            if (userDAO.loginAlreadyExists(user)) {
+            if (userDAO.loginExists(user.getLogin())) {
                 throw new LoginAlreadyExistsException("Login already exists");
             }
             if (userDAO.emailAlreadyExists(user)) {
                 throw new EmailAlreadyExistsException("Email already exists");
             }
 
-            String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());  // Отдельный мтеод?
+            String securePass = PasswordEncrypter.getInstance().encryptPassword(user.getPassword());
             user.setPassword(securePass);
 
             return userDAO.saveAndReturnId(user);
@@ -68,12 +69,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User logIn(String login, String password) throws ServiceException {
 
+        if (!Validator.getInstance().validateLoginInputData(login, password)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
         try {
+            if (!userDAO.loginExists(login)) {
+                throw new NoSuchUserException("No such user exists");
+            }
             if (userDAO.userIsBanned(login)) {
                 throw new UserIsBannedException("User is banned");
             }
 
-            return userDAO.getUserByLoginAndPassword(login, password); // передвавать DTO userDetails ченить такое?
+            return userDAO.getUserByLoginAndPassword(login, password);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while logging in", e);
@@ -84,17 +91,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editPersonalInfo(User user) throws ServiceException {
 
-//        if (!Validator.validateUserData(user)) {
-//            throw new ValidationFailedException("user data invalid!"); // отдельная валидация на пароль и логин
-//        }
+        if (!Validator.getInstance().validateRegistrationInputData(user)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
 
         try {
-
-            if (userDAO.emailAlreadyExists(user)) {
+            if ((userDAO.emailAlreadyExists(user))
+                    && (!user.getEmail().equals(userDAO.getEmail(user.getId())))) {
                 throw new EmailAlreadyExistsException("Email already exists");
             }
 
-            String securePass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            String securePass = PasswordEncrypter.getInstance().encryptPassword(user.getPassword());
             user.setPassword(securePass);
 
             userDAO.update(user);
@@ -127,6 +134,7 @@ public class UserServiceImpl implements UserService {
             if (users.isEmpty()) {
                 return Collections.emptyList();
             }
+
         } catch (DAOException e) {
             throw new ServiceException("Exception while finding all users", e);
         }

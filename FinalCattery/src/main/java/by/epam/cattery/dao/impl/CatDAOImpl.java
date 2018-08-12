@@ -125,6 +125,23 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                     "WHERE user_reservation.reservation_id = ? " +
                     "AND NOT flag_cat_deleted;";
 
+    private static final String GET_FOUND_CATS_COUNT =
+            "SELECT COUNT(*) " +
+                    "FROM cat " +
+                    "WHERE NOT flag_cat_deleted ";
+    private static final String SEARCH_QUERY_ENDING_FOR_PAGINATION =
+            " ORDER BY price LIMIT ? OFFSET ?;";
+    private static final String SEARCH_OPERATOR_AND = " AND ";
+    private static final String SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN = "' AND ";
+    private static final String SEARCH_PARAM_CAT_GENDER = " gender = '";
+    private static final String SEARCH_PARAM_CAT_STATUS = " sale_status_id = '";
+    private static final String SEARCH_PARAM_CAT_BODY_COLOUR = " body_colour_code = '";
+    private static final String SEARCH_PARAM_CAT_EYES_COLOUR = " cat_eyes_colour_code = '";
+    private static final String SEARCH_PARAM_CAT_PRICE = " price <= ";
+    private static final String SEARCH_EXPRESSION_TO_COUNT_PRICE_WITH_DISCOUNT_PT1 = " price - (price * ";
+    private static final String SEARCH_EXPRESSION_TO_COUNT_PRICE_WITH_DISCOUNT_PT2 = ") / 100 <= ";
+    private static final String SEARCH_ENDING_IN_CASE_NO_PARAMETERS = " 1 = 1";
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -189,21 +206,24 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         try {
             con = connectionProvider.obtainConnection();
 
-            StringBuffer condition = new StringBuffer(" AND ");
+            StringBuilder condition = new StringBuilder(SEARCH_OPERATOR_AND);
 
             if (cat.getGender() != null) {
-                condition.append(" gender = '" + cat.getGender().toString() + "' AND ");
+                condition.append(SEARCH_PARAM_CAT_GENDER).append(cat.getGender()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
+
             if (cat.getStatus() != null) {
-                condition.append(" sale_status_id = '" + cat.getStatus().toString() + "' AND ");
+                condition.append(SEARCH_PARAM_CAT_STATUS).append(cat.getStatus()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
-            if (!cat.getBodyColour().isEmpty()) {
-                condition.append(" body_colour_code = '" + cat.getBodyColour() + "' AND ");
+            if ((cat.getBodyColour() != null)
+                    && (!cat.getBodyColour().isEmpty())) {
+                condition.append(SEARCH_PARAM_CAT_BODY_COLOUR).append(cat.getBodyColour()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
-            if (!cat.getEyesColour().isEmpty()) {
-                condition.append(" cat_eyes_colour_code = '" + cat.getEyesColour() + "' AND ");
+            if ((cat.getEyesColour() != null)
+                    && (!cat.getEyesColour().isEmpty())) {
+                condition.append(SEARCH_PARAM_CAT_EYES_COLOUR).append(cat.getEyesColour()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
             if (cat.getPrice() != 0.0) {
@@ -211,18 +231,17 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                 if (searchCatTO.getUserDiscount() == 0
                         && cat.getStatus() != null
                         && !cat.getStatus().equals(CatStatus.SOLD))  {
-                    condition.append(" price <= " + cat.getPrice() + " AND ");
+                    condition.append(SEARCH_PARAM_CAT_PRICE).append(cat.getPrice()).append(SEARCH_OPERATOR_AND);
+
                 } else  {
-                    condition.append(" price - (price * " + searchCatTO.getUserDiscount() + ") / 100 <= " + cat.getPrice() + " AND ");
+                    condition.append(SEARCH_EXPRESSION_TO_COUNT_PRICE_WITH_DISCOUNT_PT1).append(searchCatTO.getUserDiscount())
+                            .append(SEARCH_EXPRESSION_TO_COUNT_PRICE_WITH_DISCOUNT_PT2).append(cat.getPrice())
+                            .append(SEARCH_OPERATOR_AND);
                 }
             }
-            condition.append(" 1 = 1");
+            condition.append(SEARCH_ENDING_IN_CASE_NO_PARAMETERS);
 
-            String SEARCH_QUERY_ENDING = " ORDER BY price LIMIT ? OFFSET ?;";
-            final String GET_FOUND_CATS_COUNT = "SELECT COUNT(*) FROM cat WHERE NOT flag_cat_deleted ";
-
-            ps = con.prepareStatement(GET_ALL_CATS_FOR_SEARCH + condition + SEARCH_QUERY_ENDING);
-
+            ps = con.prepareStatement(GET_ALL_CATS_FOR_SEARCH + condition + SEARCH_QUERY_ENDING_FOR_PAGINATION);
             searchCatTO.setSearchQuery(GET_FOUND_CATS_COUNT + condition);
 
             int itemsPerPage = searchCatTO.getItemsPerPage();
@@ -279,23 +298,19 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        int catId = 0;
-
         try {
             con = connectionProvider.obtainConnection();
 
-            logger.log(Level.DEBUG, " cat obtained connection " + con);
             ps = con.prepareStatement(GET_CAT_ID_BY_RESERVATION_ID);
             ps.setInt(1, reservationId);
 
             rs = ps.executeQuery();
-            rs.next();
-            catId = rs.getInt(1);
-//            if (rs.next()) {   // какаято проверка на то что EXIST
-//                catId = rs.getInt(1);
-//            }
 
-            return catId;
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                throw new DAOException("No cat for this reservation was found");
+            }
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception getting ID for user ", e);

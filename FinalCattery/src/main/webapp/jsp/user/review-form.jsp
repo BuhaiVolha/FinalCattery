@@ -15,11 +15,10 @@
                     <br>
                     <br>
 
-                    <!-- Message body -->
                     <div class="form-group">
                         <label class="col-md-3 control-label" for="message1">Your message</label>
                         <div class="col-md-9">
-                                    <textarea style="margin: 0;" class="form-control" required="required" id="message1" name="message"
+                                    <textarea style="margin: 0;  resize: none;" class="form-control" required="required" id="message1" name="message"
                                               placeholder="Please enter your review here..." rows="5">${review.text}</textarea>
                         </div>
                     </div>
@@ -37,7 +36,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label" for="message">Your message</label>
                                 <div class="col-md-9">
-                                    <textarea style="margin: 0;" class="form-control" required="required" id="message" name="message"
+                                    <textarea style="margin: 0; resize: none;" class="form-control" required="required" id="message" name="message"
                                               placeholder="Please enter your review here..." rows="5"></textarea>
                                 </div>
                             </div>
@@ -62,13 +61,18 @@
                 <!-- Form actions -->
                 <div class="form-group">
                     <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                        <p style="color: red">${param.writeReviewFailedMessage}</p>
+                        <button type="submit" id="ratingSubmit" class="btn btn-primary btn-md" disabled>Submit</button>
                     </div>
                 </div>
             </fieldset>
         </form>
     </div>
 </div>
+
+<script>
+    $("input:radio").change(function () {$("#ratingSubmit").prop("disabled", false);});
+</script>
 
 <%@ include file="/jsp/parts/footer.jsp" %>
 

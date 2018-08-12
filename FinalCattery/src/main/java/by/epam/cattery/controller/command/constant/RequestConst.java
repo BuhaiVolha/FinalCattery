@@ -58,6 +58,13 @@ public final class RequestConst {
     public static final String CHEQUE_PHOTO_PARTNAME = "cheque";
     public static final String CAT_PHOTO_PARTNAME = "cat";
 
+
+    public static final String REGISTRATION_FAILED_MESSAGE = "registrationFailedMessage";
+    public static final String EDIT_USER_INFO_FAILED_MESSAGE = "editUserInfoFailedMessage";
+    public static final String ANSWER_TO_OFFER_FAILED_MESSAGE = "answerToOfferFailedMessage";
+    public static final String WRITE_REVIEW_FAILED_MESSAGE = "writeReviewFailedMessage";
+
+
     public static final String OPERATION = "operation";
 
 

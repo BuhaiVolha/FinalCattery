@@ -2,6 +2,7 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
+import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.service.exception.ServiceException;
@@ -24,11 +25,14 @@ import java.io.IOException;
         maxRequestSize=1024*1024*50) // 50MB ??
 public class ImageUploader extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ImageUploader.class);
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ERROR_PAGE);
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         processRequest(request, response);
     }
+
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         RequestContent requestContent = new RequestContent();
@@ -41,11 +45,10 @@ public class ImageUploader extends HttpServlet {
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to upload photo", e);
-            redirect(ERROR_PAGE, response);
         }
         requestContent.insertValues(request);
 
-        redirect(request.getContextPath() + requestResult.getPage(), response);
+        redirect(ERROR_PAGE, response);
     }
 
 

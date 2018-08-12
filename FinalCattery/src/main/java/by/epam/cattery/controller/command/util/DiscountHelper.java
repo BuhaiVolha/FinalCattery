@@ -11,6 +11,8 @@ public class DiscountHelper {
 
     private static final DiscountHelper instance = new DiscountHelper();
 
+    private DiscountHelper() {
+    }
 
     public void setPriceWithDiscount(List<Cat> cats, int discountPercents) {
 

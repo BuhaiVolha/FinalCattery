@@ -41,15 +41,14 @@
                                     <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
                                     </button>
                                     <label>New price (in dollars)</label>
-                                    <input type="text" name="price" placeholder="Old price: ${offer.price}" required="required"/>
+                                    <input type="text" name="price" pattern="[0-9]{2,4}" placeholder="Old price: ${offer.price}" required="required" title="A reasonable price will have 2 or 4 digits"/>
                                 </c:when>
                                 <c:when test="${operation eq 'approve'}">
                                     <input type="hidden" name="command" value="approve"/>
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <input type="hidden" name="price" value="${offer.price}"/>
                                     <textarea required="required" name="expertMessageToAdmin" placeholder="A note for admin" ></textarea>
-                                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
-                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
                                 </c:when>
                                 <c:when test="${operation eq 'decline'}">
                                     <input type="hidden" name="command" value="decline_offer"/>
@@ -57,18 +56,16 @@
                                     <input type="hidden" name="offerId" value="${offer.id}"/>
                                     <input type="hidden" name="price" value="${offer.price}"/>
                                     <textarea required="required" name="expertMessage" placeholder="Describe the reason for your decision" ></textarea>
-                                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send
-                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">Send</button>
                                 </c:when>
                             </c:choose>
                         </c:when>
                         <c:when test="${offer == null}">
                             <input type="hidden" name="command" value="offer_cat"/>
                             <textarea required="required" name="catDescription" placeholder="Describe characteristics of your cat, so it were easy for our expert to make a decision" ></textarea>
-                            <button type="submit" class="btn btn-primary btn-xl"  id="sendMessageButton">Send
-                            </button>
+                            <button type="submit" class="btn btn-primary btn-xl"  id="sendMessageButton">Send</button>
                             <label>Price (in dollars)</label>
-                            <input type="text" name="price" placeholder="Price you want to ask" required="required"/>
+                            <input type="text" name="price" pattern="[0-9]{2,4}" placeholder="Price you want to ask" required="required" title="A reasonable price will have 2 or 4 digits"/>
                         </c:when>
                         </c:choose>
                     </form>

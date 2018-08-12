@@ -9,7 +9,9 @@ import by.epam.cattery.entity.OfferStatus;
 
 import by.epam.cattery.service.OfferService;
 import by.epam.cattery.service.exception.ServiceException;
+import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.util.PageCounter;
+import by.epam.cattery.service.validation.Validator;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +38,7 @@ public class OfferServiceImpl implements OfferService {
 
         try {
             return offerDAO.checkOfferBelongsToUser(userId, offerId);
+
         } catch (DAOException e) {
             throw new ServiceException("Checking whether user can add photo to offer failed", e);
         }

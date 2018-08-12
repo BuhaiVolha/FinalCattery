@@ -17,7 +17,7 @@ public final class PathConst {
     public final static String FOUND_CATS = "path.page.cats-found";
 
     public final static String REVIEWS = "path.page.reviews";
-    public final static String EDIT_REVIEW = "path.page.edit-review";
+    public final static String WRITE_REVIEW = "path.page.edit-review";
 
     public final static String RESERVATIONS = "path.page.reservations";
 
@@ -32,6 +32,10 @@ public final class PathConst {
     public final static String OFFER_PHOTO_SAVE_PATH = "path.photo.offer";
     public final static String CHEQUE_PHOTO_SAVE_PATH = "path.photo.cheque";
     public final static String CAT_PHOTO_SAVE_PATH = "path.photo.cat";
+
+    public final static String EDIT_USER_INFO_COMMAND = "path.command.edit-user-info";
+    public final static String BARGAIN_COMMAND = "path.command.offer-bargain";
+    ///controller?command=single_offer&offerId=45&operation=bargain
 
 
     private PathConst() {

@@ -31,6 +31,7 @@ public class AddCatCommand implements ActionCommand {
             .getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
     private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance()
             .getProperty(PathConst.OFFER_PHOTO_SAVE_PATH);
+
     private static final int ADMIN_ID = 1;
 
 

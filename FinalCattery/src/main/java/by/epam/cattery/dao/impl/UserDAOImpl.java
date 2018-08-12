@@ -99,6 +99,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
             "SELECT discount " +
                     "FROM user " +
                     "WHERE user_id = ?;";
+    private static final String GET_EMAIL =
+            "SELECT email " +
+                    "FROM user " +
+                    "WHERE user_id = ?;";
 
     private static final String CHECK_BANNED_FLAG =
             "SELECT flag_banned " +
@@ -119,28 +123,28 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
                     "FROM user " +
                     "WHERE user_id = ?;";
 
+    private final static String COLOUR_STATISTICS_PARAM_COLOUR = "label";
+    private final static String COLOUR_STATISTICS_PARAM_PREFERENCE_PROCENTS = "y";
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
-    public boolean loginAlreadyExists(User user) throws DAOException {
+    public boolean loginExists(String login) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
-        boolean exists;
 
         try {
             con = connectionProvider.obtainConnection();
 
             ps = con.prepareStatement(CHECK_LOGIN_ALREADY_EXISTS);
-            ps.setString(1, user.getLogin());
+            ps.setString(1, login);
 
             rs = ps.executeQuery();
             rs.next();
-            exists = rs.getBoolean(1);
 
-            return exists;
+            return rs.getBoolean(1);
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during checking whether login already taken", e);
@@ -197,8 +201,6 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        int discount;
-
         try {
             con = connectionProvider.obtainConnection();
 
@@ -207,12 +209,36 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
             rs = ps.executeQuery();
             rs.next();
-            discount = rs.getInt(1);
-
-            return discount;
+            return rs.getInt(1);
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DAOException("Exception getting discount for user ", e);
+            throw new DAOException("Exception during getting discount for user ", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    @Override
+    public String getEmail(int userId) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(GET_EMAIL);
+            ps.setInt(1, userId);
+
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getString(1);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during getting email for user ", e);
 
         } finally {
             connectionProvider.close(con);
@@ -269,13 +295,11 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-
                 map = new HashMap<>();
-                map.put("y", rs.getDouble(2));
-                map.put("label", rs.getString(1));
 
+                map.put(COLOUR_STATISTICS_PARAM_COLOUR, rs.getString(1));
+                map.put(COLOUR_STATISTICS_PARAM_PREFERENCE_PROCENTS, rs.getDouble(2));
                 list.add(map);
-
             }
             return gsonObj.toJson(list);
 
@@ -414,8 +438,6 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        boolean banned = false;
-
         try {
             con = connectionProvider.obtainConnection();
 
@@ -424,11 +446,11 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
             rs = ps.executeQuery();
 
-            if (rs.next()) {  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111
-                banned = rs.getBoolean(1);
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            } else {
+                throw new DAOException("No such user exists");
             }
-
-            return banned;
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during checking whether user is banned", e);
@@ -439,14 +461,12 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         }
     }
 
-// проверять if rs.next а если нет кидать эксепшн с не найдено блабла?
+
     @Override
     public boolean reviewWasAdded(int userId) throws DAOException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
-        boolean added;
 
         try {
             con = connectionProvider.obtainConnection();
@@ -455,11 +475,12 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
             ps.setInt(1, userId);
 
             rs = ps.executeQuery();
-            rs.next();
 
-            added = rs.getBoolean(1);
-
-            return added;
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            } else {
+                throw new DAOException("No such user exists");
+            }
 
         } catch (ConnectionPoolException | SQLException e) {
             throw new DAOException("Exception during checking whether review already added", e);

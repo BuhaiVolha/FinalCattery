@@ -5,6 +5,7 @@ import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
+import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -34,9 +35,13 @@ public class RegistrationCommand implements ActionCommand {
 
     private static final String EMAIL_TAKEN_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN);
     private static final String LOGIN_ALREADY_EXISTS_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.LOGIN_ALREADY_EXISTS);
+    private static final String INVALID_INPUT_MESSAGE = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT);
 
 
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        PathHelper pathHelper = PathHelper.getInstance();
+        String path;
+
         UserService userService = ServiceFactory.getInstance().getUserService();
         User user = createUser(requestContent);
 
@@ -50,20 +55,24 @@ public class RegistrationCommand implements ActionCommand {
             return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
 
         } catch (ValidationFailedException e) {
-            // заменить на бул?
-            // пароль короткий
-            logger.log(Level.WARN, "Validation failed: ", e);
-            return new RequestResult(NavigationType.FORWARD, REGISTRATION_PAGE);
+            logger.log(Level.WARN, "Validation of input data failed during registration");
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
+                    RequestConst.REGISTRATION_FAILED_MESSAGE,
+                    INVALID_INPUT_MESSAGE);
 
         } catch (LoginAlreadyExistsException e) {
-            logger.log(Level.WARN, "User already exists exception: ", e);
-            requestContent.setAttribute("errorLoginExistsMessage", LOGIN_ALREADY_EXISTS_MESSAGE);
-            return new RequestResult(NavigationType.FORWARD, REGISTRATION_PAGE);
+            logger.log(Level.WARN, "User already exists");
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
+                    RequestConst.REGISTRATION_FAILED_MESSAGE,
+                    LOGIN_ALREADY_EXISTS_MESSAGE);
 
         } catch (EmailAlreadyExistsException e) {
-            requestContent.setAttribute("errorEmailExistsMessage", EMAIL_TAKEN_MESSAGE);
-            return new RequestResult(NavigationType.FORWARD, REGISTRATION_PAGE);
+            logger.log(Level.WARN, "Email is already taken");
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE,
+                    RequestConst.REGISTRATION_FAILED_MESSAGE,
+                    EMAIL_TAKEN_MESSAGE);
         }
+        return new RequestResult(NavigationType.REDIRECT, path);
     }
 
 

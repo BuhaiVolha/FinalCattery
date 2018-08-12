@@ -10,15 +10,17 @@ import by.epam.cattery.entity.Review;
 
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.exception.ServiceException;
-
+import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.util.PageCounter;
+
+import by.epam.cattery.service.validation.Validator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
- // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! проверка статус
+
 
 public class ReviewServiceImpl implements ReviewService {
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
@@ -63,6 +65,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void writeReview(Review review) throws ServiceException {
+
+        if (!Validator.getInstance().validateReviewInputData(review)) {
+            throw new ValidationFailedException("Review's data are invalid!");
+        }
+
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
         try {
@@ -118,8 +125,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void editReview(Review review) throws ServiceException {
 
+        if (!Validator.getInstance().validateReviewInputData(review)) {
+            throw new ValidationFailedException("Review's data are invalid!");
+        }
+
         try {
-            if (userDAO.reviewWasAdded(review.getUserLeftId())) { //???????????????????????????
+            if (userDAO.reviewWasAdded(review.getUserLeftId())) {
                 reviewDAO.update(review);
             }
 

@@ -1680,6 +1680,13 @@ input:invalid {
     background: #ccc;
 }
 
+.shadow {
+    background: rgba(214, 127, 34, 0.5); /* Цвет фона */
+    box-shadow: 0 0 10px rgba(88, 53, 8, 0.5); /* Параметры тени */
+
+    color: white; font-weight: bold
+}
+
 .rating {
     float: left;
 }

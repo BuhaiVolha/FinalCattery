@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <input type="password" name="password" id="password"
                                            required="required" class="form-control input-lg" placeholder="Password"
-                                           tabindex="7" pattern=".{7,}" title="Seven or more characters"> <span></span>
+                                           tabindex="7" pattern=".{7,15}" title="Any characters - no less than 7 and no more than 15"> <span></span>
                                 </div>
                             </div>
                         </div>
@@ -58,8 +58,7 @@
                                    title="valid format:XX XXXXXXX">
                             <span></span></div>
 
-                        ${errorLoginExistsMessage}
-                        ${errorEmailExistsMessage}
+                        ${param.registrationFailedMessage}
                         <hr class="colorgraph">
                         <div class="row">
                             <input type="submit" value="registration" class="btn btn-primary btn-block btn-lg"

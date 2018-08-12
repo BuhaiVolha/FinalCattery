@@ -2,6 +2,7 @@ package by.epam.cattery.controller;
 
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.CommandProvider;
+import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.service.exception.ServiceException;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
-    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty("path.page.error");
+    private static final String ERROR_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ERROR_PAGE);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -45,11 +46,11 @@ public class Controller extends HttpServlet {
 
         } catch (ServiceException e) {
             logger.log(Level.ERROR, "Failed to process command", e);
-            redirect(ERROR_PAGE, response);
         }
         requestContent.insertValues(request);
 
         if (requestResult != null) {
+
             switch (requestResult.getNavigationType()) {
                 case FORWARD:
                     forward(requestResult.getPage(), request, response);
@@ -59,7 +60,7 @@ public class Controller extends HttpServlet {
                     break;
             }
         } else {
-            logger.log(Level.ERROR, "Null request result");
+            logger.log(Level.WARN, "Some troubles occurred while executing command");
             redirect(ERROR_PAGE, response);
         }
     }

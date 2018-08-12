@@ -11,14 +11,13 @@ import by.epam.cattery.entity.Review;
 import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class GoToSingleReviewCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleReviewCommand.class);
 
-    private static final String EDIT_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_REVIEW);
+    private static final String EDIT_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.WRITE_REVIEW);
 
 
     @Override

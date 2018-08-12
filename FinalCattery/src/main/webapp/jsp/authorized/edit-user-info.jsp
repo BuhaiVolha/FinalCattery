@@ -42,11 +42,11 @@
                         <div class="form-group">
                             <input type="password" name="password" id="password"
                                    required="required" class="form-control input-lg" placeholder="Password"
-                                   tabindex="7" pattern=".{7,}" title="Seven or more characters">
+                                   tabindex="7" pattern=".{7,15}" title="Any characters - no less than 7 and no more than 15">
                             <span></span></div>
 
-                        ${errorLoginExistsMessage}
-                        ${errorEmailExistsMessage}
+                        ${param.editUserInfoFailedMessage}
+
                         <hr class="colorgraph">
                         <div class="row">
                             <input type="submit" value="Edit" class="btn btn-primary btn-block btn-lg"

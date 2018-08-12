@@ -26,13 +26,20 @@ public class AcceptOfferedPriceCommand implements ActionCommand {
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
+        Offer offer = createOffer(requestContent);
+        offerService.answerToOffer(offer, OfferStatus.DISC);
+
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+    }
+
+
+    private Offer createOffer(RequestContent requestContent) {
         Offer offer = new Offer();
+
         offer.setId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
         offer.setPrice(Double.parseDouble(requestContent.getParameter(RequestConst.OFFER_PRICE)));
         offer.setStatus(OfferStatus.APRVD);
 
-        offerService.answerToOffer(offer, OfferStatus.DISC);
-
-        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+        return offer;
     }
 }

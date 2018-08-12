@@ -4,6 +4,7 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
+import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -24,21 +25,22 @@ public class OfferCatCommand implements ActionCommand {
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
+        PathHelper pathHelper = PathHelper.getInstance();
+
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
         Offer offer = createOffer(requestContent);
-        offer.setUserMadeOfferId((int) (requestContent.getSessionAttribute(SessionConst.ID)));
         int offerId = offerService.offerCat(offer);
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                    .getProperty("path.page.cat-offer-photo")+"?offerId="+offerId);
-        return new RequestResult(NavigationType.REDIRECT, UPLOAD_CAT_PHOTO_PAGE + "?offerId=" + offerId);
+        String path = pathHelper.addParameterToPath(UPLOAD_CAT_PHOTO_PAGE, RequestConst.OFFER_ID, offerId);
+        return new RequestResult(NavigationType.REDIRECT, path);
     }
 
 
     private Offer createOffer(RequestContent requestContent) {
         Offer offer = new Offer();
 
+        offer.setUserMadeOfferId((int) (requestContent.getSessionAttribute(SessionConst.ID)));
         offer.setCatDescription(requestContent.getParameter(RequestConst.OFFER_CAT_DESCRIPTION));
         offer.setPrice(Double.parseDouble(requestContent.getParameter(RequestConst.OFFER_PRICE)));
         offer.setStatus(OfferStatus.AWAIT);

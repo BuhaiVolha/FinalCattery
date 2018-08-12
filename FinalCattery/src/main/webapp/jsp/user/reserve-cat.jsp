@@ -40,26 +40,26 @@
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img src="http://bootstrap-ecommerce.com/main/images/banners/slide2.jpg" class="img-responsive" alt="Los Angeles">
+                                    <img src="/assets/img/pedigree/simple.jpg" class="img-responsive" alt="Los Angeles">
                                     <div class="carousel-caption">
-                                        <h3>Simple</h3>
-                                        <p>Classic and for free!</p>
+                                        <h3 class="shadow">Simple</h3>
+                                        <p class="shadow">Classic and for free!</p>
                                     </div>
                                 </div>
 
                                 <div class="item">
-                                    <img src="http://bootstrap-ecommerce.com/main/images/banners/slide3.jpg" class="img-responsive" alt="Chicago">
+                                    <img src="/assets/img/pedigree/deluxe.jpg" class="img-responsive" alt="Chicago">
                                     <div class="carousel-caption">
-                                        <h3>Deluxe</h3>
-                                        <p>Screams sophistication. 10$ only!</p>
+                                        <h3 class="shadow">Deluxe</h3>
+                                        <p class="shadow">Screams sophistication. 10$ only!</p>
                                     </div>
                                 </div>
 
                                 <div class="item">
-                                    <img src="http://bootstrap-ecommerce.com/main/images/banners/slide1.jpg" class="img-responsive" alt="New York">
+                                    <img src="/assets/img/pedigree/gold.jpg" class="img-responsive" alt="New York">
                                     <div class="carousel-caption">
-                                        <h3>Gold</h3>
-                                        <p>Practically magic. 20$ only!</p>
+                                        <h3 class="shadow">Gold</h3>
+                                        <p class="shadow">Practically magic. Pay 20$ and it's yours!</p>
                                     </div>
                                 </div>
                             </div>
