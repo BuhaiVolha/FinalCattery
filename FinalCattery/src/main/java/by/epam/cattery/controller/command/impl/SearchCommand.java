@@ -15,6 +15,7 @@ import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
+import org.apache.commons.validator.GenericValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,14 +68,20 @@ public class SearchCommand implements ActionCommand {
             cat.setPrice(Double.parseDouble(requestContent.getParameter(RequestConst.CAT_PRICE)));
         }
 
-        if (!requestContent.getParameter(RequestConst.CAT_GENDER).isEmpty()) {
+        if (!GenericValidator.isBlankOrNull(requestContent.getParameter(RequestConst.CAT_GENDER))) {
             cat.setGender(Gender.valueOf(requestContent.getParameter(RequestConst.CAT_GENDER)));
         }
-        if (!requestContent.getParameter(RequestConst.CAT_STATUS).isEmpty()) {
+
+        if (!GenericValidator.isBlankOrNull(requestContent.getParameter(RequestConst.CAT_STATUS))) {
             cat.setStatus(CatStatus.valueOf(requestContent.getParameter(RequestConst.CAT_STATUS)));
         }
-        cat.setBodyColour(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR));
-        cat.setEyesColour(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR));
+
+        if (!GenericValidator.isBlankOrNull(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR))) {
+            cat.setBodyColour(CatBodyColour.valueOf(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR)));
+        }
+        if (!GenericValidator.isBlankOrNull(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR))) {
+            cat.setEyesColour(CatEyesColour.valueOf(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR)));
+        }
 
         return cat;
     }

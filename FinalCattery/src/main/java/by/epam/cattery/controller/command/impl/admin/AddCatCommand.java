@@ -12,6 +12,8 @@ import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 
+import by.epam.cattery.entity.CatBodyColour;
+import by.epam.cattery.entity.CatEyesColour;
 import by.epam.cattery.service.exception.InvalidDateException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 
@@ -95,8 +97,8 @@ public class AddCatCommand implements ActionCommand {
         cat.setAge(requestContent.getParameter(RequestConst.CAT_AGE));
         cat.setPrice(Double.parseDouble(requestContent.getParameter(RequestConst.CAT_PRICE)));
         cat.setDescription(requestContent.getParameter(RequestConst.CAT_DESCRIPTION));
-        cat.setBodyColour(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR));
-        cat.setEyesColour(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR));
+        cat.setBodyColour(CatBodyColour.valueOf(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR)));
+        cat.setEyesColour(CatEyesColour.valueOf(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR)));
         cat.setFemaleParent(requestContent.getParameter(RequestConst.CAT_FEMALE_PARENT));
         cat.setMaleParent(requestContent.getParameter(RequestConst.CAT_MALE_PARENT));
 

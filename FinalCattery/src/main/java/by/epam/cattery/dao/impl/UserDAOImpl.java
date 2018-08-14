@@ -5,6 +5,7 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.UserDAO;
 
+import by.epam.cattery.entity.CatBodyColour;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
 
@@ -45,10 +46,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
                     "WHERE user_id = ?;";
 
     private static final String GET_ALL_USERS =
-            "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
+            "SELECT user_id, login, name, lastname, email, phone, colour_preference, role, discount, flag_banned, flag_review_left " +
                     "FROM user " +
                         "JOIN user_role ON (user.role_id = user_role.role_id)" +
-                        "LEFT JOIN cat_colour ON (colour_preference = EMS_code) " +
+
                     "ORDER BY login LIMIT ? OFFSET ?;";
 
     private static final String GET_USER_BY_LOGIN =
@@ -57,10 +58,9 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
                         "JOIN user_role ON (user.role_id = user_role.role_id) " +
                     "WHERE login = ?;";
     private static final String GET_USER_BY_ID =
-            "SELECT user_id, login, name, lastname, email, phone, colour_name, role, discount, flag_banned, flag_review_left " +
+            "SELECT user_id, login, name, lastname, email, phone, colour_preference, role, discount, flag_banned, flag_review_left " +
                     "FROM user " +
                         "JOIN user_role ON (user.role_id = user_role.role_id)" +
-                        "LEFT JOIN cat_colour ON (colour_preference = EMS_code) " +
                     "WHERE user_id = ?;";
 
     private static final String GET_USERS_COUNT =

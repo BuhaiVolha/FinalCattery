@@ -14,8 +14,8 @@ public class Cat extends Entity {
     private String age;
     private String photo;
     private String description;
-    private String bodyColour;
-    private String eyesColour;
+    private CatBodyColour bodyColour;
+    private CatEyesColour eyesColour;
     private String femaleParent;
     private String maleParent;
     private double price;
@@ -24,7 +24,7 @@ public class Cat extends Entity {
 
 
     public Cat(int id, String name, int userMadeOfferId, int offerMadeId, String lastname, Gender gender, String age,
-               String photo, String description, String bodyColour, String eyesColour, String femaleParent,
+               String photo, String description, CatBodyColour bodyColour, CatEyesColour eyesColour, String femaleParent,
                String maleParent, double price, Double priceWithDiscount, CatStatus status) {
         super(id);
         this.name = name;
@@ -80,19 +80,19 @@ public class Cat extends Entity {
         this.description = description;
     }
 
-    public String getBodyColour() {
+    public CatBodyColour getBodyColour() {
         return bodyColour;
     }
 
-    public void setBodyColour(String bodyColour) {
+    public void setBodyColour(CatBodyColour bodyColour) {
         this.bodyColour = bodyColour;
     }
 
-    public String getEyesColour() {
+    public CatEyesColour getEyesColour() {
         return eyesColour;
     }
 
-    public void setEyesColour(String eyesColour) {
+    public void setEyesColour(CatEyesColour eyesColour) {
         this.eyesColour = eyesColour;
     }
 

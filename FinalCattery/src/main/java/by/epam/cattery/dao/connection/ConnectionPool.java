@@ -1,6 +1,7 @@
 package by.epam.cattery.dao.connection;
 
 import by.epam.cattery.util.ConfigurationManager;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +10,7 @@ import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-// подумать !
+
 public final class ConnectionPool {
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
@@ -69,7 +70,7 @@ public final class ConnectionPool {
     }
 
 
-    public Connection takeConnection() throws ConnectionPoolException  {
+    Connection takeConnection() throws ConnectionPoolException  {
         Connection connection;
 
         try {
@@ -117,11 +118,11 @@ public final class ConnectionPool {
     }
 
 
-    public BlockingQueue<Connection> getFreeConnections() {
+    BlockingQueue<Connection> getFreeConnections() {
         return freeConnections;
     }
 
-    public BlockingQueue<Connection> getTakenConnections() {
+    BlockingQueue<Connection> getTakenConnections() {
         return takenConnections;
     }
 }

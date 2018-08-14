@@ -1,5 +1,5 @@
 <%@ include file="/jsp/cats-display.jsp" %>
-
+<c:if test="${not empty cats}">
 <div class="col" style="float: right; margin-bottom: 38px">
     <c:url var="searchUri" value="/controller?command=search&gender=${requestScope.searchedCat.gender}&status=${requestScope.searchedCat.status}&body=${requestScope.searchedCat.bodyColour}&eyes=${requestScope.searchedCat.eyesColour}&price=${requestScope.searchedCat.price}&page=##" />
     <paginator:display maxLinks="10"
@@ -8,6 +8,7 @@
                        uri="${searchUri}"/>
 
 </div>
+</c:if>
 </div>
 </div>
 </div>

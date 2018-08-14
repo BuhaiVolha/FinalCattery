@@ -1,23 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div id="footer">
 
+
+<fmt:setLocale value="${sessionScope.local}"/>
+<fmt:setBundle basename="local" var="loc"/>
+<fmt:message bundle="${loc}" key="local.footer.copyright" var="copyright"/>
+
+<div id="footer">
         <div class="container text-center">
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-6">
                     <div class="wow fadeInRight" data-wow-delay="0.1s">
                         <div class="text-right">
                             <div id="credits">
-                                <p class="foot" style="color: white; margin-right: -187px; margin-top: 10px;">&copy;Copyright - Milacoon.</p>
+                                <p class="foot" style="color: white; margin-right: -187px; margin-top: 10px;">${copyright}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

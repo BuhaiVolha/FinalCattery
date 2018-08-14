@@ -42,14 +42,12 @@ public class ReservationServiceImpl implements ReservationService {
             int catId = reservation.getCatId();
 
             if (catDAO.checkStatus(catId, CatStatus.AVAIL.toString())) {
-                connectionProvider.startTransaction();
 
                 reservationDAO.deleteAllExpiredReservationsWithReservedCat(catId);
                 reservationDAO.save(reservation);
                 catDAO.updateStatusById(CatStatus.RSRV.toString(), catId);
-
-                connectionProvider.commitTransaction();
             }
+            connectionProvider.commitTransaction();
 
         } catch (DAOException e) {
             connectionProvider.abortTransaction();

@@ -42,7 +42,37 @@
                                 <td>Colour preference</td>
                                 <td><c:choose>
                                     <c:when test="${not empty requestScope.user.colourPreference}">
-                                        ${requestScope.user.colourPreference}
+
+                                        <c:choose>
+                                            <c:when test="${requestScope.user.colourPreference eq 'N'}">
+                                                black
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'A'}">
+                                                blue
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'D'}">
+                                                red
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'E'}">
+                                                creme
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'F'}">
+                                                blacktortie
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'Q'}">
+                                                bluetortie
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'S'}">
+                                                silver
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'W'}">
+                                                white
+                                            </c:when>
+                                            <c:when test="${requestScope.user.colourPreference eq 'Y'}">
+                                                golden
+                                            </c:when>
+                                        </c:choose>
+
                                         <span class="pull-right">
                             <a href="/jsp/user/set-preference.jsp" title="Edit your colour preference"
                                data-original-title="colour preference"

@@ -12,7 +12,7 @@ public class PooledConnection implements Connection {
 
     public PooledConnection(Connection c) throws SQLException {
         connection = c;
-        this.connection.setAutoCommit(true); //?
+        this.connection.setAutoCommit(true);
     }
 
     public void reallyClose() throws SQLException {
@@ -34,15 +34,15 @@ public class PooledConnection implements Connection {
             connection.setReadOnly(false);
         }
 
-        BlockingQueue<Connection> givenAwayConQueue = ConnectionPool.getInstance().getTakenConnections();
-        if (!givenAwayConQueue.remove(this)) {
-            throw new SQLException("error deleting connection from given away pool");
+        BlockingQueue<Connection> takenConnections = ConnectionPool.getInstance().getTakenConnections();
+        if (!takenConnections.remove(this)) {
+            throw new SQLException("Failed to delete connection from given away pool");
         }
 
 
-        BlockingQueue<Connection> connectionQueue = ConnectionPool.getInstance().getFreeConnections();
-        if (!connectionQueue.offer(this)) {
-            throw new SQLException("error allocating connection to pool");
+        BlockingQueue<Connection> freeConnections = ConnectionPool.getInstance().getFreeConnections();
+        if (!freeConnections.offer(this)) {
+            throw new SQLException("Failed to allocate connection to pool");
         }
     }
 

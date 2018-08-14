@@ -5,9 +5,7 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.CatDAO;
 
-import by.epam.cattery.entity.Cat;
-import by.epam.cattery.entity.CatStatus;
-import by.epam.cattery.entity.Gender;
+import by.epam.cattery.entity.*;
 import by.epam.cattery.entity.dto.SearchCatTO;
 
 import org.apache.logging.log4j.Level;
@@ -54,36 +52,29 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                     "WHERE cat_id = ?;";
 
     private static final String GET_ALL_CATS_FOR_SEARCH =
-            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
-                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
+                    "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
+
                     "WHERE NOT flag_cat_deleted ";
     private static final String GET_ALL_CATS =
-            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
-                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
+                    "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE NOT flag_cat_deleted " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
     private static final String GET_ALL_CATS_BY_STATUS =
-            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
-                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
+                    "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE sale_status_id = ? " +
                     "AND NOT flag_cat_deleted " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
 
     private static final String GET_CAT_BY_ID =
-            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, colour_name, " +
-                    "eyes_colour_name, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
+            "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
+                    "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                        "JOIN cat_colour ON (cat.body_colour_code = cat_colour.EMS_code) " +
-                        "LEFT JOIN cat_eyes_colour ON (cat.cat_eyes_colour_code = cat_eyes_colour.FIFe_eyes_colour_code) " +
                     "WHERE cat_id = ? " +
                     "AND NOT flag_cat_deleted;";
 
@@ -216,13 +207,11 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
                 condition.append(SEARCH_PARAM_CAT_STATUS).append(cat.getStatus()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
-            if ((cat.getBodyColour() != null)
-                    && (!cat.getBodyColour().isEmpty())) {
+            if (cat.getBodyColour() != null) {
                 condition.append(SEARCH_PARAM_CAT_BODY_COLOUR).append(cat.getBodyColour()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
-            if ((cat.getEyesColour() != null)
-                    && (!cat.getEyesColour().isEmpty())) {
+            if (cat.getEyesColour() != null) {
                 condition.append(SEARCH_PARAM_CAT_EYES_COLOUR).append(cat.getEyesColour()).append(SEARCH_OPERATOR_AND_WITH_QUOTE_SIGN);
             }
 
@@ -332,8 +321,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         ps.setString(3, cat.getGender().toString());
         ps.setString(4, cat.getAge());
         ps.setString(5, cat.getDescription());
-        ps.setString(6, cat.getBodyColour());
-        ps.setString(7, cat.getEyesColour());
+        ps.setString(6, cat.getBodyColour().toString());
+        ps.setString(7, cat.getEyesColour().toString());
         ps.setString(8, cat.getFemaleParent());
         ps.setString(9, cat.getMaleParent());
         ps.setDouble(10, cat.getPrice());
@@ -353,8 +342,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         ps.setString(3, cat.getGender().toString());
         ps.setString(4, cat.getAge());
         ps.setString(5, cat.getDescription());
-        ps.setString(6, cat.getBodyColour());
-        ps.setString(7, cat.getEyesColour());
+        ps.setString(6, cat.getBodyColour().toString());
+        ps.setString(7, cat.getEyesColour().toString());
         ps.setString(8, cat.getFemaleParent());
         ps.setString(9, cat.getMaleParent());
         ps.setDouble(10, cat.getPrice());
@@ -463,8 +452,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         cat.setGender(Gender.valueOf(rs.getString(4)));
         cat.setAge(rs.getString(5));
         cat.setDescription(rs.getString(6));
-        cat.setBodyColour(rs.getString(7));
-        cat.setEyesColour(rs.getString(8));
+        cat.setBodyColour(CatBodyColour.valueOf(rs.getString(7)));
+        cat.setEyesColour(CatEyesColour.valueOf(rs.getString(8)));
         cat.setFemaleParent(rs.getString(9));
         cat.setMaleParent(rs.getString(10));
         cat.setPrice(rs.getDouble(11));

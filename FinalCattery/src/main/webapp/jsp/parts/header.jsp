@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="paginator" uri="/WEB-INF/taglib/paginator.tld"%>
-<jsp:useBean id="now" class="java.util.Date" />
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="paginator" uri="/WEB-INF/taglib/paginator.tld" %>
+<jsp:useBean id="now" class="java.util.Date"/>
 
 
 <!DOCTYPE html>
@@ -29,15 +29,18 @@
     <fmt:message bundle="${loc}" key="local.nav.user.reg" var="reg"/>
     <fmt:message bundle="${loc}" key="local.nav.user.logIn" var="logIn"/>
     <fmt:message bundle="${loc}" key="local.nav.user.logout" var="logout"/>
-    <fmt:message bundle="${loc}" key="local.main.message.welcome" var="welcome"/>
+    <fmt:message bundle="${loc}" key="local.nav.goods.all" var="all"/>
+    <fmt:message bundle="${loc}" key="local.nav.goods.available" var="available"/>
+    <fmt:message bundle="${loc}" key="local.nav.goods.search" var="search"/>
+    <fmt:message bundle="${loc}" key="local.nav.user.cabinet" var="cabinet"/>
 
     <title>${title}</title>
-    <!-- Bootstrap -->
 
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -49,7 +52,7 @@
 
 
 <body onload=openLoginModalNext()>
-<!-- Fixed navbar -->
+
 <%@ include file="/jsp/login-modal.jsp" %>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -75,41 +78,40 @@
                 </c:when>
             </c:choose>
 
-
         </div>
-
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
                 <li>
                     <div class="dropdown" id="left-nav-dropdown">
-                        <a href="#" class="main-nav" id="cat-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="main-nav" id="cat-dropdown" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
                             ${goods}
                         </a>
                         <div class="dropdown-menu left-nav-style" aria-labelledby="cat-dropdown">
-                            <a class="dropdown-item" href="/controller?command=all_cats">All cats</a>
-                            <a class="dropdown-item" href="/controller?command=available_cats">Available cats</a>
-                            <a class="dropdown-item" href="/jsp/search-cat.jsp">Search for a cat</a>
+                            <a class="dropdown-item" href="/controller?command=all_cats">${all}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/controller?command=available_cats">${available}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/jsp/search-cat.jsp">${search}</a>
                         </div>
                     </div>
                 </li>
-
-
 
                 <li><a href="/jsp/main.jsp#aboutus">${about}</a></li>
                 <li><a href="/controller?command=all_reviews">${reviews}</a></li>
 
                 <c:choose>
                 <c:when test="${sessionScope.role ne 'USER' && sessionScope.role ne 'ADMIN' && sessionScope.role ne 'EXPERT'}">
-
-                    <li><a class="main-nav" href="#" onclick="openLoginModal()">${logIn}</a></li>
-
+                    <li>
+                        <a class="main-nav" href="#" onclick="openLoginModal()">${logIn}</a>
+                    </li>
                 </c:when>
                 <c:otherwise>
 
                 <li>
                     <div class="nav navbar-nav navbar-right">
-                        <button class="inset" type="button" data-toggle="dropdown" id="user-dropdown" aria-haspopup="true"
+                        <button class="inset" type="button" data-toggle="dropdown" id="user-dropdown"
+                                aria-haspopup="true"
                                 aria-expanded="false">
 
                             <c:choose>
@@ -133,22 +135,20 @@
                             <a class="navbar-login">${sessionScope.login}</a>
                             <div class="dropdown-divider"></div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/controller?command=single_user&operation=user-info">You cabinet</a>
+                            <a class="dropdown-item" href="/controller?command=single_user&operation=user-info">${cabinet}</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/controller?command=logout">${logout}</a>
+                            <a class="dropdown-item" style="text-align: center" href="/controller?command=logout">${logout}</a>
                         </div>
-
                     </div>
                 </li>
+                <c:if test="${not empty sessionScope.login}">
+                    <li>
+                        <p style="color: white; font-weight: bold; margin-top: 12px; margin-left: 28px; position: relative; float: left; margin-right: -11px;">${sessionScope.login}</p>
+                    </li>
+                </c:if>
             </ul>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a class="navbar-login">${sessionScope.login}</a></li>
-                </ul>
-            </div>
             </c:otherwise>
             </c:choose>
-
 
             <script type="text/javascript">
                 function openLoginModal() {
@@ -165,15 +165,16 @@
                     }
                 }
             </script>
+
             <script>
-                $( "body" ).prepend( '<div id="preloader"><div class="spinner-sm spinner-sm-1" id="status"> </div></div>' );
-                $(window).on('load', function() { // makes sure the whole site is loaded
-                    $('#status').fadeOut(); // will first fade out the loading animation
-                    $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
-                    $('body').delay(350).css({'overflow':'visible'});
+                $("body").prepend('<div id="preloader"><div class="spinner-sm spinner-sm-1" id="status"> </div></div>');
+                $(window).on('load', function () {
+                    $('#status').fadeOut();
+                    $('#preloader').delay(350).fadeOut('slow');
+                    $('body').delay(350).css({'overflow': 'visible'});
                 })
             </script>
+
         </div>
     </div>
-
 </div>

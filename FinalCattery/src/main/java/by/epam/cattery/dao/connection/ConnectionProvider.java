@@ -10,8 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-// Сделать интерфейс и на нем ИМПЛ?: ???????????
-// throws DAOException???????
+
 public class ConnectionProvider {
     private static final Logger logger = LogManager.getLogger(ConnectionProvider.class);
 
@@ -127,8 +126,6 @@ public class ConnectionProvider {
             } catch (SQLException e) {
                 logger.log(Level.WARN, "Connection wasn't returned to the pool");
             }
-//        } else {
-//            local.set(connection);
         }
     }
 
