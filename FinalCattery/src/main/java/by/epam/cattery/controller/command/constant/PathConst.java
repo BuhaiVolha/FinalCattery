@@ -27,8 +27,8 @@ public final class PathConst {
     public final static String ALL_OFFERS = "path.page.offers-all";
     public final static String AWAITING_OFFERS = "path.page.offers-awaiting";
     public final static String APPROVED_OFFERS = "path.page.offers-approved";
-    public final static String UPLOAD_OFFER_PHOTO_PAGE = "path.page.cat-offer-photo";
 
+    public final static String UPLOAD_CAT_PHOTO_PAGE = "path.page.upload-cat-photo";
     public final static String OFFER_PHOTO_SAVE_PATH = "path.photo.offer";
     public final static String CHEQUE_PHOTO_SAVE_PATH = "path.photo.cheque";
     public final static String CAT_PHOTO_SAVE_PATH = "path.photo.cat";

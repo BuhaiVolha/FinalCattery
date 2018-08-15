@@ -36,6 +36,8 @@ public class AddCatCommand implements ActionCommand {
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
     private static final String CAT_FORM_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.CAT_FORM_PAGE);
+    private static final String UPLOAD_CAT_PHOTO_PAGE = ConfigurationManager.getInstance()
+            .getProperty(PathConst.UPLOAD_CAT_PHOTO_PAGE);
     private static final String CAT_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.CAT_PHOTO_SAVE_PATH);
     private static final String OFFER_PHOTO_SAVE_PATH = ConfigurationManager.getInstance().getProperty(PathConst.OFFER_PHOTO_SAVE_PATH);
 
@@ -59,7 +61,10 @@ public class AddCatCommand implements ActionCommand {
                 cat.setOfferMadeId(ADMIN_ID);
                 cat.setUserMadeOfferId(ADMIN_ID);
 
-                catService.addCat(cat);
+                int catId = catService.addCat(cat);
+
+                path = pathHelper.addParameterToPath(UPLOAD_CAT_PHOTO_PAGE, RequestConst.CAT_ID, catId);
+                return new RequestResult(NavigationType.REDIRECT, path);
 
             } else {
                 cat.setOfferMadeId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
@@ -69,8 +74,8 @@ public class AddCatCommand implements ActionCommand {
                 cat.setPhoto(filename);
 
                 catService.addOfferedCat(cat, cat.getOfferMadeId());
+                path = SUCCESS_PAGE;
             }
-            path = SUCCESS_PAGE;
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during adding cat");

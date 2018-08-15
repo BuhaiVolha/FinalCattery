@@ -70,7 +70,7 @@
             </div>
 
             <div class="details col-md-6 bubble">
-                <h3 class="product-title" style="text-align: center;"><c:out value="${requestScope.singleCat.name}"/>
+                <h3 class="product-title" style="text-align: center; color: #fd680e; font-weight: bold; font-size: 32px;"><c:out value="${requestScope.singleCat.name}"/>
                     <c:out
                             value="${requestScope.singleCat.lastname}"/></h3>
 
@@ -202,6 +202,7 @@
                                         </div>
                                     </form>
                                     <br/> <br/>
+                                    <br/>
                                     <div style="text-align:center;">
                                         <form role="form" method="post" action="/controller">
                                             <input type="hidden" name="command" value="delete_cat"/>

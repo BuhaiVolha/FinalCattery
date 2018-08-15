@@ -1,6 +1,6 @@
 <%@ include file="/jsp/authorized/offers.jsp" %>
 
-<c:if test="${not empty offers}">
+<c:if test="${not empty requestScope.offers}">
     <div class="col" style="float: right; margin-bottom: 38px">
         <c:url var="searchUri" value="/controller?command=all_offers&page=##" />
         <paginator:display maxLinks="10"

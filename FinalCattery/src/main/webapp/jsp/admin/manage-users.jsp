@@ -1,8 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ include file="/jsp/parts/header.jsp" %>
 
+<fmt:message bundle="${loc}" key="local.filter.search" var="filterSearch"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.user" var="manageUsersFieldUser"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.role" var="manageUsersFieldRole"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.login" var="manageUsersFieldLogin"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.email" var="manageUsersFieldEmail"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.status" var="manageUsersFieldStatus"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.discount" var="manageUsersFieldDiscount"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.phone" var="manageUsersFieldPhone"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.admin" var="avatarAdmin"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.expert" var="avatarExpert"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.user" var="avatarUser"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.banned" var="manageUsersFieldBanned"/>
+<fmt:message bundle="${loc}" key="local.manage-users.field.active" var="manageUsersFieldActive"/>
+<fmt:message bundle="${loc}" key="local.manage-users.button.discount.submit" var="manageUsersDiscountSubmit"/>
+<fmt:message bundle="${loc}" key="local.manage-users.button.unban" var="manageUsersUnban"/>
+<fmt:message bundle="${loc}" key="local.manage-users.button.ban" var="manageUsersBan"/>
+<fmt:message bundle="${loc}" key="local.manage-users.button.make-expert" var="manageUsersMakeExpert"/>
+<fmt:message bundle="${loc}" key="local.manage-users.button.unmake-expert" var="manageUsersUnmakeExpert"/>
+
+
 <div class="col-lg-4 col-lg-offset-4">
-    <input type="search" id="search" value="" class="form-control" placeholder="Search...">
+    <input type="search" id="search" value="" class="form-control" placeholder="${filterSearch}...">
 </div>
 
 <div class="header">
@@ -22,18 +43,18 @@
                                         <thead class="thead-dark">
                                         <tr>
                                             <th style="width:6%">&nbsp;</th>
-                                            <th style="width:15%"><span>User</span></th>
-                                            <th><span>Role</span></th>
-                                            <th><span>Login</span></th>
-                                            <th class="text-center"><span>Status</span></th>
-                                            <th><span>Email</span></th>
-                                            <th><span>Phone</span></th>
-                                            <th><span>Discount</span></th>
+                                            <th style="width:15%"><span>${manageUsersFieldUser}</span></th>
+                                            <th><span>${manageUsersFieldRole}</span></th>
+                                            <th><span>${manageUsersFieldLogin}</span></th>
+                                            <th class="text-center"><span>${manageUsersFieldStatus}</span></th>
+                                            <th><span>${manageUsersFieldEmail}</span></th>
+                                            <th><span>${manageUsersFieldPhone}</span></th>
+                                            <th><span>${manageUsersFieldDiscount}</span></th>
 
                                             <th>&nbsp;</th>
                                         </tr>
                                         </thead>
-                                        <c:forEach items="${users}" var="user">
+                                        <c:forEach items="${requestScope.users}" var="user">
                                             <tbody>
                                             <tr>
 
@@ -41,19 +62,19 @@
                                                     <c:choose>
                                                         <c:when test="${user.role eq 'USER'}">
                                                             <img src="/assets/img/user.png" width="50" height="36"
-                                                                 alt="User image"/>
+                                                                 alt="${avatarUser}"/>
 
                                                         </c:when>
                                                         <c:when test="${user.role eq 'ADMIN'}">
 
                                                             <img src="/assets/img/admin.png" width="50" height="36"
-                                                                 alt="Admin image"/>
+                                                                 alt="${avatarAdmin}"/>
 
                                                         </c:when>
                                                         <c:when test="${user.role eq 'EXPERT'}">
 
                                                             <img src="/assets/img/expert.png" width="50" height="36"
-                                                                 alt="Expert image"/>
+                                                                 alt="${avatarExpert}"/>
                                                         </c:when>
                                                     </c:choose>
                                                 </td>
@@ -71,13 +92,12 @@
                                                 <td class="text-center">
                                                     <c:choose>
                                                         <c:when test="${user.banned}">
-                                                            <span class="label label-danger">Banned</span>
+                                                            <span class="label label-danger">${manageUsersFieldBanned}</span>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <span class="label label-success">Active</span>
+                                                            <span class="label label-success">${manageUsersFieldActive}</span>
                                                         </c:otherwise>
                                                     </c:choose>
-
                                                 </td>
                                                 <td>
                                                     <a href="mailto:"${user.email}><c:out value="${user.email}"/></a>
@@ -104,19 +124,18 @@
                                                                 <option value=5>5%</option>
                                                                 <option value=10>10%</option>
                                                             </select>
-                                                            <input type="submit" value="Submit">
+                                                            <input type="submit" value="${manageUsersDiscountSubmit}">
                                                         </form>
                                                     </c:if>
                                                 </td>
                                                 <td style="width: 50%;">
-
 
                                                     <c:if test="${user.id ne sessionScope.userId}">
                                                         <c:choose>
                                                             <c:when test="${user.banned}">
 
                                                                 <a href="/controller?command=unban&userId=${user.id}"
-                                                                   class="table-link dangergone" title="Forgive">
+                                                                   class="table-link dangergone" title="${manageUsersUnban}">
 
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
@@ -127,7 +146,7 @@
                                                             <c:otherwise>
 
                                                                 <a href="/controller?command=ban&userId=${user.id}"
-                                                                   class="table-link danger" title="BAN!!!">
+                                                                   class="table-link danger" title="${manageUsersBan}">
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
 																<i class="fas fa-angry fa-stack-1x fa-inverse"></i>
@@ -138,7 +157,7 @@
                                                                 <c:if test="${user.role ne 'EXPERT'}">
                                                                     <a href="/controller?command=make_expert&userId=${user.id}"
                                                                        class="table-link power"
-                                                                       title="Make Expert">
+                                                                       title="${manageUsersMakeExpert}">
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
 																<i class="fas fa-crown fa-stack-1x fa-inverse"></i>
@@ -149,7 +168,7 @@
                                                                 <c:if test="${user.role eq 'EXPERT'}">
                                                                     <a href="/controller?command=unmake_expert&userId=${user.id}"
                                                                        class="table-link nopower"
-                                                                       title="Deprive of the Power">
+                                                                       title="${manageUsersUnmakeExpert}">
 															<span class="fa-stack">
 																<i class="fa fa-square fa-stack-2x"></i>
 																<i class="fa fa-bolt fa-stack-1x fa-inverse"></i>
@@ -168,7 +187,7 @@
                                 </div>
 
                                 <div class="col" style="float: right; margin-bottom: 38px">
-                                    <c:url var="searchUri" value="/controller?command=all_users&page=##" />
+                                    <c:url var="searchUri" value="/controller?command=all_users&page=##"/>
                                     <paginator:display maxLinks="10"
                                                        currPage="${requestScope.page}"
                                                        totalPages="${requestScope.pageCount}"
@@ -184,6 +203,7 @@
 </div>
 </div>
 </div>
+
 <script>
     $(function () {
         $('#users').searchable({
@@ -194,4 +214,5 @@
         });
     });
 </script>
+
 <%@ include file="/jsp/parts/footer.jsp" %>

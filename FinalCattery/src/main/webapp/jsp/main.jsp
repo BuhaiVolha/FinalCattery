@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-lg-6" style="width: 56%;">
                 <div class="align-center" style="margin-left: 79px; margin-top: -35px;">
-                    <h1 style="font-size: 64px; color: #f7db72">${welcome}</h1>
+                    <h1 style="font-size: 64px; color: white">${welcome}</h1>
                     <h2 class="subtitle" style="font-size: 35px">${welcomeDescription}</h2>
                 </div>
             </div>

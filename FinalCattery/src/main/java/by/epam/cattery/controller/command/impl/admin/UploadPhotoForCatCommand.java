@@ -34,7 +34,6 @@ public class UploadPhotoForCatCommand implements ActionCommand {
         Part filePart = requestContent.getPart(RequestConst.CAT_PHOTO_PARTNAME);
         catService.addCatPhoto(catId, UploadHelper.getInstance().upload(filePart, CAT_PHOTO_SAVE_PATH, CAT_PHOTO_PREFIX));
 
-        //Обратно в кабинет
         return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
     }
 }

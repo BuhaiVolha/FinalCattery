@@ -14,7 +14,7 @@ public interface CatService {
     int getCatsPageCount(int itemsPerPage) throws ServiceException;
     List<Cat> takeAllCatsByStatus(CatStatus status, int page, int itemsPerPage) throws ServiceException;
     int getCatsPageCountByStatus(CatStatus status, int itemsPerPage) throws ServiceException;
-    void addCat(Cat cat) throws ServiceException;
+    int addCat(Cat cat) throws ServiceException;
     void addOfferedCat(Cat cat, int offerId) throws ServiceException;
     Cat takeSingleCat(int catId) throws ServiceException;
     void deleteCat(int catId) throws ServiceException;

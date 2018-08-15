@@ -22,7 +22,7 @@
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
             <form role="form" method="POST" action="/controller">
                 <input type="hidden" name="command" value="registration"/>
-                <h2 style="text-align: center">${regTitle}
+                <h2 style="text-align: center; color: #fd680e; font-weight: bold; font-size: 32px;">${regTitle}
                     <small>
                         <hr class="colorgraph">
                         <div class="row">

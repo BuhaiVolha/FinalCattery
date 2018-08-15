@@ -101,7 +101,7 @@ public class CatServiceImpl implements CatService {
 
 
     @Override
-    public void addCat(Cat cat) throws ServiceException {
+    public int addCat(Cat cat) throws ServiceException {
 
         if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
             throw new InvalidDateException("Cat birth date is invalid!");
@@ -112,7 +112,7 @@ public class CatServiceImpl implements CatService {
         }
 
         try {
-            catDAO.save(cat);
+            return catDAO.saveAndReturnId(cat);
 
         } catch (DAOException e) {
             throw new ServiceException("Exception while adding a cat", e);

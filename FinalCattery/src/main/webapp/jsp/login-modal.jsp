@@ -18,7 +18,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="modal-title" style="text-align: center">${loginModalTitle}</h2>
+                <h2 class="modal-title" style="text-align: center; color: #fd680e; font-weight: bold; font-size: 32px;">${loginModalTitle}</h2>
             </div>
             <div class="modal-body">
                 <form role="form" method="POST" action="/controller">
@@ -38,7 +38,7 @@
                                title="${passwordRule}">
                     </div>
 
-                    <div id="signInError" class="error form-group" style="color: red">${errorLoginPassMessage}</div>
+                    <div id="signInError" class="error form-group" style="color: red; text-align: center">${errorLoginPassMessage}</div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block" value="log-in"
                                 id="sendMessageButton1">${buttonLogin}</button>

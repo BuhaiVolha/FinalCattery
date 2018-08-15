@@ -1,7 +1,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
 <%@ include file="/jsp/parts/header.jsp" %>
+
+<fmt:message bundle="${loc}" key="local.cats.colour.body.black" var="catsBodyColourBlack"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.blue" var="catsBodyColourBlue"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.red" var="catsBodyColourRed"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.creme" var="catsBodyColourCreme"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.blacktortie" var="catsBodyColourBlacktortie"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.bluetortie" var="catsBodyColourBluetortie"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.silver" var="catsBodyColourSilver"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.white" var="catsBodyColourWhite"/>
+<fmt:message bundle="${loc}" key="local.cats.colour.body.golden" var="catsBodyColourGolden"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.admin" var="avatarAdmin"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.expert" var="avatarExpert"/>
+<fmt:message bundle="${loc}" key="local.cabinet.avatar.alt.user" var="avatarUser"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.discount" var="cabinetUserDiscount"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.preference" var="cabinetUserPreference"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.preference.if-empty" var="cabinetUserPreferenceEmpty"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.preference.edit" var="cabinetUserPreferenceEdit"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.preference.set" var="cabinetUserPreferenceSet"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.review" var="cabinetUserReview"/>
+<fmt:message bundle="${loc}" key="local.cabinet.phone" var="cabinetPhone"/>
+<fmt:message bundle="${loc}" key="local.cabinet.email" var="cabinetEmail"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.review.if-empty" var="cabinetUserReviewEmpty"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.review.leave" var="cabinetUserReviewLeave"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.reservations" var="cabinetUserReservations"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.offer" var="cabinetUserOffers"/>
+<fmt:message bundle="${loc}" key="local.cabinet.expert.statistics" var="cabinetExpertStatistics"/>
+<fmt:message bundle="${loc}" key="local.cabinet.expert.offers" var="cabinetExpertOffers"/>
+<fmt:message bundle="${loc}" key="local.cabinet.expert.pedigree" var="cabinetExpertPedigree"/>
+<fmt:message bundle="${loc}" key="local.cabinet.admin.offers" var="cabinetAdminOffers"/>
+<fmt:message bundle="${loc}" key="local.cabinet.admin.reservations" var="cabinetAdminReservations"/>
+<fmt:message bundle="${loc}" key="local.cabinet.admin.users" var="cabinetAdminUsers"/>
+<fmt:message bundle="${loc}" key="local.cabinet.edit-info" var="cabinetEditInfo"/>
+<fmt:message bundle="${loc}" key="local.cabinet.admin.add-cat" var="cabinetAdminAddCat"/>
+<fmt:message bundle="${loc}" key="local.cabinet.user.offer-cat" var="cabinetUserOfferCat"/>
+
 
 <div class="container" style="width:1300px;">
     <div class="row">
@@ -17,13 +51,13 @@
                         <div class="col-md-3 col-lg-3 " align="center">
                             <c:choose>
                             <c:when test="${sessionScope.role eq 'USER'}">
-                            <img alt="User pic" src="/assets/img/user.png" class="img-responsive"></div>
+                            <img alt="${avatarUser}" src="/assets/img/user.png" class="img-responsive"></div>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
-                        <img alt="Expert pic" src="/assets/img/expert.png" class="img-responsive"></div>
+                        <img alt="${avatarExpert}" src="/assets/img/expert.png" class="img-responsive"></div>
                     </c:when>
                     <c:when test="${sessionScope.role eq 'ADMIN'}">
-                    <img alt="Admin pic" src="/assets/img/admin.png" class="img-responsive"></div>
+                    <img alt="${avatarAdmin}" src="/assets/img/admin.png" class="img-responsive"></div>
                 </c:when>
                 </c:choose>
 
@@ -33,60 +67,59 @@
 
                         <c:if test="${sessionScope.role eq 'USER'}">
                             <tr>
-                                <td>Discount</td>
+                                <td>${cabinetUserDiscount}</td>
                                 <td>${requestScope.user.discount} %</td>
                             </tr>
 
 
                             <tr>
-                                <td>Colour preference</td>
+                                <td>${cabinetUserPreference}</td>
                                 <td><c:choose>
                                     <c:when test="${not empty requestScope.user.colourPreference}">
 
                                         <c:choose>
                                             <c:when test="${requestScope.user.colourPreference eq 'N'}">
-                                                black
+                                                ${catsBodyColourBlack}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'A'}">
-                                                blue
+                                                ${catsBodyColourBlue}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'D'}">
-                                                red
+                                                ${catsBodyColourRed}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'E'}">
-                                                creme
+                                                ${catsBodyColourCreme}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'F'}">
-                                                blacktortie
+                                                ${catsBodyColourBlacktortie}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'Q'}">
-                                                bluetortie
+                                                ${catsBodyColourBluetortie}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'S'}">
-                                                silver
+                                                ${catsBodyColourSilver}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'W'}">
-                                                white
+                                                ${catsBodyColourWhite}
                                             </c:when>
                                             <c:when test="${requestScope.user.colourPreference eq 'Y'}">
-                                                golden
+                                                ${catsBodyColourGolden}
                                             </c:when>
                                         </c:choose>
 
                                         <span class="pull-right">
-                            <a href="/jsp/user/set-preference.jsp" title="Edit your colour preference"
+                            <a href="/jsp/user/set-preference.jsp" title="${cabinetUserPreferenceEdit}"
                                data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i
                                     class="fas fa-palette"></i></a>
                                     </span>
                                     </c:when>
                                     <c:otherwise>
-                                        Мы собираем информацию о том, каких котят желают видеть наши пользователи.
-                                        Пожалуйста, укажите какой окрас Вы предпочитаете, чтобы мы размножили именно этих котов.
+                                        ${cabinetUserPreferenceEmpty}
                                         <br>
                                         <br>
                                         <span class="text-center">
-                            <a href="/jsp/user/set-preference.jsp" title="Choose your colour preference"
+                            <a href="/jsp/user/set-preference.jsp" title="${cabinetUserPreferenceSet}"
                                data-original-title="colour preference"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
                                     class="fas fa-palette"></i></a></span
@@ -97,23 +130,24 @@
                             </tr>
                         </c:if>
                         <tr>
-                            <td>Email:</td>
+                            <td>${cabinetEmail}:</td>
                             <td><a href="mailto:"${requestScope.user.email}>${requestScope.user.email}</a></td>
                         </tr>
                         <tr>
-                            <td>Phone:</td>
+                            <td>${cabinetPhone}:</td>
                             <td>+375 ${requestScope.user.phone}</td>
                         </tr>
 
                         <c:if test="${!requestScope.user.reviewLeft && sessionScope.role eq 'USER'}">
                             <tr>
-                                <td>Review:</td>
+                                <td>${cabinetUserReview}:</td>
                                 <td>
-                                    Пожалуйста, оставьте отзыв! Мы работаем для вас и нам важно ваше мнение.
+                                        ${cabinetUserReviewEmpty}
                                     <br>
                                     <br>
                                     <span class="text-center">
-                            <a href="/jsp/user/review-form.jsp" title="Leave your review" data-original-title="review"
+                            <a href="/jsp/user/review-form.jsp" title="${cabinetUserReviewLeave}"
+                               data-original-title="review"
                                data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
                                     class="fab fa-affiliatetheme"></i></a></span>
                                 </td>
@@ -124,26 +158,25 @@
                     </table>
                     <c:choose>
                         <c:when test="${sessionScope.role eq 'USER'}">
-                            <a href="/controller?command=all_reservations" class="btn btn-primary">My
-                                reservations</a>
-                            <a href="/controller?command=all_offers" class="btn btn-primary">My offers</a>
+                            <a href="/controller?command=all_reservations"
+                               class="btn btn-primary">${cabinetUserReservations}</a>
+                            <a href="/controller?command=all_offers" class="btn btn-primary">${cabinetUserOffers}</a>
                         </c:when>
                         <c:when test="${sessionScope.role eq 'EXPERT'}">
                             <br>
-                            <a href="/controller?command=colour_statistics" class="btn btn-primary">See statistics</a>
-                            <a href="/controller?command=pedigree" class="btn btn-primary">Pedigree count</a>
+                            <a href="/controller?command=colour_statistics"
+                               class="btn btn-primary">${cabinetExpertStatistics}</a>
+                            <a href="/controller?command=pedigree" class="btn btn-primary">${cabinetExpertPedigree}</a>
                             <a href="/controller?command=awaiting_offers"
-                               class="btn btn-primary">Assess cats</a>
+                               class="btn btn-primary">${cabinetExpertOffers}</a>
                         </c:when>
+
                         <c:when test="${sessionScope.role eq 'ADMIN'}">
-
-
-                            <a href="/controller?command=all_users" class="btn btn-primary">Manage users</a>
-
-                            <a href="/controller?command=all_reservations" class="btn btn-primary">Manage
-                                reservations</a>
+                            <a href="/controller?command=all_users" class="btn btn-primary">${cabinetAdminUsers}</a>
+                            <a href="/controller?command=all_reservations"
+                               class="btn btn-primary">${cabinetAdminReservations}</a>
                             <a href="/controller?command=approved_offers"
-                               class="btn btn-primary">Add offers</a>
+                               class="btn btn-primary">${cabinetAdminOffers}</a>
                         </c:when>
                     </c:choose>
                 </div>
@@ -151,22 +184,22 @@
         </div>
 
         <div class="panel-footer clearfix">
-
-            <span class="pull-right">
+                        <span class="pull-right">
                             <a href="/controller?command=single_user&operation=edit-user-info"
                                data-original-title="Edit information" data-toggle="tooltip"
-                               title="Edit your information" type="button"
+                               title="${cabinetEditInfo}" type="button"
                                class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                         </span>
+
             <c:choose>
                 <c:when test="${sessionScope.role eq 'ADMIN'}">
-            <span class="pull-left">
-                            <a href="/jsp/authorized/cat-form.jsp" class="btn btn-warning">Add a cat</a>
+                        <span class="pull-left">
+                            <a href="/jsp/authorized/cat-form.jsp" class="btn btn-warning">${cabinetAdminAddCat}</a>
                         </span>
                 </c:when>
                 <c:when test="${sessionScope.role eq 'USER'}">
-<span class="pull-left">
-                            <a href="/jsp/authorized/offer-form.jsp" class="btn btn-warning">Offer a cat</a>
+                        <span class="pull-left">
+                            <a href="/jsp/authorized/offer-form.jsp" class="btn btn-warning">${cabinetUserOfferCat}</a>
                         </span>
                 </c:when>
             </c:choose>
