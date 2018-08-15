@@ -91,8 +91,6 @@ public class AddCatCommand implements ActionCommand {
     }
 
 
-// такая же как в EDIT CAT только айди +
-    // впихнуть билдер сюда для юзерного и админного кота?
     private Cat createCat(RequestContent requestContent) {
         Cat cat = new Cat();
 

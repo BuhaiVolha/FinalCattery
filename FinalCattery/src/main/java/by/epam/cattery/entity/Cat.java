@@ -23,9 +23,9 @@ public class Cat extends Entity {
     private CatStatus status;
 
 
-    public Cat(int id, String name, int userMadeOfferId, int offerMadeId, String lastname, Gender gender, String age,
-               String photo, String description, CatBodyColour bodyColour, CatEyesColour eyesColour, String femaleParent,
-               String maleParent, double price, Double priceWithDiscount, CatStatus status) {
+    public Cat(int id, String name, String lastname, int offerMadeId, int userMadeOfferId, Gender gender,
+               String age, String photo, String description, CatBodyColour bodyColour, CatEyesColour eyesColour,
+               String femaleParent, String maleParent, double price, Double priceWithDiscount, CatStatus status) {
         super(id);
         this.name = name;
         this.userMadeOfferId = userMadeOfferId;
