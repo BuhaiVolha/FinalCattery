@@ -4,6 +4,8 @@ import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.entity.User;
 
+import by.epam.cattery.entity.dto.CatDetail;
+import by.epam.cattery.entity.dto.LocalizedCat;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -24,9 +27,12 @@ public class Validator {
     private static final String VALID_NAME_AND_LASTNAME_REGEX = "[a-zA-Zа-яА-Я]{2,20}";
     private static final String VALID_PASSWORD_REGEX = ".{7,15}";
 
-    private static final String VALID_CAT_NAME_REGEX = "[0-9a-zA-Zа-яА-Я]{2,20}";
-    private static final String VALID_CAT_LASTNAME_REGEX = "[a-zA-Zа-яА-Я]{2,20}(\\s[a-zA-Zа-яА-Я]{0,20})?";
-    private static final String VALID_CAT_PARENT_REGEX = "[a-zA-Zа-яА-Я]{2,20}\\s[a-zA-Zа-яА-Я]{0,20}(\\s[a-zA-Zа-яА-Я]{0,20})?";
+    private static final String VALID_CAT_NAME_REGEX_RU = "[0-9а-яА-Я]{2,20}";
+    private static final String VALID_CAT_NAME_REGEX_EN = "[0-9a-zA-Z]{2,20}";
+    private static final String VALID_CAT_LASTNAME_REGEX_RU = "[а-яА-Я]{2,20}(\\s[а-яА-Я]{0,20})?";
+    private static final String VALID_CAT_LASTNAME_REGEX_EN = "[a-zA-Z]{2,20}(\\s[a-zA-Z]{0,20})?";
+    private static final String VALID_CAT_PARENT_REGEX_RU = "[а-яА-Я]{2,20}\\s[а-яА-Я]{0,20}(\\s[а-яА-Я]{0,20})?";
+    private static final String VALID_CAT_PARENT_REGEX_EN = "[a-zA-Z]{2,20}\\s[a-zA-Z]{0,20}(\\s[a-zA-Z]{0,20})?";
 
     private static final String VALID_BIRTHDAY_DATE_FORMAT = "dd/MM/yyyy";
 
@@ -69,17 +75,54 @@ public class Validator {
     }
 
 
-    public boolean validateCatInputData(Cat cat) {
+    public boolean validateCatInputData(LocalizedCat cat) {
 
-        return !GenericValidator.isBlankOrNull(cat.getName())
-                && cat.getName().matches(VALID_CAT_NAME_REGEX)
-                && !GenericValidator.isBlankOrNull(cat.getLastname())
-                && cat.getLastname().matches(VALID_CAT_LASTNAME_REGEX)
-                && !GenericValidator.isBlankOrNull(cat.getFemaleParent())
-                && cat.getFemaleParent().matches(VALID_CAT_PARENT_REGEX)
-                && !GenericValidator.isBlankOrNull(cat.getMaleParent())
-                && cat.getMaleParent().matches(VALID_CAT_PARENT_REGEX)
+        return validateCatDetails(cat.getCatDetailsWithLocalization())
                 && GenericValidator.isInRange(cat.getPrice(), MIN_CAT_PRICE, MAX_CAT_PRICE);
+    }
+
+
+    private boolean validateCatDetails(List<CatDetail> catDetails) {
+        boolean validRu = false;
+        boolean validEn = false;
+
+        for (CatDetail catDetail : catDetails) {
+            switch (catDetail.getLocaleLang()) {
+                case RU:
+                    validRu = validateCatDetailsRu(catDetail);
+                    break;
+                case EN:
+                    validEn = validateCatDetailsEn(catDetail);
+                    break;
+            }
+        }
+
+        return validRu && validEn;
+    }
+
+
+    private boolean validateCatDetailsRu(CatDetail catDetail) {
+        return !GenericValidator.isBlankOrNull(catDetail.getName())
+                && catDetail.getName().matches(VALID_CAT_NAME_REGEX_RU)
+                && !GenericValidator.isBlankOrNull(catDetail.getLastname())
+                && catDetail.getLastname().matches(VALID_CAT_LASTNAME_REGEX_RU)
+                && !GenericValidator.isBlankOrNull(catDetail.getFemaleParent())
+                && catDetail.getFemaleParent().matches(VALID_CAT_PARENT_REGEX_RU)
+                && !GenericValidator.isBlankOrNull(catDetail.getMaleParent())
+                && catDetail.getMaleParent().matches(VALID_CAT_PARENT_REGEX_RU)
+                && !GenericValidator.isBlankOrNull(catDetail.getDescription());
+    }
+
+    private boolean validateCatDetailsEn(CatDetail catDetail) {
+        return !GenericValidator.isBlankOrNull(catDetail.getName())
+                && catDetail.getName().matches(VALID_CAT_NAME_REGEX_EN)
+                && !GenericValidator.isBlankOrNull(catDetail.getLastname())
+                && catDetail.getLastname().matches(VALID_CAT_LASTNAME_REGEX_EN)
+                && !GenericValidator.isBlankOrNull(catDetail.getFemaleParent())
+                && catDetail.getFemaleParent().matches(VALID_CAT_PARENT_REGEX_EN)
+                && !GenericValidator.isBlankOrNull(catDetail.getMaleParent())
+                && catDetail.getMaleParent().matches(VALID_CAT_PARENT_REGEX_EN)
+                && !GenericValidator.isBlankOrNull(catDetail.getDescription());
     }
 
 

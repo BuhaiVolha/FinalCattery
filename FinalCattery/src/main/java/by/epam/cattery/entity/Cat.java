@@ -5,11 +5,11 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class Cat extends Entity {
-    private static final long serialVersionUID = 8277026855704434661L;
+    private static final long serialVersionUID = -7445824165124610898L;
     private String name;
+    private String lastname;
     private int userMadeOfferId;
     private int offerMadeId;
-    private String lastname;
     private Gender gender;
     private String age;
     private String photo;

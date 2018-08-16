@@ -5,8 +5,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class Offer extends Entity {
-
-    private static final long serialVersionUID = 7294045672541510139L;
+    private static final long serialVersionUID = -4476018823294005916L;
     private int userMadeOfferId;
     private String userMadeOfferName;
     private String userMadeOfferLastname;

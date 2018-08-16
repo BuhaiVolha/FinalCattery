@@ -8,6 +8,7 @@ import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.entity.ReservationStatus;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Reservation;
@@ -38,14 +39,15 @@ public class TakeAllReservationsCommand implements ActionCommand {
         int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
         int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
         int pageCount;
+        LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
 
         if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {
             reservations = reservationService
-                    .takeAllReservationsForUser(userId, page, ITEMS_PER_PAGE);
+                    .takeAllReservationsForUser(userId, localeLang, page, ITEMS_PER_PAGE);
             pageCount = reservationService.getReservationsPageCountByUserId(userId, ITEMS_PER_PAGE);
 
         } else {
-            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, page, ITEMS_PER_PAGE);
+            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, localeLang, page, ITEMS_PER_PAGE);
             pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, ITEMS_PER_PAGE);
         }
 

@@ -6,17 +6,15 @@ import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.CatDAO;
 
 import by.epam.cattery.entity.*;
+import by.epam.cattery.entity.dto.CatDetail;
+import by.epam.cattery.entity.dto.LocalizedCat;
 import by.epam.cattery.entity.dto.SearchCatTO;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +24,25 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     private static final String CREATE_CAT =
             "INSERT INTO cat " +
-                    "(name, lastname, gender, birth_date, description, body_colour_code, cat_eyes_colour_code, " +
-                    "parent_female, parent_male, price, user_suggested_id, offer_made_id, cat_photo) " +
-                    "VALUES(?, ?, ?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "(gender, birth_date, body_colour_code, cat_eyes_colour_code, price, user_suggested_id, " +
+                    "offer_made_id, cat_photo) " +
+                    "VALUES(?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?, ?, ?);";
+    private static final String CREATE_CAT_DETAILS =
+            "INSERT INTO cat_localized " +
+                    "(cat_localized_id, locale, name, lastname, description, parent_female, parent_male) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE_CAT =
             "UPDATE cat " +
-                    "SET name = ?, lastname = ?, gender = ?, birth_date = STR_TO_DATE(?, '%d/%m/%Y'), description = ?, " +
-                    "body_colour_code = ?, cat_eyes_colour_code = ?, parent_female = ?, parent_male = ?, price = ? " +
+                    "SET gender = ?, birth_date = STR_TO_DATE(?, '%d/%m/%Y'), body_colour_code = ?, " +
+                    "cat_eyes_colour_code = ?, price = ? " +
                     "WHERE cat_id = ? " +
                     "AND NOT flag_cat_deleted;";
+    private static final String UPDATE_CAT_DETAILS =
+            "UPDATE cat_localized " +
+                    "SET name = ?, lastname = ?, description = ?, parent_female = ?, parent_male = ? " +
+                    "WHERE cat_localized_id = ? " +
+                    "AND locale = ?;";
     private static final String UPDATE_CAT_STATUS =
             "UPDATE cat " +
                     "SET sale_status_id = ? " +
@@ -55,28 +62,43 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
                     "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
+                        "JOIN cat_localized ON (cat_id = cat_localized_id) " +
+                    "WHERE locale = ? " +
+                    "AND NOT flag_cat_deleted ";
 
-                    "WHERE NOT flag_cat_deleted ";
     private static final String GET_ALL_CATS =
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
                     "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
+                        "JOIN cat_localized ON (cat_id = cat_localized_id) " +
                     "WHERE NOT flag_cat_deleted " +
+                    "AND locale = ? " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
+
     private static final String GET_ALL_CATS_BY_STATUS =
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
                     "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
-                    "WHERE sale_status_id = ? " +
-                    "AND NOT flag_cat_deleted " +
+                    "JOIN cat_localized ON (cat_id = cat_localized_id) " +
+                    "WHERE NOT flag_cat_deleted " +
+                    "AND sale_status_id = ? " +
+                    "AND locale = ? " +
                     "ORDER BY name LIMIT ? OFFSET ?;";
 
     private static final String GET_CAT_BY_ID =
             "SELECT cat_id, name, lastname, gender, MONTH(CURDATE()) - MONTH(birth_date), description, body_colour_code, " +
                     "cat_eyes_colour_code, parent_female, parent_male, price, sale_status_id, user_suggested_id, cat_photo " +
                     "FROM cat " +
+                    "JOIN cat_localized ON (cat_id = cat_localized_id) " +
                     "WHERE cat_id = ? " +
+                    "AND locale = ? " +
                     "AND NOT flag_cat_deleted;";
+
+    private static final String GET_CAT_DETAILS =
+            "SELECT locale, name, lastname, description, parent_female, parent_male " +
+                    "FROM cat_localized " +
+                    "WHERE cat_localized_id = ? " +
+                    "AND locale = ?;";
 
     private static final String GET_CATS_COUNT =
             "SELECT COUNT(*) " +
@@ -134,6 +156,288 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final String SEARCH_ENDING_IN_CASE_NO_PARAMETERS = " 1 = 1";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    @Override
+    public int saveLocalizedCat(LocalizedCat cat) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(CREATE_CAT, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, cat.getGender().toString());
+            ps.setString(2, cat.getAge());
+            ps.setString(3, cat.getBodyColour().toString());
+            ps.setString(4, cat.getEyesColour().toString());
+            ps.setDouble(5, cat.getPrice());
+            ps.setInt(6, cat.getUserMadeOfferId());
+            ps.setInt(7, cat.getOfferMadeId());
+            ps.setString(8, cat.getPhoto());
+
+            ps.executeUpdate();
+
+            rs = ps.getGeneratedKeys();
+            rs.next();
+
+            return rs.getInt(1);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during adding localized cat", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
+    public void saveLocalizedCatDetails(int catId, List<CatDetail> catDetails) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(CREATE_CAT_DETAILS);
+
+            for (CatDetail catDetail : catDetails) {
+                ps.setInt(1, catId);
+                ps.setString(2, catDetail.getLocaleLang().toString());
+                ps.setString(3, catDetail.getName());
+                ps.setString(4, catDetail.getLastname());
+                ps.setString(5, catDetail.getDescription());
+                ps.setString(6, catDetail.getFemaleParent());
+                ps.setString(7, catDetail.getMaleParent());
+
+                ps.addBatch();
+            }
+            ps.executeBatch();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during adding localized cat", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
+    public void updateLocalizedCat(LocalizedCat cat) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(UPDATE_CAT);
+
+            ps.setString(1, cat.getGender().toString());
+            ps.setString(2, cat.getAge());
+            ps.setString(3, cat.getBodyColour().toString());
+            ps.setString(4, cat.getEyesColour().toString());
+            ps.setDouble(5, cat.getPrice());
+            ps.setInt(6, cat.getId());
+
+            int i = ps.executeUpdate();
+
+            if (i != 1) {
+                throw new DAOException("Couldn't update cat from the database");
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during updating localized cat", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
+    public void updateLocalizedCatDetails(int catId, List<CatDetail> catDetails) throws DAOException {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = connectionProvider.obtainConnection();
+
+            ps = con.prepareStatement(UPDATE_CAT_DETAILS);
+
+            for (CatDetail catDetail : catDetails) {
+                ps.setString(1, catDetail.getName());
+                ps.setString(2, catDetail.getLastname());
+                ps.setString(3, catDetail.getDescription());
+                ps.setString(4, catDetail.getFemaleParent());
+                ps.setString(5, catDetail.getMaleParent());
+                ps.setInt(6, catId);
+                ps.setString(7, catDetail.getLocaleLang().toString());
+
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DAOException("Exception during updating localized cat details", e);
+
+        } finally {
+            connectionProvider.close(con);
+            connectionProvider.closeResources(ps);
+        }
+    }
+
+
+    @Override
+    public List<Cat> loadAllCats(LocaleLang localeLang, int page, int itemsPerPage) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Cat> cats = new ArrayList<>();
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(GET_ALL_CATS);
+
+            ps.setString(1, localeLang.toString());
+            ps.setInt(2, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(3, startIndex);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                cats.add(readResultSet(rs));
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Loading all cats from the database to list failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+
+        return cats;
+    }
+
+
+    @Override
+    public List<Cat> loadAllCatsByStatus(LocaleLang localeLang, CatStatus catStatus, int page, int itemsPerPage) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Cat> cats = new ArrayList<>();
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(GET_ALL_CATS_BY_STATUS);
+
+            ps.setString(1, catStatus.toString());
+            ps.setString(2, localeLang.toString());
+            ps.setInt(3, itemsPerPage);
+            int startIndex = (page - 1) * itemsPerPage;
+            ps.setInt(4, startIndex);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                cats.add(readResultSet(rs));
+            }
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Loading all cats by status from the database to list failed", e);
+            throw new DAOException(e);
+
+        } finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+
+        return cats;
+    }
+
+
+    @Override
+    public Cat getCatById(int catId, LocaleLang localeLang) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(GET_CAT_BY_ID);
+
+            ps.setInt(1, catId);
+            ps.setString(2, localeLang.toString());
+
+            rs = ps.executeQuery();
+            rs.next();
+
+            return readResultSet(rs);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Loading cat from the database by ID failed", e);
+            throw new DAOException(e);
+
+        }  finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    @Override
+    public CatDetail getCatDetail(int catId, LocaleLang localeLang) throws DAOException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = connectionProvider.obtainConnection();
+            ps = connection.prepareStatement(GET_CAT_DETAILS);
+
+            ps.setInt(1, catId);
+            ps.setString(2, localeLang.toString());
+
+            rs = ps.executeQuery();
+            rs.next();
+
+            return createCatDetail(rs);
+
+        } catch (ConnectionPoolException | SQLException e) {
+            logger.error("Loading cat details with localization from the database failed", e);
+            throw new DAOException(e);
+
+        }  finally {
+            connectionProvider.close(connection);
+            connectionProvider.closeResources(rs, ps);
+        }
+    }
+
+
+    private CatDetail createCatDetail(ResultSet rs) throws SQLException {
+        CatDetail catDetail = new CatDetail();
+
+        catDetail.setLocaleLang(LocaleLang.valueOf(rs.getString(1)));
+        catDetail.setName(rs.getString(2));
+        catDetail.setLastname(rs.getString(3));
+        catDetail.setDescription(rs.getString(4));
+        catDetail.setFemaleParent(rs.getString(5));
+        catDetail.setMaleParent(rs.getString(6));
+
+        return catDetail;
+    }
 
 
     @Override
@@ -234,9 +538,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             searchCatTO.setSearchQuery(GET_FOUND_CATS_COUNT + condition);
 
             int itemsPerPage = searchCatTO.getItemsPerPage();
-            ps.setInt(1, itemsPerPage);
+            ps.setString(1, searchCatTO.getLocaleLang().toString());
+            ps.setInt(2, itemsPerPage);
             int startIndex = (page - 1) * itemsPerPage;
-            ps.setInt(2, startIndex);
+            ps.setInt(3, startIndex);
 
             rs = ps.executeQuery();
 
@@ -315,41 +620,15 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public void executeCreateQuery(PreparedStatement ps, Cat cat) throws SQLException {
-
-        ps.setString(1, cat.getName());
-        ps.setString(2, cat.getLastname());
-        ps.setString(3, cat.getGender().toString());
-        ps.setString(4, cat.getAge());
-        ps.setString(5, cat.getDescription());
-        ps.setString(6, cat.getBodyColour().toString());
-        ps.setString(7, cat.getEyesColour().toString());
-        ps.setString(8, cat.getFemaleParent());
-        ps.setString(9, cat.getMaleParent());
-        ps.setDouble(10, cat.getPrice());
-        ps.setInt(11, cat.getUserMadeOfferId());
-        ps.setInt(12, cat.getOfferMadeId());
-        ps.setString(13, cat.getPhoto());
-
-        logger.log(Level.DEBUG, "Cat has been saved to database");
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
 
     @Override
     public void executeUpdateQuery(PreparedStatement ps, Cat cat) throws SQLException {
-
-        ps.setString(1, cat.getName());
-        ps.setString(2, cat.getLastname());
-        ps.setString(3, cat.getGender().toString());
-        ps.setString(4, cat.getAge());
-        ps.setString(5, cat.getDescription());
-        ps.setString(6, cat.getBodyColour().toString());
-        ps.setString(7, cat.getEyesColour().toString());
-        ps.setString(8, cat.getFemaleParent());
-        ps.setString(9, cat.getMaleParent());
-        ps.setDouble(10, cat.getPrice());
-        ps.setDouble(11, cat.getId());
-
-        logger.log(Level.DEBUG, "Cat has been updated");
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
 
@@ -372,13 +651,15 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public String getCreateQuery() {
-        return CREATE_CAT;
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
 
     @Override
     public String getUpdateQuery() {
-        return UPDATE_CAT;
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -398,7 +679,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public String getQueryForAllObjects() {
-        return GET_ALL_CATS;
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -409,7 +691,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public String getQueryForSingleObject() {
-        return GET_CAT_BY_ID;
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -419,7 +702,8 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public String getQueryForAllObjectsByStatus() {
-        return GET_ALL_CATS_BY_STATUS;
+        logger.log(Level.WARN, "Not supported for Cat due to localization issues");
+        throw new UnsupportedOperationException();
     }
 
     @Override

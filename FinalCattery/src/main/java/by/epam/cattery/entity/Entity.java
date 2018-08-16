@@ -7,14 +7,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.io.Serializable;
 
 public class Entity implements Serializable {
-    private static final long serialVersionUID = 4852012814608236102L;
+    private static final long serialVersionUID = 3351132100233764122L;
     private int id;
-    /*
-    If they are nullable in the database, then use wrappers. If they are not nullable, and you use wrappers,
-    then you'll get an exception if you try and insert a null into the database.
-    If your data model doesn't dictate it, then go for a convention, use wrappers all of the time.
-    That way people don't have to think, or decide that a value of 0 means null.
-    */
 
     public Entity(int id) {
         this.id = id;

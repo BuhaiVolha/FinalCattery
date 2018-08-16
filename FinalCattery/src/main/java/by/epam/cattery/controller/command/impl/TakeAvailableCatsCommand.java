@@ -8,6 +8,7 @@ import by.epam.cattery.controller.command.util.DiscountHelper;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.CatStatus;
@@ -37,8 +38,9 @@ public class TakeAvailableCatsCommand implements ActionCommand {
         String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
         int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
         int discountPercents = 0;
+        LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
 
-        List<Cat> cats = catService.takeAllCatsByStatus(CatStatus.AVAIL, page, ITEMS_PER_PAGE);
+        List<Cat> cats = catService.takeAllCatsByStatus(localeLang, CatStatus.AVAIL, page, ITEMS_PER_PAGE);
         int pageCount = catService.getCatsPageCountByStatus(CatStatus.AVAIL, ITEMS_PER_PAGE);
 
         if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {

@@ -38,9 +38,13 @@ public class SearchCommand implements ActionCommand {
         int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
 
         Cat searchedCat = createCat(requestContent);
+
         SearchCatTO searchCatTO = new SearchCatTO();
         searchCatTO.setItemsPerPage(ITEMS_PER_PAGE);
         searchCatTO.setSearchedCat(searchedCat);
+
+        LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
+        searchCatTO.setLocaleLang(localeLang);
 
         int discountPercents = 0;
 

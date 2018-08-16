@@ -38,6 +38,8 @@
 <fmt:message bundle="${loc}" key="local.must-log-in.message1" var="mustLogInMessage1"/>
 <fmt:message bundle="${loc}" key="local.must-log-in.message2" var="mustLogInMessage2"/>
 <fmt:message bundle="${loc}" key="local.must-log-in.message3" var="mustLogInMessage3"/>
+<fmt:message bundle="${loc}" key="local.cats.single-cat.gender-female" var="singleCatFemale"/>
+<fmt:message bundle="${loc}" key="local.cats.single-cat.gender-male" var="singleCatMale"/>
 
 
 <div class="container">
@@ -90,11 +92,12 @@
 
                         <h5 class="colors">
                             <strong>
-                                <c:out value="${requestScope.singleCat.gender}"/>
                                 <c:choose><c:when test="${requestScope.singleCat.gender eq 'FEMALE'}">
+                                    ${singleCatFemale}
                                     <i class="fa fa-venus"></i>
                                 </c:when>
                                     <c:otherwise>
+                                        ${singleCatMale}
                                         <i class="fa fa-mars"></i>
                                     </c:otherwise>
                                 </c:choose>

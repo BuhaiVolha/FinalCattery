@@ -9,6 +9,7 @@ import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.entity.Cat;
+import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.service.CatService;
@@ -36,8 +37,9 @@ public class TakeAllCatsCommand implements ActionCommand {
         String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
         int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
         int discountPercents = 0;
+        LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
 
-        List<Cat> cats = catService.takeAllCats(page, ITEMS_PER_PAGE);
+        List<Cat> cats = catService.takeAllCats(localeLang, page, ITEMS_PER_PAGE);
         int pageCount = catService.getCatsPageCount(ITEMS_PER_PAGE);
 
         if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {

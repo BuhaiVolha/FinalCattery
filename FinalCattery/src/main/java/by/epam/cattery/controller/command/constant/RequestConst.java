@@ -14,7 +14,11 @@ public final class RequestConst {
 
     public static final String CAT_ID = "catId";
     public static final String CAT_NAME = "name";
+    public static final String CAT_NAME_RU = "nameRu";
+    public static final String CAT_NAME_EN = "nameEn";
     public static final String CAT_LASTNAME = "lastname";
+    public static final String CAT_LASTNAME_RU = "lastnameRu";
+    public static final String CAT_LASTNAME_EN = "lastnameEn";
     public static final String CAT_PRICE = "price";
     public static final String CAT_GENDER = "gender";
     public static final String CAT_STATUS = "status";
@@ -22,10 +26,18 @@ public final class RequestConst {
     public static final String CAT_BODY_COLOUR = "bodyColour";
     public static final String CAT_EYES_COLOUR = "eyesColour";
     public static final String CAT_DESCRIPTION = "description";
+    public static final String CAT_DESCRIPTION_RU = "descriptionRu";
+    public static final String CAT_DESCRIPTION_EN = "descriptionEn";
     public static final String CAT_FEMALE_PARENT = "femaleParent";
+    public static final String CAT_FEMALE_PARENT_RU = "femaleParentRu";
+    public static final String CAT_FEMALE_PARENT_EN = "femaleParentEn";
     public static final String CAT_MALE_PARENT = "maleParent";
+    public static final String CAT_MALE_PARENT_RU = "maleParentRu";
+    public static final String CAT_MALE_PARENT_EN = "maleParentEn";
     public static final String SINGLE_CAT = "singleCat";
     public static final String CATS_LIST = "cats";
+    public static final String CATS_DETAILS_RU = "catDetailsRu";
+    public static final String CATS_DETAILS_EN = "catDetailsEn";
     public static final String SEARCHED_CAT = "searchedCat";
     public static final String ADDED_CAT_PHOTO = "photo";
 

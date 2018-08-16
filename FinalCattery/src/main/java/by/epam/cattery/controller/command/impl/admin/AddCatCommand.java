@@ -12,15 +12,13 @@ import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 
-import by.epam.cattery.entity.CatBodyColour;
-import by.epam.cattery.entity.CatEyesColour;
+import by.epam.cattery.entity.*;
+import by.epam.cattery.entity.dto.CatDetail;
+import by.epam.cattery.entity.dto.LocalizedCat;
 import by.epam.cattery.service.exception.InvalidDateException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 
 import by.epam.cattery.util.ConfigurationManager;
-
-import by.epam.cattery.entity.Cat;
-import by.epam.cattery.entity.Gender;
 
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -29,6 +27,9 @@ import by.epam.cattery.service.exception.ServiceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddCatCommand implements ActionCommand {
@@ -55,7 +56,7 @@ public class AddCatCommand implements ActionCommand {
         String message;
 
         try {
-            Cat cat = createCat(requestContent);
+            LocalizedCat cat = createLocalizedCat(requestContent);
 
             if (requestContent.getParameter(RequestConst.OFFER_ID).isEmpty()) {
                 cat.setOfferMadeId(ADMIN_ID);
@@ -91,19 +92,37 @@ public class AddCatCommand implements ActionCommand {
     }
 
 
-    private Cat createCat(RequestContent requestContent) {
-        Cat cat = new Cat();
+    private LocalizedCat createLocalizedCat(RequestContent requestContent) {
+        LocalizedCat cat = new LocalizedCat();
 
-        cat.setName(requestContent.getParameter(RequestConst.CAT_NAME));
-        cat.setLastname(requestContent.getParameter(RequestConst.CAT_LASTNAME));
         cat.setGender(Gender.valueOf(requestContent.getParameter(RequestConst.CAT_GENDER)));
         cat.setAge(requestContent.getParameter(RequestConst.CAT_AGE));
         cat.setPrice(Double.parseDouble(requestContent.getParameter(RequestConst.CAT_PRICE)));
-        cat.setDescription(requestContent.getParameter(RequestConst.CAT_DESCRIPTION));
         cat.setBodyColour(CatBodyColour.valueOf(requestContent.getParameter(RequestConst.CAT_BODY_COLOUR)));
         cat.setEyesColour(CatEyesColour.valueOf(requestContent.getParameter(RequestConst.CAT_EYES_COLOUR)));
-        cat.setFemaleParent(requestContent.getParameter(RequestConst.CAT_FEMALE_PARENT));
-        cat.setMaleParent(requestContent.getParameter(RequestConst.CAT_MALE_PARENT));
+
+        List<CatDetail> catDetailsWithLocalization = new ArrayList<>();
+
+        CatDetail catDetailsRu = new CatDetail();
+        catDetailsRu.setLocaleLang(LocaleLang.RU);
+        catDetailsRu.setName(requestContent.getParameter(RequestConst.CAT_NAME_RU));
+        catDetailsRu.setLastname(requestContent.getParameter(RequestConst.CAT_LASTNAME_RU));
+        catDetailsRu.setDescription(requestContent.getParameter(RequestConst.CAT_DESCRIPTION_RU));
+        catDetailsRu.setFemaleParent(requestContent.getParameter(RequestConst.CAT_FEMALE_PARENT_RU));
+        catDetailsRu.setMaleParent(requestContent.getParameter(RequestConst.CAT_MALE_PARENT_RU));
+
+        CatDetail catDetailsEn = new CatDetail();
+        catDetailsEn.setLocaleLang(LocaleLang.EN);
+        catDetailsEn.setName(requestContent.getParameter(RequestConst.CAT_NAME_EN));
+        catDetailsEn.setLastname(requestContent.getParameter(RequestConst.CAT_LASTNAME_EN));
+        catDetailsEn.setDescription(requestContent.getParameter(RequestConst.CAT_DESCRIPTION_EN));
+        catDetailsEn.setFemaleParent(requestContent.getParameter(RequestConst.CAT_FEMALE_PARENT_EN));
+        catDetailsEn.setMaleParent(requestContent.getParameter(RequestConst.CAT_MALE_PARENT_EN));
+
+        catDetailsWithLocalization.add(catDetailsRu);
+        catDetailsWithLocalization.add(catDetailsEn);
+
+        cat.setCatDetailsWithLocalization(catDetailsWithLocalization);
 
         return cat;
     }

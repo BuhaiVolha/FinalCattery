@@ -2,6 +2,7 @@ package by.epam.cattery.entity.dto;
 
 import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Entity;
+import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.service.util.PageCounter;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -10,14 +11,27 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import java.util.List;
 
 public class SearchCatTO extends Entity {
-    private static final long serialVersionUID = 4160128363304082334L;
+    private static final long serialVersionUID = -2358283210277377012L;
     private List<Cat> cats;
     private Cat searchedCat;
     private int userDiscount;
     private int pageCount;
     private int itemsPerPage;
     private String searchQuery;
+    private LocaleLang localeLang;
 
+
+    public SearchCatTO(int id, List<Cat> cats, Cat searchedCat, int userDiscount, int pageCount, int itemsPerPage,
+                       String searchQuery, LocaleLang localeLang) {
+        super(id);
+        this.cats = cats;
+        this.searchedCat = searchedCat;
+        this.userDiscount = userDiscount;
+        this.pageCount = pageCount;
+        this.itemsPerPage = itemsPerPage;
+        this.searchQuery = searchQuery;
+        this.localeLang = localeLang;
+    }
 
     public SearchCatTO() {
     }
@@ -70,6 +84,14 @@ public class SearchCatTO extends Entity {
         this.userDiscount = userDiscount;
     }
 
+    public LocaleLang getLocaleLang() {
+        return localeLang;
+    }
+
+    public void setLocaleLang(LocaleLang localeLang) {
+        this.localeLang = localeLang;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,6 +108,7 @@ public class SearchCatTO extends Entity {
                 .append(getCats(), that.getCats())
                 .append(getSearchedCat(), that.getSearchedCat())
                 .append(getSearchQuery(), that.getSearchQuery())
+                .append(getLocaleLang(), that.getLocaleLang())
                 .isEquals();
     }
 
@@ -99,6 +122,7 @@ public class SearchCatTO extends Entity {
                 .append(getPageCount())
                 .append(getItemsPerPage())
                 .append(getSearchQuery())
+                .append(getLocaleLang())
                 .toHashCode();
     }
 
@@ -112,6 +136,7 @@ public class SearchCatTO extends Entity {
                 .append("pageCount", pageCount)
                 .append("itemsPerPage", itemsPerPage)
                 .append("searchQuery", searchQuery)
+                .append("localeLang", localeLang)
                 .toString();
     }
 }

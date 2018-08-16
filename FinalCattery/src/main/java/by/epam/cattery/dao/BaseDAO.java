@@ -3,13 +3,11 @@ package by.epam.cattery.dao;
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.connection.ConnectionProvider;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +49,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
         try {
             connection = connectionProvider.obtainConnection();
-            ps = connection.prepareStatement(getCreateQuery(), ps.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(getCreateQuery(), Statement.RETURN_GENERATED_KEYS);
 
             executeCreateQuery(ps, obj);
             ps.executeUpdate();
@@ -272,7 +270,6 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
             ps.setInt(2, itemsPerPage);
             int startIndex = (page - 1) * itemsPerPage;
             ps.setInt(3, startIndex);
-            rs = ps.executeQuery();
 
             rs = ps.executeQuery();
 
@@ -291,7 +288,6 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
 
         return allObjects;
     }
-
 
 
     @Override
@@ -386,7 +382,7 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
             connection = connectionProvider.obtainConnection();
             ps = connection.prepareStatement(getQueryForSingleObject());
 
-            ps.setInt(1, id); // Отдельно вынести констант ID
+            ps.setInt(1, id);
             rs = ps.executeQuery();
             rs.next();
 

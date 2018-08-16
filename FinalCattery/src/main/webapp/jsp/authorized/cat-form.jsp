@@ -31,6 +31,7 @@
         <fieldset>
 
             <legend style="text-align: center; color: #fd680e; font-weight: bold; font-size: 32px;">${catFormEditingTitle}</legend>
+            <br>
             </c:when>
             <c:otherwise>
             <input type="hidden" name="command" value="add_cat"/>
@@ -44,38 +45,55 @@
                 </c:choose>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsName}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsName}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="name" required="required" placeholder="${catsName}"
-                                   pattern="[a-zA-Zа-яА-Я]{2,20}"
+                            <input name="nameRu" required="required" placeholder="${catsName}Ru"
+                                   pattern="[а-яА-Я]{2,20}"
                                    title="${catsNameRule}"
                                    class="form-control"
-                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.singleCat.name}"</c:if>
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsRu.name}"</c:if>
                                    type="text">
+
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
+                            <input name="nameEn" required="required" placeholder="${catsName}En"
+                                   pattern="[a-zA-Z]{2,20}"
+                                   title="${catsNameRule}"
+                                   class="form-control"
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsEn.name}"</c:if>
+                                   type="text">
+
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsLastame}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsLastame}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="lastname" required="required" placeholder="${catsLastame}"
-                                   pattern="[a-zA-Zа-яА-Я]{2,20}(\s[a-zA-Zа-яА-Я]{0,20})?"
+                            <input name="lastnameRu" required="required" placeholder="${catsLastame}Ru"
+                                   pattern="[а-яА-Я]{2,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsLastameRule}"
                                    class="form-control"
-                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.singleCat.lastname}"</c:if>
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsRu.lastname}"</c:if>
+                                   type="text">
+
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
+                            <input name="lastnameEn" required="required" placeholder="${catsLastame}En"
+                                   pattern="[a-zA-Z]{2,20}(\s[a-zA-Z]{0,20})?"
+                                   title="${catsLastameRule}"
+                                   class="form-control"
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsEn.lastname}"</c:if>
                                    type="text">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsGender}</label>
-                    <div class="col-md-4">
+                    <label class="col-md-3 control-label">${catsGender}</label>
+                    <div class="col-md-6">
                         <div class="radio">
                             <label>
                                 <input type="radio" required="required" name="gender" value="MALE"/> ${catsGenderM}
@@ -90,8 +108,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsBirthDate}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsBirthDate}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                             <span class="input-group date">
@@ -109,8 +127,8 @@
                 </script>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsBodyColour}</label>
-                    <div class="col-md-4 selectContainer">
+                    <label class="col-md-3 control-label">${catsBodyColour}</label>
+                    <div class="col-md-6 selectContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
                             <select name="bodyColour" required="required" class="form-control selectpicker">
@@ -129,8 +147,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsEyesColour}</label>
-                    <div class="col-md-4 selectContainer">
+                    <label class="col-md-3 control-label">${catsEyesColour}</label>
+                    <div class="col-md-6 selectContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
                             <select name="eyesColour" required="required" class="form-control selectpicker">
@@ -144,37 +162,56 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsParentFemale}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsParentFemale}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-heart-empty"></i></span>
-                            <input name="femaleParent" required="required" placeholder="${catsParentFemale}"
+                                    <span class="input-group-addon"><i
+                                            class="glyphicon glyphicon-heart-empty"></i></span>
+                            <input name="femaleParentRu" required="required" placeholder="${catsParentFemale}Ru"
                                    class="form-control"
-                                   pattern="[a-zA-Zа-яА-Я]{2,20}\s[a-zA-Zа-яА-Я]{0,20}(\s[a-zA-Zа-яА-Я]{0,20})?"
+                                   pattern="[а-яА-Я]{2,20}\s[а-яА-Я]{0,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsParentsRule}"
-                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.singleCat.femaleParent}"</c:if>
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsRu.femaleParent}"</c:if>
+                                   type="text">
+
+                            <span class="input-group-addon"><i
+                                    class="glyphicon glyphicon-heart-empty"></i></span>
+                            <input name="femaleParentEn" required="required" placeholder="${catsParentFemale}En"
+                                   class="form-control"
+                                   pattern="[a-zA-Z]{2,20}\s[a-zA-Z]{0,20}(\s[a-zA-Z]{0,20})?"
+                                   title="${catsParentsRule}"
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsEn.femaleParent}"</c:if>
                                    type="text">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsParentMale}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsParentMale}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                            <input name="maleParent" required="required" placeholder="${catsParentFemale}" class="form-control"
-                                   pattern="[a-zA-Zа-яА-Я]{2,20}\s[a-zA-Zа-яА-Я]{0,20}(\s[a-zA-Zа-яА-Я]{0,20})?"
+                            <input name="maleParentRu" required="required" placeholder="${catsParentMale}Ru"
+                                   class="form-control"
+                                   pattern="[а-яА-Я]{2,20}\s[а-яА-Я]{0,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsParentsRule}"
-                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.singleCat.maleParent}"</c:if>
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsRu.maleParent}"</c:if>
+                                   type="text">
+
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
+                            <input name="maleParentEn" required="required" placeholder="${catsParentMale}En"
+                                   class="form-control"
+                                   pattern="[a-zA-Z]{2,20}\s[a-zA-Z]{0,20}(\s[a-zA-Z]{0,20})?"
+                                   title="${catsParentsRule}"
+                                   <c:if test="${not empty requestScope.singleCat}">value="${requestScope.catDetailsEn.maleParent}"</c:if>
                                    type="text">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsPrice}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsPrice}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
                             <input name="price" placeholder="${catsPrice}"
@@ -190,29 +227,36 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">${catsDescription}</label>
-                    <div class="col-md-4 inputGroupContainer">
+                    <label class="col-md-3 control-label">${catsDescription}</label>
+                    <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                            <textarea style="resize: none;" class="form-control" name="description"
+                            <textarea style="resize: none;" class="form-control" name="descriptionRu"
                                     <c:choose> <c:when
-                                            test="${not empty requestScope.singleCat}">placeholder="${requestScope.singleCat.description}"</c:when>
-                                        <c:otherwise>placeholder="${catsDescription}"</c:otherwise></c:choose>
+                                            test="${not empty requestScope.singleCat}">placeholder="${requestScope.catDetailsRu.description}"</c:when>
+                                        <c:otherwise>placeholder="${catsDescription}Ru"</c:otherwise></c:choose>
+                                      required="required" rows="7"></textarea>
+
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                            <textarea style="resize: none;" class="form-control" name="descriptionEn"
+                                    <c:choose> <c:when
+                                            test="${not empty requestScope.singleCat}">placeholder="${requestScope.catDetailsEn.description}"</c:when>
+                                        <c:otherwise>placeholder="${catsDescription}En"</c:otherwise></c:choose>
                                       required="required" rows="7"></textarea>
                         </div>
                     </div>
                 </div>
+
                 <p style="text-align: center; color: red;">${param.sendCatFormFailedMessage}</p>
 
                 <div class="form-group" style="text-align: center">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-4">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         <button type="submit" class="btn btn-warning">${buttonSend} <span
                                 class="glyphicon glyphicon-plane"></span>
                         </button>
                     </div>
                 </div>
-
             </fieldset>
     </form>
 </div>

@@ -7,10 +7,7 @@ import by.epam.cattery.dao.connection.ConnectionProvider;
 import by.epam.cattery.dao.CatDAO;
 import by.epam.cattery.dao.ReservationDAO;
 
-import by.epam.cattery.entity.CatPedigreeType;
-import by.epam.cattery.entity.CatStatus;
-import by.epam.cattery.entity.Reservation;
-import by.epam.cattery.entity.ReservationStatus;
+import by.epam.cattery.entity.*;
 
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.exception.ServiceException;
@@ -60,11 +57,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public List<Reservation> takeAllReservationsByStatus(ReservationStatus status, int page, int itemsPerPage)  throws ServiceException {
+    public List<Reservation> takeAllReservationsByStatus(ReservationStatus status, LocaleLang localeLang, int page, int itemsPerPage)  throws ServiceException {
         List<Reservation> reservations;
 
         try {
-            reservations = reservationDAO.loadAllByStatus(status.toString(), page, itemsPerPage);
+            reservations = reservationDAO.loadReservationsByStatus(status, localeLang, page, itemsPerPage);
 
             if (reservations.isEmpty()) {
                 return Collections.emptyList();
@@ -93,11 +90,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public List<Reservation> takeAllReservationsForUser(int userId, int page, int itemsPerPage) throws ServiceException {
+    public List<Reservation> takeAllReservationsForUser(int userId, LocaleLang localeLang, int page, int itemsPerPage) throws ServiceException {
         List<Reservation> reservations;
 
         try {
-            reservations = reservationDAO.loadAllById(userId, page, itemsPerPage);
+            reservations = reservationDAO.loadReservationsByUserId(userId, localeLang, page, itemsPerPage);
 
             if (reservations.isEmpty()) {
                 return Collections.emptyList();
