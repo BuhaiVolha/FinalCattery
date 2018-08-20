@@ -7,6 +7,7 @@ import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.util.ConfigurationManager;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,7 +61,7 @@ public class Controller extends HttpServlet {
                     break;
             }
         } else {
-            logger.log(Level.ERROR, "Some troubles occurred while executing command");
+            logger.log(Level.ERROR, "Some troubles occurred while executing command, command might not have been found");
             redirect(ERROR_PAGE, response);
         }
     }

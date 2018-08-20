@@ -18,6 +18,8 @@ public class RequestContent {
 
     private static final String REFERER = "referer";
     private static final String MULTIPART = "multipart/form-data";
+    private static final String PAGINATION_PAGE_COUNT = "pageCount";
+    private static final String PAGINATION_PAGE = "page";
 
     private Map<String, Object> requestAttributes;
     private Map<String, String[]> requestParameters;
@@ -89,9 +91,10 @@ public class RequestContent {
 
 
     private void extractParts(HttpServletRequest request) {
-        // ПРОВЕРИТЬ
+
         try {
-            if (request.getContentType() != null && request.getContentType().toLowerCase().contains(MULTIPART)) {
+            if ((request.getContentType() != null)
+                    && (request.getContentType().toLowerCase().contains(MULTIPART))) {
                 requestParts = request.getParts();
             }
         } catch (ServletException | IOException e) {
@@ -147,8 +150,8 @@ public class RequestContent {
     }
 
     public void setPaginationParameters(int pageCount, int page) {
-        requestAttributes.put("pageCount", pageCount);
-        requestAttributes.put("page", page);
+        requestAttributes.put(PAGINATION_PAGE_COUNT, pageCount);
+        requestAttributes.put(PAGINATION_PAGE, page);
     }
 
     public String getCurrentPage() {
@@ -173,6 +176,7 @@ public class RequestContent {
         Part part = null;
 
         if (requestParts != null) {
+
             for (Part requestPart : requestParts) {
 
                 if (requestPart.getName().equals(name)) {

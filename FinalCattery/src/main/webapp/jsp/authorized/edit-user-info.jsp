@@ -61,7 +61,8 @@
 
                         <hr class="colorgraph">
                         <div class="row">
-                            <input type="submit" value="${editUserButtonSubmit}" class="btn btn-primary btn-block btn-lg" tabindex="8">
+                            <input type="submit" value="${editUserButtonSubmit}"
+                                   class="btn btn-primary btn-block btn-lg" tabindex="8">
                         </div>
             </form>
         </div>

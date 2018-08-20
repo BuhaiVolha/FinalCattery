@@ -10,7 +10,6 @@ import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

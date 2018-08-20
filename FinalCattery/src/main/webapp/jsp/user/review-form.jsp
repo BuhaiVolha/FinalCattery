@@ -90,11 +90,7 @@
     </div>
 </div>
 
-<script>
-    $("input:radio").change(function () {
-        $("#ratingSubmit").prop("disabled", false);
-    });
-</script>
+<script src="/assets/js/reviewStarSet.js"></script>
 
 <%@ include file="/jsp/parts/footer.jsp" %>
 

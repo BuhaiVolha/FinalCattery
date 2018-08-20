@@ -33,6 +33,7 @@
   "sell_cat": "by.epam.cattery.controller.command.impl.admin.CompleteReservationCommand",
   "delete_review": "by.epam.cattery.controller.command.impl.admin.DeleteReviewCommand",
   "upload_cat_photo": "by.epam.cattery.controller.command.impl.admin.UploadPhotoForCatCommand",
+  "discount": "by.epam.cattery.controller.command.impl.admin.MakeDiscountCommand",
   "login": "by.epam.cattery.controller.command.impl.LoginCommand",
   "logout": "by.epam.cattery.controller.command.impl.LogoutCommand",
   "language": "by.epam.cattery.controller.command.impl.LanguageCommand",

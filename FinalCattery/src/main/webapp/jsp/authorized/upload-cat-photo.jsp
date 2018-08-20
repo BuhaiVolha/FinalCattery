@@ -10,7 +10,6 @@
     <h2 style="text-align: center; color: #fd680e; font-weight: bold; font-size: 32px;"
         class="text-center text-uppercase text-secondary mb-0">${uploadCatPhotoTitle}</h2>
     <div class="row">
-        <%--<h3 style="text-align: center;">${uploadCatPhotoRequirements}</h3>--%>
     </div>
 
     <div class="row" style="text-align: center; margin-right: 40px; margin-left: 40px;">

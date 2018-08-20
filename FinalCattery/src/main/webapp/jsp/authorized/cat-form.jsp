@@ -6,7 +6,7 @@
 <fmt:message bundle="${loc}" key="local.cat-form.editing.title" var="catFormEditingTitle"/>
 <fmt:message bundle="${loc}" key="local.cats.name" var="catsName"/>
 <fmt:message bundle="${loc}" key="local.cats.name.rule" var="catsNameRule"/>
-<fmt:message bundle="${loc}" key="local.cats.lastname" var="catsLastame"/>
+<fmt:message bundle="${loc}" key="local.cats.lastname" var="catsLastname"/>
 <fmt:message bundle="${loc}" key="local.cats.lastname.rule" var="catsLastameRule"/>
 <fmt:message bundle="${loc}" key="local.cats.gender" var="catsGender"/>
 <fmt:message bundle="${loc}" key="local.cats.gender.female" var="catsGenderF"/>
@@ -20,6 +20,16 @@
 <fmt:message bundle="${loc}" key="local.cats.price" var="catsPrice"/>
 <fmt:message bundle="${loc}" key="local.cats.description" var="catsDescription"/>
 <fmt:message bundle="${loc}" key="local.button.send" var="buttonSend"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.name.ru" var="catFormNameRu"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.name.en" var="catFormNameEn"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.lastname.en" var="catFormLastnameEn"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.lastname.ru" var="catFormLastnameRu"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.parent-female.en" var="catFormFemParentEn"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.parent-female.ru" var="catFormFemParentRu"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.parent-male.en" var="catFormMaleParentEn"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.parent-male.ru" var="catFormMaleParentRu"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.description.en" var="catFormDescriptionEn"/>
+<fmt:message bundle="${loc}" key="local.cat-form.placeholder.description.ru" var="catFormDescriptionRu"/>
 
 
 <div class="container">
@@ -49,7 +59,7 @@
                     <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="nameRu" required="required" placeholder="${catsName}Ru"
+                            <input name="nameRu" required="required" placeholder="${catFormNameRu}"
                                    pattern="[а-яА-Я]{2,20}"
                                    title="${catsNameRule}"
                                    class="form-control"
@@ -57,7 +67,7 @@
                                    type="text">
 
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="nameEn" required="required" placeholder="${catsName}En"
+                            <input name="nameEn" required="required" placeholder="${catFormNameEn}"
                                    pattern="[a-zA-Z]{2,20}"
                                    title="${catsNameRule}"
                                    class="form-control"
@@ -69,11 +79,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">${catsLastame}</label>
+                    <label class="col-md-3 control-label">${catsLastname}</label>
                     <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="lastnameRu" required="required" placeholder="${catsLastame}Ru"
+                            <input name="lastnameRu" required="required" placeholder="${catFormLastnameRu}"
                                    pattern="[а-яА-Я]{2,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsLastameRule}"
                                    class="form-control"
@@ -81,7 +91,7 @@
                                    type="text">
 
                             <span class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></span>
-                            <input name="lastnameEn" required="required" placeholder="${catsLastame}En"
+                            <input name="lastnameEn" required="required" placeholder="${catFormLastnameEn}"
                                    pattern="[a-zA-Z]{2,20}(\s[a-zA-Z]{0,20})?"
                                    title="${catsLastameRule}"
                                    class="form-control"
@@ -167,7 +177,7 @@
                         <div class="input-group">
                                     <span class="input-group-addon"><i
                                             class="glyphicon glyphicon-heart-empty"></i></span>
-                            <input name="femaleParentRu" required="required" placeholder="${catsParentFemale}Ru"
+                            <input name="femaleParentRu" required="required" placeholder="${catFormFemParentRu}"
                                    class="form-control"
                                    pattern="[а-яА-Я]{2,20}\s[а-яА-Я]{0,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsParentsRule}"
@@ -176,7 +186,7 @@
 
                             <span class="input-group-addon"><i
                                     class="glyphicon glyphicon-heart-empty"></i></span>
-                            <input name="femaleParentEn" required="required" placeholder="${catsParentFemale}En"
+                            <input name="femaleParentEn" required="required" placeholder="${catFormFemParentEn}"
                                    class="form-control"
                                    pattern="[a-zA-Z]{2,20}\s[a-zA-Z]{0,20}(\s[a-zA-Z]{0,20})?"
                                    title="${catsParentsRule}"
@@ -191,7 +201,7 @@
                     <div class="col-md-6 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                            <input name="maleParentRu" required="required" placeholder="${catsParentMale}Ru"
+                            <input name="maleParentRu" required="required" placeholder="${catFormMaleParentRu}"
                                    class="form-control"
                                    pattern="[а-яА-Я]{2,20}\s[а-яА-Я]{0,20}(\s[а-яА-Я]{0,20})?"
                                    title="${catsParentsRule}"
@@ -199,7 +209,7 @@
                                    type="text">
 
                             <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                            <input name="maleParentEn" required="required" placeholder="${catsParentMale}En"
+                            <input name="maleParentEn" required="required" placeholder="${catFormMaleParentEn}"
                                    class="form-control"
                                    pattern="[a-zA-Z]{2,20}\s[a-zA-Z]{0,20}(\s[a-zA-Z]{0,20})?"
                                    title="${catsParentsRule}"
@@ -234,14 +244,14 @@
                             <textarea style="resize: none;" class="form-control" name="descriptionRu"
                                     <c:choose> <c:when
                                             test="${not empty requestScope.singleCat}">placeholder="${requestScope.catDetailsRu.description}"</c:when>
-                                        <c:otherwise>placeholder="${catsDescription}Ru"</c:otherwise></c:choose>
+                                        <c:otherwise>placeholder="${catFormDescriptionRu}"</c:otherwise></c:choose>
                                       required="required" rows="7"></textarea>
 
                             <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                             <textarea style="resize: none;" class="form-control" name="descriptionEn"
                                     <c:choose> <c:when
                                             test="${not empty requestScope.singleCat}">placeholder="${requestScope.catDetailsEn.description}"</c:when>
-                                        <c:otherwise>placeholder="${catsDescription}En"</c:otherwise></c:choose>
+                                        <c:otherwise>placeholder="${catFormDescriptionEn}"</c:otherwise></c:choose>
                                       required="required" rows="7"></textarea>
                         </div>
                     </div>

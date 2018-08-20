@@ -9,13 +9,17 @@ import java.sql.*;
 import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public final class ConnectionPool {
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
-    private static final ConnectionPool instance = new ConnectionPool();
-
+    private static ConnectionPool instance;
+    private static final AtomicBoolean isInitialized = new AtomicBoolean(false);
+    private static final Lock lock = new ReentrantLock();
     private BlockingQueue<Connection> freeConnections;
     private BlockingQueue<Connection> takenConnections;
 
@@ -32,8 +36,22 @@ public final class ConnectionPool {
 
 
     public static ConnectionPool getInstance() {
+
+        if (!isInitialized.get()) {
+            lock.lock();
+
+            try {
+                if (instance == null) {
+                    instance = new ConnectionPool();
+                    isInitialized.set(true);
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
         return instance;
     }
+
 
     public void initialize() throws ConnectionPoolException {
         initPoolData();
@@ -49,9 +67,10 @@ public final class ConnectionPool {
                 freeConnections.add(new PooledConnection(connection));
             }
         } catch (ClassNotFoundException | SQLException e) {
-            throw new ConnectionPoolException("Exception while trying to init ConnectionPool", e);
+            throw new ConnectionPoolException("Exception while trying to init connection pool", e);
         }
     }
+
 
     private void initPoolData() {
         ConfigurationManager configurationManager = ConfigurationManager.getInstance();
@@ -78,7 +97,7 @@ public final class ConnectionPool {
             takenConnections.add(connection);
 
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("error connecting to data source", e);
+            throw new ConnectionPoolException("Exception while taking connection", e);
         }
         return connection;
     }

@@ -168,13 +168,14 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public void addOfferedCat(LocalizedCat cat, int offerId) throws ServiceException {
-//        if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
-//            throw new InvalidDateException("Cat birth date is invalid!");
-//        }
-//
-//        if (!Validator.getInstance().validateCatInputData(cat)) {
-//            throw new ValidationFailedException("User's data are invalid!");
-//        }
+
+        if (!Validator.getInstance().validateCatBirthDate(cat.getAge())) {
+            throw new InvalidDateException("Cat birth date is invalid!");
+        }
+
+        if (!Validator.getInstance().validateCatInputData(cat)) {
+            throw new ValidationFailedException("User's data are invalid!");
+        }
 
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 

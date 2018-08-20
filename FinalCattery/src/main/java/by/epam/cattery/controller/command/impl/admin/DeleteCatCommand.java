@@ -3,9 +3,11 @@ package by.epam.cattery.controller.command.impl.admin;
 import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
+import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.entity.Role;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
@@ -18,15 +20,21 @@ public class DeleteCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(DeleteCatCommand.class);
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
+    private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
 
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
-        CatService catService = ServiceFactory.getInstance().getCatService();
+        String path = ACCESS_DENIED_PAGE;
 
-        int catId = Integer.parseInt(requestContent.getParameter(RequestConst.CAT_ID));
-        catService.deleteCat(catId);
+        if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.ADMIN) {
+            CatService catService = ServiceFactory.getInstance().getCatService();
 
-        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+            int catId = Integer.parseInt(requestContent.getParameter(RequestConst.CAT_ID));
+            catService.deleteCat(catId);
+            path = SUCCESS_PAGE;
+        }
+
+        return new RequestResult(NavigationType.REDIRECT, path);
     }
 }

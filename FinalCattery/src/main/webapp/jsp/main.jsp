@@ -37,7 +37,7 @@
         <div class="about">
             <div class="section_title" data-uk-scrollspy="{cls:'uk-animation-slide-bottom', repeat: false,delay:0}">
                 <h2>${aboutUs}</h2>
-                <p>${aboutUsLeft}</p>
+                <p style="white-space: pre-wrap">${aboutUsLeft}</p>
             </div>
             <div class="row results_section">
                 <div class="col-xm-12 col-sm-6 col-md-6 col-lg-6">

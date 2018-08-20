@@ -130,4 +130,5 @@
         document.getElementById("total").value = total.toFixed(1);
     }
 </script>
+
 <%@ include file="/jsp/parts/footer.jsp" %>

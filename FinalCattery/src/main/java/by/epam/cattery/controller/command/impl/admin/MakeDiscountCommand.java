@@ -7,6 +7,7 @@ import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+import by.epam.cattery.entity.Role;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
@@ -20,13 +21,26 @@ public class MakeDiscountCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(BanUserCommand.class);
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
+    private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
 
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
-        UserService userService = ServiceFactory.getInstance().getUserService();
+        String path = ACCESS_DENIED_PAGE;
 
-        // Отдельный метод ФОРМ юзер
+        if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.ADMIN) {
+            UserService userService = ServiceFactory.getInstance().getUserService();
+
+            User user = formUser(requestContent);
+            userService.makeDiscount(user);
+            path = SUCCESS_PAGE;
+        }
+
+        return new RequestResult(NavigationType.REDIRECT, path);
+    }
+
+
+    private User formUser(RequestContent requestContent) {
         int discount = Integer.parseInt(requestContent.getParameter(RequestConst.USER_DISCOUNT));
         int userId = Integer.parseInt(requestContent.getParameter(SessionConst.ID));
 
@@ -34,8 +48,6 @@ public class MakeDiscountCommand implements ActionCommand {
         user.setId(userId);
         user.setDiscount(discount);
 
-        userService.makeDiscount(user);
-
-        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+        return user;
     }
 }

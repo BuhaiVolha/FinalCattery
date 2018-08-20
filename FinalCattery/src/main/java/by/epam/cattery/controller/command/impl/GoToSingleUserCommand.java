@@ -19,16 +19,23 @@ import org.apache.logging.log4j.Logger;
 public class GoToSingleUserCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(GoToSingleUserCommand.class);
 
+    private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
+
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
-        UserService userService = ServiceFactory.getInstance().getUserService();
+        String path = ACCESS_DENIED_PAGE;
 
-        int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
-        String operation = requestContent.getParameter(RequestConst.OPERATION);
-        User user = userService.takeSingleUser(userId);
-        requestContent.setAttribute(RequestConst.USER, user);
+        if (requestContent.getSessionAttribute(SessionConst.ROLE) != null) {
+            UserService userService = ServiceFactory.getInstance().getUserService();
 
-        return new RequestResult(NavigationType.FORWARD, ConfigurationManager.getInstance()
-                .getProperty(PathConst.PATH_START + operation));
+            int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
+            String operation = requestContent.getParameter(RequestConst.OPERATION);
+            User user = userService.takeSingleUser(userId);
+            requestContent.setAttribute(RequestConst.USER, user);
+
+            path = ConfigurationManager.getInstance().getProperty(PathConst.PATH_START + operation);
+        }
+
+        return new RequestResult(NavigationType.FORWARD, path);
     }
 }

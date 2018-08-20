@@ -1,12 +1,12 @@
 package by.epam.cattery.controller.command.constant;
 
-// писать АДМИН ЭКСПЕРТ как суффикс если только для этих ролей страница?
 public final class PathConst {
     public final static String PATH_START = "path.page.";
 
     public final static String SUCCESS_PAGE = "path.page.success-page";
     public final static String ERROR_PAGE = "path.page.error";
     public final static String MAIN_PAGE = "path.page.main";
+    public final static String ACCESS_DENIED_PAGE = "path.page.access-denied";
 
     public final static String REGISTRATION = "path.page.reg";
     public final static String ALL_USERS = "path.page.manage-users";

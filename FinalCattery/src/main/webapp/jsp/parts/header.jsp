@@ -37,17 +37,12 @@
     <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/bootstrap-theme.css" rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="/assets/css/bootstrap-datepicker3.css" rel="stylesheet"/>
+    <script src="/assets/js/jquery.min.js"></script>
+    <link href="/assets/css/all.css" rel="stylesheet">
 
 
 </head>
-
 
 <body onload=openLoginModalNext()>
 
@@ -164,14 +159,7 @@
                 }
             </script>
 
-            <script>
-                $("body").prepend('<div id="preloader"><div class="spinner-sm spinner-sm-1" id="status"> </div></div>');
-                $(window).on('load', function () {
-                    $('#status').fadeOut();
-                    $('#preloader').delay(350).fadeOut('slow');
-                    $('body').delay(350).css({'overflow': 'visible'});
-                })
-            </script>
+            <script src="/assets/js/preloader.js"></script>
 
         </div>
     </div>

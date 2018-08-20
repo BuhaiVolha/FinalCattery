@@ -249,15 +249,6 @@
     </c:if>
 </div>
 
-<script>
-    $(function () {
-        $('#cart').searchable({
-            striped: true,
-            oddRow: {'background-color': '#f5f5f5'},
-            evenRow: {'background-color': '#fff'},
-            searchType: 'fuzzy'
-        });
-    });
-</script>
+<script src="/assets/js/reservationsSearch.js"></script>
 
 <%@ include file="/jsp/parts/footer.jsp" %>

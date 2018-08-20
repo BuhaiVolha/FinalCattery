@@ -26,34 +26,44 @@ public class TakeAllReservationsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
     private static final String ALL_RESERVATIONS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.RESERVATIONS);
+    private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
+
     private static final int ITEMS_PER_PAGE = 6;
     private static final int DEFAULT_PAGE = 1;
 
 
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
-        ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
-        List<Reservation> reservations;
 
-        String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
-        int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
-        int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
-        int pageCount;
-        LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
+        if ((requestContent.getSessionAttribute(SessionConst.ROLE) == Role.ADMIN)
+                || (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER)) {
 
-        if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {
-            reservations = reservationService
-                    .takeAllReservationsForUser(userId, localeLang, page, ITEMS_PER_PAGE);
-            pageCount = reservationService.getReservationsPageCountByUserId(userId, ITEMS_PER_PAGE);
+            ReservationService reservationService = ServiceFactory.getInstance().getReservationService();
+            List<Reservation> reservations;
+
+            String pageValue = requestContent.getParameter(RequestConst.PAGINATION_PAGE);
+            int page = (pageValue == null) ? DEFAULT_PAGE : Integer.parseInt(pageValue);
+            int userId = (int) requestContent.getSessionAttribute(SessionConst.ID);
+            int pageCount;
+            LocaleLang localeLang = LocaleLang.valueOf(requestContent.getSessionAttribute(SessionConst.LOCALE).toString().toUpperCase());
+
+            if (requestContent.getSessionAttribute(SessionConst.ROLE) == Role.USER) {
+                reservations = reservationService
+                        .takeAllReservationsForUser(userId, localeLang, page, ITEMS_PER_PAGE);
+                pageCount = reservationService.getReservationsPageCountByUserId(userId, ITEMS_PER_PAGE);
+
+            } else {
+                reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, localeLang, page, ITEMS_PER_PAGE);
+                pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, ITEMS_PER_PAGE);
+            }
+
+            requestContent.setPaginationParameters(pageCount, page);
+            requestContent.setAttribute(RequestConst.RESERVATIONS_LIST, reservations);
+
+            return new RequestResult(NavigationType.FORWARD, ALL_RESERVATIONS_PAGE);
 
         } else {
-            reservations = reservationService.takeAllReservationsByStatus(ReservationStatus.NEW, localeLang, page, ITEMS_PER_PAGE);
-            pageCount = reservationService.getReservationsPageCountByStatus(ReservationStatus.NEW, ITEMS_PER_PAGE);
+            return new RequestResult(NavigationType.REDIRECT, ACCESS_DENIED_PAGE);
         }
-
-        requestContent.setPaginationParameters(pageCount, page);
-        requestContent.setAttribute(RequestConst.RESERVATIONS_LIST, reservations);
-
-        return new RequestResult(NavigationType.FORWARD, ALL_RESERVATIONS_PAGE);
     }
 }

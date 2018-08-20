@@ -204,15 +204,8 @@
 </div>
 </div>
 
-<script>
-    $(function () {
-        $('#users').searchable({
-            striped: true,
-            oddRow: {'background-color': '#f5f5f5'},
-            evenRow: {'background-color': '#fff'},
-            searchType: 'fuzzy'
-        });
-    });
+<script src="/assets/js/usersSearch.js">
+
 </script>
 
 <%@ include file="/jsp/parts/footer.jsp" %>
