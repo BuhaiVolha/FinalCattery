@@ -38,9 +38,6 @@ public class AddReviewCommand implements ActionCommand {
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
-        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-        String message;
-
         try {
             Review review = createReview(requestContent);
             reviewService.writeReview(review);
@@ -49,8 +46,8 @@ public class AddReviewCommand implements ActionCommand {
 
         }  catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during adding review");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-            path = pathHelper.addParameterToPath(WRITE_REVIEW_PAGE, RequestConst.WRITE_REVIEW_FAILED_MESSAGE, message);
+
+            path = pathHelper.addParameterToPath(WRITE_REVIEW_PAGE, RequestConst.WRITE_REVIEW_FAILED_MESSAGE, MessageConst.INVALID_INPUT);
         }
 
         return new RequestResult(NavigationType.REDIRECT, path);

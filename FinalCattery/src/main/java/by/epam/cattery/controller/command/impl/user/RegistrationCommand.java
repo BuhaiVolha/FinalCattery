@@ -55,18 +55,15 @@ public class RegistrationCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during registration");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, MessageConst.INVALID_INPUT);
 
         } catch (LoginAlreadyExistsException e) {
             logger.log(Level.WARN, "User already exists");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.LOGIN_ALREADY_EXISTS, locale);
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, MessageConst.LOGIN_ALREADY_EXISTS);
 
         } catch (EmailAlreadyExistsException e) {
             logger.log(Level.WARN, "Email is already taken");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN, locale);
-            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(REGISTRATION_PAGE, RequestConst.REGISTRATION_FAILED_MESSAGE, MessageConst.EMAIL_TAKEN);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

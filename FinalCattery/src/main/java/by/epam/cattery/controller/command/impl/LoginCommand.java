@@ -29,9 +29,6 @@ public class LoginCommand implements ActionCommand {
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         UserService userService = ServiceFactory.getInstance().getUserService();
 
-        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-        String message;
-
         try {
             String login = requestContent.getParameter(RequestConst.USER_LOGIN);
             String password = requestContent.getParameter(RequestConst.USER_PASSWORD);
@@ -45,27 +42,23 @@ public class LoginCommand implements ActionCommand {
                 return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
 
             } else {
-                message = ConfigurationManager.getInstance().getMessage(MessageConst.WRONG_LOGIN_OR_PASSWORD, locale);
-                requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, message);
+                requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, MessageConst.WRONG_LOGIN_OR_PASSWORD);
                 return new RequestResult(NavigationType.REDIRECT, requestContent.getCurrentPage());
             }
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during registration");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, message);
+            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, MessageConst.INVALID_INPUT);
             return new RequestResult(NavigationType.REDIRECT, requestContent.getCurrentPage());
 
         } catch (NoSuchUserException e) {
             logger.log(Level.WARN, "No such user or login or password is wrong");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.WRONG_LOGIN_OR_PASSWORD, locale);
-            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, message);
+            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, MessageConst.WRONG_LOGIN_OR_PASSWORD);
             return new RequestResult(NavigationType.REDIRECT, requestContent.getCurrentPage());
 
         } catch (UserIsBannedException e) {
             logger.log(Level.WARN, "User is banned");
 
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.USER_IS_BANNED, locale);
-            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, message);
+            requestContent.setSessionAttribute(SessionConst.LOG_IN_FAIL, MessageConst.USER_IS_BANNED);
             return new RequestResult(NavigationType.REDIRECT, requestContent.getCurrentPage());
         }
     }

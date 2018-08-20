@@ -13,6 +13,12 @@
 <fmt:message bundle="${loc}" key="local.login-modal.button.submit" var="buttonLogin"/>
 <fmt:message bundle="${loc}" key="local.login-modal.no-account" var="noAccount"/>
 
+<fmt:message bundle="${mess}" key="message.inputinvalid" var="inputInvalid"/>
+<fmt:message bundle="${mess}" key="message.loginerror" var="loginError"/>
+<fmt:message bundle="${mess}" key="message.userbanned" var="userBanned"/>
+<fmt:message bundle="${mess}" key="message.accessdenied" var="accessDenied"/>
+
+
 <div class="modal fade" id="login-window">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -37,8 +43,22 @@
                                placeholder="${passwordField}" required="required" pattern=".{7,15}"
                                title="${passwordRule}">
                     </div>
+                    
+                    <c:choose>
+                        <c:when test="${errorLoginPassMessage eq 'loginError'}">
+                            <p style="text-align: center; color: red">${loginError}</p>
+                        </c:when>
+                        <c:when test="${errorLoginPassMessage eq 'userBanned'}">
+                            <p style="text-align: center; color: red">${userBanned}</p>
+                        </c:when>
+                        <c:when test="${errorLoginPassMessage eq 'inputInvalid'}">
+                            <p style="text-align: center; color: red">${inputInvalid}</p>
+                        </c:when>
+                        <c:when test="${errorLoginPassMessage eq 'accessDenied'}">
+                            <p style="text-align: center; color: red">${accessDenied}</p>
+                        </c:when>
+                    </c:choose>
 
-                    <div id="signInError" class="error form-group" style="color: red; text-align: center">${errorLoginPassMessage}</div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block" value="log-in"
                                 id="sendMessageButton1">${buttonLogin}</button>

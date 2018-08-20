@@ -17,6 +17,8 @@
 <fmt:message bundle="${loc}" key="local.reviews.rating.4" var="reviewsRating4"/>
 <fmt:message bundle="${loc}" key="local.reviews.rating.5" var="reviewsRating5"/>
 
+<fmt:message bundle="${mess}" key="message.inputinvalid" var="inputInvalid"/>
+
 <div class="container">
     <div class="row">
 
@@ -80,7 +82,11 @@
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <p style="color: red">${param.writeReviewFailedMessage}</p>
+
+                                <c:if test="${param.writeReviewFailedMessage eq 'inputInvalid'}">
+                                    <p style="text-align: center; color: red">${inputInvalid}</p>
+                                </c:if>
+
                                 <button type="submit" id="ratingSubmit" class="btn btn-primary btn-md" disabled>${reviewsButtonSubmit}
                                 </button>
                             </div>

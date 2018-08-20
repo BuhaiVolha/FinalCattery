@@ -34,26 +34,19 @@ public class EditPersonalInformationCommand implements ActionCommand {
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
-        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-        String message;
-
-
         try {
             User user = createUser(requestContent);
             userService.editPersonalInfo(user);
 
-            //Обратно в кабинет
             path = SUCCESS_PAGE;
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation failed while editing personal info");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, MessageConst.INVALID_INPUT);
 
         } catch (EmailAlreadyExistsException e) {
             logger.log(Level.WARN, "Email already exist and it's not user's");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.EMAIL_TAKEN, locale);
-            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(EDIT_USER_INFO_COMMAND, RequestConst.EDIT_USER_INFO_FAILED_MESSAGE, MessageConst.EMAIL_TAKEN);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

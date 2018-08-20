@@ -147,8 +147,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
             return reservations;
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all reservations by ID from the database to list failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading all reservations by ID from the database to list failed", e);
 
         } finally {
             connectionProvider.close(connection);
@@ -186,8 +185,7 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
             return reservations;
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all reservations by status from the database to list failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading all reservations by status from the database to list failed", e);
 
         } finally {
             connectionProvider.close(connection);

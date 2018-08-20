@@ -11,6 +11,9 @@
 <fmt:message bundle="${loc}" key="local.reg.field.password" var="regPassword"/>
 <fmt:message bundle="${loc}" key="local.edit-user-info.button.submit" var="editUserButtonSubmit"/>
 
+<fmt:message bundle="${mess}" key="message.emailtaken" var="emailTaken"/>
+<fmt:message bundle="${mess}" key="message.inputinvalid" var="inputInvalid"/>
+
 <div class="container">
 
     <div class="row">
@@ -57,7 +60,14 @@
                                    tabindex="7" pattern=".{7,15}" title="${regPasswordRule}">
                             <span></span></div>
 
-                        ${param.editUserInfoFailedMessage}
+                        <c:choose>
+                        <c:when test="${param.editUserInfoFailedMessage eq 'emailTaken'}">
+                        <p style="text-align: center; color: red">${emailTaken}</p>
+                        </c:when>
+                        <c:when test="${param.editUserInfoFailedMessage eq 'inputInvalid'}">
+                        <p style="text-align: center; color: red">${inputInvalid}</p>
+                        </c:when>
+                        </c:choose>
 
                         <hr class="colorgraph">
                         <div class="row">

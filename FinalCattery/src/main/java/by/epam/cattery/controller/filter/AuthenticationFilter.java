@@ -24,11 +24,9 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
 
         HttpSession session = request.getSession();
-        String locale = session.getAttribute(SessionConst.LOCALE).toString();
 
         if (session.getAttribute(SessionConst.LOGIN) == null) {
-            session.setAttribute(SessionConst.LOG_IN_FAIL, ConfigurationManager.getInstance()
-                    .getMessage(MessageConst.ACCESS_DENIED, locale));
+            session.setAttribute(SessionConst.LOG_IN_FAIL, MessageConst.ACCESS_DENIED);
 
             response.sendRedirect(MAIN_PAGE);
 

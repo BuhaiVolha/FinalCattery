@@ -31,6 +31,9 @@
 <fmt:message bundle="${loc}" key="local.cat-form.placeholder.description.en" var="catFormDescriptionEn"/>
 <fmt:message bundle="${loc}" key="local.cat-form.placeholder.description.ru" var="catFormDescriptionRu"/>
 
+<fmt:message bundle="${mess}" key="message.inputinvalid" var="inputInvalid"/>
+<fmt:message bundle="${mess}" key="message.birthdayinvalid" var="birthdayInvalid"/>
+
 
 <div class="container">
     <form class="well form-horizontal" id="contact_form" role="form" method="POST" action="/controller">
@@ -257,7 +260,14 @@
                     </div>
                 </div>
 
-                <p style="text-align: center; color: red;">${param.sendCatFormFailedMessage}</p>
+                <c:choose>
+                    <c:when test="${param.sendCatFormFailedMessage eq 'birthdayInvalid'}">
+                        <p style="text-align: center; color: red">${birthdayInvalid}</p>
+                    </c:when>
+                    <c:when test="${param.sendCatFormFailedMessage eq 'inputInvalid'}">
+                        <p style="text-align: center; color: red">${inputInvalid}</p>
+                    </c:when>
+                </c:choose>
 
                 <div class="form-group" style="text-align: center">
                     <label class="col-md-3 control-label"></label>

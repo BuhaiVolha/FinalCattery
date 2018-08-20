@@ -52,9 +52,6 @@ public class AddCatCommand implements ActionCommand {
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
 
-        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-        String message;
-
         try {
             LocalizedCat cat = createLocalizedCat(requestContent);
 
@@ -80,13 +77,11 @@ public class AddCatCommand implements ActionCommand {
 
         } catch (ValidationFailedException e) {
             logger.log(Level.WARN, "Validation of input data failed during adding cat");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, MessageConst.INVALID_INPUT);
 
         } catch (InvalidDateException e) {
             logger.log(Level.WARN, "Validation of input birthday failed during adding cat");
-            message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE, locale);
-            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+            path = pathHelper.addParameterToPath(CAT_FORM_PAGE, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, MessageConst.INVALID_BIRTH_DATE);
         }
         return new RequestResult(NavigationType.REDIRECT, path);
     }

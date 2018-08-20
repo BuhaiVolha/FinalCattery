@@ -17,6 +17,10 @@
 <fmt:message bundle="${loc}" key="local.reg.field.phone.rule" var="regPhoneRule"/>
 <fmt:message bundle="${loc}" key="local.reg.button.submit" var="regSubmit"/>
 
+<fmt:message bundle="${mess}" key="message.loginexists" var="loginExists"/>
+<fmt:message bundle="${mess}" key="message.emailtaken" var="emailTaken"/>
+<fmt:message bundle="${mess}" key="message.inputinvalid" var="inputInvalid"/>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
@@ -76,7 +80,17 @@
                                    title="${regPhoneRule}">
                             <span></span></div>
 
-                        <p style="text-align: center; color: red">${param.registrationFailedMessage}</p>
+                        <c:choose>
+                            <c:when test="${param.registrationFailedMessage eq 'loginExists'}">
+                                <p style="text-align: center; color: red">${loginExists}</p>
+                            </c:when>
+                            <c:when test="${param.registrationFailedMessage eq 'emailTaken'}">
+                                <p style="text-align: center; color: red">${emailTaken}</p>
+                            </c:when>
+                            <c:when test="${param.registrationFailedMessage eq 'inputInvalid'}">
+                                <p style="text-align: center; color: red">${inputInvalid}</p>
+                            </c:when>
+                        </c:choose>
 
                         <hr class="colorgraph">
                         <div class="row">

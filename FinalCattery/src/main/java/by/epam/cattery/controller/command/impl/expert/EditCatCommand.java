@@ -49,10 +49,6 @@ public class EditCatCommand implements ActionCommand {
 
             PathHelper pathHelper = PathHelper.getInstance();
 
-
-            String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-            String message;
-
             try {
                 catService.editCat(cat);
 
@@ -60,14 +56,12 @@ public class EditCatCommand implements ActionCommand {
 
             } catch (ValidationFailedException e) {
                 logger.log(Level.WARN, "Validation of input data failed during adding cat");
-                message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_INPUT, locale);
-                path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+                path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, MessageConst.INVALID_INPUT);
                 path = pathHelper.addParameterToPath(path, RequestConst.CAT_ID, cat.getId());
 
             } catch (InvalidDateException e) {
                 logger.log(Level.WARN, "Validation of input birthday failed during adding cat");
-                message = ConfigurationManager.getInstance().getMessage(MessageConst.INVALID_BIRTH_DATE, locale);
-                path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, message);
+                path = pathHelper.addParameterToPath(EDIT_CAT_COMMAND, RequestConst.SENDING_CAT_FORM_FAILED_MESSAGE, MessageConst.INVALID_BIRTH_DATE);
                 path = pathHelper.addParameterToPath(path, RequestConst.CAT_ID, cat.getId());
             }
         }

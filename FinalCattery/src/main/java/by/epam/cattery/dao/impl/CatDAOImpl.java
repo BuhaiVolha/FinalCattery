@@ -319,8 +319,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             }
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all cats from the database to list failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading all cats from the database to list failed", e);
 
         } finally {
             connectionProvider.close(connection);
@@ -356,8 +355,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             }
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading all cats by status from the database to list failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading all cats by status from the database to list failed", e);
 
         } finally {
             connectionProvider.close(connection);
@@ -387,8 +385,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             return readResultSet(rs);
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading cat from the database by ID failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading cat from the database by ID failed", e);
 
         }  finally {
             connectionProvider.close(connection);
@@ -416,8 +413,7 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
             return createCatDetail(rs);
 
         } catch (ConnectionPoolException | SQLException e) {
-            logger.error("Loading cat details with localization from the database failed", e);
-            throw new DAOException(e);
+            throw new DAOException("Loading cat details with localization from the database failed", e);
 
         }  finally {
             connectionProvider.close(connection);
@@ -641,7 +637,6 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
     @Override
     public void executeDeleteQuery(PreparedStatement ps, int catId) throws SQLException {
-
         ps.setInt(1, catId);
         logger.log(Level.DEBUG, "Cat has been deleted from database :(");
     }
