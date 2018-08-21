@@ -8,16 +8,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * {@inheritDoc}
+ *
+ * @param <T> the type parameter
+ */
 public abstract class BaseDAO<T> implements GenericDAO<T> {
     private static final Logger logger = LogManager.getLogger(BaseDAO.class);
 
+    /**
+     * The Connection provider.
+     */
     protected final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void save(T obj) throws DAOException {
         Connection connection = null;
@@ -41,6 +52,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int saveAndReturnId(T obj) throws DAOException {
         Connection connection = null;
@@ -70,6 +85,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void update(T obj) throws DAOException {
         Connection connection = null;
@@ -98,6 +117,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updateStatusById(String status, int id) throws DAOException {
         Connection connection = null;
@@ -126,6 +149,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updatePhoto(int id, String photo) throws DAOException {
         Connection connection = null;
@@ -155,6 +182,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void delete(int id) throws DAOException {
         Connection connection = null;
@@ -183,6 +214,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<T> loadAll(int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -218,6 +253,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<T> loadAllByStatus(String status, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -254,6 +293,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<T> loadAllById(int id, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -290,6 +333,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getTotalCount() throws DAOException {
         Connection connection = null;
@@ -316,6 +363,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getTotalCountByStatus(String status) throws DAOException {
         Connection connection = null;
@@ -344,6 +395,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getTotalCountById(int id) throws DAOException {
         Connection connection = null;
@@ -372,6 +427,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public T getById(int id) throws DAOException {
         Connection connection = null;
@@ -400,6 +459,10 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean checkStatus(int objectId, String statusToCheck) throws DAOException {
         Connection connection = null;
@@ -435,40 +498,175 @@ public abstract class BaseDAO<T> implements GenericDAO<T> {
     }
 
 
-    // не паблик?
+    /**
+     * Executes create query.
+     *
+     * @param ps     the {@link PreparedStatement}
+     * @param object the object
+     * @throws SQLException the sql exception
+     *
+     */
     public abstract void executeCreateQuery(PreparedStatement ps, T object) throws SQLException;
 
+
+    /**
+     * Executes update query.
+     *
+     * @param ps     the {@link PreparedStatement}
+     * @param object the object
+     * @throws SQLException the sql exception
+     *
+     */
     public abstract void executeUpdateQuery(PreparedStatement ps, T object) throws SQLException;
 
+
+    /**
+     * Executes update status query.
+     *
+     * @param ps     the {@link PreparedStatement}
+     * @param status the status to be set
+     * @param id     the id of object
+     * @throws SQLException the sql exception
+     *
+     */
     public abstract void executeUpdateStatusQuery(PreparedStatement ps, String status, int id) throws SQLException;
 
+
+    /**
+     * Executes delete query.
+     *
+     * @param ps the {@link PreparedStatement}
+     * @param id the id of object
+     * @throws SQLException the sql exception
+     *
+     */
     public abstract void executeDeleteQuery(PreparedStatement ps, int id) throws SQLException;
 
-    public abstract T readResultSet(ResultSet rs) throws SQLException;
 
+    /**
+     * Gets create query.
+     *
+     * @return the create query string
+     *
+     */
     public abstract String getCreateQuery();
 
+
+    /**
+     * Gets update query.
+     *
+     * @return the update query string
+     *
+     */
     public abstract String getUpdateQuery();
 
+
+    /**
+     * Gets update status query.
+     *
+     * @return the update status query string
+     *
+     */
     public abstract String getUpdateStatusQuery();
 
+
+    /**
+     * Gets update photo query.
+     *
+     * @return the update photo query string
+     *
+     */
     public abstract String getUpdatePhotoQuery();
 
+
+    /**
+     * Gets delete query.
+     *
+     * @return the delete query string
+     *
+     */
     public abstract String getDeleteQuery();
 
+
+    /**
+     * Gets query for loading all objects.
+     *
+     * @return the query for loading all objects
+     *
+     */
     public abstract String getQueryForAllObjects();
 
+
+    /**
+     * Gets query for counting all objects.
+     *
+     * @return the query for counting all objects
+     *
+     */
     public abstract String getQueryForTotalCount();
 
+
+    /**
+     * Gets query for loading all objects by status.
+     *
+     * @return the query for loading all objects by status
+     *
+     */
     public abstract String getQueryForAllObjectsByStatus();
 
+
+    /**
+     * Gets query for loading all objects by id.
+     *
+     * @return the query for loading all objects by id
+     *
+     */
     public abstract String getQueryForAllObjectsById();
 
+
+    /**
+     * Gets query for counting all objects by status.
+     *
+     * @return the query for counting all objects by status
+     *
+     */
     public abstract String getQueryForTotalCountByStatus();
 
+
+    /**
+     * Gets query for counting all objects by id.
+     *
+     * @return the query for counting all objects by id
+     *
+     */
     public abstract String getQueryForTotalCountById();
 
+
+    /**
+     * Gets query for status check.
+     *
+     * @return the query for status check
+     *
+     */
     public abstract String getQueryForStatusCheck();
 
+
+    /**
+     * Gets query for single object.
+     *
+     * @return the query for single object
+     *
+     */
     public abstract String getQueryForSingleObject();
+
+
+    /**
+     * Returns an object created from {@link ResultSet}
+     *
+     * @param rs the {@link ResultSet}
+     * @return the object
+     * @throws SQLException the sql exception
+     *
+     */
+    public abstract T readResultSet(ResultSet rs) throws SQLException;
 }

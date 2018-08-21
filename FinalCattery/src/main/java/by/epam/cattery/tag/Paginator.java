@@ -1,14 +1,15 @@
 package by.epam.cattery.tag;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+
 import java.io.Writer;
 
+/**
+ * It's a tag for pagination
+ *
+ */
 public class Paginator extends SimpleTagSupport {
-
-
-
     private String uri;
     private int currPage;
     private int totalPages;
@@ -44,7 +45,8 @@ public class Paginator extends SimpleTagSupport {
             }
             for (int i = startPage; i < endPage; i++) {
                 if (i == currPage)
-                    out.write("<li class=\"paginatorCurr active"+ (lastPage && i == totalPages ? " paginatorLast" : "")  +"\">"+ currPage + "</li>");
+                    out.write("<li class=\"paginatorCurr active" + (lastPage && i == totalPages ? " paginatorLast"
+                            : "") + "\">" + currPage + "</li>");
                 else
                     out.write(constructLink(i));
             }
@@ -54,8 +56,8 @@ public class Paginator extends SimpleTagSupport {
             }
             out.write("</ul>");
 
-        } catch (java.io.IOException ex) {
-            throw new JspException("Error in Paginator tag", ex);
+        } catch (java.io.IOException e) {
+            throw new JspException(e);
         }
     }
 

@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * The filter checks if the user has access to user's pages.
+ *
+ */
 @WebFilter(urlPatterns = { "/jsp/user/*"})
 public class UserFilter implements Filter {
     private static final String MAIN_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.MAIN_PAGE);
@@ -20,6 +24,11 @@ public class UserFilter implements Filter {
     public void destroy() {
     }
 
+    /**
+     *
+     * Takes user's role from session, if it's not {@code USER} redirects to login page with message shown
+     *
+     */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;

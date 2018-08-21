@@ -2,9 +2,9 @@ package by.epam.cattery.dao.impl;
 
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.OfferDAO;
-
 import by.epam.cattery.dao.connection.ConnectionPoolException;
 import by.epam.cattery.dao.exception.DAOException;
+
 import by.epam.cattery.entity.Offer;
 import by.epam.cattery.entity.OfferStatus;
 
@@ -18,6 +18,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/**
+ * {@inheritDoc}
+ *
+ * @param {@link Offer} the type parameter
+ *
+ */
 public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     private static final Logger logger = LogManager.getLogger(OfferDAOImpl.class);
 
@@ -109,6 +115,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteAwaitingOffersOfBannedUser(int userId) throws DAOException {
         Connection con = null;
@@ -133,6 +143,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean checkOfferBelongsToUser(int userId, int offerId)  throws DAOException {
         Connection con = null;
@@ -165,7 +179,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeCreateQuery(PreparedStatement ps, Offer offer) throws SQLException {
 
@@ -175,6 +192,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateQuery(PreparedStatement ps, Offer offer) throws SQLException {
 
@@ -186,6 +207,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateStatusQuery(PreparedStatement ps, String status, int offerId) throws SQLException {
 
@@ -194,6 +219,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeDeleteQuery(PreparedStatement ps, int offerId) throws SQLException {
         ps.setInt(1, offerId);
@@ -201,73 +230,121 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getCreateQuery() {
         return CREATE_OFFER;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateQuery() {
         return UPDATE_OFFER;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateStatusQuery() {
         return UPDATE_OFFER_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdatePhotoQuery() {
         return UPDATE_PHOTO;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getDeleteQuery() {
         return DELETE_OFFER;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Offer
+     *
+     */
     @Override
     public String getQueryForAllObjects() {
         logger.log(Level.WARN, "Not implemented for Qffer");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForAllObjectsByStatus() {
         return GET_ALL_OFFERS_BY_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCountByStatus() {
         return GET_OFFERS_COUNT_BY_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCountById() {
         return GET_OFFERS_COUNT_BY_USER_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForAllObjectsById() {
         return GET_ALL_OFFERS_BY_USER_ID;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCount() {
         return GET_OFFERS_COUNT;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForSingleObject() {
         return GET_OFFER_BY_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForStatusCheck() {
         return CHECK_OFFER_STATUS;
@@ -275,7 +352,10 @@ public class OfferDAOImpl extends BaseDAO<Offer> implements OfferDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Offer readResultSet(ResultSet rs) throws SQLException {
         Offer offer = new Offer();

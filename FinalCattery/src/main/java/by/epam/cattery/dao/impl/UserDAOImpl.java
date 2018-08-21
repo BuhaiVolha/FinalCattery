@@ -5,7 +5,6 @@ import by.epam.cattery.dao.exception.DAOException;
 import by.epam.cattery.dao.BaseDAO;
 import by.epam.cattery.dao.UserDAO;
 
-import by.epam.cattery.entity.CatBodyColour;
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.entity.User;
 
@@ -24,6 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * {@inheritDoc}
+ *
+ * @param {@link User} the type parameter
+ *
+ */
 public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class);
 
@@ -129,6 +134,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean loginExists(String login) throws DAOException {
         Connection con = null;
@@ -156,6 +165,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public User getUserByLoginAndPassword(String login, String password) throws DAOException {
         Connection con = null;
@@ -173,7 +186,7 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
             boolean loginExists = rs.next();
 
             if (loginExists) {
-                boolean correctPass = BCrypt.checkpw(password, rs.getString(3)); //nvarchar(120) ?
+                boolean correctPass = BCrypt.checkpw(password, rs.getString(3));
 
                 if (correctPass) {
                     user = new User();
@@ -195,6 +208,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getDiscount(int userId) throws DAOException {
         Connection con = null;
@@ -221,6 +238,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getEmail(int userId) throws DAOException {
         Connection con = null;
@@ -247,6 +268,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean emailAlreadyExists(User user) throws DAOException {
         Connection con = null;
@@ -277,6 +302,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getColourPreferenceStatistics() throws DAOException {
         Gson gsonObj = new Gson();
@@ -313,6 +342,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updateColourPreference(User user) throws DAOException {
         Connection con = null;
@@ -337,6 +370,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void reverseUserBannedFlag(int userId) throws DAOException {
         Connection con = null;
@@ -359,6 +396,11 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
         }
     }
 
+
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void reverseUserReviewFlag(int userId) throws DAOException {
         Connection con = null;
@@ -385,6 +427,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updateDiscount(User user) throws DAOException {
         Connection con = null;
@@ -409,6 +455,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void reverseExpertRole(int userId) throws DAOException {
         Connection con = null;
@@ -432,6 +482,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean userIsBanned(String login) throws DAOException {
         Connection con = null;
@@ -462,6 +516,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean reviewWasAdded(int userId) throws DAOException {
         Connection con = null;
@@ -493,7 +551,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeCreateQuery(PreparedStatement ps, User user) throws SQLException {
 
@@ -506,6 +567,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateQuery(PreparedStatement ps, User user) throws SQLException {
 
@@ -519,6 +584,12 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public void executeUpdateStatusQuery(PreparedStatement ps, String status, int id) {
         logger.log(Level.WARN, "Getting all objects by ID is not implemented for User");
@@ -526,6 +597,12 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public void executeDeleteQuery(PreparedStatement ps, int userId) {
         logger.log(Level.WARN, "Deleting is not implemented for User");
@@ -534,78 +611,142 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getCreateQuery() {
         return CREATE_USER;
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateQuery() {
         return UPDATE_USER;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getUpdateStatusQuery() {
         logger.log(Level.WARN, "Updating status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getUpdatePhotoQuery() {
         logger.log(Level.WARN, "Execute update photo is not implemented for User (sounds like a good idea, maybe later)");
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getDeleteQuery() {
         logger.log(Level.WARN, "Deleting is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForAllObjects() {
         return GET_ALL_USERS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCount() {
         return GET_USERS_COUNT;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getQueryForAllObjectsByStatus() {
         logger.log(Level.WARN, "Taking all users by status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getQueryForTotalCountByStatus() {
         logger.log(Level.WARN, "Counting all users by status is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getQueryForTotalCountById() {
         logger.log(Level.WARN, "Counting all users by id is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getQueryForAllObjectsById() {
         logger.log(Level.WARN, "Taking all users by id is not implemented for User");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForSingleObject() {
         return GET_USER_BY_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for User
+     *
+     */
     @Override
     public String getQueryForStatusCheck() {
         logger.log(Level.WARN, "Execute status check is not implemented for User");
@@ -614,7 +755,10 @@ public class UserDAOImpl extends BaseDAO<User> implements UserDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public User readResultSet(ResultSet rs) throws SQLException {
         User user = new User();

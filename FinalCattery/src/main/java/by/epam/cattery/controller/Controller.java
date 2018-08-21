@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The front controller.
+ *
+ */
 @WebServlet(name = "Controller",
         urlPatterns = "/controller")
 public class Controller extends HttpServlet {
@@ -36,6 +40,22 @@ public class Controller extends HttpServlet {
     }
 
 
+    /**
+     * Extracts values from {@link HttpServletRequest} into {@link RequestContent}
+     * Gets the type of command for processing request and executes this command.
+     * After that inserts received values from {@link HttpServletRequest} into {@link RequestContent}
+     * And perform {@code sendRedirect()} or {@code forward()} according to {@link by.epam.cattery.controller.content.NavigationType}
+     * If {@code requestContent} was null or {@link ServiceException} has happened, redirects to the error page
+     *
+     * @param request an {@link HttpServletRequest} object that contains the client's request the
+     *
+     * @param response an {@link HttpServletResponse} object that contains the response that
+     *            the servlet sends to the client
+     * @throws ServletException if ServletException has happened during {@code forward()}
+     *
+     * @throws IOException if IOException has happened during {@code sendRedirect()} or
+     *             {@code forward()}
+     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestContent requestContent = new RequestContent();
         requestContent.extractValues(request);

@@ -21,6 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * {@inheritDoc}
+ *
+ * @param {@link Reservation} the type parameter
+ *
+ */
 public class ReservationDAOImpl extends BaseDAO<Reservation> implements ReservationDAO {
     private static final Logger logger = LogManager.getLogger(ReservationDAOImpl.class);
 
@@ -118,7 +124,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<Reservation> loadReservationsByUserId(int userId, LocaleLang localeLang, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -156,7 +165,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<Reservation> loadReservationsByStatus(ReservationStatus status, LocaleLang localeLang, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -194,6 +206,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Map<CatPedigreeType, Integer> getPedigreeStatistics() throws DAOException {
         Map<CatPedigreeType, Integer> pedigreeCount = new HashMap<>();
@@ -223,6 +239,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void setAllReservationExpiredIfTimePassed() throws DAOException {
         Connection con = null;
@@ -247,6 +267,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteAllExpiredReservationsWithReservedCat(int catId) throws DAOException {
         Connection con = null;
@@ -271,6 +295,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteNewReservationsOfBannedUser(int userId) throws DAOException {
         Connection con = null;
@@ -296,7 +324,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeCreateQuery(PreparedStatement ps, Reservation reservation) throws SQLException {
 
@@ -308,6 +339,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateQuery(PreparedStatement ps, Reservation reservation) throws SQLException {
 
@@ -321,6 +356,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateStatusQuery(PreparedStatement ps, String status, int reservationId) throws SQLException {
 
@@ -330,6 +369,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeDeleteQuery(PreparedStatement ps, int reservationId) throws SQLException {
         ps.setInt(1, reservationId);
@@ -337,79 +380,135 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getCreateQuery() {
         return CREATE_RESERVATION;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateQuery() {
         return UPDATE_RESERVATION;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateStatusQuery() {
         return UPDATE_RESERVATION_STATUS_AND_DATE;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdatePhotoQuery() {
         return UPDATE_PHOTO;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getDeleteQuery() {
         return DELETE_RESERVATION;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForAllObjects() {
         logger.log(Level.WARN, "Getting all objects not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForAllObjectsByStatus() {
         logger.log(Level.WARN, "Not implemented for Reservation due to localization issues");
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForTotalCount() {
         logger.log(Level.WARN, "Counting all objects not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCountByStatus() {
         return GET_RESERVATIONS_COUNT_BY_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCountById() {
         return GET_RESERVATIONS_COUNT_BY_USER_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForSingleObject() {
         logger.log(Level.WARN, "Getting single reservation is not implemented for Reservation");
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForAllObjectsById() {
         logger.log(Level.WARN, "Not implemented for Reservation due to localization issues");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not implemented for Reservation
+     *
+     */
     @Override
     public String getQueryForStatusCheck() {
         logger.log(Level.WARN, "Execute status check is not implemented for Reservation");
@@ -418,7 +517,10 @@ public class ReservationDAOImpl extends BaseDAO<Reservation> implements Reservat
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Reservation readResultSet(ResultSet rs) throws SQLException {
         Reservation reservation = new Reservation();

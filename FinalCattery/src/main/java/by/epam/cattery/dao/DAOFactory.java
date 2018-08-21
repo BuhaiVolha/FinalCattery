@@ -5,19 +5,14 @@ import by.epam.cattery.dao.impl.*;
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
 
-    private UserDAO userDAO;
-    private OfferDAO offerDAO;
-    private CatDAO catDAO;
-    private ReviewDAO reviewDAO;
-    private ReservationDAO reservationDAO;
+    private static final UserDAO userDAO = new UserDAOImpl();;
+    private static final OfferDAO offerDAO = new OfferDAOImpl();
+    private static final CatDAO catDAO = new CatDAOImpl();
+    private static final ReviewDAO reviewDAO = new ReviewDAOImpl();
+    private static final ReservationDAO reservationDAO = new ReservationDAOImpl();
 
 
     private DAOFactory() {
-        userDAO = new UserDAOImpl();
-        reviewDAO = new ReviewDAOImpl();
-        offerDAO = new OfferDAOImpl();
-        catDAO = new CatDAOImpl();
-        reservationDAO = new ReservationDAOImpl();
     }
 
 

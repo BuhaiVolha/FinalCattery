@@ -24,6 +24,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Date;
 
 
+/**
+ * The command for adding new review.
+ *
+ */
 public class AddReviewCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(AddReviewCommand.class);
 
@@ -31,6 +35,17 @@ public class AddReviewCommand implements ActionCommand {
     private static final String WRITE_REVIEW_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.WRITE_REVIEW);
 
 
+    /**
+     *
+     * Tries add new review.
+     * If input data are invalid, the redirection back to the form is performed and the corresponding message is shown.
+     * Otherwise redirects to the success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         ReviewService reviewService = ServiceFactory.getInstance().getReviewService();

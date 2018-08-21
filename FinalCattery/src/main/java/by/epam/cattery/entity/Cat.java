@@ -221,7 +221,7 @@ public class Cat extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("name", name)
                 .append("userMadeOfferId", userMadeOfferId)
                 .append("offerMadeId", offerMadeId)

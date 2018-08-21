@@ -159,7 +159,7 @@ public class Offer extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("userMadeOfferId", userMadeOfferId)
                 .append("userMadeOfferName", userMadeOfferName)
                 .append("userMadeOfferLastname", userMadeOfferLastname)

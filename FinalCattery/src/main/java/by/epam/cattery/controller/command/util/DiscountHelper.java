@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * A class for setting a price with discount to cat.
+ *
+ */
 public class DiscountHelper {
     private static final Logger logger = LogManager.getLogger(DiscountHelper.class);
 

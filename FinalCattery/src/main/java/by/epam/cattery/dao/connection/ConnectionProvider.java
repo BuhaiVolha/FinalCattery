@@ -1,6 +1,7 @@
 package by.epam.cattery.dao.connection;
 
 import by.epam.cattery.dao.exception.DAOException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,27 +11,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * A class that provides both transactional and non-transactional connections
+ *
+ */
 public class ConnectionProvider {
     private static final Logger logger = LogManager.getLogger(ConnectionProvider.class);
 
-    private static ConnectionProvider instance;
+    private static ConnectionProvider instance = new ConnectionProvider();
     private Connection connection;
     private static final ThreadLocal<Connection> local = new ThreadLocal<>();
     private boolean transactional;
 
 
     public static ConnectionProvider getInstance() {
-
-        if (instance == null) {
-            instance = new ConnectionProvider();
-            logger.log(Level.DEBUG, "Provider was null, new one created");
-        }
-        logger.log(Level.DEBUG, "There was a Provider, old one was returned");
         return instance;
     }
 
 
+    /**
+     * Returns connection. If connection is transactional then it's taken from {@code ThreadLocal}
+     *
+     * @return the connection
+     * @throws ConnectionPoolException the connection pool exception
+     *
+     */
     public Connection obtainConnection() throws ConnectionPoolException {
 
         if (!transactional) {
@@ -46,6 +51,12 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Starts transaction. Places connection into {@code ThreadLocal} in order to be shared
+     *
+     * @throws DAOException the dao exception
+     *
+     */
     public void startTransaction() throws DAOException {
 
         try {
@@ -64,11 +75,15 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Commits transaction.
+     *
+     * @throws DAOException the dao exception
+     */
     public void commitTransaction() throws DAOException {
         connection = local.get();
 
         if (connection != null) {
-            logger.log(Level.DEBUG, "Connection is not null " + connection);
 
             try {
                 connection.commit();
@@ -82,12 +97,14 @@ public class ConnectionProvider {
     }
 
 
-    public void abortTransaction() { //throws DAO EXCEPTION???????
+    /**
+     * Rollbacks transaction if needed.
+     *
+     */
+    public void abortTransaction() {
         connection = local.get();
 
         if (connection != null) {
-
-            logger.log(Level.DEBUG, "Connection is not null " + connection);
 
             try {
                 connection.rollback();
@@ -100,6 +117,9 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Ends transaction. Removes connection from {@code ThreadLocal} and sets {@code transactional} false
+     */
     public void endTransaction() {
 
         try {
@@ -117,6 +137,12 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Closes the connection if it's non-transactional.
+     *
+     * @param connection the connection
+     *
+     */
     public void close(Connection connection) {
 
         if (!transactional) {
@@ -130,6 +156,12 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Sets transaction isolation.
+     *
+     * @param lvl the lvl of isolation
+     *
+     */
     public void setTransactionIsolation(int lvl) {
 
         try {
@@ -140,6 +172,13 @@ public class ConnectionProvider {
         }
     }
 
+    /**
+     * Closes resources.
+     *
+     * @param rs the {@link ResultSet}
+     * @param st the {@link Statement}
+     *
+     */
     public void closeResources(ResultSet rs, Statement st) {
 
         if (rs != null) {
@@ -150,11 +189,16 @@ public class ConnectionProvider {
                 logger.log(Level.WARN, "ResultSet wasn't closed");
             }
         }
-
         closeResources(st);
     }
 
 
+    /**
+     * Closes resources.
+     *
+     * @param st {@link Statement}
+     *
+     */
     public void closeResources(Statement st) {
 
         if (st != null) {
@@ -168,11 +212,23 @@ public class ConnectionProvider {
     }
 
 
+    /**
+     * Defines whether it's a transaction.
+     *
+     * @return the boolean
+     *
+     */
     public boolean isTransactional() {
         return transactional;
     }
 
 
+    /**
+     * If is true, then the next connection given will be transactional.
+     *
+     * @param transactional the transactional
+     *
+     */
     public void setTransactional(boolean transactional) {
         this.transactional = transactional;
     }

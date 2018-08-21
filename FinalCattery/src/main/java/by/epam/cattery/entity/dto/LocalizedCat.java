@@ -1,6 +1,7 @@
 package by.epam.cattery.entity.dto;
 
 import by.epam.cattery.entity.*;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -174,7 +175,7 @@ public class LocalizedCat extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("userMadeOfferId", userMadeOfferId)
                 .append("offerMadeId", offerMadeId)
                 .append("gender", gender)

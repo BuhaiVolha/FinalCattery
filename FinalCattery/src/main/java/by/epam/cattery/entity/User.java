@@ -23,7 +23,7 @@ public class User extends Entity {
                 String phone, String colourPreference, int discount, boolean banned, boolean reviewLeft) {
         super(id);
         this.login = login;
-        this.password = password;   // массив символов?
+        this.password = password;
         this.role = role;
         this.name = name;
         this.lastname = lastname;
@@ -172,7 +172,7 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("login", login)
                 .append("password", password)
                 .append("role", role)

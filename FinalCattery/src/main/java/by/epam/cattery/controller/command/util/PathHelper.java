@@ -1,13 +1,17 @@
 package by.epam.cattery.controller.command.util;
 
 import org.apache.http.client.utils.URIBuilder;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * A class for adding parameters to url.
+ *
+ */
 public class PathHelper {
     private static final Logger logger = LogManager.getLogger(PathHelper.class);
 

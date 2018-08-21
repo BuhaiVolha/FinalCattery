@@ -2,6 +2,7 @@ package by.epam.cattery.entity.dto;
 
 import by.epam.cattery.entity.Entity;
 import by.epam.cattery.entity.LocaleLang;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -109,7 +110,7 @@ public class CatDetail extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("name", name)
                 .append("lastname", lastname)
                 .append("description", description)

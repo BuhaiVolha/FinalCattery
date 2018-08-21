@@ -12,7 +12,11 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
 
-
+/**
+ * Accumulates the data from {@code request} that are extracted into {@code RequestContent}
+ * then after command has been executed inserts the data into {@code request}
+ *
+ */
 public class RequestContent {
     private static final Logger logger = LogManager.getLogger(RequestContent.class);
 

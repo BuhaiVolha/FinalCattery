@@ -29,7 +29,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The command for updating cat's information.
+ *
+ */
 public class EditCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(EditCatCommand.class);
 
@@ -38,6 +41,17 @@ public class EditCatCommand implements ActionCommand {
     private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
 
 
+    /**
+     * Tries to edit cat.
+     * If user's role isn't {@code EXPERT} redirects to the access denied page with message shown.
+     * After update has been made redirects to the success page.
+     * If input data were invalid, performs redirection back to the form with corresponding message shown.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         String path = ACCESS_DENIED_PAGE;

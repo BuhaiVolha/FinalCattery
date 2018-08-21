@@ -2,6 +2,10 @@ package by.epam.cattery.util;
 
 import java.util.ResourceBundle;
 
+/**
+ * Helps to get messages from resource bundles.
+ *
+ */
 public class ConfigurationManager {
     private static final ConfigurationManager instance = new ConfigurationManager();
 
@@ -22,16 +26,39 @@ public class ConfigurationManager {
         return instance;
     }
 
+
+    /**
+     * Defines the page.
+     *
+     * @param key the key
+     * @return the path
+     *
+     */
     public String getProperty(String key) {
         return path.getString(key);
     }
 
 
+    /**
+     * Gets message.
+     *
+     * @param key the key
+     * @return the message
+     *
+     */
     public String getMessage(String key) {
         return messages.getString(key);
     }
 
 
+    /**
+     * Gets message of certain locale.
+     *
+     * @param key    the key
+     * @param locale {@link by.epam.cattery.entity.LocaleLang}
+     * @return the message
+     *
+     */
     public String getMessage(String key, String locale) {
         String message = EMPTY_STRING;
 
@@ -47,6 +74,13 @@ public class ConfigurationManager {
     }
 
 
+    /**
+     * Gets the database parameters.
+     *
+     * @param key the key
+     * @return the database parameters
+     *
+     */
     public String getDatabaseParameters(String key) {
         return databaseParameters.getString(key);
     }

@@ -6,6 +6,7 @@ import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.util.PathHelper;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
@@ -27,6 +28,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/**
+ * The command for registering a new user.
+ *
+ */
 public class RegistrationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(RegistrationCommand.class);
 
@@ -34,15 +39,25 @@ public class RegistrationCommand implements ActionCommand {
     private static final String REGISTRATION_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.REGISTRATION);
 
 
+    /**
+     *
+     * Tries to register a new user.
+     * If email or login already exist, or input data are invalid,
+     * redirection back to the form is performed and the corresponding message is shown.
+     * If registration was made, puts user's id, role and login into {@code requestContent}
+     * and redirects to the success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         UserService userService = ServiceFactory.getInstance().getUserService();
         User user = createUser(requestContent);
 
         PathHelper pathHelper = PathHelper.getInstance();
         String path;
-
-        String locale = requestContent.getSessionAttribute(SessionConst.LOCALE).toString();
-        String message;
 
         try {
             int userId = userService.register(user);

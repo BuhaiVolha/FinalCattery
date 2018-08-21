@@ -1,23 +1,28 @@
 package by.epam.cattery.service.validation;
 
-import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Review;
 import by.epam.cattery.entity.User;
 
 import by.epam.cattery.entity.dto.CatDetail;
 import by.epam.cattery.entity.dto.LocalizedCat;
+
 import org.apache.commons.validator.GenericValidator;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 
+/**
+ * Contains methods for validation of user's input.
+ */
 public class Validator {
     private static final Logger logger = LogManager.getLogger(Validator.class);
 
@@ -45,6 +50,7 @@ public class Validator {
 
     private Validator() {}
 
+
     public boolean validateRegistrationInputData(User user) {
 
         return !GenericValidator.isBlankOrNull(user.getLogin())
@@ -58,6 +64,7 @@ public class Validator {
                 && !GenericValidator.isBlankOrNull(user.getLastname())
                 && GenericValidator.isEmail(user.getEmail());
     }
+
 
     public boolean validateLoginInputData(String login, String password) {
 
@@ -87,7 +94,9 @@ public class Validator {
         boolean validEn = false;
 
         for (CatDetail catDetail : catDetails) {
+
             switch (catDetail.getLocaleLang()) {
+
                 case RU:
                     validRu = validateCatDetailsRu(catDetail);
                     break;

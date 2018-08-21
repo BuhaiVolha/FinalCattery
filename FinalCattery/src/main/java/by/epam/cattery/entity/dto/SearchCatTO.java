@@ -4,12 +4,16 @@ import by.epam.cattery.entity.Cat;
 import by.epam.cattery.entity.Entity;
 import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.service.util.PageCounter;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.List;
 
+/**
+ * The type Search cat to.
+ */
 public class SearchCatTO extends Entity {
     private static final long serialVersionUID = -2358283210277377012L;
     private List<Cat> cats;
@@ -129,7 +133,7 @@ public class SearchCatTO extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("cats", cats)
                 .append("searchedCat", searchedCat)
                 .append("userDiscount", userDiscount)

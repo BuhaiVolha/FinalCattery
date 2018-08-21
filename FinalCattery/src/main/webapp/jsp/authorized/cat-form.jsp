@@ -133,11 +133,7 @@
                     </div>
                 </div>
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('.datepicker').datepicker({autoclose: true});
-                    });
-                </script>
+                <script src="/assets/js/datePicker.js"></script>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">${catsBodyColour}</label>

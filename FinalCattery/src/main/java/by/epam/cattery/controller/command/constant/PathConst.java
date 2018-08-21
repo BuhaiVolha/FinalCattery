@@ -1,5 +1,9 @@
 package by.epam.cattery.controller.command.constant;
 
+/**
+ * Stores the names of paths form resource bundle.
+ *
+ */
 public final class PathConst {
     public final static String PATH_START = "path.page.";
 

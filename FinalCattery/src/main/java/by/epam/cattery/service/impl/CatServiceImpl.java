@@ -14,10 +14,10 @@ import by.epam.cattery.entity.OfferStatus;
 import by.epam.cattery.entity.dto.CatDetail;
 import by.epam.cattery.entity.dto.LocalizedCat;
 import by.epam.cattery.entity.dto.SearchCatTO;
+
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.exception.InvalidDateException;
 import by.epam.cattery.service.exception.ServiceException;
-
 import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.util.PageCounter;
 import by.epam.cattery.service.validation.Validator;
@@ -26,11 +26,14 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
+/**
+ * {@inheritDoc}
+ *
+ */
 public class CatServiceImpl implements CatService {
     private static final Logger logger = LogManager.getLogger(CatServiceImpl.class);
 
@@ -39,7 +42,12 @@ public class CatServiceImpl implements CatService {
     private static CatDAO catDAO = daoFactory.getCatDAO();
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no cats has been found
+     *
+     */
     @Override
     public List<Cat> takeAllCats(LocaleLang localeLang, int page, int itemsPerPage) throws ServiceException {
         List<Cat> cats;
@@ -57,6 +65,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getCatsPageCount(int itemsPerPage) throws ServiceException {
         int pageCount;
@@ -72,6 +84,12 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no cats has been found
+     *
+     */
     @Override
     public List<Cat> takeAllCatsByStatus(LocaleLang localeLang, CatStatus status, int page, int itemsPerPage) throws ServiceException {
         List<Cat> cats;
@@ -89,9 +107,13 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getCatsPageCountByStatus(CatStatus status, int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = catDAO.getTotalCountByStatus(status.toString());
@@ -104,6 +126,14 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if cat's birth date is valid otherwise {@link InvalidDateException} will be thrown
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     */
     @Override
     public int addCat(LocalizedCat cat) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -136,6 +166,14 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if cat's birth date is valid otherwise {@link InvalidDateException} will be thrown
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     */
     @Override
     public void editCat(LocalizedCat cat) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -166,6 +204,16 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if cat's birth date is valid otherwise {@link InvalidDateException} will be thrown
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * The implementation also checks if the offer was approved otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void addOfferedCat(LocalizedCat cat, int offerId) throws ServiceException {
 
@@ -203,6 +251,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void searchForCat(SearchCatTO searchCatTO, int page) throws ServiceException {
 
@@ -215,6 +267,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void getPageCountForFoundCats(SearchCatTO searchCatTO) throws ServiceException {
 
@@ -227,6 +283,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Cat takeSingleCat(int catId, LocaleLang localeLang) throws ServiceException {
 
@@ -239,6 +299,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public CatDetail getCatDetailsWithLocalization(int catId, LocaleLang localeLang) throws ServiceException {
 
@@ -251,6 +315,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteCat(int catId) throws ServiceException {
 
@@ -263,6 +331,10 @@ public class CatServiceImpl implements CatService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void addCatPhoto(int catId, String photo) throws ServiceException {
 

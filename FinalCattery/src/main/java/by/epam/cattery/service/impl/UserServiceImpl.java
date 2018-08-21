@@ -12,12 +12,14 @@ import by.epam.cattery.service.util.PageCounter;
 import by.epam.cattery.service.util.PasswordEncrypter;
 import by.epam.cattery.service.validation.Validator;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.util.Collections;
 import java.util.List;
 
 
+/**
+ * {@inheritDoc}
+ *
+ */
 public class UserServiceImpl implements UserService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
 
@@ -27,6 +29,10 @@ public class UserServiceImpl implements UserService {
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getDiscount(int userId) throws ServiceException {
 
@@ -39,6 +45,16 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * If login already exists, {@link by.epam.cattery.service.exception.LoginAlreadyExistsException} is thrown
+     *
+     * If email is already taken, {@link by.epam.cattery.service.exception.EmailAlreadyExistsException} is thrown
+     *
+     */
     @Override
     public int register(User user) throws ServiceException {
 
@@ -65,6 +81,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * If the user is banned, {@link by.epam.cattery.service.exception.UserIsBannedException} is thrown
+     *
+     * If the password is wrong or no user with such login exists,
+     * {@link by.epam.cattery.service.exception.NoSuchUserException} is thrown
+     *
+     */
     @Override
     public User logIn(String login, String password) throws ServiceException {
 
@@ -87,6 +114,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * If new email is already taken, {@link by.epam.cattery.service.exception.EmailAlreadyExistsException} is thrown
+     *
+     */
     @Override
     public void editPersonalInfo(User user) throws ServiceException {
 
@@ -111,6 +146,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public User takeSingleUser(int userId) throws ServiceException {
 
@@ -123,6 +162,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no cats has been found
+     *
+     */
     @Override
     public List<User> takeAllUsers(int page, int itemsPerPage) throws ServiceException {
         List<User> users;
@@ -141,6 +186,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getUsersPageCount(int itemsPerPage) throws ServiceException {
         int pageCount = 0;
@@ -156,6 +205,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void changeColourPreference(User user) throws ServiceException {
 
@@ -168,6 +221,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String countStatistics() throws ServiceException {
 
@@ -180,6 +237,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation also deletes this user's reservations and offers
+     *
+     */
     @Override
     public void banUser(int userId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -204,6 +267,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void unbanUser(int userId) throws ServiceException {
 
@@ -216,6 +283,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void makeDiscount(User user) throws ServiceException {
 
@@ -228,6 +299,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void makeExpert(int userId) throws ServiceException {
 
@@ -240,6 +315,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void unmakeExpert(int userId) throws ServiceException {
 

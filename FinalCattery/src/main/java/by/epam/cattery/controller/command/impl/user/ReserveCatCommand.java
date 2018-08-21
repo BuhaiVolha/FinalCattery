@@ -4,24 +4,31 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
 import by.epam.cattery.entity.Role;
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.CatPedigreeType;
 import by.epam.cattery.entity.Reservation;
+
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 
+
+/**
+ * The command for reserving cats.
+ *
+ */
 public class ReserveCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(ReserveCatCommand.class);
 
@@ -29,6 +36,16 @@ public class ReserveCatCommand implements ActionCommand {
     private static final String ACCESS_DENIED_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.ACCESS_DENIED_PAGE);
 
 
+    /**
+     *
+     * If user's role isn't {@code USER} redirects to the access denied page with message shown.
+     * Otherwise performs reservations of the cat and makes redirect to a success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         String path = ACCESS_DENIED_PAGE;

@@ -5,10 +5,12 @@ import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
+
 import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
 import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.User;
 import by.epam.cattery.service.ServiceFactory;
@@ -16,10 +18,15 @@ import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.EmailAlreadyExistsException;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.ValidationFailedException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The command for updating user's information.
+ *
+ */
 public class EditPersonalInformationCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(EditPersonalInformationCommand.class);
 
@@ -27,6 +34,18 @@ public class EditPersonalInformationCommand implements ActionCommand {
     private static final String EDIT_USER_INFO_COMMAND = ConfigurationManager.getInstance().getProperty(PathConst.EDIT_USER_INFO_COMMAND);
 
 
+    /**
+     *
+     * Tries to update user's information.
+     * If new email already exists, or input data are invalid,
+     * redirection back to the form is performed and the corresponding message is shown.
+     * If the information is updated, redirects to the success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         UserService userService = ServiceFactory.getInstance().getUserService();

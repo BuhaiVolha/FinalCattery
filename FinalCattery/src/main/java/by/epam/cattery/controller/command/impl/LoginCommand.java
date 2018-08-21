@@ -5,10 +5,13 @@ import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
 import by.epam.cattery.entity.User;
+
 import by.epam.cattery.service.exception.NoSuchUserException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.util.ConfigurationManager;
@@ -16,16 +19,34 @@ import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.UserService;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.UserIsBannedException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+/**
+ * The command for logging in.
+ *
+ */
 public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
 
 
+    /**
+     *
+     * Tries to find user by login and password.
+     * If the user is banned, or if the password is wrong or no user with such login exists, or input data are invalid,
+     * the corresponding message is shown.
+     * If user is found, redirects to the success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         UserService userService = ServiceFactory.getInstance().getUserService();
 

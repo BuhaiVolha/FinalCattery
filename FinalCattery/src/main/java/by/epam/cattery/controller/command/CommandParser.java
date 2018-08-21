@@ -15,6 +15,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
+/**
+ * This class parses json file where commands are stored.
+ *
+ */
 public class CommandParser {
     private static final Logger logger = LogManager.getLogger(CommandParser.class);
 

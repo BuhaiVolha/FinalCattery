@@ -4,19 +4,28 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.util.UploadHelper;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
 import by.epam.cattery.util.ConfigurationManager;
+
 import by.epam.cattery.service.CatService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Part;
 
+
+/**
+ * The command for uploading a photo for cat.
+ *
+ */
 public class UploadPhotoForCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(UploadPhotoForCatCommand.class);
 
@@ -26,6 +35,17 @@ public class UploadPhotoForCatCommand implements ActionCommand {
     private static final String CAT_PHOTO_PREFIX = "cat-up";
 
 
+    /**
+     *
+     * Receives photo from {@code requestContent}, generates random name for photo using {@code CAT_PHOTO_PREFIX},
+     * saves photo to {@code CAT_PHOTO_SAVE_PATH}, the name - to the cat.
+     * Redirects to the success page.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         CatService catService = ServiceFactory.getInstance().getCatService();

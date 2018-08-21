@@ -2,7 +2,7 @@ package by.epam.cattery.service;
 
 import by.epam.cattery.service.impl.*;
 
-public class ServiceFactory { //final?
+public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
     private static final UserService userService = new UserServiceImpl();
     private static final CatService catService = new CatServiceImpl();

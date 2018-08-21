@@ -4,7 +4,6 @@ import by.epam.cattery.controller.command.ActionCommand;
 import by.epam.cattery.controller.command.constant.MessageConst;
 import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
-import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.util.PathHelper;
 import by.epam.cattery.controller.command.util.UploadHelper;
 
@@ -31,7 +30,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The command for adding a cat, whether it's a new cat or an offered one.
+ *
+ */
 public class AddCatCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(AddCatCommand.class);
 
@@ -45,6 +47,17 @@ public class AddCatCommand implements ActionCommand {
     private static final int ADMIN_ID = 1;
 
 
+    /**
+     * Adds a cat.
+     * If it's a new cat and is added by {@code ADMIN} redirects to a page for uploading a photo to it.
+     * If the cat was an offer copies a photo from offer to a cat and redirects to the success page.
+     * If input data were invalid, performs redirection back to the form with corresponding message shown.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         CatService catService = ServiceFactory.getInstance().getCatService();

@@ -12,8 +12,8 @@ import by.epam.cattery.service.ReviewService;
 import by.epam.cattery.service.exception.ServiceException;
 import by.epam.cattery.service.exception.ValidationFailedException;
 import by.epam.cattery.service.util.PageCounter;
-
 import by.epam.cattery.service.validation.Validator;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +22,10 @@ import java.util.Collections;
 import java.util.List;
 
 
+/**
+ * {@inheritDoc}
+ *
+ */
 public class ReviewServiceImpl implements ReviewService {
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
 
@@ -31,6 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
     private static UserDAO userDAO = daoFactory.getUserDAO();
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no reviews has been found
+     *
+     */
     @Override
     public List<Review> takeAllReviews(int page, int itemsPerPage) throws ServiceException {
         List<Review> reviews;
@@ -48,9 +58,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getReviewsPageCount(int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = reviewDAO.getTotalCount();
@@ -63,6 +77,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * The implementation also checks if the user hasn't already added review otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void writeReview(Review review) throws ServiceException {
 
@@ -95,6 +117,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if the user has added the review in the first place otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void deleteReview(int reviewId, int userId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -122,6 +150,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if input data are valid otherwise {@link ValidationFailedException} will be thrown
+     *
+     * The implementation also checks if the user has added the review in the first place otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void editReview(Review review) throws ServiceException {
 
@@ -140,6 +176,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Review takeSingleReview(int reviewId) throws ServiceException {
 

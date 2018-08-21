@@ -100,7 +100,7 @@ public class Review extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("userLeftId", userLeftId)
                 .append("userLeftLogin", userLeftLogin)
                 .append("text", text)

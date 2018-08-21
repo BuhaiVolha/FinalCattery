@@ -16,24 +16,45 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The command for expert to ask new price for offer, user cat either agree or disagree.
+ *
+ */
 public class BargainAboutPriceCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(BargainAboutPriceCommand.class);
 
     private static final String SUCCESS_PAGE = ConfigurationManager.getInstance().getProperty(PathConst.SUCCESS_PAGE);
 
 
+    /**
+     *
+     * Updates offer status and redirects to the success page.
+     * {@code ServiceException} will be thrown if the offer's status wasn't appropriate in the first place.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
         OfferService offerService = ServiceFactory.getInstance().getOfferService();
 
+        Offer offer = createOffer(requestContent);
+        offerService.answerToOffer(offer, OfferStatus.AWAIT);
+
+        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+    }
+
+
+    private Offer createOffer(RequestContent requestContent) {
         Offer offer = new Offer();
+
         offer.setExpertMessage(requestContent.getParameter(RequestConst.OFFER_EXPERT_MESSAGE_TO_USER));
         offer.setId(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_ID)));
         offer.setPrice(Integer.parseInt(requestContent.getParameter(RequestConst.OFFER_PRICE)));
         offer.setStatus(OfferStatus.DISC);
 
-        offerService.answerToOffer(offer, OfferStatus.AWAIT);
-
-        return new RequestResult(NavigationType.REDIRECT, SUCCESS_PAGE);
+        return offer;
     }
 }

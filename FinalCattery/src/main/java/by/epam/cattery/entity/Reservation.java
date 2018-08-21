@@ -178,7 +178,7 @@ public class Reservation extends Entity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(super.toString())
                 .append("userMadeReservationId", userMadeReservationId)
                 .append("userMadeReservationName", userMadeReservationName)
                 .append("userMadeReservationLastname", userMadeReservationLastname)

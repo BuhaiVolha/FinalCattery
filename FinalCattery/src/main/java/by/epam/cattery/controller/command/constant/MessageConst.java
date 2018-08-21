@@ -1,6 +1,9 @@
 package by.epam.cattery.controller.command.constant;
 
-
+/**
+ * Stores the names of messages attributes.
+ *
+ */
 public final class MessageConst {
 
     public static final String EMAIL_TAKEN = "emailTaken";

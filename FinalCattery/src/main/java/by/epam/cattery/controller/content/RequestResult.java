@@ -4,6 +4,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+
+/**
+ * Contains the {@code page} to which {@code sendRedirect()} or {@code forward()} will be performed,
+ * the latter is defined by {@code navigationType}
+ *
+ */
 public class RequestResult {
     private NavigationType navigationType;
     private String page;

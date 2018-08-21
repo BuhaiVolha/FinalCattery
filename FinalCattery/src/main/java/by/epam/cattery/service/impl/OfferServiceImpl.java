@@ -14,11 +14,20 @@ import by.epam.cattery.service.util.PageCounter;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * {@inheritDoc}
+ *
+ */
 public class OfferServiceImpl implements OfferService {
     private static DAOFactory daoFactory = DAOFactory.getInstance();
     private static OfferDAO offerDAO = daoFactory.getOfferDAO();
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int offerCat(Offer offer) throws ServiceException {
 
@@ -26,11 +35,15 @@ public class OfferServiceImpl implements OfferService {
             return offerDAO.saveAndReturnId(offer);
 
         } catch (DAOException e) {
-            throw new ServiceException("Offering kitten failed in Service", e);
+            throw new ServiceException("Offering cat failed", e);
         }
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public boolean offerBelongsToUser(int userId, int offerId) throws ServiceException {
 
@@ -43,8 +56,13 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void addPhotoToOffer(int offerId, String photo) throws ServiceException {
+
         try {
             offerDAO.updatePhoto(offerId, photo);
 
@@ -54,6 +72,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no offers for this user has been found
+     *
+     */
     @Override
     public List<Offer> takeAllOffersForUser(int userId, int page, int itemsPerPage) throws ServiceException {
         List<Offer> offers;
@@ -66,15 +90,19 @@ public class OfferServiceImpl implements OfferService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Showing all offers by Id failed", e);
+            throw new ServiceException("Taking all offers by Id failed", e);
         }
         return offers;
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getOffersPageCountByUserId(int userId, int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = offerDAO.getTotalCountById(userId);
@@ -87,6 +115,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no offers by status has been found
+     *
+     */
     @Override
     public List<Offer> takeAllOffersByStatus(OfferStatus status, int page, int itemsPerPage) throws ServiceException {
         List<Offer> offers;
@@ -99,15 +133,19 @@ public class OfferServiceImpl implements OfferService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("Showing all offers by status failed", e);
+            throw new ServiceException("Taking all offers by status failed", e);
         }
         return offers;
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getOffersPageCountByStatus(OfferStatus status, int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = offerDAO.getTotalCountByStatus(status.toString());
@@ -120,6 +158,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if the offer has required status otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void answerToOffer(Offer offer, OfferStatus statusToCheck) throws ServiceException {
 
@@ -129,11 +173,15 @@ public class OfferServiceImpl implements OfferService {
             }
 
         } catch (DAOException e) {
-            throw new ServiceException("answering to offer failed", e);
+            throw new ServiceException("Answering to offer failed", e);
         }
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Offer takeSingleOffer(int id) throws ServiceException {
 
@@ -141,11 +189,15 @@ public class OfferServiceImpl implements OfferService {
             return offerDAO.getById(id);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while takeSingleOffer", e);
+            throw new ServiceException("Exception while taking single offer", e);
         }
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteOffer(int offerId) throws ServiceException {
 
@@ -153,7 +205,7 @@ public class OfferServiceImpl implements OfferService {
             offerDAO.delete(offerId);
 
         } catch (DAOException e) {
-            throw new ServiceException("Exception while takeSingleOffer", e);
+            throw new ServiceException("Exception while deleting offer", e);
         }
     }
 }

@@ -19,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * {@inheritDoc}
+ *
+ * @param {@link Cat} the type parameter
+ *
+ */
 public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     private static final Logger logger = LogManager.getLogger(CatDAOImpl.class);
 
@@ -157,7 +163,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int saveLocalizedCat(LocalizedCat cat) throws DAOException {
         Connection con = null;
@@ -194,6 +203,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void saveLocalizedCatDetails(int catId, List<CatDetail> catDetails) throws DAOException {
         Connection con = null;
@@ -228,6 +241,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updateLocalizedCat(LocalizedCat cat) throws DAOException {
         Connection con = null;
@@ -261,6 +278,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void updateLocalizedCatDetails(int catId, List<CatDetail> catDetails) throws DAOException {
         Connection con = null;
@@ -295,6 +316,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<Cat> loadAllCats(LocaleLang localeLang, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -330,6 +355,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public List<Cat> loadAllCatsByStatus(LocaleLang localeLang, CatStatus catStatus, int page, int itemsPerPage) throws DAOException {
         Connection connection = null;
@@ -366,6 +395,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Cat getCatById(int catId, LocaleLang localeLang) throws DAOException {
         Connection connection = null;
@@ -394,6 +427,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public CatDetail getCatDetail(int catId, LocaleLang localeLang) throws DAOException {
         Connection connection = null;
@@ -421,7 +458,14 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
         }
     }
 
-
+    /**
+     * Returns an object created from {@link ResultSet}
+     *
+     * @param rs the {@link ResultSet}
+     * @return {@link CatDetail}
+     * @throws SQLException the sql exception
+     *
+     */
     private CatDetail createCatDetail(ResultSet rs) throws SQLException {
         CatDetail catDetail = new CatDetail();
 
@@ -436,6 +480,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void setCatsAvailableIfReservationsExpired() throws DAOException {
         Connection con = null;
@@ -460,6 +508,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void setCatsAvailableIfUserBanned(int userId) throws DAOException {
         Connection con = null;
@@ -485,6 +537,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void searchForCat(SearchCatTO searchCatTO, int page) throws DAOException {
         Cat cat = searchCatTO.getSearchedCat();
@@ -556,6 +612,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void getTotalCountForFoundCats(SearchCatTO searchCatTO) throws DAOException {
 
@@ -582,6 +642,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getCatIdByReservationId(int reservationId) throws DAOException {
         Connection con = null;
@@ -613,7 +677,12 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public void executeCreateQuery(PreparedStatement ps, Cat cat) throws SQLException {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
@@ -621,20 +690,32 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public void executeUpdateQuery(PreparedStatement ps, Cat cat) throws SQLException {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeUpdateStatusQuery(PreparedStatement ps, String status, int id) throws SQLException {
         ps.setString(1, status);
         ps.setInt(2, id);
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void executeDeleteQuery(PreparedStatement ps, int catId) throws SQLException {
         ps.setInt(1, catId);
@@ -643,7 +724,12 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getCreateQuery() {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
@@ -651,67 +737,126 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getUpdateQuery() {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdateStatusQuery() {
         return UPDATE_CAT_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getUpdatePhotoQuery() {
         return UPDATE_PHOTO;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getDeleteQuery() {
         return DELETE_CAT;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getQueryForAllObjects() {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCount() {
         return GET_CATS_COUNT;
     }
 
-
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getQueryForSingleObject() {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForStatusCheck() {
         return CHECK_CAT_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getQueryForAllObjectsByStatus() {
         logger.log(Level.WARN, "Not supported for Cat due to localization issues");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public String getQueryForTotalCountByStatus() {
         return GET_CATS_COUNT_BY_STATUS;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getQueryForTotalCountById() {
         logger.log(Level.WARN, "Counting all objects by id is not implemented for Cat");
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Throws {@link UnsupportedOperationException} because not supported for Cat
+     *
+     */
     @Override
     public String getQueryForAllObjectsById() {
         logger.log(Level.WARN, "Taking all objects by id is not implemented for Cat");
@@ -720,7 +865,10 @@ public class CatDAOImpl extends BaseDAO<Cat> implements CatDAO {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Cat readResultSet(ResultSet rs) throws SQLException {
         Cat cat = new Cat();

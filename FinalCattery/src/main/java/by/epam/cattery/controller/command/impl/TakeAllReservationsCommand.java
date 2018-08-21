@@ -5,23 +5,32 @@ import by.epam.cattery.controller.command.constant.PathConst;
 import by.epam.cattery.controller.command.constant.RequestConst;
 import by.epam.cattery.controller.command.constant.SessionConst;
 import by.epam.cattery.controller.command.impl.user.TakeAllOffersCommand;
+
 import by.epam.cattery.controller.content.NavigationType;
 import by.epam.cattery.controller.content.RequestContent;
 import by.epam.cattery.controller.content.RequestResult;
+
 import by.epam.cattery.entity.LocaleLang;
 import by.epam.cattery.entity.ReservationStatus;
-import by.epam.cattery.util.ConfigurationManager;
 import by.epam.cattery.entity.Reservation;
 import by.epam.cattery.entity.Role;
+
+import by.epam.cattery.util.ConfigurationManager;
+
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.ServiceFactory;
 import by.epam.cattery.service.exception.ServiceException;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The command for taking all reservations.
+ *
+ */
 public class TakeAllReservationsCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger(TakeAllOffersCommand.class);
 
@@ -32,6 +41,20 @@ public class TakeAllReservationsCommand implements ActionCommand {
     private static final int DEFAULT_PAGE = 1;
 
 
+    /**
+     *
+     * If user's role is {@code ADMIN}, loads all {@code NEW} reservations.
+     * If user's role is {@code USER}, loads all reservations by his id.
+     * Taking into account locale when performing above operations.
+     * Counts pagination details as well. Puts all of this into {@code requestContent}.
+     * Makes forward to a page with reservations display.
+     * If user's role isn't either {@code ADMIN} or {@code USER} redirects to access denied page with message.
+     *
+     * @param requestContent - {@link RequestContent) object that accumulates the data from request
+     * @return {@link RequestResult) object that contains next page and the type of operation that will be performed
+     * @throws ServiceException
+     *
+     */
     @Override
     public RequestResult execute(RequestContent requestContent) throws ServiceException {
 

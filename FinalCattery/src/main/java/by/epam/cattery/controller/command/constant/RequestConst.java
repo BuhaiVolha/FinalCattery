@@ -1,5 +1,9 @@
 package by.epam.cattery.controller.command.constant;
 
+/**
+ * Stores the names of request attributes.
+ *
+ */
 public final class RequestConst {
     public static final String USER = "user";
     public static final String USER_LOGIN = "login";

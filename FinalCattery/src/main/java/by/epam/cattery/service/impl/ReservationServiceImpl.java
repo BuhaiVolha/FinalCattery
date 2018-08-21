@@ -11,8 +11,8 @@ import by.epam.cattery.entity.*;
 
 import by.epam.cattery.service.ReservationService;
 import by.epam.cattery.service.exception.ServiceException;
-
 import by.epam.cattery.service.util.PageCounter;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * {@inheritDoc}
+ *
+ */
 public class ReservationServiceImpl implements ReservationService {
     private static final Logger logger = LogManager.getLogger(ReservationServiceImpl.class);
 
@@ -29,6 +33,14 @@ public class ReservationServiceImpl implements ReservationService {
     private static CatDAO catDAO = daoFactory.getCatDAO();
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if the cat is available as well otherwise {@link DAOException} will be thrown
+     *
+     * If the cat is available, all {@code EXPIRED} reservations with it will also be deleted
+     *
+     */
     @Override
     public void makeReservation(Reservation reservation) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -56,6 +68,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no reservations has been found
+     *
+     */
     @Override
     public List<Reservation> takeAllReservationsByStatus(ReservationStatus status, LocaleLang localeLang, int page, int itemsPerPage)  throws ServiceException {
         List<Reservation> reservations;
@@ -74,9 +92,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getReservationsPageCountByStatus(ReservationStatus status, int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = reservationDAO.getTotalCountByStatus(status.toString());
@@ -89,6 +111,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The list will be empty if no reservations for the user has been found
+     *
+     */
     @Override
     public List<Reservation> takeAllReservationsForUser(int userId, LocaleLang localeLang, int page, int itemsPerPage) throws ServiceException {
         List<Reservation> reservations;
@@ -107,9 +135,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getReservationsPageCountByUserId(int userId, int itemsPerPage) throws ServiceException {
-        int pageCount = 0;
+        int pageCount;
 
         try {
             int totalCount = reservationDAO.getTotalCountById(userId);
@@ -122,6 +154,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void declineExpiredReservations() throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -144,8 +180,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void addChequePhoto(int reservationId, String photo) throws ServiceException {
+
         try {
             reservationDAO.updatePhoto(reservationId, photo);
 
@@ -155,6 +196,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void cancelReservation(int reservationId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -179,6 +224,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public void deleteExpiredReservation(int reservationId) throws ServiceException {
 
@@ -191,6 +240,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if the reservation's status is appropriate otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void renewReservation(int reservationId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -217,6 +272,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * The implementation checks if the reservation's status is appropriate otherwise {@link DAOException} will be thrown
+     *
+     */
     @Override
     public void sellCat(int reservationId) throws ServiceException {
         ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
@@ -243,6 +304,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public int getCatIdByReservationId(int reservationId) throws ServiceException {
 
@@ -255,6 +320,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     */
     @Override
     public Map<CatPedigreeType, Integer> countPedigreeTypes() throws ServiceException {
         try {
