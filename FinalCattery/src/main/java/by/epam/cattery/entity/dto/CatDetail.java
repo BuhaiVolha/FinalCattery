@@ -16,7 +16,8 @@ public class CatDetail extends Entity {
     private String maleParent;
     private LocaleLang localeLang;
 
-    public CatDetail(int id, String name, String lastname, String description, String femaleParent, String maleParent, LocaleLang localeLang) {
+    public CatDetail(int id, String name, String lastname, String description, String femaleParent,
+                     String maleParent, LocaleLang localeLang) {
         super(id);
         this.name = name;
         this.lastname = lastname;

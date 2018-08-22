@@ -20,7 +20,7 @@
                     </a>
                     <div class="media-body">
                         <h4 class="media-heading">${approvedReview.userLeftLogin}</h4>
-                        <p>${approvedReview.text}</p>
+                        <p><c:out value="${approvedReview.text}"/></p>
                         <ul class="list-inline list-unstyled">
                             <li><span><i class="glyphicon glyphicon-calendar"></i> <c:out
                                     value="${approvedReview.date}"/></span></li>

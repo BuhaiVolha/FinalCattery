@@ -44,7 +44,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">${requestScope.user.name} ${requestScope.user.lastname}</h3>
+                    <h3 class="panel-title"><c:out value="${requestScope.user.name}"/><c:out value="${requestScope.user.lastname}"/></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -131,11 +131,11 @@
                         </c:if>
                         <tr>
                             <td>${cabinetEmail}:</td>
-                            <td><a href="mailto:"${requestScope.user.email}>${requestScope.user.email}</a></td>
+                            <td><a href="mailto:"${requestScope.user.email}><c:out value="${requestScope.user.email}"/></a></td>
                         </tr>
                         <tr>
                             <td>${cabinetPhone}:</td>
-                            <td>+375 ${requestScope.user.phone}</td>
+                            <td>+375 <c:out value="${requestScope.user.phone}"/></td>
                         </tr>
 
                         <c:if test="${!requestScope.user.reviewLeft && sessionScope.role eq 'USER'}">

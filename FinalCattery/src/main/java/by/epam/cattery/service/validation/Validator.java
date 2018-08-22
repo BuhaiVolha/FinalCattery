@@ -31,9 +31,10 @@ public class Validator {
     private static final String VALID_LOGIN_REGEX = "[0-9a-zA-Zа-яА-Я]{2,10}";
     private static final String VALID_NAME_AND_LASTNAME_REGEX = "[a-zA-Zа-яА-Я]{2,20}";
     private static final String VALID_PASSWORD_REGEX = ".{7,15}";
+    private static final String VALID_PHONE_REGEX = "^[0-9]{2}\\s[0-9]{7}$";
 
-    private static final String VALID_CAT_NAME_REGEX_RU = "[0-9а-яА-Я]{2,20}";
-    private static final String VALID_CAT_NAME_REGEX_EN = "[0-9a-zA-Z]{2,20}";
+    private static final String VALID_CAT_NAME_REGEX_RU = "[а-яА-Я]{2,20}";
+    private static final String VALID_CAT_NAME_REGEX_EN = "[a-zA-Z]{2,20}";
     private static final String VALID_CAT_LASTNAME_REGEX_RU = "[а-яА-Я]{2,20}(\\s[а-яА-Я]{0,20})?";
     private static final String VALID_CAT_LASTNAME_REGEX_EN = "[a-zA-Z]{2,20}(\\s[a-zA-Z]{0,20})?";
     private static final String VALID_CAT_PARENT_REGEX_RU = "[а-яА-Я]{2,20}\\s[а-яА-Я]{0,20}(\\s[а-яА-Я]{0,20})?";
@@ -62,7 +63,9 @@ public class Validator {
                 && !GenericValidator.isBlankOrNull(user.getLastname())
                 && user.getLastname().matches(VALID_NAME_AND_LASTNAME_REGEX)
                 && !GenericValidator.isBlankOrNull(user.getLastname())
-                && GenericValidator.isEmail(user.getEmail());
+                && GenericValidator.isEmail(user.getEmail())
+                && !GenericValidator.isBlankOrNull(user.getPhone())
+                && user.getPhone().matches(VALID_PHONE_REGEX);
     }
 
 
@@ -89,7 +92,7 @@ public class Validator {
     }
 
 
-    private boolean validateCatDetails(List<CatDetail> catDetails) {
+    public boolean validateCatDetails(List<CatDetail> catDetails) {
         boolean validRu = false;
         boolean validEn = false;
 
@@ -98,10 +101,10 @@ public class Validator {
             switch (catDetail.getLocaleLang()) {
 
                 case RU:
-                    validRu = validateCatDetailsRu(catDetail);
+                    validRu = validateCatDetailRu(catDetail);
                     break;
                 case EN:
-                    validEn = validateCatDetailsEn(catDetail);
+                    validEn = validateCatDetailEn(catDetail);
                     break;
             }
         }
@@ -110,7 +113,7 @@ public class Validator {
     }
 
 
-    private boolean validateCatDetailsRu(CatDetail catDetail) {
+    public boolean validateCatDetailRu(CatDetail catDetail) {
         return !GenericValidator.isBlankOrNull(catDetail.getName())
                 && catDetail.getName().matches(VALID_CAT_NAME_REGEX_RU)
                 && !GenericValidator.isBlankOrNull(catDetail.getLastname())
@@ -122,7 +125,7 @@ public class Validator {
                 && !GenericValidator.isBlankOrNull(catDetail.getDescription());
     }
 
-    private boolean validateCatDetailsEn(CatDetail catDetail) {
+    public boolean validateCatDetailEn(CatDetail catDetail) {
         return !GenericValidator.isBlankOrNull(catDetail.getName())
                 && catDetail.getName().matches(VALID_CAT_NAME_REGEX_EN)
                 && !GenericValidator.isBlankOrNull(catDetail.getLastname())
