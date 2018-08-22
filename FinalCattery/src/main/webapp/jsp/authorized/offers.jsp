@@ -140,7 +140,7 @@
                                     <form style='float: left; padding: 5px;' role="form" method="get"
                                           action="/controller">
                                         <input type="hidden" name="command" value="single_offer"/>
-                                        <input type="hidden" name="operation" value="cat-offer-photo"/>
+                                        <input type="hidden" name="operation" value="upload-cat-photo"/>
                                         <input type="hidden" name="offerId" value="${offer.id}"/>
                                         <button type="submit" class="btn btn-primary">${offersUserButtonEditPhoto}</button>
                                     </form>
