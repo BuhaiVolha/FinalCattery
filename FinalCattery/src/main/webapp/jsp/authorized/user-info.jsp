@@ -44,7 +44,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><c:out value="${requestScope.user.name}"/><c:out value="${requestScope.user.lastname}"/></h3>
+                    <h3 class="panel-title"><c:out value="${requestScope.user.name}"/> <c:out value="${requestScope.user.lastname}"/></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
